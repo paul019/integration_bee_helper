@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:integration_bee_helper/screens/integrals_page/integrals_page.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen.dart';
 import 'package:integration_bee_helper/services/auth_service.dart';
-import 'package:integration_bee_helper/widgets/max_width_wrapper.dart';
 
 class PageInfo {
   final String title;
@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
     PageInfo(
       title: 'Integrals',
       icon: const Icon(Icons.edit),
-      page: Container(),
+      page: const IntegralsPage(),
     ),
   ];
 
@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
           icon: const Icon(Icons.logout),
         ),
       ),
-      body: MaxWidthWrapper(child: pages[selectedIndex].page),
+      body: pages[selectedIndex].page,
       bottomNavigationBar: BottomNavigationBar(
         items: pages
             .map(
