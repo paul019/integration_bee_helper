@@ -131,7 +131,7 @@ class _IntegralCardState extends State<IntegralCard> {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 100,
+                          height: 150,
                           child: TeXView(
                             child: TeXViewDocument(
                               '\$\$$latexProblem\$\$',
@@ -160,7 +160,7 @@ class _IntegralCardState extends State<IntegralCard> {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 100,
+                          height: 150,
                           child: TeXView(
                             child: TeXViewDocument(
                               '\$\$$latexSolution\$\$',
