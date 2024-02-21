@@ -132,4 +132,55 @@ class AgendaItemsService {
 
     await batch.commit();
   }
+
+  Future setAgendaItemToText(AgendaItemModel agendaItem) async {
+    await _firestore.collection('agendaItems').doc(agendaItem.id!).update({
+      'type': AgendaItemType.text.id,
+      'text': '',
+    });
+  }
+
+  Future editAgendaItemText(
+    String agendaItemId, {
+    required String text,
+  }) async {
+    await _firestore.collection('agendaItems').doc(agendaItemId).update({
+      'text': text,
+    });
+  }
+
+  Future editAgendaItemKnockout(
+    String agendaItemId, {
+    required String integralsCodes,
+    required String spareIntegralsCodes,
+    required String competitor1Name,
+    required String competitor2Name,
+    required Duration timeLimitPerIntegral,
+    required Duration timeLimitPerSpareIntegral,
+  }) async {
+    await _firestore.collection('agendaItems').doc(agendaItemId).update({
+      'integralsCodes': integralsCodes.split(','),
+      'spareIntegralsCodes': spareIntegralsCodes.split(','),
+      'competitor1Name': competitor1Name,
+      'competitor2Name': competitor2Name,
+      'timeLimitPerIntegral': timeLimitPerIntegral.inSeconds,
+      'timeLimitPerSpareIntegral': timeLimitPerSpareIntegral.inSeconds,
+    });
+  }
+
+  Future setAgendaItemToKnockoutRound(AgendaItemModel agendaItem) async {
+    await _firestore.collection('agendaItems').doc(agendaItem.id!).update({
+      'type': AgendaItemType.knockout.id,
+      'integralsCodes': [],
+      'spareIntegralsCodes': [],
+      'competitor1Name': '',
+      'competitor2Name': '',
+      'timeLimitPerIntegral': 5 * 60,
+      'timeLimitPerSpareIntegral': 5 * 60,
+      'scores': null,
+      'progressIndex': null,
+      'phaseIndex': null,
+      'lastTimerStartedAt': null,
+    });
+  }
 }

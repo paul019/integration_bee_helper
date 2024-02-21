@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model.dart';
+import 'package:integration_bee_helper/services/agenda_items_service.dart';
 
-class AgendaItemNotSpecified extends StatefulWidget {
-  const AgendaItemNotSpecified({super.key});
+class AgendaItemNotSpecified extends StatelessWidget {
+  final AgendaItemModel agendaItem;
+  final AgendaItemsService service;
 
-  @override
-  State<AgendaItemNotSpecified> createState() => _AgendaItemNotSpecifiedState();
-}
+  const AgendaItemNotSpecified({
+    super.key,
+    required this.agendaItem,
+    required this.service,
+  });
 
-class _AgendaItemNotSpecifiedState extends State<AgendaItemNotSpecified> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -19,7 +22,16 @@ class _AgendaItemNotSpecifiedState extends State<AgendaItemNotSpecified> {
             width: 150,
             height: 150,
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                switch (type) {
+                  case AgendaItemType.notSpecified:
+                    throw Error();
+                  case AgendaItemType.text:
+                    service.setAgendaItemToText(agendaItem);
+                  case AgendaItemType.knockout:
+                    service.setAgendaItemToKnockoutRound(agendaItem);
+                }
+              },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,

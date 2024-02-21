@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model.dart';
+import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_knockout.dart';
 import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_not_specified.dart';
+import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_text.dart';
 import 'package:integration_bee_helper/services/agenda_items_service.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 import 'package:provider/provider.dart';
@@ -81,7 +83,20 @@ class AgendaItemCard extends StatelessWidget {
               ),
               const Divider(),
               if (agendaItem.type == AgendaItemType.notSpecified)
-                const AgendaItemNotSpecified(),
+                AgendaItemNotSpecified(
+                  agendaItem: agendaItem,
+                  service: service,
+                ),
+              if (agendaItem.type == AgendaItemType.text)
+                AgendaItemText(
+                  agendaItem: agendaItem,
+                  service: service,
+                ),
+              if (agendaItem.type == AgendaItemType.knockout)
+                AgendaItemKnockout(
+                  agendaItem: agendaItem,
+                  service: service,
+                ),
             ],
           ),
         ),

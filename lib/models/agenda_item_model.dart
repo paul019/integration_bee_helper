@@ -6,11 +6,42 @@ class AgendaItemModel {
   final int orderIndex;
   final AgendaItemType type;
 
+  // Text:
+  final String? text;
+
+  // Knockout round:
+  final List<String>? integralsCodes;
+  final List<String>? spareIntegralsCodes;
+  final String? competitor1Name;
+  final String? competitor2Name;
+  final Duration? timeLimitPerIntegral;
+  final Duration? timeLimitPerSpareIntegral;
+
+  final List<int>? scores;
+  final int? progressIndex;
+  final int? phaseIndex;
+  final DateTime? lastTimerStartedAt;
+
   AgendaItemModel({
     this.id,
     required this.uid,
     required this.orderIndex,
     this.type = AgendaItemType.notSpecified,
+
+    // Text:
+    this.text,
+
+    // Knockout round:
+    this.integralsCodes,
+    this.spareIntegralsCodes,
+    this.competitor1Name,
+    this.competitor2Name,
+    this.timeLimitPerIntegral,
+    this.timeLimitPerSpareIntegral,
+    this.scores,
+    this.progressIndex,
+    this.phaseIndex,
+    this.lastTimerStartedAt,
   });
 
   factory AgendaItemModel.fromJson(
@@ -22,6 +53,36 @@ class AgendaItemModel {
         uid: json['uid'],
         orderIndex: json['orderIndex'],
         type: AgendaItemType.fromString(json['type']),
+
+        // Text:
+        text: json['text'],
+
+        // Knockout round:
+        integralsCodes: json['integralsCodes'] != null
+            ? (json['integralsCodes'] as List).map((v) => v as String).toList()
+            : null,
+        spareIntegralsCodes: json['spareIntegralsCodes'] != null
+            ? (json['spareIntegralsCodes'] as List)
+                .map((v) => v as String)
+                .toList()
+            : null,
+        competitor1Name: json['competitor1Name'],
+        competitor2Name: json['competitor2Name'],
+        timeLimitPerIntegral: json['timeLimitPerIntegral'] != null
+            ? Duration(seconds: json['timeLimitPerIntegral'])
+            : null,
+        timeLimitPerSpareIntegral: json['timeLimitPerSpareIntegral'] != null
+            ? Duration(seconds: json['timeLimitPerSpareIntegral'])
+            : null,
+
+        scores: json['scores'] != null
+            ? (json['scores'] as List).map((v) => v as int).toList()
+            : null,
+        progressIndex: json['progressIndex'],
+        phaseIndex: json['phaseIndex'],
+        lastTimerStartedAt: json['lastTimerStartedAt'] != null
+            ? DateTime.fromMillisecondsSinceEpoch(json['lastTimerStartedAt'])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -53,10 +114,13 @@ enum AgendaItemType {
     return type;
   }
 
-  static List<AgendaItemType> selectable = [AgendaItemType.knockout, AgendaItemType.text];
+  static List<AgendaItemType> selectable = [
+    AgendaItemType.knockout,
+    AgendaItemType.text
+  ];
 
   IconData get icon {
-    switch(this) {
+    switch (this) {
       case AgendaItemType.notSpecified:
         return Icons.abc;
       case AgendaItemType.knockout:
@@ -67,7 +131,7 @@ enum AgendaItemType {
   }
 
   String get title {
-    switch(this) {
+    switch (this) {
       case AgendaItemType.notSpecified:
         return 'Not specified yet';
       case AgendaItemType.knockout:
