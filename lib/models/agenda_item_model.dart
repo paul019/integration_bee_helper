@@ -5,6 +5,7 @@ class AgendaItemModel {
   final String uid;
   final int orderIndex;
   final AgendaItemType type;
+  final bool currentlyActive;
 
   // Text:
   final String? text;
@@ -27,6 +28,7 @@ class AgendaItemModel {
     required this.uid,
     required this.orderIndex,
     this.type = AgendaItemType.notSpecified,
+    this.currentlyActive = false,
 
     // Text:
     this.text,
@@ -53,6 +55,7 @@ class AgendaItemModel {
         uid: json['uid'],
         orderIndex: json['orderIndex'],
         type: AgendaItemType.fromString(json['type']),
+        currentlyActive: json['currentlyActive'],
 
         // Text:
         text: json['text'],
@@ -89,6 +92,7 @@ class AgendaItemModel {
         'uid': uid,
         'orderIndex': orderIndex,
         'type': type.id,
+        'currentlyActive': currentlyActive,
       };
 }
 

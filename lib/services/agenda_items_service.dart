@@ -49,6 +49,7 @@ class AgendaItemsService {
     final agendaItem = AgendaItemModel(
       uid: uid,
       orderIndex: currentAgendaItems.length,
+      currentlyActive: currentAgendaItems.isEmpty,
     );
 
     // Add integral:
@@ -129,6 +130,21 @@ class AgendaItemsService {
         'orderIndex': FieldValue.increment(1),
       },
     );
+
+    if (agendaItem.currentlyActive) {
+      batch.update(
+        _firestore.collection('agendaItems').doc(currentAgendaItems[i + 1].id!),
+        {
+          'currentlyActive': true,
+        },
+      );
+      batch.update(
+        _firestore.collection('agendaItems').doc(currentAgendaItems[i].id!),
+        {
+          'currentlyActive': false,
+        },
+      );
+    }
 
     await batch.commit();
   }

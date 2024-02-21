@@ -31,9 +31,25 @@ class AgendaItemCard extends StatelessWidget {
               Stack(
                 alignment: AlignmentDirectional.center,
                 children: [
-                  Text(
-                    'Agenda item #${agendaItem.orderIndex + 1}',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(100),
+                      ),
+                      color: agendaItem.currentlyActive
+                          ? Theme.of(context).colorScheme.inversePrimary
+                          : null,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 2.0,
+                        horizontal: 6.0,
+                      ),
+                      child: Text(
+                        'Agenda item #${agendaItem.orderIndex + 1}',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   ),
                   Row(
                     children: [
