@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:integration_bee_helper/models/integral_model.dart';
 import 'package:integration_bee_helper/services/integrals_service.dart';
+import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 
 class IntegralCard extends StatefulWidget {
@@ -82,14 +83,23 @@ class _IntegralCardState extends State<IntegralCard> {
                             widget.service.deleteIntegral(widget.integral);
                             return;
                           }
-    
+
                           ConfirmationDialog(
-                            title: 'Do you really want to delete this integral?',
+                            title:
+                                'Do you really want to delete this integral?',
                             payload: () =>
                                 widget.service.deleteIntegral(widget.integral),
                           ).launch(context);
                         },
                         icon: const Icon(Icons.delete),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          Clipboard.setData(
+                            ClipboardData(text: widget.integral.code),
+                          );
+                        },
+                        icon: const Icon(Icons.copy),
                       ),
                       Flexible(child: Container()),
                       DropdownButtonHideUnderline(
@@ -125,7 +135,8 @@ class _IntegralCardState extends State<IntegralCard> {
                           child: TeXView(
                             child: TeXViewDocument(
                               '\$\$$latexProblem\$\$',
-                              style: const TeXViewStyle.fromCSS('padding: 5px;'),
+                              style:
+                                  const TeXViewStyle.fromCSS('padding: 5px;'),
                             ),
                           ),
                         ),
@@ -139,6 +150,7 @@ class _IntegralCardState extends State<IntegralCard> {
                             latexProblem = v;
                             hasChanged = true;
                           }),
+                          maxLines: 3,
                         ),
                       ],
                     ),
@@ -152,7 +164,8 @@ class _IntegralCardState extends State<IntegralCard> {
                           child: TeXView(
                             child: TeXViewDocument(
                               '\$\$$latexSolution\$\$',
-                              style: const TeXViewStyle.fromCSS('padding: 5px;'),
+                              style:
+                                  const TeXViewStyle.fromCSS('padding: 5px;'),
                             ),
                           ),
                         ),
@@ -166,46 +179,34 @@ class _IntegralCardState extends State<IntegralCard> {
                             latexSolution = v;
                             hasChanged = true;
                           }),
+                          maxLines: 3,
                         ),
                       ],
                     ),
                   ),
                 ],
               ),
-              if (hasChanged) const Divider(),
               if (hasChanged)
-                Row(
-                  children: [
-                    Expanded(child: Container()),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: TextButton(
-                        onPressed: () {
-                          setState(() {
-                            hasChanged = false;
-                            latexProblem = widget.integral.latexProblem;
-                            latexSolution = widget.integral.latexSolution;
-                            level = widget.integral.level;
-                            problemController.text = latexProblem;
-                            solutionController.text = latexSolution;
-                          });
-                        },
-                        child: const Text('Cancel'),
-                      ),
-                    ),
-                    FilledButton(
-                      onPressed: () async {
-                        await widget.service.editIntegral(
-                          widget.integral.id!,
-                          latexProblem: latexProblem,
-                          latexSolution: latexSolution,
-                          level: level,
-                        );
-                        setState(() => hasChanged = false);
-                      },
-                      child: const Text('Save changes'),
-                    ),
-                  ],
+                CancelSaveButtons(
+                  onCancel: () {
+                    setState(() {
+                      hasChanged = false;
+                      latexProblem = widget.integral.latexProblem;
+                      latexSolution = widget.integral.latexSolution;
+                      level = widget.integral.level;
+                      problemController.text = latexProblem;
+                      solutionController.text = latexSolution;
+                    });
+                  },
+                  onSave: () async {
+                    await widget.service.editIntegral(
+                      widget.integral.id!,
+                      latexProblem: latexProblem,
+                      latexSolution: latexSolution,
+                      level: level,
+                    );
+                    setState(() => hasChanged = false);
+                  },
                 ),
             ],
           ),

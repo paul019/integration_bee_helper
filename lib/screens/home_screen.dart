@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:integration_bee_helper/screens/competition_planner_page/competition_planner_page.dart';
 import 'package:integration_bee_helper/screens/integrals_page/integrals_page.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen.dart';
 import 'package:integration_bee_helper/services/auth_service.dart';
@@ -28,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     PageInfo(
       title: 'Competition planner',
       icon: const Icon(Icons.list),
-      page: Container(),
+      page: const CompetitionPlannerPage(),
     ),
     PageInfo(
       title: 'Integrals',
