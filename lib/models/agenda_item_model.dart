@@ -21,7 +21,7 @@ class AgendaItemModel {
   final List<int>? scores;
   final int? progressIndex;
   final int? phaseIndex;
-  final DateTime? lastTimerStartedAt;
+  final DateTime? timerStopsAt;
 
   AgendaItemModel({
     this.id,
@@ -43,7 +43,7 @@ class AgendaItemModel {
     this.scores,
     this.progressIndex,
     this.phaseIndex,
-    this.lastTimerStartedAt,
+    this.timerStopsAt,
   });
 
   factory AgendaItemModel.fromJson(
@@ -83,8 +83,8 @@ class AgendaItemModel {
             : null,
         progressIndex: json['progressIndex'],
         phaseIndex: json['phaseIndex'],
-        lastTimerStartedAt: json['lastTimerStartedAt'] != null
-            ? DateTime.fromMillisecondsSinceEpoch(json['lastTimerStartedAt'])
+        timerStopsAt: json['timerStopsAt'] != null
+            ? DateTime.fromMillisecondsSinceEpoch(json['timerStopsAt'])
             : null,
       );
 
