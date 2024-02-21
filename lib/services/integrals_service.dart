@@ -39,6 +39,7 @@ class IntegralsService {
   Stream<List<IntegralModel>> get onIntegralsChanged {
     return _firestore
         .collection('integrals')
+        .where('uid', isEqualTo: uid)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map(_integralListFromFirebase);

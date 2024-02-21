@@ -121,7 +121,7 @@ class _IntegralCardState extends State<IntegralCard> {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 75,
+                          height: 100,
                           child: TeXView(
                             child: TeXViewDocument(
                               '\$\$$latexProblem\$\$',
@@ -148,7 +148,7 @@ class _IntegralCardState extends State<IntegralCard> {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 75,
+                          height: 100,
                           child: TeXView(
                             child: TeXViewDocument(
                               '\$\$$latexSolution\$\$',
@@ -177,18 +177,21 @@ class _IntegralCardState extends State<IntegralCard> {
                 Row(
                   children: [
                     Expanded(child: Container()),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          hasChanged = false;
-                          latexProblem = widget.integral.latexProblem;
-                          latexSolution = widget.integral.latexSolution;
-                          level = widget.integral.level;
-                          problemController.text = latexProblem;
-                          solutionController.text = latexSolution;
-                        });
-                      },
-                      child: const Text('Cancel'),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: TextButton(
+                        onPressed: () {
+                          setState(() {
+                            hasChanged = false;
+                            latexProblem = widget.integral.latexProblem;
+                            latexSolution = widget.integral.latexSolution;
+                            level = widget.integral.level;
+                            problemController.text = latexProblem;
+                            solutionController.text = latexSolution;
+                          });
+                        },
+                        child: const Text('Cancel'),
+                      ),
                     ),
                     FilledButton(
                       onPressed: () async {
