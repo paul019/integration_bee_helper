@@ -1,5 +1,6 @@
 class IntegralModel {
   final String? id;
+  final String uid;
   final String code;
   final DateTime createdAt;
   final String latexProblem;
@@ -8,6 +9,7 @@ class IntegralModel {
 
   IntegralModel({
     this.id,
+    required this.uid,
     required this.code,
     required this.createdAt,
     required this.latexProblem,
@@ -21,6 +23,7 @@ class IntegralModel {
   }) =>
       IntegralModel(
         id: id,
+        uid: json['uid'],
         code: json['code'],
         createdAt: DateTime.fromMillisecondsSinceEpoch(json['createdAt']),
         latexProblem: json['latexProblem'],
@@ -29,6 +32,7 @@ class IntegralModel {
       );
 
   Map<String, dynamic> toJson() => {
+    'uid': uid,
     'code': code,
     'createdAt': createdAt.millisecondsSinceEpoch,
     'latexProblem': latexProblem,

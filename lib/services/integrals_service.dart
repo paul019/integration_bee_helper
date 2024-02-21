@@ -6,6 +6,9 @@ import 'package:integration_bee_helper/models/integral_model.dart';
 class IntegralsService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final random = Random();
+  final String uid;
+
+  IntegralsService({required this.uid});
 
   IntegralModel? _integralFromFirebase(
     DocumentSnapshot<Map<String, dynamic>> doc,
@@ -67,6 +70,7 @@ class IntegralsService {
 
     // Create integral:
     final integral = IntegralModel(
+      uid: uid,
       code: code,
       createdAt: DateTime.now(),
       latexProblem: "",
@@ -76,5 +80,22 @@ class IntegralsService {
 
     // Add integral:
     await _firestore.collection('integrals').add(integral.toJson());
+  }
+
+  Future deleteIntegral(IntegralModel integral) async {
+    await _firestore.collection('integrals').doc(integral.id!).delete();
+  }
+
+  Future editIntegral(
+    String integralId, {
+    required String latexProblem,
+    required String latexSolution,
+    required IntegralLevel level,
+  }) async {
+    await _firestore.collection('integrals').doc(integralId).update({
+      'latexProblem': latexProblem,
+      'latexSolution': latexSolution,
+      'level': level.id,
+    });
   }
 }

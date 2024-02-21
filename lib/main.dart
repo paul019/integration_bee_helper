@@ -28,7 +28,9 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'Heidelberg Integration Bee',
             theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: const Color.fromARGB(255, 6, 81, 158),
+              ),
               useMaterial3: true,
             ),
             debugShowCheckedModeBanner: false,

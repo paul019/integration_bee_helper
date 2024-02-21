@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/integral_model.dart';
+import 'package:integration_bee_helper/screens/integrals_page/integral_card.dart';
 import 'package:integration_bee_helper/services/integrals_service.dart';
 import 'package:integration_bee_helper/widgets/loading_screen.dart';
 import 'package:integration_bee_helper/widgets/max_width_wrapper.dart';
@@ -13,10 +15,11 @@ class IntegralsPage extends StatefulWidget {
 }
 
 class _IntegralsPageState extends State<IntegralsPage> {
-  final service = IntegralsService();
-
   @override
   Widget build(BuildContext context) {
+    final authModel = Provider.of<User?>(context)!;
+    final service = IntegralsService(uid: authModel.uid);
+
     return StreamProvider<List<IntegralModel>?>.value(
         initialData: null,
         value: service.onIntegralsChanged,
@@ -32,17 +35,18 @@ class _IntegralsPageState extends State<IntegralsPage> {
               onPressed: () => service.addIntegral(currentIntegrals: integrals),
               child: const Icon(Icons.add),
             ),
-            body: MaxWidthWrapper(
-              child: ListView.builder(
-                itemCount: integrals.length,
-                itemBuilder: (context, index) {
-                  final integral = integrals[index];
+            body: ListView.builder(
+              itemCount: integrals.length,
+              itemBuilder: (context, index) {
+                final integral = integrals[index];
 
-                  return ListTile(
-                    title: Text(integral.code),
-                  );
-                },
-              ),
+                return MaxWidthWrapper(
+                  child: IntegralCard(
+                    integral: integral,
+                    service: service,
+                  ),
+                );
+              },
             ),
           );
         });
