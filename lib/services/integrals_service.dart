@@ -45,6 +45,17 @@ class IntegralsService {
         .map(_integralListFromFirebase);
   }
 
+  Future<IntegralModel> getIntegral({required String code}) async {
+    final response = await _firestore
+        .collection('integrals')
+        .where('uid', isEqualTo: uid)
+        .where('code', isEqualTo: code)
+        .limit(1)
+        .get();
+
+    return _integralFromFirebase(response.docs.first)!;
+  }
+
   void addIntegral({required List<IntegralModel> currentIntegrals}) async {
     // Find code for new integral:
     String code = "";

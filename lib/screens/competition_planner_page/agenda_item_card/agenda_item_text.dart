@@ -20,28 +20,38 @@ class AgendaItemText extends StatefulWidget {
 class _AgendaItemTextState extends State<AgendaItemText> {
   bool hasChanged = false;
 
-  late String text;
+  late String title;
+  late String subtitle;
 
-  late TextEditingController controller;
+  late TextEditingController titleController;
+  late TextEditingController subtitleController;
 
   @override
   void initState() {
-    text = widget.agendaItem.text!;
+    title = widget.agendaItem.title!;
+    subtitle = widget.agendaItem.subtitle!;
 
-    controller = TextEditingController(text: text);
+    titleController = TextEditingController(text: title);
+    subtitleController = TextEditingController(text: subtitle);
 
     super.initState();
   }
 
   @override
   void didUpdateWidget(covariant AgendaItemText oldWidget) {
-    text = widget.agendaItem.text!;
-
-    controller.text = text;
-
-    hasChanged = false;
+    reset();
 
     super.didUpdateWidget(oldWidget);
+  }
+
+  void reset() {
+    title = widget.agendaItem.title!;
+    subtitle = widget.agendaItem.subtitle!;
+
+    titleController.text = title;
+    subtitleController.text = subtitle;
+
+    hasChanged = false;
   }
 
   @override
@@ -51,28 +61,39 @@ class _AgendaItemTextState extends State<AgendaItemText> {
         TextField(
           decoration: const InputDecoration(
             border: InputBorder.none,
-            hintText: 'Text',
+            hintText: 'Title',
           ),
-          controller: controller,
+          controller: titleController,
           onChanged: (v) => setState(() {
-            text = v;
+            title = v;
             hasChanged = true;
           }),
-          maxLines: 3,
+          maxLines: 1,
+        ),
+        TextField(
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+            hintText: 'Subtitle',
+          ),
+          controller: subtitleController,
+          onChanged: (v) => setState(() {
+            subtitle = v;
+            hasChanged = true;
+          }),
+          maxLines: 2,
         ),
         if (hasChanged)
           CancelSaveButtons(
             onCancel: () {
               setState(() {
-                hasChanged = false;
-                text = widget.agendaItem.text!;
-                controller.text = text;
+                reset();
               });
             },
             onSave: () async {
               await widget.service.editAgendaItemText(
                 widget.agendaItem.id!,
-                text: text,
+                title: title,
+                subtitle: subtitle,
               );
               setState(() => hasChanged = false);
             },

@@ -42,6 +42,16 @@ class AgendaItemsService {
         .map(_agendaItemListFromFirebase);
   }
 
+  Stream<List<AgendaItemModel>> get onActiveAgendaItemChanged {
+    return _firestore
+        .collection('agendaItems')
+        .where('uid', isEqualTo: uid)
+        .where('currentlyActive', isEqualTo: true)
+        .limit(1)
+        .snapshots()
+        .map(_agendaItemListFromFirebase);
+  }
+
   void addAgendaItem({
     required List<AgendaItemModel> currentAgendaItems,
   }) async {
@@ -63,6 +73,29 @@ class AgendaItemsService {
     final batch = _firestore.batch();
 
     batch.delete(_firestore.collection('agendaItems').doc(agendaItem.id!));
+
+    if (agendaItem.currentlyActive) {
+      final i = agendaItem.orderIndex;
+      if (i + 1 < currentAgendaItems.length) {
+        batch.update(
+          _firestore
+              .collection('agendaItems')
+              .doc(currentAgendaItems[i + 1].id!),
+          {
+            'currentlyActive': true,
+          },
+        );
+      } else if (currentAgendaItems.length >= 2) {
+        batch.update(
+          _firestore
+              .collection('agendaItems')
+              .doc(currentAgendaItems[currentAgendaItems.length - 2].id!),
+          {
+            'currentlyActive': true,
+          },
+        );
+      }
+    }
 
     for (var i = agendaItem.orderIndex + 1;
         i < currentAgendaItems.length;
@@ -152,16 +185,19 @@ class AgendaItemsService {
   Future setAgendaItemToText(AgendaItemModel agendaItem) async {
     await _firestore.collection('agendaItems').doc(agendaItem.id!).update({
       'type': AgendaItemType.text.id,
-      'text': '',
+      'title': '',
+      'subtitle': '',
     });
   }
 
   Future editAgendaItemText(
     String agendaItemId, {
-    required String text,
+    required String title,
+    required String subtitle,
   }) async {
     await _firestore.collection('agendaItems').doc(agendaItemId).update({
-      'text': text,
+      'title': title,
+      'subtitle': subtitle,
     });
   }
 

@@ -8,7 +8,8 @@ class AgendaItemModel {
   final bool currentlyActive;
 
   // Text:
-  final String? text;
+  final String? title;
+  final String? subtitle;
 
   // Knockout round:
   final List<String>? integralsCodes;
@@ -21,6 +22,9 @@ class AgendaItemModel {
   final List<int>? scores;
   final int? progressIndex;
   final int? phaseIndex;
+  // 0: Show ???
+  // 1: Show problem and start timer
+  // 2: Show solution
   final DateTime? timerStopsAt;
 
   AgendaItemModel({
@@ -31,7 +35,8 @@ class AgendaItemModel {
     this.currentlyActive = false,
 
     // Text:
-    this.text,
+    this.title,
+    this.subtitle,
 
     // Knockout round:
     this.integralsCodes,
@@ -58,7 +63,8 @@ class AgendaItemModel {
         currentlyActive: json['currentlyActive'],
 
         // Text:
-        text: json['text'],
+        title: json['title'],
+        subtitle: json['subtitle'],
 
         // Knockout round:
         integralsCodes: json['integralsCodes'] != null
