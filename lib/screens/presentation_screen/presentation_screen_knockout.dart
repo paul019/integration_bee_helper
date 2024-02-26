@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/integral_model.dart';
@@ -5,6 +7,8 @@ import 'package:integration_bee_helper/screens/presentation_screen/background_vi
 import 'package:integration_bee_helper/screens/presentation_screen/integral_code_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/integral_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/logo_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/score_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/timer_view.dart';
 import 'package:integration_bee_helper/services/integrals_service.dart';
 
 class PresentationScreenKnockout extends StatefulWidget {
@@ -22,6 +26,9 @@ class _PresentationScreenKnockoutState
   List<IntegralModel> integrals = [];
   String agendaItemId = '';
 
+  late Timer timer;
+  Duration timeLeft = Duration.zero;
+
   String get uid => widget.activeAgendaItem.uid;
   IntegralsService get integralsService => IntegralsService(uid: uid);
   int get progressIndex => widget.activeAgendaItem.progressIndex!;
@@ -36,6 +43,8 @@ class _PresentationScreenKnockoutState
       return spareIntegralsCodes[progressIndex - integralsCodes.length];
     }
   }
+
+  DateTime? get timerStopsAt => widget.activeAgendaItem.timerStopsAt;
 
   IntegralModel? get currentIntegral {
     try {
@@ -80,7 +89,27 @@ class _PresentationScreenKnockoutState
   void initState() {
     initialize();
 
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (timerStopsAt == null) {
+        setState(() {
+          timeLeft = Duration.zero;
+        });
+      } else {
+        final difference = timerStopsAt!.difference(DateTime.now());
+
+        setState(() {
+          timeLeft = difference.isNegative ? Duration.zero : difference;
+        });
+      }
+    });
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -96,6 +125,15 @@ class _PresentationScreenKnockoutState
       children: [
         const BackgroundView(),
         const LogoView(),
+        TimerView(
+          timeLeft: timeLeft,
+        ),
+        ScoreView(
+          competitor1Name: widget.activeAgendaItem.competitor1Name!,
+          competitor2Name: widget.activeAgendaItem.competitor2Name!,
+          scores: widget.activeAgendaItem.scores!,
+          progressIndex: widget.activeAgendaItem.progressIndex!,
+        ),
         IntegralView(latex: latex),
         IntegralCodeView(code: currentIntegralCode),
       ],

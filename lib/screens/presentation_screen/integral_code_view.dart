@@ -7,7 +7,7 @@ class IntegralCodeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final p = MediaQuery.of(context).size.width / 1920.0;
+    final p = MediaQuery.of(context).size.width / 1920.0;
 
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -17,7 +17,7 @@ class IntegralCodeView extends StatelessWidget {
         padding: const EdgeInsets.only(right: 8.0, bottom: 4.0),
         child: Text(
           code,
-          style: const TextStyle(fontSize: 20),
+          style: TextStyle(fontSize: 20 * p),
         ),
       ),
     );

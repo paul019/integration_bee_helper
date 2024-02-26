@@ -20,6 +20,10 @@ class AgendaItemModel {
   final Duration? timeLimitPerSpareIntegral;
 
   final List<int>? scores;
+  // -1: not set yet
+  // 0: tie
+  // 1: competitor 1
+  // 2: competitor 2
   final int? progressIndex;
   final int? phaseIndex;
   // 0: Show ???
