@@ -3,10 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/integral_model.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/background_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/integral_code_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/integral_view.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/logo_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/score_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/timer_view.dart';
 import 'package:integration_bee_helper/services/integrals_service.dart';
@@ -136,8 +134,6 @@ class _PresentationScreenKnockoutState
     return Stack(
       alignment: Alignment.center,
       children: [
-        BackgroundView(size: widget.size),
-        LogoView(size: widget.size),
         TimerView(timeLeft: timeLeft, size: widget.size),
         ScoreView(
             competitor1Name: widget.activeAgendaItem.competitor1Name!,
