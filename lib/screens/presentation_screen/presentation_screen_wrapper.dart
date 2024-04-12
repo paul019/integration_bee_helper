@@ -48,7 +48,7 @@ class _PresentationScreenWrapperState extends State<PresentationScreenWrapper> {
     return Scaffold(
       body: StreamProvider<List<AgendaItemModel>?>.value(
         initialData: null,
-        value: service.onAgendaItemsChanged,
+        value: service.onActiveAgendaItemChanged,
         builder: (context, snapshot) {
           final agendaItems = Provider.of<List<AgendaItemModel>?>(context);
           final activeAgendaItem = agendaItems == null
