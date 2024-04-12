@@ -86,7 +86,7 @@ class AgendaItemCard extends StatelessWidget {
                               bypassConfirmation: activeAgendaItem == null,
                             ).launch(context);
                           },
-                          icon: const Icon(Icons.start)),
+                          icon: const Icon(Icons.play_arrow)),
                       Flexible(child: Container()),
                       IconButton(
                         onPressed: () {
