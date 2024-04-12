@@ -78,11 +78,18 @@ class KnockoutControlElements extends StatelessWidget {
           ],
         );
       case 3:
-        return TextButton(
-          onPressed: () =>
-              service.knockoutRound_nextIntegral(activeAgendaItem),
-          child: const Text('Next integral'),
-        );
+        if (activeAgendaItem.finished) {
+          return Text(
+            activeAgendaItem.status,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          );
+        } else {
+          return TextButton(
+            onPressed: () =>
+                service.knockoutRound_nextIntegral(activeAgendaItem),
+            child: const Text('Next integral'),
+          );
+        }
       default:
         return Container();
     }

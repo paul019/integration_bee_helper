@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tuple/tuple.dart';
 
 class AgendaItemModel {
   final String? id;
@@ -117,32 +118,55 @@ class AgendaItemModel {
       FirebaseFirestore.instance.collection('agendaItems');
   DocumentReference<Map<String, dynamic>> get reference => collection.doc(id!);
 
-  bool get finished {
+  int? get competitor1Score {
+    if (scores == null) {
+      return null;
+    }
+
+    return scores!.where((x) => x == 1).length;
+  }
+
+  int? get competitor2Score {
+    if (scores == null) {
+      return null;
+    }
+
+    return scores!.where((x) => x == 2).length;
+  }
+
+  bool get finished => _status.item1;
+  String get status => _status.item2;
+
+  Tuple2<bool, String> get _status {
     switch (type) {
       case AgendaItemType.notSpecified:
-        return false;
+        return const Tuple2(false, '');
       case AgendaItemType.knockout:
-        if(progressIndex == null || scores == null) {
-          return false;
+        if (phaseIndex == null || progressIndex == null || scores == null) {
+          return const Tuple2(false, '');
         }
 
-        if(progressIndex! < integralsCodes!.length-1) {
-          return false;
+        if (phaseIndex! < 3) {
+          return const Tuple2(false, '');
         }
-        if(progressIndex == integralsCodes!.length + spareIntegralsCodes!.length) {
-          return true;
-        }
-
-        final player1score = scores!.where((x) => x == 1).length;
-        final player2score = scores!.where((x) => x == 2).length;
-
-        if (player1score != player2score) {
-          return true;
+        if (progressIndex! < integralsCodes!.length - 1) {
+          return const Tuple2(false, '');
         }
 
-        return false;
+        if (competitor1Score! > competitor2Score!) {
+          return Tuple2(true, '${competitor1Name!} wins!');
+        } else if (competitor1Score! < competitor2Score!) {
+          return Tuple2(true, '${competitor2Name!} wins!');
+        }
+
+        if (progressIndex ==
+            integralsCodes!.length + spareIntegralsCodes!.length) {
+          return const Tuple2(true, 'Not enough spare integrals.');
+        }
+
+        return const Tuple2(false, '');
       case AgendaItemType.text:
-        return true;
+        return const Tuple2(true, '');
     }
   }
 
