@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model.dart';
+import 'package:integration_bee_helper/screens/mission_control_page/control_card.dart';
 import 'package:integration_bee_helper/screens/mission_control_page/navigation_card.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen.dart';
+import 'package:integration_bee_helper/screens/mission_control_page/preview_card.dart';
 import 'package:integration_bee_helper/services/agenda_items_service.dart';
 import 'package:integration_bee_helper/widgets/max_width_wrapper.dart';
 import 'package:provider/provider.dart';
@@ -30,11 +31,8 @@ class MissionControlPage extends StatelessWidget {
           child: Column(
             children: [
               NavigationCard(activeAgendaItem: activeAgendaItem),
-              const SizedBox(height: 20),
-              PresentationScreen(
-                activeAgendaItem: activeAgendaItem,
-                size: Size(500, 500),
-              ),
+              PreviewCard(activeAgendaItem: activeAgendaItem),
+              ControlCard(activeAgendaItem: activeAgendaItem),
             ],
           ),
         );
