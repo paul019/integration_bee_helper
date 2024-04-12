@@ -134,7 +134,11 @@ class _PresentationScreenKnockoutState
     return Stack(
       alignment: Alignment.center,
       children: [
-        TimerView(timeLeft: timeLeft, size: widget.size),
+        TimerView(
+          timeLeft: timeLeft,
+          paused: pausedTimerDuration != null,
+          size: widget.size,
+        ),
         ScoreView(
             competitor1Name: widget.activeAgendaItem.competitor1Name!,
             competitor2Name: widget.activeAgendaItem.competitor2Name!,
