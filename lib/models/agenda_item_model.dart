@@ -31,7 +31,9 @@ class AgendaItemModel {
   // 0: Show ???
   // 1: Show problem and start timer
   // 2: Show solution
+  // 3: Show solution and winner of this round
   final DateTime? timerStopsAt;
+  final Duration? pausedTimerDuration;
 
   AgendaItemModel({
     this.id,
@@ -55,6 +57,7 @@ class AgendaItemModel {
     this.progressIndex,
     this.phaseIndex,
     this.timerStopsAt,
+    this.pausedTimerDuration,
   });
 
   factory AgendaItemModel.fromJson(
@@ -97,6 +100,9 @@ class AgendaItemModel {
         phaseIndex: json['phaseIndex'],
         timerStopsAt: json['timerStopsAt'] != null
             ? DateTime.fromMillisecondsSinceEpoch(json['timerStopsAt'])
+            : null,
+        pausedTimerDuration: json['pausedTimerDuration'] != null
+            ? Duration(seconds: json['pausedTimerDuration'])
             : null,
       );
 

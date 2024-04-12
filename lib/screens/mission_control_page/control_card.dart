@@ -33,6 +33,9 @@ class ControlCard extends StatelessWidget {
       case AgendaItemType.text:
         return null;
       case AgendaItemType.knockout:
+        if (activeAgendaItem!.finished) {
+          return null;
+        }
         return KnockoutControlElements(activeAgendaItem: activeAgendaItem!);
     }
   }

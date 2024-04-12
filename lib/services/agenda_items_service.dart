@@ -211,7 +211,8 @@ class AgendaItemsService {
       'scores': agendaItem.currentlyActive ? [] : null,
       'progressIndex': agendaItem.currentlyActive ? 0 : null,
       'phaseIndex': agendaItem.currentlyActive ? 0 : null,
-      'lastTimerStartedAt': null,
+      'timerStopsAt': null,
+      'pausedTimerDuration': null,
     });
   }
 
@@ -256,7 +257,8 @@ class AgendaItemsService {
           'scores': null,
           'progressIndex': null,
           'phaseIndex': null,
-          'lastTimerStartedAt': null,
+          'timerStopsAt': null,
+          'pausedTimerDuration': null,
           'currentlyActive': false,
         });
         break;
@@ -280,7 +282,8 @@ class AgendaItemsService {
           'scores': List.filled(agendaItem.integralsCodes!.length, -1),
           'progressIndex': 0,
           'phaseIndex': 0,
-          'lastTimerStartedAt': null,
+          'timerStopsAt': null,
+          'pausedTimerDuration': null,
           'currentlyActive': true,
         });
         break;
@@ -335,5 +338,87 @@ class AgendaItemsService {
       _startAgendaItem(nextAgendaItem, batch);
     }
     await batch.commit();
+  }
+
+  // ignore: non_constant_identifier_names
+  Future knockoutRound_startIntegral(AgendaItemModel agendaItem) async {
+    Duration timeLimit;
+
+    if (agendaItem.progressIndex! < agendaItem.integralsCodes!.length) {
+      timeLimit = agendaItem.timeLimitPerIntegral!;
+    } else {
+      timeLimit = agendaItem.timeLimitPerSpareIntegral!;
+    }
+
+    DateTime timerStopsAt = DateTime.now().add(timeLimit);
+
+    await agendaItem.reference.update({
+      'phaseIndex': 1,
+      'timerStopsAt': timerStopsAt.millisecondsSinceEpoch,
+      'pausedTimerDuration': null,
+    });
+  }
+
+  // ignore: non_constant_identifier_names
+  Future knockoutRound_pauseTimer(AgendaItemModel agendaItem) async {
+    var pausedTimerDuration =
+        agendaItem.timerStopsAt!.difference(DateTime.now());
+    if (pausedTimerDuration.isNegative) {
+      pausedTimerDuration = Duration.zero;
+    }
+
+    await agendaItem.reference.update({
+      'pausedTimerDuration': pausedTimerDuration.inSeconds,
+    });
+  }
+
+  // ignore: non_constant_identifier_names
+  Future knockoutRound_resumeTimer(AgendaItemModel agendaItem) async {
+    final timerStopsAt = DateTime.now().add(agendaItem.pausedTimerDuration!);
+
+    await agendaItem.reference.update({
+      'timerStopsAt': timerStopsAt.millisecondsSinceEpoch,
+      'pausedTimerDuration': null,
+    });
+  }
+
+  // ignore: non_constant_identifier_names
+  Future knockoutRound_showSolution(AgendaItemModel agendaItem) async {
+    await agendaItem.reference.update({
+      'phaseIndex': 2,
+      'timerStopsAt': null,
+      'pausedTimerDuration': null,
+    });
+  }
+
+  // ignore: non_constant_identifier_names
+  Future knockoutRound_setWinner(AgendaItemModel agendaItem, int winner) async {
+    var scores = agendaItem.scores!;
+    scores[agendaItem.progressIndex!] = winner;
+
+    await agendaItem.reference.update({
+      'scores': scores,
+      'phaseIndex': 3,
+      'timerStopsAt': null,
+      'pausedTimerDuration': null,
+    });
+  }
+
+  // ignore: non_constant_identifier_names
+  Future knockoutRound_nextIntegral(AgendaItemModel agendaItem) async {
+    final progressIndex = agendaItem.progressIndex!;
+    var scores = agendaItem.scores!;
+
+    if (progressIndex + 1 >= scores.length) {
+      scores.add(-1);
+    }
+
+    await agendaItem.reference.update({
+      'scores': scores,
+      'progressIndex': progressIndex + 1,
+      'phaseIndex': 0,
+      'timerStopsAt': null,
+      'pausedTimerDuration': null,
+    });
   }
 }

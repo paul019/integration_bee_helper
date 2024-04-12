@@ -51,6 +51,9 @@ class _PresentationScreenKnockoutState
 
   DateTime? get timerStopsAt => widget.activeAgendaItem.timerStopsAt;
 
+  Duration? get pausedTimerDuration =>
+      widget.activeAgendaItem.pausedTimerDuration;
+
   IntegralModel? get currentIntegral {
     try {
       return integrals
@@ -67,6 +70,7 @@ class _PresentationScreenKnockoutState
       case 1:
         return currentIntegral?.latexProblem ?? '';
       case 2:
+      case 3:
         return '${currentIntegral?.latexProblem ?? ''}=\\boxed{${currentIntegral?.latexSolution ?? ''}}';
       default:
         return '';
@@ -94,8 +98,12 @@ class _PresentationScreenKnockoutState
   void initState() {
     initialize();
 
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (timerStopsAt == null) {
+    timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
+      if (pausedTimerDuration != null) {
+        setState(() {
+          timeLeft = pausedTimerDuration!;
+        });
+      } else if (timerStopsAt == null) {
         setState(() {
           timeLeft = Duration.zero;
         });
