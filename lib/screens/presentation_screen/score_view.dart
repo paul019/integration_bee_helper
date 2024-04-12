@@ -33,14 +33,11 @@ class ScoreView extends StatelessWidget {
     }
   }
 
-  double getScoreDiameter(int score) {
-    switch (score) {
-      case 0:
-      case 1:
-      case 2:
-        return 50;
-      default:
-        return 40;
+  double getScoreDiameter(int index) {
+    if(index == progressIndex) {
+      return 50;
+    } else {
+      return 40;
     }
   }
 
@@ -104,26 +101,27 @@ class ScoreView extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          for (var score in scores)
+                          for (var i=0; i<scores.length; i++)
                             Padding(
                               padding: EdgeInsets.all(5 * p),
-                              child: Container(
-                                width: getScoreDiameter(score) * p,
-                                height: getScoreDiameter(score) * p,
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 500),
+                                width: getScoreDiameter(i) * p,
+                                height: getScoreDiameter(i) * p,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: getScoreColor(score),
+                                  color: getScoreColor(scores[i]),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: getScoreColor(score),
+                                      color: getScoreColor(scores[i]),
                                       blurRadius: 5,
                                     )
                                   ],
                                 ),
-                                child: score == -1
+                                child: scores[i] == -1
                                     ? null
                                     : Icon(
-                                        score == 0
+                                        scores[i] == 0
                                             ? Icons.close_rounded
                                             : Icons.check_rounded,
                                         color: ThemeColors.white,
