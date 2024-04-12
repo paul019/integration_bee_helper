@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AgendaItemModel {
@@ -25,6 +26,7 @@ class AgendaItemModel {
   // 1: competitor 1
   // 2: competitor 2
   final int? progressIndex;
+  // index of the current integral
   final int? phaseIndex;
   // 0: Show ???
   // 1: Show problem and start timer
@@ -104,6 +106,10 @@ class AgendaItemModel {
         'type': type.id,
         'currentlyActive': currentlyActive,
       };
+
+  static CollectionReference<Map<String, dynamic>> get collection =>
+      FirebaseFirestore.instance.collection('agendaItems');
+  DocumentReference<Map<String, dynamic>> get reference => collection.doc(id!);
 }
 
 enum AgendaItemType {

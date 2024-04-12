@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class IntegralModel {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   final String? id;
   final String uid;
   final String code;
@@ -32,13 +36,17 @@ class IntegralModel {
       );
 
   Map<String, dynamic> toJson() => {
-    'uid': uid,
-    'code': code,
-    'createdAt': createdAt.millisecondsSinceEpoch,
-    'latexProblem': latexProblem,
-    'latexSolution': latexSolution,
-    'level': level.id,
-  };
+        'uid': uid,
+        'code': code,
+        'createdAt': createdAt.millisecondsSinceEpoch,
+        'latexProblem': latexProblem,
+        'latexSolution': latexSolution,
+        'level': level.id,
+      };
+
+  static CollectionReference<Map<String, dynamic>> get collection =>
+      FirebaseFirestore.instance.collection('integrals');
+  DocumentReference<Map<String, dynamic>> get reference => collection.doc(id!);
 }
 
 enum IntegralLevel {
