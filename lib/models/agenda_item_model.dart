@@ -110,6 +110,35 @@ class AgendaItemModel {
   static CollectionReference<Map<String, dynamic>> get collection =>
       FirebaseFirestore.instance.collection('agendaItems');
   DocumentReference<Map<String, dynamic>> get reference => collection.doc(id!);
+
+  bool get finished {
+    switch (type) {
+      case AgendaItemType.notSpecified:
+        return false;
+      case AgendaItemType.knockout:
+        if(progressIndex == null || scores == null) {
+          return false;
+        }
+
+        if(progressIndex! < integralsCodes!.length-1) {
+          return false;
+        }
+        if(progressIndex == integralsCodes!.length + spareIntegralsCodes!.length) {
+          return true;
+        }
+
+        final player1score = scores!.where((x) => x == 1).length;
+        final player2score = scores!.where((x) => x == 2).length;
+
+        if (player1score != player2score) {
+          return true;
+        }
+
+        return false;
+      case AgendaItemType.text:
+        return true;
+    }
+  }
 }
 
 enum AgendaItemType {
