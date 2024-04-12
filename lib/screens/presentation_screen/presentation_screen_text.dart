@@ -5,18 +5,23 @@ import 'package:integration_bee_helper/screens/presentation_screen/logo_view.dar
 
 class PresentationScreenText extends StatelessWidget {
   final AgendaItemModel activeAgendaItem;
+  final Size size;
 
-  const PresentationScreenText({super.key, required this.activeAgendaItem});
+  const PresentationScreenText({
+    super.key,
+    required this.activeAgendaItem,
+    required this.size,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final p = MediaQuery.of(context).size.width / 1920.0;
+    final p = size.width / 1920.0;
 
     return Stack(
       alignment: Alignment.center,
       children: [
-        const BackgroundView(),
-        const LogoView(),
+        BackgroundView(size: size),
+        LogoView(size: size),
         Padding(
           padding: EdgeInsets.all(50 * p),
           child: Column(

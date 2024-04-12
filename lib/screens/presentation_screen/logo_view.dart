@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 
 class LogoView extends StatelessWidget {
-  const LogoView({super.key});
+  final Size size;
+
+  const LogoView({
+    super.key,
+    required this.size,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final p = MediaQuery.of(context).size.width / 1920.0;
+    final p = size.width / 1920.0;
 
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
+      width: size.width,
+      height: size.height,
       alignment: Alignment.topRight,
       child: Padding(
         padding: EdgeInsets.all(25 * p),

@@ -13,8 +13,13 @@ import 'package:integration_bee_helper/services/integrals_service.dart';
 
 class PresentationScreenKnockout extends StatefulWidget {
   final AgendaItemModel activeAgendaItem;
+  final Size size;
 
-  const PresentationScreenKnockout({super.key, required this.activeAgendaItem});
+  const PresentationScreenKnockout({
+    super.key,
+    required this.activeAgendaItem,
+    required this.size,
+  });
 
   @override
   State<PresentationScreenKnockout> createState() =>
@@ -118,24 +123,28 @@ class _PresentationScreenKnockoutState
       initialize();
     }
 
-    // final p = MediaQuery.of(context).size.width / 1920.0;
+    // final p = size.width / 1920.0;
 
     return Stack(
       alignment: Alignment.center,
       children: [
-        const BackgroundView(),
-        const LogoView(),
-        TimerView(
-          timeLeft: timeLeft,
-        ),
+        BackgroundView(size: widget.size),
+        LogoView(size: widget.size),
+        TimerView(timeLeft: timeLeft, size: widget.size),
         ScoreView(
-          competitor1Name: widget.activeAgendaItem.competitor1Name!,
-          competitor2Name: widget.activeAgendaItem.competitor2Name!,
-          scores: widget.activeAgendaItem.scores!,
-          progressIndex: widget.activeAgendaItem.progressIndex!,
+            competitor1Name: widget.activeAgendaItem.competitor1Name!,
+            competitor2Name: widget.activeAgendaItem.competitor2Name!,
+            scores: widget.activeAgendaItem.scores!,
+            progressIndex: widget.activeAgendaItem.progressIndex!,
+            size: widget.size),
+        IntegralView(
+          latex: latex,
+          size: widget.size,
         ),
-        IntegralView(latex: latex),
-        IntegralCodeView(code: currentIntegralCode),
+        IntegralCodeView(
+          code: currentIntegralCode,
+          size: widget.size,
+        ),
       ],
     );
   }

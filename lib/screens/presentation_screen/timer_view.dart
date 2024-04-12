@@ -5,19 +5,21 @@ import 'package:integration_bee_helper/widgets/triangle_painter.dart';
 
 class TimerView extends StatelessWidget {
   final Duration timeLeft;
+  final Size size;
 
   const TimerView({
     super.key,
     required this.timeLeft,
+    required this.size,
   });
 
   @override
   Widget build(BuildContext context) {
-    final p = MediaQuery.of(context).size.width / 1920.0;
+    final p = size.width / 1920.0;
 
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
+      width: size.width,
+      height: size.height,
       alignment: Alignment.topLeft,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 50 * p),

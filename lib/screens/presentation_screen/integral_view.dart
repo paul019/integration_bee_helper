@@ -3,16 +3,21 @@ import 'package:flutter_tex/flutter_tex.dart';
 
 class IntegralView extends StatelessWidget {
   final String latex;
+  final Size size;
 
-  const IntegralView({super.key, required this.latex});
+  const IntegralView({
+    super.key,
+    required this.latex,
+    required this.size,
+  });
 
   @override
   Widget build(BuildContext context) {
-    //final p = MediaQuery.of(context).size.width / 1920.0;
+    //final p = size.width / 1920.0;
 
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
+      width: size.width,
+      height: size.height,
       alignment: Alignment.center,
       child: TeXView(
         child: TeXViewDocument(

@@ -7,6 +7,7 @@ class ScoreView extends StatelessWidget {
   final String competitor2Name;
   final List<int> scores;
   final int progressIndex;
+  final Size size;
 
   const ScoreView({
     super.key,
@@ -14,6 +15,7 @@ class ScoreView extends StatelessWidget {
     required this.competitor2Name,
     required this.scores,
     required this.progressIndex,
+    required this.size,
   });
 
   Color getScoreColor(int score) {
@@ -42,11 +44,11 @@ class ScoreView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final p = MediaQuery.of(context).size.width / 1920.0;
+    final p = size.width / 1920.0;
 
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
+      width: size.width,
+      height: size.height,
       alignment: Alignment.bottomCenter,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 15 * p),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/screens/competition_planner_page/competition_planner_page.dart';
 import 'package:integration_bee_helper/screens/integrals_page/integrals_page.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_wrapper.dart';
 import 'package:integration_bee_helper/services/auth_service.dart';
 
 class PageInfo {
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const PresentationScreen(),
+                    builder: (context) => const PresentationScreenWrapper(),
                   ),
                 );
               },
