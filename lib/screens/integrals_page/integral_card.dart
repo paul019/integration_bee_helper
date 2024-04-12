@@ -97,7 +97,13 @@ class _IntegralCardState extends State<IntegralCard> {
                         onPressed: () {
                           Clipboard.setData(
                             ClipboardData(text: widget.integral.code),
-                          );
+                          ).then((_) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Code copied to clipboard'),
+                              ),
+                            );
+                          });
                         },
                         icon: const Icon(Icons.copy),
                       ),
