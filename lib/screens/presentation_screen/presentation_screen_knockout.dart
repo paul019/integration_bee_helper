@@ -118,7 +118,7 @@ class _PresentationScreenKnockoutState
       initialize();
     }
 
-    final p = MediaQuery.of(context).size.width / 1920.0;
+    // final p = MediaQuery.of(context).size.width / 1920.0;
 
     return Stack(
       alignment: Alignment.center,

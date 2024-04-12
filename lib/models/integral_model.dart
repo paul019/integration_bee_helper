@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class IntegralModel {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   final String? id;
   final String uid;
   final String code;

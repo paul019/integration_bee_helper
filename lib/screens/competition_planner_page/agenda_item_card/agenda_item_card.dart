@@ -75,7 +75,15 @@ class AgendaItemCard extends StatelessWidget {
                         icon: const Icon(Icons.delete),
                       ),
                       IconButton(
-                          onPressed: () {}, icon: const Icon(Icons.start)),
+                          onPressed: () {
+                            ConfirmationDialog(
+                              title:
+                                  'Do you really want to force-start this agenda item?',
+                              payload: () =>
+                                  service.forceStartAgendaItem(agendaItem),
+                            ).launch(context);
+                          },
+                          icon: const Icon(Icons.start)),
                       Flexible(child: Container()),
                       IconButton(
                         onPressed: () {

@@ -23,14 +23,7 @@ class AgendaItemNotSpecified extends StatelessWidget {
             height: 150,
             child: InkWell(
               onTap: () {
-                switch (type) {
-                  case AgendaItemType.notSpecified:
-                    throw Error();
-                  case AgendaItemType.text:
-                    service.setAgendaItemToText(agendaItem);
-                  case AgendaItemType.knockout:
-                    service.setAgendaItemToKnockoutRound(agendaItem);
-                }
+                service.setAgendaItemType(agendaItem, type);
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,

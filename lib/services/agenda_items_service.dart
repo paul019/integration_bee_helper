@@ -72,7 +72,7 @@ class AgendaItemsService {
       currentlyActive: currentAgendaItems.isEmpty,
     );
 
-    // Add integral:
+    // Add agenda item:
     await AgendaItemModel.collection.add(agendaItem.toJson());
   }
 
@@ -177,11 +177,41 @@ class AgendaItemsService {
     await batch.commit();
   }
 
-  Future setAgendaItemToText(AgendaItemModel agendaItem) async {
+  Future setAgendaItemType(
+      AgendaItemModel agendaItem, AgendaItemType type) async {
+    switch (type) {
+      case AgendaItemType.text:
+        await _setAgendaItemToText(agendaItem);
+        break;
+      case AgendaItemType.knockout:
+        await _setAgendaItemToKnockoutRound(agendaItem);
+        break;
+      case AgendaItemType.notSpecified:
+        break;
+    }
+  }
+
+  Future _setAgendaItemToText(AgendaItemModel agendaItem) async {
     await agendaItem.reference.update({
       'type': AgendaItemType.text.id,
       'title': '',
       'subtitle': '',
+    });
+  }
+
+  Future _setAgendaItemToKnockoutRound(AgendaItemModel agendaItem) async {
+    await agendaItem.reference.update({
+      'type': AgendaItemType.knockout.id,
+      'integralsCodes': [],
+      'spareIntegralsCodes': [],
+      'competitor1Name': '',
+      'competitor2Name': '',
+      'timeLimitPerIntegral': 5 * 60,
+      'timeLimitPerSpareIntegral': 5 * 60,
+      'scores': agendaItem.currentlyActive ? [] : null,
+      'progressIndex': agendaItem.currentlyActive ? 0 : null,
+      'phaseIndex': agendaItem.currentlyActive ? 0 : null,
+      'lastTimerStartedAt': null,
     });
   }
 
@@ -215,28 +245,7 @@ class AgendaItemsService {
     });
   }
 
-  Future setAgendaItemToKnockoutRound(AgendaItemModel agendaItem) async {
-    await agendaItem.reference.update({
-      'type': AgendaItemType.knockout.id,
-      'integralsCodes': [],
-      'spareIntegralsCodes': [],
-      'competitor1Name': '',
-      'competitor2Name': '',
-      'timeLimitPerIntegral': 5 * 60,
-      'timeLimitPerSpareIntegral': 5 * 60,
-      'scores': null,
-      'progressIndex': null,
-      'phaseIndex': null,
-      'lastTimerStartedAt': null,
-    });
-  }
-
-  Future resetAgendaItem(AgendaItemModel agendaItem, {WriteBatch? batch}) async {
-    final externalBatch = batch != null;
-    if(!externalBatch) {
-      batch = _firestore.batch();
-    }
-
+  void _resetAgendaItem(AgendaItemModel agendaItem, WriteBatch batch) async {
     switch (agendaItem.type) {
       case AgendaItemType.text:
         break;
@@ -251,28 +260,45 @@ class AgendaItemsService {
       case AgendaItemType.notSpecified:
         break;
     }
+  }
 
-    if(!externalBatch) {
-      await batch.commit();
+  Future _startAgendaItem(AgendaItemModel agendaItem, WriteBatch batch) async {
+    switch (agendaItem.type) {
+      case AgendaItemType.text:
+        batch.update(agendaItem.reference, {
+          'currentlyActive': true,
+        });
+        break;
+      case AgendaItemType.knockout:
+        batch.update(agendaItem.reference, {
+          'scores': List.filled(agendaItem.integralsCodes!.length, -1),
+          'progressIndex': 0,
+          'phaseIndex': 0,
+          'lastTimerStartedAt': null,
+          'currentlyActive': true,
+        });
+        break;
+      case AgendaItemType.notSpecified:
+        batch.update(agendaItem.reference, {
+          'currentlyActive': true,
+        });
+        break;
     }
   }
 
-  Future startAgendaItem(AgendaItemModel agendaItem) async {
+  Future forceStartAgendaItem(AgendaItemModel agendaItem) async {
     final batch = _firestore.batch();
 
     // Deactivate currently active items:
     final activeItems = await getActiveAgendaItems();
-    for(var item in activeItems) {
-      resetAgendaItem(item, batch: batch);
+    for (var item in activeItems) {
+      _resetAgendaItem(item, batch);
       batch.update(item.reference, {'currentlyActive': false});
     }
 
-    // Reset new item:
-    resetAgendaItem(agendaItem, batch: batch);
+    // Start new item:
+    _startAgendaItem(agendaItem, batch);
 
-    // Activate new item:
-    await agendaItem.reference.update({
-      'currentlyActive': true,
-    });
+    await batch.commit();
   }
 }
