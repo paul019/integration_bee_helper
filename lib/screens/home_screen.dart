@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               },
-              icon: const Icon(Icons.play_arrow),
+              icon: const Icon(Icons.present_to_all),
             ),
           ),
         ],
