@@ -331,13 +331,13 @@ class AgendaItemsService {
         .limit(1)
         .get();
 
-    final batch = _firestore.batch();
-    _resetAgendaItem(currentAgendaItem, batch);
     if (result.docs.isNotEmpty) {
+      final batch = _firestore.batch();
+      _resetAgendaItem(currentAgendaItem, batch);
       final nextAgendaItem = _agendaItemFromFirebase(result.docs.first)!;
       _startAgendaItem(nextAgendaItem, batch);
+      await batch.commit();
     }
-    await batch.commit();
   }
 
   // ignore: non_constant_identifier_names
