@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
+import 'package:integration_bee_helper/services/latex_transformer.dart';
 
 class IntegralView extends StatelessWidget {
   final String latex;
@@ -21,7 +22,7 @@ class IntegralView extends StatelessWidget {
       alignment: Alignment.center,
       child: TeXView(
         child: TeXViewDocument(
-          '\$\$$latex\$\$',
+          LatexTransformer.transform(latex),
           style: const TeXViewStyle.fromCSS('padding: 5px; font-size: 50px'),
         ),
       ),

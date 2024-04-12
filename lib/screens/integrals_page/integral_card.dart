@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:integration_bee_helper/models/integral_model.dart';
 import 'package:integration_bee_helper/services/integrals_service.dart';
+import 'package:integration_bee_helper/services/latex_transformer.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 
@@ -140,7 +141,7 @@ class _IntegralCardState extends State<IntegralCard> {
                           height: 150,
                           child: TeXView(
                             child: TeXViewDocument(
-                              '\$\$$latexProblem\$\$',
+                              LatexTransformer.transform(latexProblem),
                               style:
                                   const TeXViewStyle.fromCSS('padding: 5px;'),
                             ),
@@ -169,7 +170,7 @@ class _IntegralCardState extends State<IntegralCard> {
                           height: 150,
                           child: TeXView(
                             child: TeXViewDocument(
-                              '\$\$$latexSolution\$\$',
+                              LatexTransformer.transform(latexSolution),
                               style:
                                   const TeXViewStyle.fromCSS('padding: 5px;'),
                             ),
