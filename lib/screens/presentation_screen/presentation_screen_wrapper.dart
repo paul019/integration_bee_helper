@@ -16,6 +16,9 @@ class PresentationScreenWrapper extends StatefulWidget {
 }
 
 class _PresentationScreenWrapperState extends State<PresentationScreenWrapper> {
+  var focusNode = FocusNode();
+  var hasShownSnackbar = false;
+
   @override
   void initState() {
     document.documentElement?.requestFullscreen();
@@ -27,6 +30,20 @@ class _PresentationScreenWrapperState extends State<PresentationScreenWrapper> {
   Widget build(BuildContext context) {
     final authModel = Provider.of<User?>(context)!;
     final service = AgendaItemsService(uid: authModel.uid);
+
+    FocusScope.of(context).requestFocus(focusNode);
+
+    if (!hasShownSnackbar) {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Press q to exit presentation mode.'),
+          ),
+        ),
+      );
+
+      hasShownSnackbar = true;
+    }
 
     return Scaffold(
       body: StreamProvider<List<AgendaItemModel>?>.value(
@@ -40,9 +57,17 @@ class _PresentationScreenWrapperState extends State<PresentationScreenWrapper> {
                   ? null
                   : agendaItems[0];
 
-          return PresentationScreen(
-            activeAgendaItem: activeAgendaItem,
-            size: MediaQuery.of(context).size,
+          return RawKeyboardListener(
+            focusNode: focusNode,
+            onKey: (event) {
+              if (event.character == 'q') {
+                Navigator.of(context).pop();
+              }
+            },
+            child: PresentationScreen(
+              activeAgendaItem: activeAgendaItem,
+              size: MediaQuery.of(context).size,
+            ),
           );
         },
       ),
