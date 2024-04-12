@@ -160,7 +160,7 @@ class AgendaItemModel {
         }
 
         if (progressIndex ==
-            integralsCodes!.length + spareIntegralsCodes!.length) {
+            integralsCodes!.length + spareIntegralsCodes!.length - 1) {
           return const Tuple2(true, 'Not enough spare integrals.');
         }
 
