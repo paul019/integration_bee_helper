@@ -27,6 +27,10 @@ class ControlCard extends StatelessWidget {
   }
 
   Widget? controlElements() {
+    if (activeAgendaItem == null) {
+      return null;
+    }
+
     switch (activeAgendaItem!.type) {
       case AgendaItemType.notSpecified:
         return null;

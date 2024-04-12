@@ -48,7 +48,8 @@ class NavigationCard extends StatelessWidget {
                         maxLines: 1,
                       ),
                       Text(
-                        activeAgendaItem?.displaySubtitle ?? '',
+                        activeAgendaItem?.displaySubtitle ??
+                            'Please choose an agenda item in competition planner.',
                         maxLines: 1,
                       ),
                     ],

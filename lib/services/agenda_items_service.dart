@@ -330,11 +330,11 @@ class AgendaItemsService {
         .where('orderIndex', isEqualTo: currentAgendaItem.orderIndex + 1)
         .limit(1)
         .get();
-    final nextAgendaItem = _agendaItemFromFirebase(result.docs.first);
 
     final batch = _firestore.batch();
     _resetAgendaItem(currentAgendaItem, batch);
-    if (nextAgendaItem != null) {
+    if (result.docs.isNotEmpty) {
+      final nextAgendaItem = _agendaItemFromFirebase(result.docs.first)!;
       _startAgendaItem(nextAgendaItem, batch);
     }
     await batch.commit();
