@@ -248,16 +248,22 @@ class AgendaItemsService {
   void _resetAgendaItem(AgendaItemModel agendaItem, WriteBatch batch) async {
     switch (agendaItem.type) {
       case AgendaItemType.text:
-        break;
+        batch.update(agendaItem.reference, {
+          'currentlyActive': false,
+        });
       case AgendaItemType.knockout:
         batch.update(agendaItem.reference, {
           'scores': null,
           'progressIndex': null,
           'phaseIndex': null,
           'lastTimerStartedAt': null,
+          'currentlyActive': false,
         });
         break;
       case AgendaItemType.notSpecified:
+        batch.update(agendaItem.reference, {
+          'currentlyActive': false,
+        });
         break;
     }
   }
@@ -293,12 +299,41 @@ class AgendaItemsService {
     final activeItems = await getActiveAgendaItems();
     for (var item in activeItems) {
       _resetAgendaItem(item, batch);
-      batch.update(item.reference, {'currentlyActive': false});
     }
 
     // Start new item:
     _startAgendaItem(agendaItem, batch);
 
+    await batch.commit();
+  }
+
+  Future goBack(AgendaItemModel currentAgendaItem) async {
+    final result = await AgendaItemModel.collection
+        .where('uid', isEqualTo: uid)
+        .where('orderIndex', isEqualTo: currentAgendaItem.orderIndex - 1)
+        .limit(1)
+        .get();
+    final previousAgendaItem = _agendaItemFromFirebase(result.docs.first)!;
+
+    final batch = _firestore.batch();
+    _resetAgendaItem(currentAgendaItem, batch);
+    _startAgendaItem(previousAgendaItem, batch);
+    await batch.commit();
+  }
+
+  Future goForward(AgendaItemModel currentAgendaItem) async {
+    final result = await AgendaItemModel.collection
+        .where('uid', isEqualTo: uid)
+        .where('orderIndex', isEqualTo: currentAgendaItem.orderIndex + 1)
+        .limit(1)
+        .get();
+    final nextAgendaItem = _agendaItemFromFirebase(result.docs.first);
+
+    final batch = _firestore.batch();
+    _resetAgendaItem(currentAgendaItem, batch);
+    if (nextAgendaItem != null) {
+      _startAgendaItem(nextAgendaItem, batch);
+    }
     await batch.commit();
   }
 }

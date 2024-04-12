@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/screens/competition_planner_page/competition_planner_page.dart';
 import 'package:integration_bee_helper/screens/integrals_page/integrals_page.dart';
+import 'package:integration_bee_helper/screens/mission_control_page/mission_control_page.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_wrapper.dart';
 import 'package:integration_bee_helper/services/auth_service.dart';
 
@@ -24,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     PageInfo(
       title: 'Mission control',
       icon: const Icon(Icons.keyboard),
-      page: Container(),
+      page: const MissionControlPage(),
     ),
     PageInfo(
       title: 'Competition planner',

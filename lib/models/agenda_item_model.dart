@@ -139,6 +139,28 @@ class AgendaItemModel {
         return true;
     }
   }
+
+  String get displayTitle {
+    switch (type) {
+      case AgendaItemType.notSpecified:
+        return 'Not specified yet';
+      case AgendaItemType.knockout:
+        return '$competitor1Name vs. $competitor2Name';
+      case AgendaItemType.text:
+        return title!;
+    }
+  }
+
+  String get displaySubtitle {
+    switch (type) {
+      case AgendaItemType.notSpecified:
+        return 'Agenda item #${orderIndex + 1}';
+      case AgendaItemType.knockout:
+        return 'Agenda item #${orderIndex + 1} – Knockout round';
+      case AgendaItemType.text:
+        return 'Agenda item #${orderIndex + 1} – Text';
+    }
+  }
 }
 
 enum AgendaItemType {
