@@ -52,6 +52,16 @@ class AgendaItemsService {
         .map(_agendaItemListFromFirebase);
   }
 
+  Future<List<AgendaItemModel>> getActiveAgendaItems() async {
+    final activeItems = await _firestore
+        .collection('agendaItems')
+        .where('uid', isEqualTo: uid)
+        .where('currentlyActive', isEqualTo: true)
+        .get();
+
+    return _agendaItemListFromFirebase(activeItems);
+  }
+
   void addAgendaItem({
     required List<AgendaItemModel> currentAgendaItems,
   }) async {
@@ -63,7 +73,7 @@ class AgendaItemsService {
     );
 
     // Add integral:
-    await _firestore.collection('agendaItems').add(agendaItem.toJson());
+    await AgendaItemModel.collection.add(agendaItem.toJson());
   }
 
   Future deleteAgendaItem(
@@ -72,7 +82,7 @@ class AgendaItemsService {
   }) async {
     final batch = _firestore.batch();
 
-    batch.delete(_firestore.collection('agendaItems').doc(agendaItem.id!));
+    batch.delete(agendaItem.reference);
 
     if (agendaItem.currentlyActive) {
       final i = agendaItem.orderIndex;
@@ -101,7 +111,7 @@ class AgendaItemsService {
         i < currentAgendaItems.length;
         i++) {
       batch.update(
-        _firestore.collection('agendaItems').doc(currentAgendaItems[i].id!),
+        currentAgendaItems[i].reference,
         {
           'orderIndex': FieldValue.increment(-1),
         },
@@ -124,13 +134,13 @@ class AgendaItemsService {
     final batch = _firestore.batch();
 
     batch.update(
-      _firestore.collection('agendaItems').doc(currentAgendaItems[i - 1].id!),
+      currentAgendaItems[i - 1].reference,
       {
         'orderIndex': FieldValue.increment(1),
       },
     );
     batch.update(
-      _firestore.collection('agendaItems').doc(currentAgendaItems[i].id!),
+      currentAgendaItems[i].reference,
       {
         'orderIndex': FieldValue.increment(-1),
       },
@@ -152,38 +162,23 @@ class AgendaItemsService {
     final batch = _firestore.batch();
 
     batch.update(
-      _firestore.collection('agendaItems').doc(currentAgendaItems[i + 1].id!),
+      currentAgendaItems[i + 1].reference,
       {
         'orderIndex': FieldValue.increment(-1),
       },
     );
     batch.update(
-      _firestore.collection('agendaItems').doc(currentAgendaItems[i].id!),
+      currentAgendaItems[i].reference,
       {
         'orderIndex': FieldValue.increment(1),
       },
     );
 
-    if (agendaItem.currentlyActive) {
-      batch.update(
-        _firestore.collection('agendaItems').doc(currentAgendaItems[i + 1].id!),
-        {
-          'currentlyActive': true,
-        },
-      );
-      batch.update(
-        _firestore.collection('agendaItems').doc(currentAgendaItems[i].id!),
-        {
-          'currentlyActive': false,
-        },
-      );
-    }
-
     await batch.commit();
   }
 
   Future setAgendaItemToText(AgendaItemModel agendaItem) async {
-    await _firestore.collection('agendaItems').doc(agendaItem.id!).update({
+    await agendaItem.reference.update({
       'type': AgendaItemType.text.id,
       'title': '',
       'subtitle': '',
@@ -191,18 +186,18 @@ class AgendaItemsService {
   }
 
   Future editAgendaItemText(
-    String agendaItemId, {
+    AgendaItemModel agendaItem, {
     required String title,
     required String subtitle,
   }) async {
-    await _firestore.collection('agendaItems').doc(agendaItemId).update({
+    await agendaItem.reference.update({
       'title': title,
       'subtitle': subtitle,
     });
   }
 
   Future editAgendaItemKnockout(
-    String agendaItemId, {
+    AgendaItemModel agendaItem, {
     required String integralsCodes,
     required String spareIntegralsCodes,
     required String competitor1Name,
@@ -210,7 +205,7 @@ class AgendaItemsService {
     required Duration timeLimitPerIntegral,
     required Duration timeLimitPerSpareIntegral,
   }) async {
-    await _firestore.collection('agendaItems').doc(agendaItemId).update({
+    await agendaItem.reference.update({
       'integralsCodes': integralsCodes.split(','),
       'spareIntegralsCodes': spareIntegralsCodes.split(','),
       'competitor1Name': competitor1Name,
@@ -221,7 +216,7 @@ class AgendaItemsService {
   }
 
   Future setAgendaItemToKnockoutRound(AgendaItemModel agendaItem) async {
-    await _firestore.collection('agendaItems').doc(agendaItem.id!).update({
+    await agendaItem.reference.update({
       'type': AgendaItemType.knockout.id,
       'integralsCodes': [],
       'spareIntegralsCodes': [],
@@ -233,6 +228,51 @@ class AgendaItemsService {
       'progressIndex': null,
       'phaseIndex': null,
       'lastTimerStartedAt': null,
+    });
+  }
+
+  Future resetAgendaItem(AgendaItemModel agendaItem, {WriteBatch? batch}) async {
+    final externalBatch = batch != null;
+    if(!externalBatch) {
+      batch = _firestore.batch();
+    }
+
+    switch (agendaItem.type) {
+      case AgendaItemType.text:
+        break;
+      case AgendaItemType.knockout:
+        batch.update(agendaItem.reference, {
+          'scores': null,
+          'progressIndex': null,
+          'phaseIndex': null,
+          'lastTimerStartedAt': null,
+        });
+        break;
+      case AgendaItemType.notSpecified:
+        break;
+    }
+
+    if(!externalBatch) {
+      await batch.commit();
+    }
+  }
+
+  Future startAgendaItem(AgendaItemModel agendaItem) async {
+    final batch = _firestore.batch();
+
+    // Deactivate currently active items:
+    final activeItems = await getActiveAgendaItems();
+    for(var item in activeItems) {
+      resetAgendaItem(item, batch: batch);
+      batch.update(item.reference, {'currentlyActive': false});
+    }
+
+    // Reset new item:
+    resetAgendaItem(agendaItem, batch: batch);
+
+    // Activate new item:
+    await agendaItem.reference.update({
+      'currentlyActive': true,
     });
   }
 }

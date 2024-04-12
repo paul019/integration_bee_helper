@@ -91,20 +91,20 @@ class IntegralsService {
     );
 
     // Add integral:
-    await _firestore.collection('integrals').add(integral.toJson());
+    await IntegralModel.collection.add(integral.toJson());
   }
 
   Future deleteIntegral(IntegralModel integral) async {
-    await _firestore.collection('integrals').doc(integral.id!).delete();
+    await integral.reference.delete();
   }
 
   Future editIntegral(
-    String integralId, {
+    IntegralModel integral, {
     required String latexProblem,
     required String latexSolution,
     required IntegralLevel level,
   }) async {
-    await _firestore.collection('integrals').doc(integralId).update({
+    await integral.reference.update({
       'latexProblem': latexProblem,
       'latexSolution': latexSolution,
       'level': level.id,

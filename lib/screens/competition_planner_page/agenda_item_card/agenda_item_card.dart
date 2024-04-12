@@ -74,6 +74,8 @@ class AgendaItemCard extends StatelessWidget {
                         },
                         icon: const Icon(Icons.delete),
                       ),
+                      IconButton(
+                          onPressed: () {}, icon: const Icon(Icons.start)),
                       Flexible(child: Container()),
                       IconButton(
                         onPressed: () {

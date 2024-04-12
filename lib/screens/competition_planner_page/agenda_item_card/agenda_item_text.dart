@@ -80,7 +80,7 @@ class _AgendaItemTextState extends State<AgendaItemText> {
             subtitle = v;
             hasChanged = true;
           }),
-          maxLines: 2,
+          maxLines: 1,
         ),
         if (hasChanged)
           CancelSaveButtons(
@@ -91,7 +91,7 @@ class _AgendaItemTextState extends State<AgendaItemText> {
             },
             onSave: () async {
               await widget.service.editAgendaItemText(
-                widget.agendaItem.id!,
+                widget.agendaItem,
                 title: title,
                 subtitle: subtitle,
               );

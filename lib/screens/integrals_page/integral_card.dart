@@ -200,7 +200,7 @@ class _IntegralCardState extends State<IntegralCard> {
                   },
                   onSave: () async {
                     await widget.service.editIntegral(
-                      widget.integral.id!,
+                      widget.integral,
                       latexProblem: latexProblem,
                       latexSolution: latexSolution,
                       level: level,

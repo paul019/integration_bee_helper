@@ -259,7 +259,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
             },
             onSave: () async {
               await widget.service.editAgendaItemKnockout(
-                widget.agendaItem.id!,
+                widget.agendaItem,
                 integralsCodes: integralsCodes,
                 spareIntegralsCodes: spareIntegralsCodes,
                 competitor1Name: competitor1Name,
