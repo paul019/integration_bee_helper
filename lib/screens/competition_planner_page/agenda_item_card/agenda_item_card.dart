@@ -9,11 +9,13 @@ import 'package:provider/provider.dart';
 
 class AgendaItemCard extends StatelessWidget {
   final AgendaItemModel agendaItem;
+  final AgendaItemModel? activeAgendaItem;
   final AgendaItemsService service;
 
   const AgendaItemCard({
     super.key,
     required this.agendaItem,
+    required this.activeAgendaItem,
     required this.service,
   });
 
@@ -81,6 +83,7 @@ class AgendaItemCard extends StatelessWidget {
                                   'Do you really want to force-start this agenda item?',
                               payload: () =>
                                   service.forceStartAgendaItem(agendaItem),
+                              bypassConfirmation: activeAgendaItem == null,
                             ).launch(context);
                           },
                           icon: const Icon(Icons.start)),

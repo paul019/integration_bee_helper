@@ -25,6 +25,8 @@ class _CompetitionPlannerPageState extends State<CompetitionPlannerPage> {
         value: service.onAgendaItemsChanged,
         builder: (context, snapshot) {
           final agendaItems = Provider.of<List<AgendaItemModel>?>(context);
+          final activeAgendaItems = agendaItems?.where((item) => item.currentlyActive) ?? [];
+          final activeAgendaItem = activeAgendaItems.isNotEmpty ? activeAgendaItems.first : null;
 
           if (agendaItems == null) {
             return const LoadingScreen();
@@ -44,6 +46,7 @@ class _CompetitionPlannerPageState extends State<CompetitionPlannerPage> {
             
                   return AgendaItemCard(
                     agendaItem: agendaItem,
+                    activeAgendaItem: activeAgendaItem,
                     service: service,
                   );
                 },
