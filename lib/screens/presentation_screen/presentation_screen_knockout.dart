@@ -140,6 +140,7 @@ class _PresentationScreenKnockoutState
             competitor2Name: widget.activeAgendaItem.competitor2Name!,
             scores: widget.activeAgendaItem.scores!,
             progressIndex: widget.activeAgendaItem.progressIndex!,
+            numberOfRegularIntegrals: integralsCodes.length,
             size: widget.size),
         IntegralView(
           latex: latex,

@@ -7,6 +7,7 @@ class ScoreView extends StatelessWidget {
   final String competitor2Name;
   final List<int> scores;
   final int progressIndex;
+  final int numberOfRegularIntegrals;
   final Size size;
 
   const ScoreView({
@@ -15,6 +16,7 @@ class ScoreView extends StatelessWidget {
     required this.competitor2Name,
     required this.scores,
     required this.progressIndex,
+    required this.numberOfRegularIntegrals,
     required this.size,
   });
 
@@ -39,6 +41,14 @@ class ScoreView extends StatelessWidget {
         return 50;
       default:
         return 40;
+    }
+  }
+
+  String get problemNumber {
+    if (progressIndex < numberOfRegularIntegrals) {
+      return (progressIndex + 1).toString();
+    } else {
+      return '$numberOfRegularIntegrals+${progressIndex - numberOfRegularIntegrals + 1}';
     }
   }
 
@@ -176,7 +186,7 @@ class ScoreView extends StatelessWidget {
                     color: ThemeColors.greyTransparent,
                     alignment: Alignment.topCenter,
                     child: Text(
-                      'Problem ${progressIndex + 1}',
+                      'Problem $problemNumber',
                       style: TextStyle(
                         color: ThemeColors.black,
                         fontSize: 20 * p,
