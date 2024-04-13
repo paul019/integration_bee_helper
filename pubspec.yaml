@@ -1,5 +1,5 @@
 name: integration_bee_helper
-description: A new Flutter project.
+description: An open-source app to help carrying out integration bee competitions.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -41,6 +41,7 @@ dependencies:
   provider: ^6.1.1
   cloud_firestore: ^4.14.0
   tuple: ^2.0.2
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
