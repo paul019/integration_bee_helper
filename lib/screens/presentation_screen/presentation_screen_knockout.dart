@@ -97,20 +97,42 @@ class _PresentationScreenKnockoutState
     initialize();
 
     timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
-      if (pausedTimerDuration != null) {
-        setState(() {
-          timeLeft = pausedTimerDuration!;
-        });
-      } else if (timerStopsAt == null) {
-        setState(() {
-          timeLeft = Duration.zero;
-        });
-      } else {
-        final difference = timerStopsAt!.difference(DateTime.now());
+      switch (phaseIndex) {
+        case 0:
+          if(progressIndex < integralsCodes.length) {
+            setState(() {
+              timeLeft = widget.activeAgendaItem.timeLimitPerIntegral!;
+            });
+          } else {
+            setState(() {
+              timeLeft = widget.activeAgendaItem.timeLimitPerSpareIntegral!;
+            });
+          }
+          break;
+        case 1:
+          if (pausedTimerDuration != null) {
+            setState(() {
+              timeLeft = pausedTimerDuration!;
+            });
+          } else if (timerStopsAt == null) {
+            setState(() {
+              timeLeft = Duration.zero;
+            });
+          } else {
+            final difference = timerStopsAt!.difference(DateTime.now());
 
-        setState(() {
-          timeLeft = difference.isNegative ? Duration.zero : difference;
-        });
+            setState(() {
+              timeLeft = difference.isNegative ? Duration.zero : difference;
+            });
+          }
+          break;
+        case 2:
+        case 3:
+        default:
+          setState(() {
+              timeLeft = Duration.zero;
+            });
+          break;
       }
     });
 
