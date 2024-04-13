@@ -8,8 +8,15 @@ import 'package:integration_bee_helper/services/agenda_items_service.dart';
 import 'package:integration_bee_helper/widgets/max_width_wrapper.dart';
 import 'package:provider/provider.dart';
 
-class MissionControlPage extends StatelessWidget {
+class MissionControlPage extends StatefulWidget {
   const MissionControlPage({super.key});
+
+  @override
+  State<MissionControlPage> createState() => _MissionControlPageState();
+}
+
+class _MissionControlPageState extends State<MissionControlPage> {
+  AgendaItemModel? activeAgendaItem;
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +28,15 @@ class MissionControlPage extends StatelessWidget {
       value: service.onActiveAgendaItemChanged,
       builder: (context, snapshot) {
         final agendaItems = Provider.of<List<AgendaItemModel>?>(context);
-        final activeAgendaItem = agendaItems == null
+        final newAgendaItem = agendaItems == null
             ? null
             : agendaItems.isEmpty
                 ? null
                 : agendaItems[0];
+
+        if (newAgendaItem != null) {
+          activeAgendaItem = newAgendaItem;
+        }
 
         return MaxWidthWrapper(
           child: Column(
