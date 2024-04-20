@@ -386,7 +386,6 @@ class AgendaItemsService {
   Future knockoutRound_showSolution(AgendaItemModel agendaItem) async {
     await agendaItem.reference.update({
       'phaseIndex': 2,
-      'timerStopsAt': null,
       'pausedTimerDuration': null,
     });
   }

@@ -7,6 +7,8 @@ import 'package:integration_bee_helper/screens/presentation_screen/presentation_
 import 'package:integration_bee_helper/services/agenda_items_service.dart';
 import 'package:provider/provider.dart';
 
+enum PresentationScreenEvents { timeUp }
+
 class PresentationScreenWrapper extends StatefulWidget {
   const PresentationScreenWrapper({super.key});
 

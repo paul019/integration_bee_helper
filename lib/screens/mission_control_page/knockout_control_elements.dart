@@ -25,12 +25,13 @@ class KnockoutControlElements extends StatelessWidget {
       case 1:
       case 2:
         final timerPaused = activeAgendaItem.pausedTimerDuration != null;
+        final timeUp = activeAgendaItem.timerStopsAt!.isBefore(DateTime.now());
 
         return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextButton(
-              onPressed: () {
+              onPressed: timeUp ? null: () {
                 if (timerPaused) {
                   service.knockoutRound_resumeTimer(activeAgendaItem);
                 } else {

@@ -8,6 +8,7 @@ import 'package:integration_bee_helper/screens/presentation_screen/integral_view
 import 'package:integration_bee_helper/screens/presentation_screen/score_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/timer_view.dart';
 import 'package:integration_bee_helper/services/integrals_service.dart';
+import 'package:just_audio/just_audio.dart';
 
 class PresentationScreenKnockout extends StatefulWidget {
   final AgendaItemModel activeAgendaItem;
@@ -31,6 +32,9 @@ class _PresentationScreenKnockoutState
 
   late Timer timer;
   Duration timeLeft = Duration.zero;
+  bool timerRed = false;
+
+  late final AudioPlayer player;
 
   String get uid => widget.activeAgendaItem.uid;
   IntegralsService get integralsService => IntegralsService(uid: uid);
@@ -96,16 +100,23 @@ class _PresentationScreenKnockoutState
   void initState() {
     initialize();
 
-    timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
+    player = AudioPlayer();
+
+    const timerInterval = Duration(milliseconds: 250);
+    const timeWarningDuration = Duration(seconds: 30);
+
+    timer = Timer.periodic(timerInterval, (timer) {
       switch (phaseIndex) {
         case 0:
-          if(progressIndex < integralsCodes.length) {
+          if (progressIndex < integralsCodes.length) {
             setState(() {
               timeLeft = widget.activeAgendaItem.timeLimitPerIntegral!;
+              timerRed = false;
             });
           } else {
             setState(() {
               timeLeft = widget.activeAgendaItem.timeLimitPerSpareIntegral!;
+              timerRed = false;
             });
           }
           break;
@@ -113,25 +124,41 @@ class _PresentationScreenKnockoutState
           if (pausedTimerDuration != null) {
             setState(() {
               timeLeft = pausedTimerDuration!;
+              timerRed = pausedTimerDuration! <
+                  timeWarningDuration + const Duration(seconds: 1);
             });
           } else if (timerStopsAt == null) {
             setState(() {
               timeLeft = Duration.zero;
+              timerRed = false;
             });
           } else {
             final difference = timerStopsAt!.difference(DateTime.now());
 
             setState(() {
               timeLeft = difference.isNegative ? Duration.zero : difference;
+              timerRed =
+                  difference < timeWarningDuration + const Duration(seconds: 1);
             });
+
+            if (difference < timeWarningDuration + const Duration(seconds: 1) &&
+                difference + timerInterval >
+                    timeWarningDuration + const Duration(seconds: 1)) {
+              playWarningSound();
+            }
+            if (difference < Duration.zero &&
+                difference + timerInterval > Duration.zero) {
+              playTimeUpSound();
+            }
           }
           break;
         case 2:
         case 3:
         default:
           setState(() {
-              timeLeft = Duration.zero;
-            });
+            timeLeft = Duration.zero;
+            timerRed = false;
+          });
           break;
       }
     });
@@ -139,9 +166,18 @@ class _PresentationScreenKnockoutState
     super.initState();
   }
 
+  void playWarningSound() {
+    player.setAsset('time_warning.mp3').then((_) => player.play());
+  }
+
+  void playTimeUpSound() {
+    player.setAsset('time_up.mp3').then((_) => player.play());
+  }
+
   @override
   void dispose() {
     timer.cancel();
+    player.dispose();
     super.dispose();
   }
 
@@ -158,6 +194,7 @@ class _PresentationScreenKnockoutState
       children: [
         TimerView(
           timeLeft: timeLeft,
+          timerRed: timerRed,
           paused: pausedTimerDuration != null,
           size: widget.size,
         ),

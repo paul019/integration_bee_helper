@@ -5,12 +5,14 @@ import 'package:integration_bee_helper/widgets/triangle_painter.dart';
 
 class TimerView extends StatelessWidget {
   final Duration timeLeft;
+  final bool timerRed;
   final bool paused;
   final Size size;
 
   const TimerView({
     super.key,
     required this.timeLeft,
+    required this.timerRed,
     required this.paused,
     required this.size,
   });
@@ -41,7 +43,8 @@ class TimerView extends StatelessWidget {
                       Text(
                         timeLeft.timerString(),
                         style: TextStyle(
-                          color: ThemeColors.yellow,
+                          color:
+                              timerRed ? ThemeColors.red : ThemeColors.yellow,
                           fontSize: 50 * p,
                         ),
                       ),
@@ -50,7 +53,8 @@ class TimerView extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 2.0, left: 4.0),
                           child: Icon(
                             Icons.pause,
-                            color: ThemeColors.yellow,
+                            color:
+                                timerRed ? ThemeColors.red : ThemeColors.yellow,
                             size: 50 * p,
                           ),
                         ),
