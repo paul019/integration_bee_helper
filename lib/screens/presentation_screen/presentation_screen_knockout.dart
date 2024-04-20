@@ -52,6 +52,14 @@ class _PresentationScreenKnockoutState
       return spareIntegralsCodes[progressIndex - integralsCodes.length];
     }
   }
+  String get problemNumber {
+    final numberOfRegularIntegrals = integralsCodes.length;
+    if (progressIndex < numberOfRegularIntegrals) {
+      return (progressIndex + 1).toString();
+    } else {
+      return '$numberOfRegularIntegrals+${progressIndex - numberOfRegularIntegrals + 1}';
+    }
+  }
 
   DateTime? get timerStopsAt => widget.activeAgendaItem.timerStopsAt;
 
@@ -64,20 +72,6 @@ class _PresentationScreenKnockoutState
           .firstWhere((integral) => integral.code == currentIntegralCode);
     } catch (err) {
       return null;
-    }
-  }
-
-  String get latex {
-    switch (phaseIndex) {
-      case 0:
-        return '???';
-      case 1:
-        return currentIntegral?.latexProblem ?? '';
-      case 2:
-      case 3:
-        return '${currentIntegral?.latexProblem ?? ''}=\\boxed{${currentIntegral?.latexSolution ?? ''}}';
-      default:
-        return '';
     }
   }
 
@@ -207,10 +201,12 @@ class _PresentationScreenKnockoutState
             competitor2Name: widget.activeAgendaItem.competitor2Name!,
             scores: widget.activeAgendaItem.scores!,
             progressIndex: widget.activeAgendaItem.progressIndex!,
-            numberOfRegularIntegrals: integralsCodes.length,
+            problemNumber: problemNumber,
             size: widget.size),
         IntegralView(
-          latex: latex,
+          currentIntegral: currentIntegral,
+          phaseIndex: phaseIndex,
+          problemNumber: problemNumber,
           size: widget.size,
         ),
         IntegralCodeView(
