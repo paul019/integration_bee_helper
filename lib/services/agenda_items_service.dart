@@ -387,6 +387,7 @@ class AgendaItemsService {
     await agendaItem.reference.update({
       'phaseIndex': 2,
       'pausedTimerDuration': null,
+      'timerStopsAt': null,
     });
   }
 
