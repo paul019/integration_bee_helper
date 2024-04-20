@@ -8,11 +8,13 @@ import 'package:integration_bee_helper/screens/presentation_screen/presentation_
 class PresentationScreen extends StatefulWidget {
   final AgendaItemModel? activeAgendaItem;
   final Size size;
+  final bool muted;
 
   const PresentationScreen({
     super.key,
     required this.activeAgendaItem,
     required this.size,
+    this.muted = false,
   });
 
   @override
@@ -72,6 +74,7 @@ class _PresentationScreenState extends State<PresentationScreen> {
         return PresentationScreenKnockout(
           activeAgendaItem: activeAgendaItem!,
           size: widget.size,
+          muted: widget.muted,
         );
     }
   }

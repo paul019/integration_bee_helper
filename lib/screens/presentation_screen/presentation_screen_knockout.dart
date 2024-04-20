@@ -13,11 +13,13 @@ import 'package:just_audio/just_audio.dart';
 class PresentationScreenKnockout extends StatefulWidget {
   final AgendaItemModel activeAgendaItem;
   final Size size;
+  final bool muted;
 
   const PresentationScreenKnockout({
     super.key,
     required this.activeAgendaItem,
     required this.size,
+    this.muted = false,
   });
 
   @override
@@ -167,10 +169,12 @@ class _PresentationScreenKnockoutState
   }
 
   void playWarningSound() {
+    if (widget.muted) return;
     player.setAsset('time_warning.mp3').then((_) => player.play());
   }
 
   void playTimeUpSound() {
+    if (widget.muted) return;
     player.setAsset('time_up.mp3').then((_) => player.play());
   }
 
