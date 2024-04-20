@@ -14,7 +14,7 @@ class IntegralView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final p = size.width / 1920.0;
+    final p = size.width / 1920.0;
 
     return Container(
       width: size.width,
@@ -23,7 +23,8 @@ class IntegralView extends StatelessWidget {
       child: TeXView(
         child: TeXViewDocument(
           LatexTransformer.transform(latex),
-          style: const TeXViewStyle.fromCSS('padding: 5px; font-size: 50px'),
+          style: TeXViewStyle.fromCSS(
+              'padding: 5px; font-size: ${(75 * p).toInt()}px'),
         ),
       ),
     );
