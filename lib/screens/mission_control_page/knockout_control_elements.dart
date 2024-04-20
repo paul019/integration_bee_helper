@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model.dart';
@@ -5,27 +7,55 @@ import 'package:integration_bee_helper/services/agenda_items_service.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 import 'package:provider/provider.dart';
 
-class KnockoutControlElements extends StatelessWidget {
+class KnockoutControlElements extends StatefulWidget {
   final AgendaItemModel activeAgendaItem;
 
   const KnockoutControlElements({super.key, required this.activeAgendaItem});
+
+  @override
+  State<KnockoutControlElements> createState() => _KnockoutControlElementsState();
+}
+
+class _KnockoutControlElementsState extends State<KnockoutControlElements> {
+  late Timer timer;
+  bool timeUp = false;
+
+  @override
+  void initState() {
+    const timerInterval = Duration(milliseconds: 250);
+
+    timer = Timer.periodic(timerInterval, (timer) {
+      if(widget.activeAgendaItem.timerStopsAt == null) {
+        setState(() => timeUp = false);
+      } else {
+        setState(() => timeUp = widget.activeAgendaItem.timerStopsAt!.isBefore(DateTime.now()));
+      }
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final authModel = Provider.of<User?>(context)!;
     final service = AgendaItemsService(uid: authModel.uid);
 
-    switch (activeAgendaItem.phaseIndex!) {
+    switch (widget.activeAgendaItem.phaseIndex!) {
       case 0:
         return TextButton(
           onPressed: () =>
-              service.knockoutRound_startIntegral(activeAgendaItem),
+              service.knockoutRound_startIntegral(widget.activeAgendaItem),
           child: const Text('Start!'),
         );
       case 1:
       case 2:
-        final timerPaused = activeAgendaItem.pausedTimerDuration != null;
-        final timeUp = activeAgendaItem.timerStopsAt!.isBefore(DateTime.now());
+        final timerPaused = widget.activeAgendaItem.pausedTimerDuration != null;
 
         return Row(
           mainAxisSize: MainAxisSize.min,
@@ -33,9 +63,9 @@ class KnockoutControlElements extends StatelessWidget {
             TextButton(
               onPressed: timeUp ? null: () {
                 if (timerPaused) {
-                  service.knockoutRound_resumeTimer(activeAgendaItem);
+                  service.knockoutRound_resumeTimer(widget.activeAgendaItem);
                 } else {
-                  service.knockoutRound_pauseTimer(activeAgendaItem);
+                  service.knockoutRound_pauseTimer(widget.activeAgendaItem);
                 }
               },
               child: timerPaused
@@ -43,51 +73,51 @@ class KnockoutControlElements extends StatelessWidget {
                   : const Text('Pause timer'),
             ),
             separator(),
-            if (activeAgendaItem.phaseIndex! == 1)
+            if (widget.activeAgendaItem.phaseIndex! == 1)
               TextButton(
                 onPressed: () {
-                  if (activeAgendaItem.timerStopsAt!.isAfter(DateTime.now())) {
+                  if (widget.activeAgendaItem.timerStopsAt!.isAfter(DateTime.now())) {
                     ConfirmationDialog(
                       title: 'Do you really want to show the solution?',
                       payload: () =>
-                          service.knockoutRound_showSolution(activeAgendaItem),
+                          service.knockoutRound_showSolution(widget.activeAgendaItem),
                     ).launch(context);
                   } else {
-                    service.knockoutRound_showSolution(activeAgendaItem);
+                    service.knockoutRound_showSolution(widget.activeAgendaItem);
                   }
                 },
                 child: const Text('Show solution'),
               ),
-            if (activeAgendaItem.phaseIndex! == 1) separator(),
+            if (widget.activeAgendaItem.phaseIndex! == 1) separator(),
             TextButton(
               onPressed: () =>
-                  service.knockoutRound_setWinner(activeAgendaItem, 1),
-              child: Text('${activeAgendaItem.competitor1Name} wins'),
+                  service.knockoutRound_setWinner(widget.activeAgendaItem, 1),
+              child: Text('${widget.activeAgendaItem.competitor1Name} wins'),
             ),
             separator(),
             TextButton(
               onPressed: () =>
-                  service.knockoutRound_setWinner(activeAgendaItem, 2),
-              child: Text('${activeAgendaItem.competitor2Name} wins'),
+                  service.knockoutRound_setWinner(widget.activeAgendaItem, 2),
+              child: Text('${widget.activeAgendaItem.competitor2Name} wins'),
             ),
             separator(),
             TextButton(
               onPressed: () =>
-                  service.knockoutRound_setWinner(activeAgendaItem, 0),
+                  service.knockoutRound_setWinner(widget.activeAgendaItem, 0),
               child: const Text('Draw'),
             ),
           ],
         );
       case 3:
-        if (activeAgendaItem.finished) {
+        if (widget.activeAgendaItem.finished) {
           return Text(
-            activeAgendaItem.status,
+            widget.activeAgendaItem.status,
             style: const TextStyle(fontWeight: FontWeight.bold),
           );
         } else {
           return TextButton(
             onPressed: () =>
-                service.knockoutRound_nextIntegral(activeAgendaItem),
+                service.knockoutRound_nextIntegral(widget.activeAgendaItem),
             child: const Text('Next integral'),
           );
         }
