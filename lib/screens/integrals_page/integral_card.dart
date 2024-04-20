@@ -26,21 +26,25 @@ class _IntegralCardState extends State<IntegralCard> {
 
   late String latexProblem;
   late String latexSolution;
+  late String name;
 
   late IntegralLevel level;
 
   late TextEditingController problemController;
   late TextEditingController solutionController;
+  late TextEditingController nameController;
 
   @override
   void initState() {
     latexProblem = widget.integral.latexProblem;
     latexSolution = widget.integral.latexSolution;
+    name = widget.integral.name;
 
     level = widget.integral.level;
 
     problemController = TextEditingController(text: latexProblem);
     solutionController = TextEditingController(text: latexSolution);
+    nameController = TextEditingController(text: name);
 
     super.initState();
   }
@@ -49,11 +53,13 @@ class _IntegralCardState extends State<IntegralCard> {
   void didUpdateWidget(covariant IntegralCard oldWidget) {
     latexProblem = widget.integral.latexProblem;
     latexSolution = widget.integral.latexSolution;
+    name = widget.integral.name;
 
     level = widget.integral.level;
 
     problemController.text = latexProblem;
     solutionController.text = latexSolution;
+    nameController.text = name;
 
     hasChanged = false;
 
@@ -72,9 +78,29 @@ class _IntegralCardState extends State<IntegralCard> {
               Stack(
                 alignment: AlignmentDirectional.center,
                 children: [
-                  Text(
-                    'Integral #${widget.integral.code}',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  Column(
+                    children: [
+                      Text(
+                        'Integral #${widget.integral.code}',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        width: 400,
+                        child: TextField(
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Name (optional)',
+                          ),
+                          textAlign: TextAlign.center,
+                          controller: nameController,
+                          onChanged: (v) => setState(() {
+                            name = v;
+                            hasChanged = true;
+                          }),
+                          maxLines: 1,
+                        ),
+                      ),
+                    ],
                   ),
                   Row(
                     children: [
@@ -200,9 +226,11 @@ class _IntegralCardState extends State<IntegralCard> {
                       hasChanged = false;
                       latexProblem = widget.integral.latexProblem;
                       latexSolution = widget.integral.latexSolution;
+                      name = widget.integral.name;
                       level = widget.integral.level;
                       problemController.text = latexProblem;
                       solutionController.text = latexSolution;
+                      nameController.text = name;
                     });
                   },
                   onSave: () async {
@@ -211,6 +239,7 @@ class _IntegralCardState extends State<IntegralCard> {
                       latexProblem: latexProblem,
                       latexSolution: latexSolution,
                       level: level,
+                      name: name,
                     );
                     setState(() => hasChanged = false);
                   },

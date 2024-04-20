@@ -8,6 +8,7 @@ class IntegralModel {
   final String latexProblem;
   final String latexSolution;
   final IntegralLevel level;
+  final String name;
 
   IntegralModel({
     this.id,
@@ -17,6 +18,7 @@ class IntegralModel {
     required this.latexProblem,
     required this.latexSolution,
     required this.level,
+    required this.name,
   });
 
   factory IntegralModel.fromJson(
@@ -31,6 +33,7 @@ class IntegralModel {
         latexProblem: json['latexProblem'],
         latexSolution: json['latexSolution'],
         level: IntegralLevel.fromString(json['level']),
+        name: json['name'] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -40,6 +43,7 @@ class IntegralModel {
         'latexProblem': latexProblem,
         'latexSolution': latexSolution,
         'level': level.id,
+        'name': name,
       };
 
   static CollectionReference<Map<String, dynamic>> get collection =>

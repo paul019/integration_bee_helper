@@ -88,6 +88,7 @@ class IntegralsService {
       latexProblem: "",
       latexSolution: "",
       level: IntegralLevel.standard,
+      name: "",
     );
 
     // Add integral:
@@ -103,11 +104,13 @@ class IntegralsService {
     required String latexProblem,
     required String latexSolution,
     required IntegralLevel level,
+    required String name,
   }) async {
     await integral.reference.update({
       'latexProblem': latexProblem,
       'latexSolution': latexSolution,
       'level': level.id,
+      'name': name,
     });
   }
 }
