@@ -13,7 +13,8 @@ class KnockoutControlElements extends StatefulWidget {
   const KnockoutControlElements({super.key, required this.activeAgendaItem});
 
   @override
-  State<KnockoutControlElements> createState() => _KnockoutControlElementsState();
+  State<KnockoutControlElements> createState() =>
+      _KnockoutControlElementsState();
 }
 
 class _KnockoutControlElementsState extends State<KnockoutControlElements> {
@@ -25,10 +26,11 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
     const timerInterval = Duration(milliseconds: 250);
 
     timer = Timer.periodic(timerInterval, (timer) {
-      if(widget.activeAgendaItem.timerStopsAt == null) {
+      if (widget.activeAgendaItem.timerStopsAt == null) {
         setState(() => timeUp = false);
       } else {
-        setState(() => timeUp = widget.activeAgendaItem.timerStopsAt!.isBefore(DateTime.now()));
+        setState(() => timeUp =
+            widget.activeAgendaItem.timerStopsAt!.isBefore(DateTime.now()));
       }
     });
 
@@ -61,13 +63,17 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextButton(
-              onPressed: timeUp ? null: () {
-                if (timerPaused) {
-                  service.knockoutRound_resumeTimer(widget.activeAgendaItem);
-                } else {
-                  service.knockoutRound_pauseTimer(widget.activeAgendaItem);
-                }
-              },
+              onPressed: timeUp
+                  ? null
+                  : () {
+                      if (timerPaused) {
+                        service
+                            .knockoutRound_resumeTimer(widget.activeAgendaItem);
+                      } else {
+                        service
+                            .knockoutRound_pauseTimer(widget.activeAgendaItem);
+                      }
+                    },
               child: timerPaused
                   ? const Text('Resume timer')
                   : const Text('Pause timer'),
@@ -76,11 +82,12 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
             if (widget.activeAgendaItem.phaseIndex! == 1)
               TextButton(
                 onPressed: () {
-                  if (widget.activeAgendaItem.timerStopsAt!.isAfter(DateTime.now())) {
+                  if (widget.activeAgendaItem.timerStopsAt!
+                      .isAfter(DateTime.now())) {
                     ConfirmationDialog(
                       title: 'Do you really want to show the solution?',
-                      payload: () =>
-                          service.knockoutRound_showSolution(widget.activeAgendaItem),
+                      payload: () => service
+                          .knockoutRound_showSolution(widget.activeAgendaItem),
                     ).launch(context);
                   } else {
                     service.knockoutRound_showSolution(widget.activeAgendaItem);
@@ -116,8 +123,26 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
           );
         } else {
           return TextButton(
-            onPressed: () =>
-                service.knockoutRound_nextIntegral(widget.activeAgendaItem),
+            onPressed: () async {
+              final success = await service
+                  .knockoutRound_nextIntegral(widget.activeAgendaItem);
+
+              if (!success && context.mounted) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext dialogContext) => AlertDialog(
+                          title: const Text('Not enough spare integrals'),
+                          content: const Text(
+                              'Please add new unused spare integrals.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        ));
+              }
+            },
             child: const Text('Next integral'),
           );
         }

@@ -45,13 +45,8 @@ class _PresentationScreenKnockoutState
   List<String> get integralsCodes => widget.activeAgendaItem.integralsCodes!;
   List<String> get spareIntegralsCodes =>
       widget.activeAgendaItem.spareIntegralsCodes!;
-  String get currentIntegralCode {
-    if (progressIndex < integralsCodes.length) {
-      return integralsCodes[progressIndex];
-    } else {
-      return spareIntegralsCodes[progressIndex - integralsCodes.length];
-    }
-  }
+  String? get currentIntegralCode => widget.activeAgendaItem.currentIntegralCode;
+
   String get problemNumber {
     final numberOfRegularIntegrals = integralsCodes.length;
     if (progressIndex < numberOfRegularIntegrals) {
@@ -66,10 +61,10 @@ class _PresentationScreenKnockoutState
   Duration? get pausedTimerDuration =>
       widget.activeAgendaItem.pausedTimerDuration;
 
-  IntegralModel? get currentIntegral {
+  IntegralModel? get currentIntegral => getIntegral(currentIntegralCode);
+  IntegralModel? getIntegral(String? integralCode) {
     try {
-      return integrals
-          .firstWhere((integral) => integral.code == currentIntegralCode);
+      return integrals.firstWhere((integral) => integral.code == integralCode);
     } catch (err) {
       return null;
     }
@@ -210,7 +205,7 @@ class _PresentationScreenKnockoutState
           size: widget.size,
         ),
         IntegralCodeView(
-          code: currentIntegralCode,
+          code: currentIntegralCode ?? '',
           size: widget.size,
         ),
       ],

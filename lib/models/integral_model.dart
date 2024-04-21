@@ -9,6 +9,7 @@ class IntegralModel {
   final String latexSolution;
   final IntegralLevel level;
   final String name;
+  final bool alreadyUsedAsSpareIntegral;
 
   IntegralModel({
     this.id,
@@ -19,6 +20,7 @@ class IntegralModel {
     required this.latexSolution,
     required this.level,
     required this.name,
+    required this.alreadyUsedAsSpareIntegral,
   });
 
   factory IntegralModel.fromJson(
@@ -34,6 +36,7 @@ class IntegralModel {
         latexSolution: json['latexSolution'],
         level: IntegralLevel.fromString(json['level']),
         name: json['name'] ?? '',
+        alreadyUsedAsSpareIntegral: json['alreadyUsedAsSpareIntegral'] ?? false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -44,6 +47,7 @@ class IntegralModel {
         'latexSolution': latexSolution,
         'level': level.id,
         'name': name,
+        'alreadyUsedAsSpareIntegral': alreadyUsedAsSpareIntegral,
       };
 
   static CollectionReference<Map<String, dynamic>> get collection =>

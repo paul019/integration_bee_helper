@@ -16,6 +16,7 @@ class AgendaItemModel {
   // Knockout round:
   final List<String>? integralsCodes;
   final List<String>? spareIntegralsCodes;
+  final String? currentIntegralCode;
   final String? competitor1Name;
   final String? competitor2Name;
   final Duration? timeLimitPerIntegral;
@@ -50,6 +51,7 @@ class AgendaItemModel {
     // Knockout round:
     this.integralsCodes,
     this.spareIntegralsCodes,
+    this.currentIntegralCode,
     this.competitor1Name,
     this.competitor2Name,
     this.timeLimitPerIntegral,
@@ -85,6 +87,7 @@ class AgendaItemModel {
                 .map((v) => v as String)
                 .toList()
             : null,
+        currentIntegralCode: json['currentIntegralCode'],
         competitor1Name: json['competitor1Name'],
         competitor2Name: json['competitor2Name'],
         timeLimitPerIntegral: json['timeLimitPerIntegral'] != null
@@ -157,11 +160,6 @@ class AgendaItemModel {
           return Tuple2(true, '${competitor1Name!} wins!');
         } else if (competitor1Score! < competitor2Score!) {
           return Tuple2(true, '${competitor2Name!} wins!');
-        }
-
-        if (progressIndex ==
-            integralsCodes!.length + spareIntegralsCodes!.length - 1) {
-          return const Tuple2(true, 'Not enough spare integrals.');
         }
 
         return const Tuple2(false, '');

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:integration_bee_helper/models/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/integral_model.dart';
+import 'package:integration_bee_helper/services/integrals_service.dart';
 
 class AgendaItemsService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -260,6 +262,7 @@ class AgendaItemsService {
           'timerStopsAt': null,
           'pausedTimerDuration': null,
           'currentlyActive': false,
+          'currentIntegralCode': null,
         });
         break;
       case AgendaItemType.notSpecified:
@@ -285,6 +288,7 @@ class AgendaItemsService {
           'timerStopsAt': null,
           'pausedTimerDuration': null,
           'currentlyActive': true,
+          'currentIntegralCode': agendaItem.integralsCodes?.firstOrNull,
         });
         break;
       case AgendaItemType.notSpecified:
@@ -405,12 +409,43 @@ class AgendaItemsService {
   }
 
   // ignore: non_constant_identifier_names
-  Future knockoutRound_nextIntegral(AgendaItemModel agendaItem) async {
+  Future<bool> knockoutRound_nextIntegral(AgendaItemModel agendaItem) async {
     final progressIndex = agendaItem.progressIndex!;
     var scores = agendaItem.scores!;
+    late final String nextIntegralCode;
 
-    if (progressIndex + 1 >= scores.length) {
+    if (progressIndex + 1 < scores.length) {
+      print('here 3');
+      nextIntegralCode = agendaItem.integralsCodes![progressIndex + 1];
+    } else {
+      // Find unused spare integral:
+      final integralsService = IntegralsService(uid: uid);
+      final integrals = <IntegralModel>[];
+
+      for (final code in agendaItem.spareIntegralsCodes!) {
+        final integral = await integralsService.getIntegral(code: code);
+        integrals.add(integral);
+      }
+
+      late final IntegralModel integral;
+      try {
+        integral = integrals.firstWhere(
+          (integral) => !integral.alreadyUsedAsSpareIntegral,
+        );
+      } catch (err) {
+        print('here');
+        return false;
+      }
+      print('here 2');
+
+      // Set integral to used:
+      await integralsService.setIntegralToUsed(integral);
+
+      // Add score element:
       scores.add(-1);
+
+      nextIntegralCode = integral.code;
+      print(nextIntegralCode);
     }
 
     await agendaItem.reference.update({
@@ -419,6 +454,9 @@ class AgendaItemsService {
       'phaseIndex': 0,
       'timerStopsAt': null,
       'pausedTimerDuration': null,
+      'currentIntegralCode': nextIntegralCode,
     });
+
+    return true;
   }
 }

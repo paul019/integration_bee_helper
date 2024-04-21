@@ -89,6 +89,7 @@ class IntegralsService {
       latexSolution: "",
       level: IntegralLevel.standard,
       name: "",
+      alreadyUsedAsSpareIntegral: false,
     );
 
     // Add integral:
@@ -111,6 +112,12 @@ class IntegralsService {
       'latexSolution': latexSolution,
       'level': level.id,
       'name': name,
+    });
+  }
+
+  Future setIntegralToUsed(IntegralModel integral) async {
+    await integral.reference.update({
+      'alreadyUsedAsSpareIntegral': true,
     });
   }
 }
