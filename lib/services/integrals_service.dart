@@ -45,6 +45,16 @@ class IntegralsService {
         .map(_integralListFromFirebase);
   }
 
+  Stream<List<IntegralModel>> get onUsedIntegralsChanged {
+    return _firestore
+        .collection('integrals')
+        .where('uid', isEqualTo: uid)
+        .where('alreadyUsedAsSpareIntegral', isEqualTo: true)
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map(_integralListFromFirebase);
+  }
+
   Future<IntegralModel> getIntegral({required String code}) async {
     final response = await _firestore
         .collection('integrals')
@@ -119,5 +129,13 @@ class IntegralsService {
     await integral.reference.update({
       'alreadyUsedAsSpareIntegral': true,
     });
+  }
+
+  Future resetUsedIntegrals(List<IntegralModel> integrals) async {
+    for (var integral in integrals) {
+      await integral.reference.update({
+        'alreadyUsedAsSpareIntegral': false,
+      });
+    }
   }
 }
