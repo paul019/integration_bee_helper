@@ -46,6 +46,18 @@ class _PresentationScreenKnockoutState
   List<String> get spareIntegralsCodes =>
       widget.activeAgendaItem.spareIntegralsCodes!;
   String? get currentIntegralCode => widget.activeAgendaItem.currentIntegralCode;
+  List<int> get scores {
+    final scores = [...widget.activeAgendaItem.scores!];
+
+    if (scores.length < integralsCodes.length) {
+      final missing = integralsCodes.length - scores.length;
+      for (var i = 0; i < missing; i++) {
+        scores.add(-1);
+      }
+    }
+
+    return scores;
+  }
 
   String get problemNumber {
     final numberOfRegularIntegrals = integralsCodes.length;
@@ -194,7 +206,7 @@ class _PresentationScreenKnockoutState
         ScoreView(
             competitor1Name: widget.activeAgendaItem.competitor1Name!,
             competitor2Name: widget.activeAgendaItem.competitor2Name!,
-            scores: widget.activeAgendaItem.scores!,
+            scores: scores,
             progressIndex: widget.activeAgendaItem.progressIndex!,
             problemNumber: problemNumber,
             size: widget.size),

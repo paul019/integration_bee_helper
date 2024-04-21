@@ -282,7 +282,7 @@ class AgendaItemsService {
         break;
       case AgendaItemType.knockout:
         batch.update(agendaItem.reference, {
-          'scores': List.filled(agendaItem.integralsCodes!.length, -1),
+          'scores': [-1],
           'progressIndex': 0,
           'phaseIndex': 0,
           'timerStopsAt': null,
@@ -411,11 +411,10 @@ class AgendaItemsService {
   // ignore: non_constant_identifier_names
   Future<bool> knockoutRound_nextIntegral(AgendaItemModel agendaItem) async {
     final progressIndex = agendaItem.progressIndex!;
-    var scores = agendaItem.scores!;
+    var scores = [...agendaItem.scores!];
     late final String nextIntegralCode;
 
-    if (progressIndex + 1 < scores.length) {
-      print('here 3');
+    if (progressIndex + 1 < agendaItem.integralsCodes!.length) {
       nextIntegralCode = agendaItem.integralsCodes![progressIndex + 1];
     } else {
       // Find unused spare integral:
@@ -433,20 +432,17 @@ class AgendaItemsService {
           (integral) => !integral.alreadyUsedAsSpareIntegral,
         );
       } catch (err) {
-        print('here');
         return false;
       }
-      print('here 2');
 
       // Set integral to used:
       await integralsService.setIntegralToUsed(integral);
 
-      // Add score element:
-      scores.add(-1);
-
       nextIntegralCode = integral.code;
-      print(nextIntegralCode);
     }
+
+    // Add score element:
+    scores.add(-1);
 
     await agendaItem.reference.update({
       'scores': scores,
