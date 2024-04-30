@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:tuple/tuple.dart';
 
 class AgendaItemModel {
   final String? id;
@@ -8,6 +7,8 @@ class AgendaItemModel {
   final int orderIndex;
   final AgendaItemType type;
   final bool currentlyActive;
+  final bool finished;
+  final String status;
 
   // Text:
   final String? title;
@@ -43,6 +44,8 @@ class AgendaItemModel {
     required this.orderIndex,
     this.type = AgendaItemType.notSpecified,
     this.currentlyActive = false,
+    this.finished = false,
+    this.status = '',
 
     // Text:
     this.title,
@@ -73,6 +76,8 @@ class AgendaItemModel {
         orderIndex: json['orderIndex'],
         type: AgendaItemType.fromString(json['type']),
         currentlyActive: json['currentlyActive'],
+        finished: json['finished'] ?? false,
+        status: json['status'] ?? '',
 
         // Text:
         title: json['title'],
@@ -137,37 +142,6 @@ class AgendaItemModel {
     return scores!.where((x) => x == 2).length;
   }
 
-  bool get finished => _status.item1;
-  String get status => _status.item2;
-
-  Tuple2<bool, String> get _status {
-    switch (type) {
-      case AgendaItemType.notSpecified:
-        return const Tuple2(false, '');
-      case AgendaItemType.knockout:
-        if (phaseIndex == null || progressIndex == null || scores == null) {
-          return const Tuple2(false, '');
-        }
-
-        if (phaseIndex! < 3) {
-          return const Tuple2(false, '');
-        }
-        if (progressIndex! < integralsCodes!.length - 1) {
-          return const Tuple2(false, '');
-        }
-
-        if (competitor1Score! > competitor2Score!) {
-          return Tuple2(true, '${competitor1Name!} wins!');
-        } else if (competitor1Score! < competitor2Score!) {
-          return Tuple2(true, '${competitor2Name!} wins!');
-        }
-
-        return const Tuple2(false, '');
-      case AgendaItemType.text:
-        return const Tuple2(true, '');
-    }
-  }
-
   String get displayTitle {
     switch (type) {
       case AgendaItemType.notSpecified:
@@ -194,6 +168,7 @@ class AgendaItemModel {
 enum AgendaItemType {
   notSpecified('notSpecified'),
   knockout('knockout'),
+  //qualification('qualification'),
   text('text');
 
   static AgendaItemType standard = AgendaItemType.notSpecified;

@@ -253,21 +253,28 @@ class AgendaItemsService {
       case AgendaItemType.text:
         batch.update(agendaItem.reference, {
           'currentlyActive': false,
+          'finished': false,
+          'status': '',
         });
       case AgendaItemType.knockout:
         batch.update(agendaItem.reference, {
+          'currentlyActive': false,
+          'finished': false,
+          'status': '',
+
           'scores': null,
           'progressIndex': null,
           'phaseIndex': null,
           'timerStopsAt': null,
           'pausedTimerDuration': null,
-          'currentlyActive': false,
           'currentIntegralCode': null,
         });
         break;
       case AgendaItemType.notSpecified:
         batch.update(agendaItem.reference, {
           'currentlyActive': false,
+          'finished': false,
+          'status': '',
         });
         break;
     }
@@ -278,22 +285,29 @@ class AgendaItemsService {
       case AgendaItemType.text:
         batch.update(agendaItem.reference, {
           'currentlyActive': true,
+          'finished': true,
+          'status': '',
         });
         break;
       case AgendaItemType.knockout:
         batch.update(agendaItem.reference, {
+          'currentlyActive': true,
+          'finished': false,
+          'status': '',
+
           'scores': [-1],
           'progressIndex': 0,
           'phaseIndex': 0,
           'timerStopsAt': null,
           'pausedTimerDuration': null,
-          'currentlyActive': true,
           'currentIntegralCode': agendaItem.integralsCodes?.firstOrNull,
         });
         break;
       case AgendaItemType.notSpecified:
         batch.update(agendaItem.reference, {
           'currentlyActive': true,
+          'finished': true,
+          'status': '',
         });
         break;
     }
@@ -400,7 +414,25 @@ class AgendaItemsService {
     var scores = agendaItem.scores!;
     scores[agendaItem.progressIndex!] = winner;
 
+    final competitor1Score = scores.where((x) => x == 1).length;
+    final competitor2Score = scores.where((x) => x == 2).length;
+    bool finished = false;
+    String status = '';
+
+    if (agendaItem.progressIndex! >= agendaItem.integralsCodes!.length - 1) {
+      if(competitor1Score < competitor2Score) {
+        finished = true;
+        status = '${agendaItem.competitor2Name} wins!';
+      } else if(competitor1Score > competitor2Score) {
+        finished = true;
+        status = '${agendaItem.competitor1Name} wins!';
+      }
+    }
+
     await agendaItem.reference.update({
+      'finished': finished,
+      'status': status,
+
       'scores': scores,
       'phaseIndex': 3,
       'timerStopsAt': null,
