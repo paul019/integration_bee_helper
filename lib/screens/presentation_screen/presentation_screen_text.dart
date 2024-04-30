@@ -1,6 +1,3 @@
-import 'dart:html';
-import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:integration_bee_helper/models/agenda_item_model.dart';
