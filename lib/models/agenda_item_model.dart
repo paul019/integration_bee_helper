@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class AgendaItemModel {
   final String? id;
   final String uid;
+  final String title;
   final int orderIndex;
   final AgendaItemType type;
   final bool currentlyActive;
@@ -11,7 +12,6 @@ class AgendaItemModel {
   final String status;
 
   // Text:
-  final String? title;
   final String? subtitle;
 
   // Knockout round:
@@ -48,7 +48,7 @@ class AgendaItemModel {
     this.status = '',
 
     // Text:
-    this.title,
+    this.title = '',
     this.subtitle,
 
     // Knockout round:
@@ -80,7 +80,7 @@ class AgendaItemModel {
         status: json['status'] ?? '',
 
         // Text:
-        title: json['title'],
+        title: json['title'] ?? '',
         subtitle: json['subtitle'],
 
         // Knockout round:
@@ -149,9 +149,9 @@ class AgendaItemModel {
       case AgendaItemType.knockout:
         return '$competitor1Name vs. $competitor2Name';
       case AgendaItemType.qualification:
-        return title!;
+        return title;
       case AgendaItemType.text:
-        return title!;
+        return title;
     }
   }
 

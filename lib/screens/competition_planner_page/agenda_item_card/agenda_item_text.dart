@@ -28,7 +28,7 @@ class _AgendaItemTextState extends State<AgendaItemText> {
 
   @override
   void initState() {
-    title = widget.agendaItem.title!;
+    title = widget.agendaItem.title;
     subtitle = widget.agendaItem.subtitle!;
 
     titleController = TextEditingController(text: title);
@@ -45,7 +45,7 @@ class _AgendaItemTextState extends State<AgendaItemText> {
   }
 
   void reset() {
-    title = widget.agendaItem.title!;
+    title = widget.agendaItem.title;
     subtitle = widget.agendaItem.subtitle!;
 
     titleController.text = title;

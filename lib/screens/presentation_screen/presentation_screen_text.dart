@@ -21,7 +21,7 @@ class PresentationScreenText extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            activeAgendaItem.title!,
+            activeAgendaItem.title,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 100 * p),
           ),
           Text(

@@ -206,6 +206,7 @@ class AgendaItemsService {
   Future _setAgendaItemToKnockoutRound(AgendaItemModel agendaItem) async {
     await agendaItem.reference.update({
       'type': AgendaItemType.knockout.id,
+      'title': '',
       'integralsCodes': [],
       'spareIntegralsCodes': [],
       'currentIntegralCode': null,
@@ -250,6 +251,7 @@ class AgendaItemsService {
 
   Future editAgendaItemKnockout(
     AgendaItemModel agendaItem, {
+    required String title,
     required String integralsCodes,
     required String spareIntegralsCodes,
     required String competitor1Name,
@@ -258,6 +260,7 @@ class AgendaItemsService {
     required Duration timeLimitPerSpareIntegral,
   }) async {
     await agendaItem.reference.update({
+      'title': title,
       'integralsCodes': integralsCodes.split(','),
       'spareIntegralsCodes': spareIntegralsCodes.split(','),
       'competitor1Name': competitor1Name,

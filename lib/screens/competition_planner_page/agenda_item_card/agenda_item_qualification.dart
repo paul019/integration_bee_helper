@@ -36,7 +36,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
 
   @override
   void initState() {
-    title = widget.agendaItem.title!;
+    title = widget.agendaItem.title;
     integralsCodes = widget.agendaItem.integralsCodes!.join(',');
     spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes!.join(',');
     timeLimitPerIntegral =
@@ -64,7 +64,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
   }
 
   void reset() {
-    title = widget.agendaItem.title!;
+    title = widget.agendaItem.title;
     integralsCodes = widget.agendaItem.integralsCodes!.join(',');
     spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes!.join(',');
     timeLimitPerIntegral =
@@ -99,7 +99,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
               child: TextField(
                 decoration: const InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Title',
+                  hintText: 'Title (optional)',
                 ),
                 controller: titleController,
                 onChanged: (v) => setState(() {

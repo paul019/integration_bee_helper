@@ -21,6 +21,7 @@ class AgendaItemKnockout extends StatefulWidget {
 class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
   bool hasChanged = false;
 
+  late String title;
   late String integralsCodes;
   late String spareIntegralsCodes;
   late String competitor1Name;
@@ -28,6 +29,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
   late String timeLimitPerIntegral;
   late String timeLimitPerSpareIntegral;
 
+  late TextEditingController titleController;
   late TextEditingController integralsCodesController;
   late TextEditingController spareIntegralsCodesController;
   late TextEditingController competitor1NameController;
@@ -37,6 +39,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
 
   @override
   void initState() {
+    title = widget.agendaItem.title;
     integralsCodes = widget.agendaItem.integralsCodes!.join(',');
     spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes!.join(',');
     competitor1Name = widget.agendaItem.competitor1Name!;
@@ -46,6 +49,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
     timeLimitPerSpareIntegral =
         widget.agendaItem.timeLimitPerSpareIntegral!.inSeconds.toString();
 
+    titleController = TextEditingController(text: title);
     integralsCodesController = TextEditingController(text: integralsCodes);
     spareIntegralsCodesController =
         TextEditingController(text: spareIntegralsCodes);
@@ -67,6 +71,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
   }
 
   void reset() {
+    title = widget.agendaItem.title;
     integralsCodes = widget.agendaItem.integralsCodes!.join(',');
     spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes!.join(',');
     competitor1Name = widget.agendaItem.competitor1Name!;
@@ -76,6 +81,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
     timeLimitPerSpareIntegral =
         widget.agendaItem.timeLimitPerSpareIntegral!.inSeconds.toString();
 
+    titleController.text = title;
     integralsCodesController.text = integralsCodes;
     spareIntegralsCodesController.text = spareIntegralsCodes;
     competitor1NameController.text = competitor1Name;
@@ -91,6 +97,32 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Row(
+          children: [
+            const SizedBox(
+              width: 100,
+              child: Text(
+                'Title:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Expanded(
+              child: TextField(
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Title (optional)',
+                ),
+                controller: titleController,
+                onChanged: (v) => setState(() {
+                  title = v;
+                  hasChanged = true;
+                }),
+                maxLines: 1,
+              ),
+            ),
+          ],
+        ),
+        const Divider(),
         Row(
           children: [
             Expanded(
@@ -260,6 +292,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
             onSave: () async {
               await widget.service.editAgendaItemKnockout(
                 widget.agendaItem,
+                title: title,
                 integralsCodes: integralsCodes,
                 spareIntegralsCodes: spareIntegralsCodes,
                 competitor1Name: competitor1Name,
