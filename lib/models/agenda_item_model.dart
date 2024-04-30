@@ -147,7 +147,11 @@ class AgendaItemModel {
       case AgendaItemType.notSpecified:
         return 'Not specified yet';
       case AgendaItemType.knockout:
-        return '$competitor1Name vs. $competitor2Name';
+        if (title != '') {
+          return '$competitor1Name vs. $competitor2Name ($title)';
+        } else {
+          return '$competitor1Name vs. $competitor2Name';
+        }
       case AgendaItemType.qualification:
         return title != '' ? title : 'Qualification round';
       case AgendaItemType.text:

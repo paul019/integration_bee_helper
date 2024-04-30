@@ -6,6 +6,7 @@ import 'package:integration_bee_helper/models/integral_model.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/integral_code_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/integral_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/timer_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/title_view.dart';
 import 'package:integration_bee_helper/services/integrals_service.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -44,7 +45,8 @@ class _PresentationScreenQualificationState
   List<String> get integralsCodes => widget.activeAgendaItem.integralsCodes!;
   List<String> get spareIntegralsCodes =>
       widget.activeAgendaItem.spareIntegralsCodes!;
-  String? get currentIntegralCode => widget.activeAgendaItem.currentIntegralCode;
+  String? get currentIntegralCode =>
+      widget.activeAgendaItem.currentIntegralCode;
   List<int> get scores {
     final scores = [...widget.activeAgendaItem.scores!];
 
@@ -212,6 +214,7 @@ class _PresentationScreenQualificationState
           code: currentIntegralCode ?? '',
           size: widget.size,
         ),
+        TitleView(title: widget.activeAgendaItem.title, size: widget.size),
       ],
     );
   }
