@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:integration_bee_helper/models/agenda_item_model.dart';
-import 'package:integration_bee_helper/models/integral_model.dart';
 import 'package:integration_bee_helper/services/integrals_service.dart';
 
 class AgendaItemsService {
@@ -188,6 +187,9 @@ class AgendaItemsService {
       case AgendaItemType.knockout:
         await _setAgendaItemToKnockoutRound(agendaItem);
         break;
+      case AgendaItemType.qualification:
+        await _setAgendaItemToQualificationRound(agendaItem);
+        break;
       case AgendaItemType.notSpecified:
         break;
     }
@@ -206,11 +208,28 @@ class AgendaItemsService {
       'type': AgendaItemType.knockout.id,
       'integralsCodes': [],
       'spareIntegralsCodes': [],
+      'currentIntegralCode': null,
       'competitor1Name': '',
       'competitor2Name': '',
       'timeLimitPerIntegral': 5 * 60,
       'timeLimitPerSpareIntegral': 5 * 60,
       'scores': agendaItem.currentlyActive ? [] : null,
+      'progressIndex': agendaItem.currentlyActive ? 0 : null,
+      'phaseIndex': agendaItem.currentlyActive ? 0 : null,
+      'timerStopsAt': null,
+      'pausedTimerDuration': null,
+    });
+  }
+
+  Future _setAgendaItemToQualificationRound(AgendaItemModel agendaItem) async {
+    await agendaItem.reference.update({
+      'type': AgendaItemType.qualification.id,
+      'title': '',
+      'integralsCodes': [],
+      'spareIntegralsCodes': [],
+      'currentIntegralCode': null,
+      'timeLimitPerIntegral': 5 * 60,
+      'timeLimitPerSpareIntegral': 5 * 60,
       'progressIndex': agendaItem.currentlyActive ? 0 : null,
       'phaseIndex': agendaItem.currentlyActive ? 0 : null,
       'timerStopsAt': null,
@@ -248,6 +267,23 @@ class AgendaItemsService {
     });
   }
 
+  Future editAgendaItemQualification(
+    AgendaItemModel agendaItem, {
+    required String title,
+    required String integralsCodes,
+    required String spareIntegralsCodes,
+    required Duration timeLimitPerIntegral,
+    required Duration timeLimitPerSpareIntegral,
+  }) async {
+    await agendaItem.reference.update({
+      'title': title,
+      'integralsCodes': integralsCodes.split(','),
+      'spareIntegralsCodes': spareIntegralsCodes.split(','),
+      'timeLimitPerIntegral': timeLimitPerIntegral.inSeconds,
+      'timeLimitPerSpareIntegral': timeLimitPerSpareIntegral.inSeconds,
+    });
+  }
+
   void _resetAgendaItem(AgendaItemModel agendaItem, WriteBatch batch) async {
     switch (agendaItem.type) {
       case AgendaItemType.text:
@@ -261,8 +297,19 @@ class AgendaItemsService {
           'currentlyActive': false,
           'finished': false,
           'status': '',
-
           'scores': null,
+          'progressIndex': null,
+          'phaseIndex': null,
+          'timerStopsAt': null,
+          'pausedTimerDuration': null,
+          'currentIntegralCode': null,
+        });
+        break;
+      case AgendaItemType.qualification:
+        batch.update(agendaItem.reference, {
+          'currentlyActive': false,
+          'finished': false,
+          'status': '',
           'progressIndex': null,
           'phaseIndex': null,
           'timerStopsAt': null,
@@ -294,8 +341,19 @@ class AgendaItemsService {
           'currentlyActive': true,
           'finished': false,
           'status': '',
-
           'scores': [-1],
+          'progressIndex': 0,
+          'phaseIndex': 0,
+          'timerStopsAt': null,
+          'pausedTimerDuration': null,
+          'currentIntegralCode': agendaItem.integralsCodes?.firstOrNull,
+        });
+        break;
+      case AgendaItemType.qualification:
+        batch.update(agendaItem.reference, {
+          'currentlyActive': true,
+          'finished': false,
+          'status': '',
           'progressIndex': 0,
           'phaseIndex': 0,
           'timerStopsAt': null,
@@ -420,10 +478,10 @@ class AgendaItemsService {
     String status = '';
 
     if (agendaItem.progressIndex! >= agendaItem.integralsCodes!.length - 1) {
-      if(competitor1Score < competitor2Score) {
+      if (competitor1Score < competitor2Score) {
         finished = true;
         status = '${agendaItem.competitor2Name} wins!';
-      } else if(competitor1Score > competitor2Score) {
+      } else if (competitor1Score > competitor2Score) {
         finished = true;
         status = '${agendaItem.competitor1Name} wins!';
       }
@@ -432,7 +490,6 @@ class AgendaItemsService {
     await agendaItem.reference.update({
       'finished': finished,
       'status': status,
-
       'scores': scores,
       'phaseIndex': 3,
       'timerStopsAt': null,
@@ -451,26 +508,14 @@ class AgendaItemsService {
     } else {
       // Find unused spare integral:
       final integralsService = IntegralsService(uid: uid);
-      final integrals = <IntegralModel>[];
+      final String? response = await integralsService
+          .findUnusedSpareIntegral(agendaItem.spareIntegralsCodes!);
 
-      for (final code in agendaItem.spareIntegralsCodes!) {
-        final integral = await integralsService.getIntegral(code: code);
-        integrals.add(integral);
-      }
-
-      late final IntegralModel integral;
-      try {
-        integral = integrals.firstWhere(
-          (integral) => !integral.alreadyUsedAsSpareIntegral,
-        );
-      } catch (err) {
+      if (response == null) {
         return false;
       }
 
-      // Set integral to used:
-      await integralsService.setIntegralToUsed(integral);
-
-      nextIntegralCode = integral.code;
+      nextIntegralCode = response;
     }
 
     // Add score element:
@@ -486,5 +531,51 @@ class AgendaItemsService {
     });
 
     return true;
+  }
+
+  // ignore: non_constant_identifier_names
+  Future qualificationRound_showSolution(AgendaItemModel agendaItem) async {
+    await agendaItem.reference.update({
+      'phaseIndex': 3,
+      'pausedTimerDuration': null,
+      'timerStopsAt': null,
+    });
+  }
+
+  // ignore: non_constant_identifier_names
+  Future<bool> qualificationRound_nextIntegral(
+      AgendaItemModel agendaItem) async {
+    final progressIndex = agendaItem.progressIndex!;
+    late final String nextIntegralCode;
+
+    // Find unused spare integral:
+    final integralsService = IntegralsService(uid: uid);
+    final String? response = await integralsService
+        .findUnusedSpareIntegral(agendaItem.spareIntegralsCodes!);
+
+    if (response == null) {
+      return false;
+    }
+
+    nextIntegralCode = response;
+
+    await agendaItem.reference.update({
+      'progressIndex': progressIndex + 1,
+      'phaseIndex': 0,
+      'timerStopsAt': null,
+      'pausedTimerDuration': null,
+      'currentIntegralCode': nextIntegralCode,
+    });
+
+    return true;
+  }
+
+  // ignore: non_constant_identifier_names
+  Future qualificationRound_finish(AgendaItemModel agendaItem) async {
+    await agendaItem.reference.update({
+      'phaseIndex': 3,
+      'finished': true,
+      'status': 'Qualification round finished!',
+    });
   }
 }

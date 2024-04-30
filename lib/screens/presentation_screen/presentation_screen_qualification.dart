@@ -5,17 +5,16 @@ import 'package:integration_bee_helper/models/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/integral_model.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/integral_code_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/integral_view.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/score_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/timer_view.dart';
 import 'package:integration_bee_helper/services/integrals_service.dart';
 import 'package:just_audio/just_audio.dart';
 
-class PresentationScreenKnockout extends StatefulWidget {
+class PresentationScreenQualification extends StatefulWidget {
   final AgendaItemModel activeAgendaItem;
   final Size size;
   final bool muted;
 
-  const PresentationScreenKnockout({
+  const PresentationScreenQualification({
     super.key,
     required this.activeAgendaItem,
     required this.size,
@@ -23,12 +22,12 @@ class PresentationScreenKnockout extends StatefulWidget {
   });
 
   @override
-  State<PresentationScreenKnockout> createState() =>
-      _PresentationScreenKnockoutState();
+  State<PresentationScreenQualification> createState() =>
+      _PresentationScreenQualificationState();
 }
 
-class _PresentationScreenKnockoutState
-    extends State<PresentationScreenKnockout> {
+class _PresentationScreenQualificationState
+    extends State<PresentationScreenQualification> {
   List<IntegralModel> integrals = [];
   String agendaItemId = '';
 
@@ -59,12 +58,12 @@ class _PresentationScreenKnockoutState
     return scores;
   }
 
-  String get problemName {
+  String? get problemName {
     final numberOfRegularIntegrals = integralsCodes.length;
-    if (progressIndex < numberOfRegularIntegrals) {
-      return 'Problem ${(progressIndex + 1).toString()}';
+    if (progressIndex == 0) {
+      return null;
     } else {
-      return 'Problem $numberOfRegularIntegrals+${progressIndex - numberOfRegularIntegrals + 1}';
+      return 'Problem 1+${progressIndex - numberOfRegularIntegrals + 1}';
     }
   }
 
@@ -111,7 +110,7 @@ class _PresentationScreenKnockoutState
     timer = Timer.periodic(timerInterval, (timer) {
       switch (phaseIndex) {
         case 0:
-          if (progressIndex < integralsCodes.length) {
+          if (progressIndex == 0) {
             setState(() {
               timeLeft = widget.activeAgendaItem.timeLimitPerIntegral!;
               timerRed = false;
@@ -203,13 +202,6 @@ class _PresentationScreenKnockoutState
           paused: pausedTimerDuration != null,
           size: widget.size,
         ),
-        ScoreView(
-            competitor1Name: widget.activeAgendaItem.competitor1Name!,
-            competitor2Name: widget.activeAgendaItem.competitor2Name!,
-            scores: scores,
-            progressIndex: widget.activeAgendaItem.progressIndex!,
-            problemName: problemName,
-            size: widget.size),
         IntegralView(
           currentIntegral: currentIntegral,
           phaseIndex: phaseIndex,

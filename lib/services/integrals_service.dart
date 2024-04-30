@@ -138,4 +138,30 @@ class IntegralsService {
       });
     }
   }
+
+  Future<String?> findUnusedSpareIntegral(
+      List<String> spareIntegralsCodes) async {
+    final integrals = <IntegralModel>[];
+
+    for (final code in spareIntegralsCodes) {
+      if (code == '') continue;
+
+      final integral = await getIntegral(code: code);
+      integrals.add(integral);
+    }
+
+    late final IntegralModel integral;
+    try {
+      integral = integrals.firstWhere(
+        (integral) => !integral.alreadyUsedAsSpareIntegral,
+      );
+    } catch (err) {
+      return null;
+    }
+
+    // Set integral to used:
+    await setIntegralToUsed(integral);
+
+    return integral.code;
+  }
 }

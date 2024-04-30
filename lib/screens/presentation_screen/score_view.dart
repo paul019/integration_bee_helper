@@ -7,7 +7,7 @@ class ScoreView extends StatelessWidget {
   final String competitor2Name;
   final List<int> scores;
   final int progressIndex;
-  final String problemNumber;
+  final String problemName;
   final Size size;
 
   const ScoreView({
@@ -16,7 +16,7 @@ class ScoreView extends StatelessWidget {
     required this.competitor2Name,
     required this.scores,
     required this.progressIndex,
-    required this.problemNumber,
+    required this.problemName,
     required this.size,
   });
 
@@ -176,7 +176,7 @@ class ScoreView extends StatelessWidget {
                     color: ThemeColors.greyTransparent,
                     alignment: Alignment.topCenter,
                     child: Text(
-                      'Problem $problemNumber',
+                      problemName,
                       style: TextStyle(
                         color: ThemeColors.black,
                         fontSize: 20 * p,

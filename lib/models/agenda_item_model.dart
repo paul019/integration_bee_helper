@@ -148,6 +148,8 @@ class AgendaItemModel {
         return 'Not specified yet';
       case AgendaItemType.knockout:
         return '$competitor1Name vs. $competitor2Name';
+      case AgendaItemType.qualification:
+        return title!;
       case AgendaItemType.text:
         return title!;
     }
@@ -159,6 +161,8 @@ class AgendaItemModel {
         return 'Agenda item #${orderIndex + 1}';
       case AgendaItemType.knockout:
         return 'Agenda item #${orderIndex + 1} – Knockout round';
+      case AgendaItemType.qualification:
+        return 'Agenda item #${orderIndex + 1} – Qualification round';
       case AgendaItemType.text:
         return 'Agenda item #${orderIndex + 1} – Text';
     }
@@ -168,7 +172,7 @@ class AgendaItemModel {
 enum AgendaItemType {
   notSpecified('notSpecified'),
   knockout('knockout'),
-  //qualification('qualification'),
+  qualification('qualification'),
   text('text');
 
   static AgendaItemType standard = AgendaItemType.notSpecified;
@@ -189,6 +193,7 @@ enum AgendaItemType {
   }
 
   static List<AgendaItemType> selectable = [
+    AgendaItemType.qualification,
     AgendaItemType.knockout,
     AgendaItemType.text
   ];
@@ -199,6 +204,8 @@ enum AgendaItemType {
         return Icons.abc;
       case AgendaItemType.knockout:
         return Icons.people;
+      case AgendaItemType.qualification:
+        return Icons.groups;
       case AgendaItemType.text:
         return Icons.abc;
     }
@@ -210,6 +217,8 @@ enum AgendaItemType {
         return 'Not specified yet';
       case AgendaItemType.knockout:
         return 'Knockout round';
+      case AgendaItemType.qualification:
+        return 'Qualification round';
       case AgendaItemType.text:
         return 'Text';
     }

@@ -58,29 +58,55 @@ class _AgendaItemTextState extends State<AgendaItemText> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(
-          decoration: const InputDecoration(
-            border: InputBorder.none,
-            hintText: 'Title',
-          ),
-          controller: titleController,
-          onChanged: (v) => setState(() {
-            title = v;
-            hasChanged = true;
-          }),
-          maxLines: 1,
+        Row(
+          children: [
+            const SizedBox(
+              width: 100,
+              child: Text(
+                'Title:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Expanded(
+              child: TextField(
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Title',
+                ),
+                controller: titleController,
+                onChanged: (v) => setState(() {
+                  title = v;
+                  hasChanged = true;
+                }),
+                maxLines: 1,
+              ),
+            ),
+          ],
         ),
-        TextField(
-          decoration: const InputDecoration(
-            border: InputBorder.none,
-            hintText: 'Subtitle',
-          ),
-          controller: subtitleController,
-          onChanged: (v) => setState(() {
-            subtitle = v;
-            hasChanged = true;
-          }),
-          maxLines: 1,
+        Row(
+          children: [
+            const SizedBox(
+              width: 100,
+              child: Text(
+                'Subtitle:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Expanded(
+              child: TextField(
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Subtitle',
+                ),
+                controller: subtitleController,
+                onChanged: (v) => setState(() {
+                  subtitle = v;
+                  hasChanged = true;
+                }),
+                maxLines: 1,
+              ),
+            ),
+          ],
         ),
         if (hasChanged)
           CancelSaveButtons(

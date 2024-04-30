@@ -6,14 +6,14 @@ import 'package:integration_bee_helper/services/latex_transformer.dart';
 class IntegralView extends StatelessWidget {
   final IntegralModel? currentIntegral;
   final int phaseIndex;
-  final String problemNumber;
+  final String? problemName;
   final Size size;
 
   const IntegralView({
     super.key,
     required this.currentIntegral,
     required this.phaseIndex,
-    required this.problemNumber,
+    required this.problemName,
     required this.size,
   });
 
@@ -40,7 +40,9 @@ class IntegralView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'Coming up: Problem $problemNumber',
+            problemName != null
+                ? 'Coming up: $problemName'
+                : 'Next problem coming up',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 100 * p),
           ),
           if ((currentIntegral?.name ?? '') != '')

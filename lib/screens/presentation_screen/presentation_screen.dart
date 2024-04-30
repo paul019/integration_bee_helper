@@ -3,6 +3,7 @@ import 'package:integration_bee_helper/models/agenda_item_model.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/background_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/logo_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_knockout.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_qualification.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_text.dart';
 
 class PresentationScreen extends StatefulWidget {
@@ -72,6 +73,12 @@ class _PresentationScreenState extends State<PresentationScreen> {
         );
       case AgendaItemType.knockout:
         return PresentationScreenKnockout(
+          activeAgendaItem: activeAgendaItem!,
+          size: widget.size,
+          muted: widget.muted,
+        );
+      case AgendaItemType.qualification:
+        return PresentationScreenQualification(
           activeAgendaItem: activeAgendaItem!,
           size: widget.size,
           muted: widget.muted,
