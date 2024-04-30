@@ -35,18 +35,18 @@ class _IntegralsPageState extends State<IntegralsPage> {
               onPressed: () => service.addIntegral(currentIntegrals: integrals),
               child: const Icon(Icons.add),
             ),
-            body: MaxWidthWrapper(
-              child: ListView.builder(
-                itemCount: integrals.length,
-                itemBuilder: (context, index) {
-                  final integral = integrals[index];
+            body: ListView.builder(
+              itemCount: integrals.length,
+              itemBuilder: (context, index) {
+                final integral = integrals[index];
             
-                  return IntegralCard(
+                return MaxWidthWrapper(
+                  child: IntegralCard(
                     integral: integral,
                     service: service,
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           );
         });

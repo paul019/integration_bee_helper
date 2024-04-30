@@ -38,19 +38,19 @@ class _CompetitionPlannerPageState extends State<CompetitionPlannerPage> {
                   service.addAgendaItem(currentAgendaItems: agendaItems),
               child: const Icon(Icons.add),
             ),
-            body: MaxWidthWrapper(
-              child: ListView.builder(
-                itemCount: agendaItems.length,
-                itemBuilder: (context, index) {
-                  final agendaItem = agendaItems[index];
+            body: ListView.builder(
+              itemCount: agendaItems.length,
+              itemBuilder: (context, index) {
+                final agendaItem = agendaItems[index];
             
-                  return AgendaItemCard(
+                return MaxWidthWrapper(
+                  child: AgendaItemCard(
                     agendaItem: agendaItem,
                     activeAgendaItem: activeAgendaItem,
                     service: service,
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           );
         });

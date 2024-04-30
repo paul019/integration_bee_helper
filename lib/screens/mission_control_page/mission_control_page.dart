@@ -39,14 +39,16 @@ class _MissionControlPageState extends State<MissionControlPage> {
           activeAgendaItem = newAgendaItem;
         }
 
-        return MaxWidthWrapper(
-          child: Column(
-            children: [
-              NavigationCard(activeAgendaItem: activeAgendaItem),
-              PreviewCard(activeAgendaItem: activeAgendaItem),
-              ControlCard(activeAgendaItem: activeAgendaItem),
-              UsedIntegralsCard(activeAgendaItem: activeAgendaItem),
-            ],
+        return SingleChildScrollView(
+          child: MaxWidthWrapper(
+            child: Column(
+              children: [
+                NavigationCard(activeAgendaItem: activeAgendaItem),
+                PreviewCard(activeAgendaItem: activeAgendaItem),
+                ControlCard(activeAgendaItem: activeAgendaItem),
+                UsedIntegralsCard(activeAgendaItem: activeAgendaItem),
+              ],
+            ),
           ),
         );
       },
