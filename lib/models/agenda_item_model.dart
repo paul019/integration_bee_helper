@@ -149,7 +149,7 @@ class AgendaItemModel {
       case AgendaItemType.knockout:
         return '$competitor1Name vs. $competitor2Name';
       case AgendaItemType.qualification:
-        return title;
+        return title != '' ? title : 'Qualification round';
       case AgendaItemType.text:
         return title;
     }
