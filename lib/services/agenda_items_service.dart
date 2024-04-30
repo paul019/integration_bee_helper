@@ -200,6 +200,7 @@ class AgendaItemsService {
       'type': AgendaItemType.text.id,
       'title': '',
       'subtitle': '',
+      'imageUrl': '',
     });
   }
 
@@ -242,10 +243,12 @@ class AgendaItemsService {
     AgendaItemModel agendaItem, {
     required String title,
     required String subtitle,
+    required String imageUrl,
   }) async {
     await agendaItem.reference.update({
       'title': title,
       'subtitle': subtitle,
+      'imageUrl': imageUrl,
     });
   }
 

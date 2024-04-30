@@ -22,17 +22,21 @@ class _AgendaItemTextState extends State<AgendaItemText> {
 
   late String title;
   late String subtitle;
+  late String imageUrl;
 
   late TextEditingController titleController;
   late TextEditingController subtitleController;
+  late TextEditingController imageUrlController;
 
   @override
   void initState() {
     title = widget.agendaItem.title;
     subtitle = widget.agendaItem.subtitle!;
+    imageUrl = widget.agendaItem.imageUrl!;
 
     titleController = TextEditingController(text: title);
     subtitleController = TextEditingController(text: subtitle);
+    imageUrlController = TextEditingController(text: imageUrl);
 
     super.initState();
   }
@@ -47,9 +51,11 @@ class _AgendaItemTextState extends State<AgendaItemText> {
   void reset() {
     title = widget.agendaItem.title;
     subtitle = widget.agendaItem.subtitle!;
+    imageUrl = widget.agendaItem.imageUrl!;
 
     titleController.text = title;
     subtitleController.text = subtitle;
+    imageUrlController.text = imageUrl;
 
     hasChanged = false;
   }
@@ -108,6 +114,31 @@ class _AgendaItemTextState extends State<AgendaItemText> {
             ),
           ],
         ),
+        Row(
+          children: [
+            const SizedBox(
+              width: 100,
+              child: Text(
+                'Image URL:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Expanded(
+              child: TextField(
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Image URL',
+                ),
+                controller: imageUrlController,
+                onChanged: (v) => setState(() {
+                  imageUrl = v;
+                  hasChanged = true;
+                }),
+                maxLines: 1,
+              ),
+            ),
+          ],
+        ),
         if (hasChanged)
           CancelSaveButtons(
             onCancel: () {
@@ -120,6 +151,7 @@ class _AgendaItemTextState extends State<AgendaItemText> {
                 widget.agendaItem,
                 title: title,
                 subtitle: subtitle,
+                imageUrl: imageUrl,
               );
               setState(() => hasChanged = false);
             },

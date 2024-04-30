@@ -13,6 +13,7 @@ class AgendaItemModel {
 
   // Text:
   final String? subtitle;
+  final String? imageUrl;
 
   // Knockout round:
   final List<String>? integralsCodes;
@@ -50,6 +51,7 @@ class AgendaItemModel {
     // Text:
     this.title = '',
     this.subtitle,
+    this.imageUrl,
 
     // Knockout round:
     this.integralsCodes,
@@ -82,6 +84,7 @@ class AgendaItemModel {
         // Text:
         title: json['title'] ?? '',
         subtitle: json['subtitle'],
+        imageUrl: json['imageUrl'],
 
         // Knockout round:
         integralsCodes: json['integralsCodes'] != null
@@ -171,6 +174,9 @@ class AgendaItemModel {
         return 'Agenda item #${orderIndex + 1} – Text';
     }
   }
+
+  bool get hasTitle => (title != '' && subtitle != null) || subtitle != '';
+  bool get hasImage => imageUrl != null && imageUrl != '';
 }
 
 enum AgendaItemType {
