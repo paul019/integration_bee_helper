@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:integration_bee_helper/models/integral_model.dart';
+import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 
 class IntegralsService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

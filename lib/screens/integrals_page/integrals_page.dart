@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/models/integral_model.dart';
+import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/screens/integrals_page/integral_card.dart';
 import 'package:integration_bee_helper/services/integrals_service.dart';
 import 'package:integration_bee_helper/widgets/loading_screen.dart';
