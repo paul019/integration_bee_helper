@@ -1,0 +1,31 @@
+\documentclass[parskip=full]{article}
+
+% Import packages
+\usepackage[ngerman]{babel}
+\usepackage[hidelinks]{hyperref}
+\usepackage{multicol}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+
+% Set layout params
+\usepackage[a4paper]{geometry}
+\setlength\parindent{0pt}
+\pagestyle{empty}
+
+\newcommand{\dd}[1]{\text{d}{#1}}
+
+\newcommand{\page}[2]{
+    \hfill (#1)
+    \vspace*{2cm}
+    \begin{equation*}
+        #2
+    \end{equation*}
+    \newpage
+}
+
+
+\begin{document}
+\page{1001}{\int{x\dd{x}}}
+\end{document}
