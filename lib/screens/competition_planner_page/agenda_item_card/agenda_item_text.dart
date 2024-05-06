@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 import 'package:integration_bee_helper/services/agenda_items_service.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 
 class AgendaItemText extends StatefulWidget {
-  final AgendaItemModel agendaItem;
+  final AgendaItemModelText agendaItem;
   final AgendaItemsService service;
 
   const AgendaItemText({
@@ -31,8 +31,8 @@ class _AgendaItemTextState extends State<AgendaItemText> {
   @override
   void initState() {
     title = widget.agendaItem.title;
-    subtitle = widget.agendaItem.subtitle!;
-    imageUrl = widget.agendaItem.imageUrl!;
+    subtitle = widget.agendaItem.subtitle;
+    imageUrl = widget.agendaItem.imageUrl;
 
     titleController = TextEditingController(text: title);
     subtitleController = TextEditingController(text: subtitle);
@@ -50,8 +50,8 @@ class _AgendaItemTextState extends State<AgendaItemText> {
 
   void reset() {
     title = widget.agendaItem.title;
-    subtitle = widget.agendaItem.subtitle!;
-    imageUrl = widget.agendaItem.imageUrl!;
+    subtitle = widget.agendaItem.subtitle;
+    imageUrl = widget.agendaItem.imageUrl;
 
     titleController.text = title;
     subtitleController.text = subtitle;

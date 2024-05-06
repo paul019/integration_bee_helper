@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 
 class PresentationScreenText extends StatelessWidget {
-  final AgendaItemModel activeAgendaItem;
+  final AgendaItemModelText activeAgendaItem;
   final Size size;
 
   const PresentationScreenText({
@@ -24,7 +24,7 @@ class PresentationScreenText extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(right: 50 * p),
               child: Image.network(
-                activeAgendaItem.imageUrl!,
+                activeAgendaItem.imageUrl,
                 width: 400 * p,
                 height: 400 * p,
               ),
@@ -40,7 +40,7 @@ class PresentationScreenText extends StatelessWidget {
                       TextStyle(fontWeight: FontWeight.bold, fontSize: 100 * p),
                 ),
                 Text(
-                  activeAgendaItem.subtitle!,
+                  activeAgendaItem.subtitle,
                   textAlign: TextAlign.left,
                   style: TextStyle(fontSize: 60 * p),
                 ),
@@ -53,7 +53,7 @@ class PresentationScreenText extends StatelessWidget {
       return Padding(
         padding: EdgeInsets.all(50 * p),
         child: Image.network(
-          activeAgendaItem.imageUrl!,
+          activeAgendaItem.imageUrl,
           width: 1000 * p,
           height: 750 * p,
         ),
@@ -70,7 +70,7 @@ class PresentationScreenText extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 100 * p),
             ),
             Text(
-              activeAgendaItem.subtitle!,
+              activeAgendaItem.subtitle,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 60 * p),
             ),

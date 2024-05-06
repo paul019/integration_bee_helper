@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/score_model.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/integral_code_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/integral_view.dart';
@@ -12,7 +14,7 @@ import 'package:integration_bee_helper/services/integrals_service.dart';
 import 'package:just_audio/just_audio.dart';
 
 class PresentationScreenKnockout extends StatefulWidget {
-  final AgendaItemModel activeAgendaItem;
+  final AgendaItemModelKnockout activeAgendaItem;
   final Size size;
   final bool muted;
 
@@ -42,19 +44,19 @@ class _PresentationScreenKnockoutState
   String get uid => widget.activeAgendaItem.uid;
   IntegralsService get integralsService => IntegralsService(uid: uid);
   int get progressIndex => widget.activeAgendaItem.progressIndex!;
-  int get phaseIndex => widget.activeAgendaItem.phaseIndex!;
-  List<String> get integralsCodes => widget.activeAgendaItem.integralsCodes!;
+  ProblemPhase get phaseIndex => widget.activeAgendaItem.phaseIndex!;
+  List<String> get integralsCodes => widget.activeAgendaItem.integralsCodes;
   List<String> get spareIntegralsCodes =>
-      widget.activeAgendaItem.spareIntegralsCodes!;
+      widget.activeAgendaItem.spareIntegralsCodes;
   String? get currentIntegralCode =>
       widget.activeAgendaItem.currentIntegralCode;
-  List<int> get scores {
+  List<ScoreModel> get scores {
     final scores = [...widget.activeAgendaItem.scores!];
 
     if (scores.length < integralsCodes.length) {
       final missing = integralsCodes.length - scores.length;
       for (var i = 0; i < missing; i++) {
-        scores.add(-1);
+        scores.add(ScoreModel.notSetYet);
       }
     }
 
@@ -70,10 +72,10 @@ class _PresentationScreenKnockoutState
     }
   }
 
-  DateTime? get timerStopsAt => widget.activeAgendaItem.timerStopsAt;
+  DateTime? get timerStopsAt => widget.activeAgendaItem.timer?.timerStopsAt;
 
   Duration? get pausedTimerDuration =>
-      widget.activeAgendaItem.pausedTimerDuration;
+      widget.activeAgendaItem.timer?.pausedTimerDuration;
 
   IntegralModel? get currentIntegral => getIntegral(currentIntegralCode);
   IntegralModel? getIntegral(String? integralCode) {
@@ -112,20 +114,20 @@ class _PresentationScreenKnockoutState
 
     timer = Timer.periodic(timerInterval, (timer) {
       switch (phaseIndex) {
-        case 0:
+        case ProblemPhase.idle:
           if (progressIndex < integralsCodes.length) {
             setState(() {
-              timeLeft = widget.activeAgendaItem.timeLimitPerIntegral!;
+              timeLeft = widget.activeAgendaItem.timeLimitPerIntegral;
               timerRed = false;
             });
           } else {
             setState(() {
-              timeLeft = widget.activeAgendaItem.timeLimitPerSpareIntegral!;
+              timeLeft = widget.activeAgendaItem.timeLimitPerSpareIntegral;
               timerRed = false;
             });
           }
           break;
-        case 1:
+        case ProblemPhase.showProblem:
           if (pausedTimerDuration != null) {
             setState(() {
               timeLeft = pausedTimerDuration!;
@@ -157,9 +159,8 @@ class _PresentationScreenKnockoutState
             }
           }
           break;
-        case 2:
-        case 3:
-        default:
+        case ProblemPhase.showSolution:
+        case ProblemPhase.showSolutionAndWinner:
           setState(() {
             timeLeft = Duration.zero;
             timerRed = false;
@@ -206,8 +207,8 @@ class _PresentationScreenKnockoutState
           size: widget.size,
         ),
         ScoreView(
-            competitor1Name: widget.activeAgendaItem.competitor1Name!,
-            competitor2Name: widget.activeAgendaItem.competitor2Name!,
+            competitor1Name: widget.activeAgendaItem.competitor1Name,
+            competitor2Name: widget.activeAgendaItem.competitor2Name,
             scores: scores,
             progressIndex: widget.activeAgendaItem.progressIndex!,
             problemName: problemName,

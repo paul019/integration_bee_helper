@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/services/latex_transformer.dart';
 
 class IntegralView extends StatelessWidget {
   final IntegralModel? currentIntegral;
-  final int phaseIndex;
+  final ProblemPhase phaseIndex;
   final String? problemName;
   final Size size;
 
@@ -19,12 +20,12 @@ class IntegralView extends StatelessWidget {
 
   String get latex {
     switch (phaseIndex) {
-      case 0:
+      case ProblemPhase.idle:
         return '';
-      case 1:
+      case ProblemPhase.showProblem:
         return currentIntegral?.latexProblem ?? '';
-      case 2:
-      case 3:
+      case ProblemPhase.showSolution:
+      case ProblemPhase.showSolutionAndWinner:
         return '${currentIntegral?.latexProblem ?? ''}=\\boxed{${currentIntegral?.latexSolution ?? ''}}';
       default:
         return '';
@@ -35,7 +36,7 @@ class IntegralView extends StatelessWidget {
   Widget build(BuildContext context) {
     final p = size.width / 1920.0;
 
-    if (phaseIndex == 0) {
+    if (phaseIndex == ProblemPhase.idle) {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [

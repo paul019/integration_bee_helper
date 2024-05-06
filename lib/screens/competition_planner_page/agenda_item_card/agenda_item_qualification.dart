@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
 import 'package:integration_bee_helper/services/agenda_items_service.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 
 class AgendaItemQualification extends StatefulWidget {
-  final AgendaItemModel agendaItem;
+  final AgendaItemModelQualification agendaItem;
   final AgendaItemsService service;
 
   const AgendaItemQualification({
@@ -37,12 +37,12 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
   @override
   void initState() {
     title = widget.agendaItem.title;
-    integralsCodes = widget.agendaItem.integralsCodes!.join(',');
-    spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes!.join(',');
+    integralsCodes = widget.agendaItem.integralsCodes.join(',');
+    spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes.join(',');
     timeLimitPerIntegral =
-        widget.agendaItem.timeLimitPerIntegral!.inSeconds.toString();
+        widget.agendaItem.timeLimitPerIntegral.inSeconds.toString();
     timeLimitPerSpareIntegral =
-        widget.agendaItem.timeLimitPerSpareIntegral!.inSeconds.toString();
+        widget.agendaItem.timeLimitPerSpareIntegral.inSeconds.toString();
 
     titleController = TextEditingController(text: title);
     integralsCodesController = TextEditingController(text: integralsCodes);
@@ -65,12 +65,12 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
 
   void reset() {
     title = widget.agendaItem.title;
-    integralsCodes = widget.agendaItem.integralsCodes!.join(',');
-    spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes!.join(',');
+    integralsCodes = widget.agendaItem.integralsCodes.join(',');
+    spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes.join(',');
     timeLimitPerIntegral =
-        widget.agendaItem.timeLimitPerIntegral!.inSeconds.toString();
+        widget.agendaItem.timeLimitPerIntegral.inSeconds.toString();
     timeLimitPerSpareIntegral =
-        widget.agendaItem.timeLimitPerSpareIntegral!.inSeconds.toString();
+        widget.agendaItem.timeLimitPerSpareIntegral.inSeconds.toString();
 
     titleController.text = title;
     integralsCodesController.text = integralsCodes;

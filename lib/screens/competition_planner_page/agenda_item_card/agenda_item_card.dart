@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_not_specified.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_knockout.dart';
 import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_not_specified.dart';
@@ -123,22 +127,22 @@ class AgendaItemCard extends StatelessWidget {
               const Divider(),
               if (agendaItem.type == AgendaItemType.notSpecified)
                 AgendaItemNotSpecified(
-                  agendaItem: agendaItem,
+                  agendaItem: agendaItem as AgendaItemModelNotSpecified,
                   service: service,
                 ),
               if (agendaItem.type == AgendaItemType.text)
                 AgendaItemText(
-                  agendaItem: agendaItem,
+                  agendaItem: agendaItem as AgendaItemModelText,
                   service: service,
                 ),
               if (agendaItem.type == AgendaItemType.knockout)
                 AgendaItemKnockout(
-                  agendaItem: agendaItem,
+                  agendaItem: agendaItem as AgendaItemModelKnockout,
                   service: service,
                 ),
               if (agendaItem.type == AgendaItemType.qualification)
                 AgendaItemQualification(
-                  agendaItem: agendaItem,
+                  agendaItem: agendaItem as AgendaItemModelQualification,
                   service: service,
                 ),
             ],

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
 import 'package:integration_bee_helper/services/agenda_items_service.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 
 class AgendaItemKnockout extends StatefulWidget {
-  final AgendaItemModel agendaItem;
+  final AgendaItemModelKnockout agendaItem;
   final AgendaItemsService service;
 
   const AgendaItemKnockout({
@@ -40,14 +40,14 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
   @override
   void initState() {
     title = widget.agendaItem.title;
-    integralsCodes = widget.agendaItem.integralsCodes!.join(',');
-    spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes!.join(',');
-    competitor1Name = widget.agendaItem.competitor1Name!;
-    competitor2Name = widget.agendaItem.competitor2Name!;
+    integralsCodes = widget.agendaItem.integralsCodes.join(',');
+    spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes.join(',');
+    competitor1Name = widget.agendaItem.competitor1Name;
+    competitor2Name = widget.agendaItem.competitor2Name;
     timeLimitPerIntegral =
-        widget.agendaItem.timeLimitPerIntegral!.inSeconds.toString();
+        widget.agendaItem.timeLimitPerIntegral.inSeconds.toString();
     timeLimitPerSpareIntegral =
-        widget.agendaItem.timeLimitPerSpareIntegral!.inSeconds.toString();
+        widget.agendaItem.timeLimitPerSpareIntegral.inSeconds.toString();
 
     titleController = TextEditingController(text: title);
     integralsCodesController = TextEditingController(text: integralsCodes);
@@ -72,14 +72,14 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
 
   void reset() {
     title = widget.agendaItem.title;
-    integralsCodes = widget.agendaItem.integralsCodes!.join(',');
-    spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes!.join(',');
-    competitor1Name = widget.agendaItem.competitor1Name!;
-    competitor2Name = widget.agendaItem.competitor2Name!;
+    integralsCodes = widget.agendaItem.integralsCodes.join(',');
+    spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes.join(',');
+    competitor1Name = widget.agendaItem.competitor1Name;
+    competitor2Name = widget.agendaItem.competitor2Name;
     timeLimitPerIntegral =
-        widget.agendaItem.timeLimitPerIntegral!.inSeconds.toString();
+        widget.agendaItem.timeLimitPerIntegral.inSeconds.toString();
     timeLimitPerSpareIntegral =
-        widget.agendaItem.timeLimitPerSpareIntegral!.inSeconds.toString();
+        widget.agendaItem.timeLimitPerSpareIntegral.inSeconds.toString();
 
     titleController.text = title;
     integralsCodesController.text = integralsCodes;

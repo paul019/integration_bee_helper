@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/background_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/logo_view.dart';
@@ -69,18 +72,18 @@ class _PresentationScreenState extends State<PresentationScreen> {
         return Container();
       case AgendaItemType.text:
         return PresentationScreenText(
-          activeAgendaItem: activeAgendaItem!,
+          activeAgendaItem: activeAgendaItem as AgendaItemModelText,
           size: widget.size,
         );
       case AgendaItemType.knockout:
         return PresentationScreenKnockout(
-          activeAgendaItem: activeAgendaItem!,
+          activeAgendaItem: activeAgendaItem as AgendaItemModelKnockout,
           size: widget.size,
           muted: widget.muted,
         );
       case AgendaItemType.qualification:
         return PresentationScreenQualification(
-          activeAgendaItem: activeAgendaItem!,
+          activeAgendaItem: activeAgendaItem as AgendaItemModelQualification,
           size: widget.size,
           muted: widget.muted,
         );

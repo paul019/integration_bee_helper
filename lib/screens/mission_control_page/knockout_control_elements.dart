@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/knockout_round_phase.dart';
 import 'package:integration_bee_helper/services/agenda_items_service.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 import 'package:provider/provider.dart';
 
 class KnockoutControlElements extends StatefulWidget {
-  final AgendaItemModel activeAgendaItem;
+  final AgendaItemModelKnockout activeAgendaItem;
 
   const KnockoutControlElements({super.key, required this.activeAgendaItem});
 
@@ -26,11 +27,11 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
     const timerInterval = Duration(milliseconds: 250);
 
     timer = Timer.periodic(timerInterval, (timer) {
-      if (widget.activeAgendaItem.timerStopsAt == null) {
+      if (widget.activeAgendaItem.timer?.timerStopsAt == null) {
         setState(() => timeUp = false);
       } else {
         setState(() => timeUp =
-            widget.activeAgendaItem.timerStopsAt!.isBefore(DateTime.now()));
+            widget.activeAgendaItem.timer!.timerStopsAt!.isBefore(DateTime.now()));
       }
     });
 
@@ -45,19 +46,19 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
 
   @override
   Widget build(BuildContext context) {
-    final authModel = Provider.of<User?>(context)!;
-    final service = AgendaItemsService(uid: authModel.uid);
+    final authModel = Provider.of<User?>(context);
+    final service = AgendaItemsService(uid: authModel!.uid);
 
-    switch (widget.activeAgendaItem.phaseIndex!) {
-      case 0:
+    switch (widget.activeAgendaItem.phaseIndex) {
+      case ProblemPhase.idle:
         return TextButton(
           onPressed: () =>
               service.knockoutRound_startIntegral(widget.activeAgendaItem),
-          child: const Text('Start!'),
+          child: const Text('Start'),
         );
-      case 1:
-      case 2:
-        final timerPaused = widget.activeAgendaItem.pausedTimerDuration != null;
+      case ProblemPhase.showProblem:
+      case ProblemPhase.showSolution:
+        final timerPaused = widget.activeAgendaItem.timer?.pausedTimerDuration == null;
 
         return Row(
           mainAxisSize: MainAxisSize.min,
@@ -79,10 +80,10 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
                   : const Text('Pause timer'),
             ),
             separator(),
-            if (widget.activeAgendaItem.phaseIndex! == 1)
+            if (widget.activeAgendaItem.phaseIndex == ProblemPhase.showProblem)
               TextButton(
                 onPressed: () {
-                  if (widget.activeAgendaItem.timerStopsAt!
+                  if (widget.activeAgendaItem.timer!.timerStopsAt!
                       .isAfter(DateTime.now())) {
                     ConfirmationDialog(
                       title: 'Do you really want to show the solution?',
@@ -95,7 +96,7 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
                 },
                 child: const Text('Show solution'),
               ),
-            if (widget.activeAgendaItem.phaseIndex! == 1) separator(),
+            if (widget.activeAgendaItem.phaseIndex == ProblemPhase.showProblem) separator(),
             TextButton(
               onPressed: () =>
                   service.knockoutRound_setWinner(widget.activeAgendaItem, 1),
@@ -115,7 +116,7 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
             ),
           ],
         );
-      case 3:
+      case ProblemPhase.showSolutionAndWinner:
         if (widget.activeAgendaItem.finished) {
           return Text(
             widget.activeAgendaItem.status,
@@ -127,7 +128,7 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
               final success = await service
                   .knockoutRound_nextIntegral(widget.activeAgendaItem);
 
-              if (!success && context.mounted) {
+              if (success && context.mounted) {
                 showDialog(
                     context: context,
                     builder: (BuildContext dialogContext) => AlertDialog(

@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/services/agenda_items_service.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 import 'package:provider/provider.dart';
 
 class QualificationControlElements extends StatefulWidget {
-  final AgendaItemModel activeAgendaItem;
+  final AgendaItemModelQualification activeAgendaItem;
 
   const QualificationControlElements(
       {super.key, required this.activeAgendaItem});
@@ -28,11 +29,11 @@ class _QualificationControlElementsState
     const timerInterval = Duration(milliseconds: 250);
 
     timer = Timer.periodic(timerInterval, (timer) {
-      if (widget.activeAgendaItem.timerStopsAt == null) {
+      if (widget.activeAgendaItem.timer?.timerStopsAt == null) {
         setState(() => timeUp = false);
       } else {
         setState(() => timeUp =
-            widget.activeAgendaItem.timerStopsAt!.isBefore(DateTime.now()));
+            widget.activeAgendaItem.timer!.timerStopsAt!.isBefore(DateTime.now()));
       }
     });
 
@@ -51,15 +52,14 @@ class _QualificationControlElementsState
     final service = AgendaItemsService(uid: authModel.uid);
 
     switch (widget.activeAgendaItem.phaseIndex!) {
-      case 0:
+      case ProblemPhase.idle:
         return TextButton(
           onPressed: () =>
               service.knockoutRound_startIntegral(widget.activeAgendaItem),
           child: const Text('Start!'),
         );
-      case 1:
-      case 2:
-        final timerPaused = widget.activeAgendaItem.pausedTimerDuration != null;
+      case ProblemPhase.showProblem:
+        final timerPaused = widget.activeAgendaItem.timer?.pausedTimerDuration != null;
 
         return Row(
           mainAxisSize: MainAxisSize.min,
@@ -83,7 +83,7 @@ class _QualificationControlElementsState
             separator(),
             TextButton(
               onPressed: () {
-                if (widget.activeAgendaItem.timerStopsAt!
+                if (widget.activeAgendaItem.timer!.timerStopsAt!
                     .isAfter(DateTime.now())) {
                   ConfirmationDialog(
                     title: 'Do you really want to show the solution?',
@@ -98,7 +98,7 @@ class _QualificationControlElementsState
             ),
           ],
         );
-      case 3:
+      case ProblemPhase.showSolution:
         if (widget.activeAgendaItem.finished) {
           return Text(
             widget.activeAgendaItem.status,
