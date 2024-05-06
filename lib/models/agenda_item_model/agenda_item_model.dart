@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:integration_bee_helper/models/agenda_item_type.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 
 class AgendaItemModel {
   final String? id;

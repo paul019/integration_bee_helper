@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/models/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 
 class PresentationScreenText extends StatelessWidget {
   final AgendaItemModel activeAgendaItem;

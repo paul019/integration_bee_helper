@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/models/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/screens/mission_control_page/control_card.dart';
 import 'package:integration_bee_helper/screens/mission_control_page/navigation_card.dart';
 import 'package:integration_bee_helper/screens/mission_control_page/preview_card.dart';
