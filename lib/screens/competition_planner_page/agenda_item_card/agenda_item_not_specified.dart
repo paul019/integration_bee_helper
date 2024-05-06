@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_type.dart';
 import 'package:integration_bee_helper/services/agenda_items_service.dart';
 
 class AgendaItemNotSpecified extends StatelessWidget {
