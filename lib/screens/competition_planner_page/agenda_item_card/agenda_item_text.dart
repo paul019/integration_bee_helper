@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
-import 'package:integration_bee_helper/services/agenda_items_service.dart';
+import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 
 class AgendaItemText extends StatefulWidget {

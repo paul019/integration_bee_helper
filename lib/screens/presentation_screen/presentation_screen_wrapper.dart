@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen.dart';
-import 'package:integration_bee_helper/services/agenda_items_service.dart';
+import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
 import 'package:provider/provider.dart';
 
 enum PresentationScreenEvents { timeUp }
