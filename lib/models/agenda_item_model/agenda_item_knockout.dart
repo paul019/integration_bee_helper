@@ -1,6 +1,6 @@
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/knockout_round_phase.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/score_model.dart';
 import 'package:integration_bee_helper/models/timer_model.dart';
 

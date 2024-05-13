@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/knockout_round_phase.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/services/agenda_items_service.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 import 'package:provider/provider.dart';
