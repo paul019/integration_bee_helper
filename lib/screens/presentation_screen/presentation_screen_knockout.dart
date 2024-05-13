@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/score_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/score.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/integral_code_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/integral_view.dart';
@@ -50,13 +50,13 @@ class _PresentationScreenKnockoutState
       widget.activeAgendaItem.spareIntegralsCodes;
   String? get currentIntegralCode =>
       widget.activeAgendaItem.currentIntegralCode;
-  List<ScoreModel> get scores {
+  List<Score> get scores {
     final scores = [...widget.activeAgendaItem.scores!];
 
     if (scores.length < integralsCodes.length) {
       final missing = integralsCodes.length - scores.length;
       for (var i = 0; i < missing; i++) {
-        scores.add(ScoreModel.notSetYet);
+        scores.add(Score.notSetYet);
       }
     }
 

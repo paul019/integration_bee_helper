@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/score_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/score.dart';
 import 'package:integration_bee_helper/theme/theme_colors.dart';
 import 'package:integration_bee_helper/widgets/triangle_painter.dart';
 
 class ScoreView extends StatelessWidget {
   final String competitor1Name;
   final String competitor2Name;
-  final List<ScoreModel> scores;
+  final List<Score> scores;
   final int progressIndex;
   final String problemName;
   final Size size;
@@ -21,15 +21,15 @@ class ScoreView extends StatelessWidget {
     required this.size,
   });
 
-  Color getScoreColor(ScoreModel score) {
+  Color getScoreColor(Score score) {
     switch (score) {
-      case ScoreModel.tie:
+      case Score.tie:
         return ThemeColors.red;
-      case ScoreModel.competitor1:
+      case Score.competitor1:
         return ThemeColors.blue;
-      case ScoreModel.competitor2:
+      case Score.competitor2:
         return ThemeColors.yellow;
-      case ScoreModel.notSetYet:
+      case Score.notSetYet:
         return ThemeColors.grey;
     }
   }

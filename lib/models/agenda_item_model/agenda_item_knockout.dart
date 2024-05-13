@@ -1,7 +1,7 @@
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/score_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/score.dart';
 import 'package:integration_bee_helper/models/timer_model.dart';
 
 class AgendaItemModelKnockout extends AgendaItemModel {
@@ -16,7 +16,7 @@ class AgendaItemModelKnockout extends AgendaItemModel {
 
   // Dynamic:
   final String? currentIntegralCode;
-  final List<ScoreModel>? scores;
+  final List<Score>? scores;
   final int? progressIndex; // index of the current integral
   final ProblemPhase? phaseIndex;
   final TimerModel? timer;
@@ -69,7 +69,7 @@ class AgendaItemModelKnockout extends AgendaItemModel {
             Duration(seconds: json['timeLimitPerSpareIntegral']),
         scores: json['scores'] != null
             ? (json['scores'] as List)
-                .map((v) => ScoreModel.fromValue(v))
+                .map((v) => Score.fromValue(v))
                 .toList()
             : null,
         progressIndex: json['progressIndex'],
