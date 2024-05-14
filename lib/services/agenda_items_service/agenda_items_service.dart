@@ -11,6 +11,7 @@ import 'package:integration_bee_helper/services/integrals_service.dart';
 
 part 'manage_agenda_items.dart';
 part 'edit_agenda_item_static.dart';
+part 'edit_agenda_item_dynamic.dart';
 
 class AgendaItemsService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
