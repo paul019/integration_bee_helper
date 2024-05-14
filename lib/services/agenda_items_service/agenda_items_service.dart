@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:integration_bee_helper/extensions/map_extension.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_competition.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_not_specified.dart';
@@ -14,6 +15,7 @@ part 'edit_agenda_item_static.dart';
 class AgendaItemsService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final String uid;
+  IntegralsService get integralsService => IntegralsService(uid: uid);
 
   AgendaItemsService({required this.uid});
 
@@ -71,19 +73,6 @@ class AgendaItemsService {
 
     return _agendaItemListFromFirebase(activeItems);
   }
-
-  
-
-  
-
-  
-
-
-
-
-  
-
-  
 
   void _resetAgendaItem(AgendaItemModel agendaItem, WriteBatch batch) async {
     switch (agendaItem.type) {

@@ -49,6 +49,8 @@ abstract class AgendaItemModel {
       FirebaseFirestore.instance.collection('agendaItems');
   DocumentReference<Map<String, dynamic>> get reference => collection.doc(id);
 
+  bool get activeOrFinished => currentlyActive || finished;
+
   String get displayTitle;
   String get displaySubtitle;
 }

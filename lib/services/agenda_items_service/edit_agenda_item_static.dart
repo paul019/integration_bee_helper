@@ -3,38 +3,58 @@ part of 'agenda_items_service.dart';
 extension EditAgendaItemStatic on AgendaItemsService {
   Future editAgendaItemKnockout(
     AgendaItemModelKnockout agendaItem, {
-    List<String>? integralsCodes,
-    List<String>? spareIntegralsCodes,
-    String? competitor1Name,
-    String? competitor2Name,
-    Duration? timeLimitPerIntegral,
-    Duration? timeLimitPerSpareIntegral,
-    String? title,
+    required List<String> integralsCodes,
+    required List<String> spareIntegralsCodes,
+    required String competitor1Name,
+    required String competitor2Name,
+    required Duration timeLimitPerIntegral,
+    required Duration timeLimitPerSpareIntegral,
+    required String title,
   }) async {
+    _checkGeneralAgendaItemEdit(agendaItem);
+    await _checkCompetitionAgendaItemEdit(
+      agendaItem,
+      integralsCodes: integralsCodes,
+      spareIntegralsCodes: spareIntegralsCodes,
+      timeLimitPerIntegral: timeLimitPerIntegral,
+      timeLimitPerSpareIntegral: timeLimitPerSpareIntegral,
+      title: title,
+    );
+
     await agendaItem.reference.update({
       'integralsCodes': integralsCodes,
       'spareIntegralsCodes': spareIntegralsCodes,
       'competitor1Name': competitor1Name,
       'competitor2Name': competitor2Name,
-      'timeLimitPerIntegral': timeLimitPerIntegral?.inSeconds,
-      'timeLimitPerSpareIntegral': timeLimitPerSpareIntegral?.inSeconds,
+      'timeLimitPerIntegral': timeLimitPerIntegral.inSeconds,
+      'timeLimitPerSpareIntegral': timeLimitPerSpareIntegral.inSeconds,
       'title': title,
     }.deleteNullEntries());
   }
 
   Future editAgendaItemQualification(
     AgendaItemModelQualification agendaItem, {
-    List<String>? integralsCodes,
-    List<String>? spareIntegralsCodes,
-    Duration? timeLimitPerIntegral,
-    Duration? timeLimitPerSpareIntegral,
-    String? title,
+    required List<String> integralsCodes,
+    required List<String> spareIntegralsCodes,
+    required Duration timeLimitPerIntegral,
+    required Duration timeLimitPerSpareIntegral,
+    required String title,
   }) async {
+    _checkGeneralAgendaItemEdit(agendaItem);
+    await _checkCompetitionAgendaItemEdit(
+      agendaItem,
+      integralsCodes: integralsCodes,
+      spareIntegralsCodes: spareIntegralsCodes,
+      timeLimitPerIntegral: timeLimitPerIntegral,
+      timeLimitPerSpareIntegral: timeLimitPerSpareIntegral,
+      title: title,
+    );
+
     await agendaItem.reference.update({
       'integralsCodes': integralsCodes,
       'spareIntegralsCodes': spareIntegralsCodes,
-      'timeLimitPerIntegral': timeLimitPerIntegral?.inSeconds,
-      'timeLimitPerSpareIntegral': timeLimitPerSpareIntegral?.inSeconds,
+      'timeLimitPerIntegral': timeLimitPerIntegral.inSeconds,
+      'timeLimitPerSpareIntegral': timeLimitPerSpareIntegral.inSeconds,
       'title': title,
     }.deleteNullEntries());
   }
@@ -45,10 +65,66 @@ extension EditAgendaItemStatic on AgendaItemsService {
     String? subtitle,
     String? imageUrl,
   }) async {
+    _checkGeneralAgendaItemEdit(agendaItem);
+
     await agendaItem.reference.update({
       'title': title,
       'subtitle': subtitle,
       'imageUrl': imageUrl,
     }.deleteNullEntries());
+  }
+
+  void _checkGeneralAgendaItemEdit(AgendaItemModel agendaItem) {
+    // Make sure, agenda item is not finished
+    if(agendaItem.finished) {
+      throw Exception('Cannot edit finished agenda item');
+    }
+  }
+
+  Future _checkCompetitionAgendaItemEdit(
+    AgendaItemModelCompetition agendaItem, {
+    required List<String> integralsCodes,
+    required List<String> spareIntegralsCodes,
+    required Duration timeLimitPerIntegral,
+    required Duration timeLimitPerSpareIntegral,
+    required String title,
+  }) async {
+    // Make sure, already used integrals are not edited:
+    if(agendaItem.currentlyActive) {
+      for(int i=0; i<agendaItem.integralsProgress; i++) {
+        if(agendaItem.integralsCodes[i] != integralsCodes[i]) {
+          throw Exception('Cannot edit already used integrals');
+        }
+      }
+      for(int i=0; i<agendaItem.spareIntegralsProgress; i++) {
+        if(agendaItem.spareIntegralsCodes[i] != spareIntegralsCodes[i]) {
+          throw Exception('Cannot edit already used spare integrals');
+        }
+      }
+    }
+
+    // Make sure, time limits are not negative:
+    if(timeLimitPerIntegral.isNegative || timeLimitPerSpareIntegral.isNegative) {
+      throw Exception('Time limits cannot be negative');
+    }
+
+    // Check integral codes:
+    final currentIntegralCodes = agendaItem.integralsCodes.toSet().union(agendaItem.spareIntegralsCodes.toSet());
+    final editedIntegralCodes = integralsCodes.toSet().union(spareIntegralsCodes.toSet());
+    final newIntegralCodes = editedIntegralCodes.difference(currentIntegralCodes);
+
+    // Make sure, integral codes are not doubled:
+    if(currentIntegralCodes.toSet().length != currentIntegralCodes.length) {
+      throw Exception('Integral codes cannot be doubled');
+    }
+
+    // Make sure, new integral codes exist:
+    for(String integralCode in newIntegralCodes) {
+      try {
+        await integralsService.getIntegral(code: integralCode);
+      } catch(err) {
+        throw Exception('Integral with code $integralCode does not exist');
+      }
+    }
   }
 }

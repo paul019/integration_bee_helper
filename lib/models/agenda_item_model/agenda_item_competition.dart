@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
@@ -16,7 +18,6 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
   final int progressIndex; // index of the current integral
   final ProblemPhase phaseIndex;
   final TimerModel timer;
-
 
   AgendaItemModelCompetition({
     required super.id,
@@ -37,4 +38,7 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
   }) {
     super.type = AgendaItemType.qualification;
   }
+
+  int get integralsProgress => min(progressIndex, integralsCodes.length);
+  int get spareIntegralsProgress => max(-1, progressIndex - integralsCodes.length);
 }
