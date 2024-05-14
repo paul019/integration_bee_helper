@@ -41,8 +41,8 @@ class _PresentationScreenQualificationState
 
   String get uid => widget.activeAgendaItem.uid;
   IntegralsService get integralsService => IntegralsService(uid: uid);
-  int get progressIndex => widget.activeAgendaItem.progressIndex!;
-  ProblemPhase get phaseIndex => widget.activeAgendaItem.phaseIndex!;
+  int get progressIndex => widget.activeAgendaItem.progressIndex;
+  ProblemPhase get phaseIndex => widget.activeAgendaItem.phaseIndex;
   List<String> get integralsCodes => widget.activeAgendaItem.integralsCodes;
   List<String> get spareIntegralsCodes =>
       widget.activeAgendaItem.spareIntegralsCodes;
@@ -58,10 +58,10 @@ class _PresentationScreenQualificationState
     }
   }
 
-  DateTime? get timerStopsAt => widget.activeAgendaItem.timer?.timerStopsAt;
+  DateTime? get timerStopsAt => widget.activeAgendaItem.timer.timerStopsAt;
 
   Duration? get pausedTimerDuration =>
-      widget.activeAgendaItem.timer?.pausedTimerDuration;
+      widget.activeAgendaItem.timer.pausedTimerDuration;
 
   IntegralModel? get currentIntegral => getIntegral(currentIntegralCode);
   IntegralModel? getIntegral(String? integralCode) {
@@ -74,7 +74,7 @@ class _PresentationScreenQualificationState
 
   void initialize() async {
     integrals = [];
-    agendaItemId = widget.activeAgendaItem.id!;
+    agendaItemId = widget.activeAgendaItem.id;
 
     for (final code in integralsCodes) {
       final integral = await integralsService.getIntegral(code: code);
@@ -177,7 +177,7 @@ class _PresentationScreenQualificationState
 
   @override
   Widget build(BuildContext context) {
-    if (agendaItemId != widget.activeAgendaItem.id!) {
+    if (agendaItemId != widget.activeAgendaItem.id) {
       initialize();
     }
 

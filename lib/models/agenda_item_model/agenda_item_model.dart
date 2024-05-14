@@ -7,17 +7,19 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type
 
 abstract class AgendaItemModel {
   // Static:
-  final String? id;
+  final String id;
   final String uid;
   final int orderIndex;
   late final AgendaItemType type;
+
+  // Dynamic:
   final bool currentlyActive;
   final bool finished;
   final String status;
 
 
   AgendaItemModel({
-    this.id,
+    required this.id,
     required this.uid,
     required this.orderIndex,
     this.currentlyActive = false,
@@ -27,7 +29,7 @@ abstract class AgendaItemModel {
 
   factory AgendaItemModel.fromJson(
     Map<String, dynamic> json, {
-    String? id,
+    required String id,
   }) {
     final AgendaItemType type = AgendaItemType.fromString(json['type']);
 
@@ -43,16 +45,9 @@ abstract class AgendaItemModel {
     }
   }
 
-  Map<String, dynamic> toJson() => {
-        'uid': uid,
-        'orderIndex': orderIndex,
-        'type': type.id,
-        'currentlyActive': currentlyActive,
-      };
-
   static CollectionReference<Map<String, dynamic>> get collection =>
       FirebaseFirestore.instance.collection('agendaItems');
-  DocumentReference<Map<String, dynamic>> get reference => collection.doc(id!);
+  DocumentReference<Map<String, dynamic>> get reference => collection.doc(id);
 
   String get displayTitle;
   String get displaySubtitle;

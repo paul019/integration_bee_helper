@@ -29,11 +29,11 @@ class _QualificationControlElementsState
     const timerInterval = Duration(milliseconds: 250);
 
     timer = Timer.periodic(timerInterval, (timer) {
-      if (widget.activeAgendaItem.timer?.timerStopsAt == null) {
+      if (widget.activeAgendaItem.timer.timerStopsAt == null) {
         setState(() => timeUp = false);
       } else {
         setState(() => timeUp =
-            widget.activeAgendaItem.timer!.timerStopsAt!.isBefore(DateTime.now()));
+            widget.activeAgendaItem.timer.timerStopsAt!.isBefore(DateTime.now()));
       }
     });
 
@@ -51,7 +51,7 @@ class _QualificationControlElementsState
     final authModel = Provider.of<User?>(context)!;
     final service = AgendaItemsService(uid: authModel.uid);
 
-    switch (widget.activeAgendaItem.phaseIndex!) {
+    switch (widget.activeAgendaItem.phaseIndex) {
       case ProblemPhase.idle:
         return TextButton(
           onPressed: () =>
@@ -59,7 +59,7 @@ class _QualificationControlElementsState
           child: const Text('Start!'),
         );
       case ProblemPhase.showProblem:
-        final timerPaused = widget.activeAgendaItem.timer?.pausedTimerDuration != null;
+        final timerPaused = widget.activeAgendaItem.timer.pausedTimerDuration != null;
 
         return Row(
           mainAxisSize: MainAxisSize.min,
@@ -83,7 +83,7 @@ class _QualificationControlElementsState
             separator(),
             TextButton(
               onPressed: () {
-                if (widget.activeAgendaItem.timer!.timerStopsAt!
+                if (widget.activeAgendaItem.timer.timerStopsAt!
                     .isAfter(DateTime.now())) {
                   ConfirmationDialog(
                     title: 'Do you really want to show the solution?',

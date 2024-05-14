@@ -15,4 +15,14 @@ class TimerModel {
             ? Duration(seconds: json['pausedTimerDuration'])
             : null,
       );
+
+  static TimerModel get empty => TimerModel(
+        timerStopsAt: null,
+        pausedTimerDuration: null,
+      );
+
+  Map<String, dynamic> toJson() => {
+        'timerStopsAt': timerStopsAt?.millisecondsSinceEpoch,
+        'pausedTimerDuration': pausedTimerDuration?.inSeconds,
+      };
 }

@@ -8,7 +8,7 @@ class AgendaItemModelText extends AgendaItemModel {
   final String imageUrl;
 
   AgendaItemModelText({
-    super.id,
+    required super.id,
     required super.uid,
     required super.orderIndex,
     super.currentlyActive = false,
@@ -23,7 +23,7 @@ class AgendaItemModelText extends AgendaItemModel {
 
   factory AgendaItemModelText.fromJson(
     Map<String, dynamic> json, {
-    String? id,
+    required String id,
   }) =>
       AgendaItemModelText(
         id: id,
@@ -44,4 +44,10 @@ class AgendaItemModelText extends AgendaItemModel {
   String get displayTitle => title;
   @override
   String get displaySubtitle => 'Agenda item #${orderIndex + 1} – Text';
+
+  static Map<String, dynamic> minimalJson = {
+    'title': '',
+    'subtitle': '',
+    'imageUrl': '',
+  };
 }

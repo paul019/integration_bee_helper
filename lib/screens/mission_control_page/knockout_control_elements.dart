@@ -27,11 +27,11 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
     const timerInterval = Duration(milliseconds: 250);
 
     timer = Timer.periodic(timerInterval, (timer) {
-      if (widget.activeAgendaItem.timer?.timerStopsAt == null) {
+      if (widget.activeAgendaItem.timer.timerStopsAt == null) {
         setState(() => timeUp = false);
       } else {
         setState(() => timeUp =
-            widget.activeAgendaItem.timer!.timerStopsAt!.isBefore(DateTime.now()));
+            widget.activeAgendaItem.timer.timerStopsAt!.isBefore(DateTime.now()));
       }
     });
 
@@ -58,7 +58,7 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
         );
       case ProblemPhase.showProblem:
       case ProblemPhase.showSolution:
-        final timerPaused = widget.activeAgendaItem.timer?.pausedTimerDuration == null;
+        final timerPaused = widget.activeAgendaItem.timer.pausedTimerDuration == null;
 
         return Row(
           mainAxisSize: MainAxisSize.min,
@@ -83,7 +83,7 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
             if (widget.activeAgendaItem.phaseIndex == ProblemPhase.showProblem)
               TextButton(
                 onPressed: () {
-                  if (widget.activeAgendaItem.timer!.timerStopsAt!
+                  if (widget.activeAgendaItem.timer.timerStopsAt!
                       .isAfter(DateTime.now())) {
                     ConfirmationDialog(
                       title: 'Do you really want to show the solution?',

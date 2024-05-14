@@ -3,7 +3,7 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type
 
 class AgendaItemModelNotSpecified extends AgendaItemModel {
   AgendaItemModelNotSpecified({
-    super.id,
+    required super.id,
     required super.uid,
     required super.orderIndex,
     super.currentlyActive = false,
@@ -15,7 +15,7 @@ class AgendaItemModelNotSpecified extends AgendaItemModel {
 
   factory AgendaItemModelNotSpecified.fromJson(
     Map<String, dynamic> json, {
-    String? id,
+    required String id,
   }) =>
       AgendaItemModelNotSpecified(
         id: id,
@@ -30,4 +30,16 @@ class AgendaItemModelNotSpecified extends AgendaItemModel {
   String get displayTitle => 'Not specified yet';
   @override
   String get displaySubtitle => 'Agenda item #${orderIndex + 1}';
+
+  static Map<String, dynamic> getJson({
+    required String uid,
+    required int orderIndex,
+    required bool currentlyActive,
+  }) =>
+      {
+        'uid': uid,
+        'orderIndex': orderIndex,
+        'type': AgendaItemType.notSpecified.id,
+        'currentlyActive': currentlyActive,
+      };
 }

@@ -293,8 +293,8 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
               await widget.service.editAgendaItemKnockout(
                 widget.agendaItem,
                 title: title,
-                integralsCodes: integralsCodes,
-                spareIntegralsCodes: spareIntegralsCodes,
+                integralsCodes: integralsCodes.split(','),
+                spareIntegralsCodes: spareIntegralsCodes.split(','),
                 competitor1Name: competitor1Name,
                 competitor2Name: competitor2Name,
                 timeLimitPerIntegral:

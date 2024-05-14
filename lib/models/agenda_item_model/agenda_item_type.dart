@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 
 enum AgendaItemType {
   notSpecified('notSpecified'),
@@ -52,6 +55,19 @@ enum AgendaItemType {
         return 'Qualification round';
       case AgendaItemType.text:
         return 'Text';
+    }
+  }
+
+  Map<String, dynamic> get minimalJson {
+    switch (this) {
+      case AgendaItemType.notSpecified:
+        return {};
+      case AgendaItemType.knockout:
+        return AgendaItemModelKnockout.minimalJson;
+      case AgendaItemType.qualification:
+        return AgendaItemModelQualification.minimalJson;
+      case AgendaItemType.text:
+        return AgendaItemModelText.minimalJson;
     }
   }
 }

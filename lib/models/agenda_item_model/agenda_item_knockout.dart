@@ -1,52 +1,43 @@
-import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_competition.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/score.dart';
 import 'package:integration_bee_helper/models/timer_model.dart';
 
-class AgendaItemModelKnockout extends AgendaItemModel {
+class AgendaItemModelKnockout extends AgendaItemModelCompetition {
   // Static:
-  final List<String> integralsCodes;
-  final List<String> spareIntegralsCodes;
   final String competitor1Name;
   final String competitor2Name;
-  final Duration timeLimitPerIntegral;
-  final Duration timeLimitPerSpareIntegral;
-  final String title;
 
   // Dynamic:
-  final String? currentIntegralCode;
-  final List<Score>? scores;
-  final int? progressIndex; // index of the current integral
-  final ProblemPhase? phaseIndex;
-  final TimerModel? timer;
+  final List<Score> scores;
 
   AgendaItemModelKnockout({
-    super.id,
+    required super.id,
     required super.uid,
     required super.orderIndex,
     super.currentlyActive = false,
     super.finished = false,
     super.status = '',
-    this.title = '',
-    required this.integralsCodes,
-    required this.spareIntegralsCodes,
-    this.currentIntegralCode,
+    super.title = '',
+    required super.integralsCodes,
+    required super.spareIntegralsCodes,
+    super.currentIntegralCode,
     required this.competitor1Name,
     required this.competitor2Name,
-    required this.timeLimitPerIntegral,
-    required this.timeLimitPerSpareIntegral,
-    this.scores,
-    this.progressIndex,
-    this.phaseIndex,
-    this.timer,
+    required super.timeLimitPerIntegral,
+    required super.timeLimitPerSpareIntegral,
+    required this.scores,
+    required super.progressIndex,
+    required super.phaseIndex,
+    required super.timer,
   }) {
     super.type = AgendaItemType.knockout;
   }
 
   factory AgendaItemModelKnockout.fromJson(
     Map<String, dynamic> json, {
-    String? id,
+    required String id,
   }) =>
       AgendaItemModelKnockout(
         id: id,
@@ -67,19 +58,15 @@ class AgendaItemModelKnockout extends AgendaItemModel {
         timeLimitPerIntegral: Duration(seconds: json['timeLimitPerIntegral']),
         timeLimitPerSpareIntegral:
             Duration(seconds: json['timeLimitPerSpareIntegral']),
-        scores: json['scores'] != null
-            ? (json['scores'] as List)
-                .map((v) => Score.fromValue(v))
-                .toList()
-            : null,
+        scores:
+            (json['scores'] as List).map((v) => Score.fromValue(v)).toList(),
         progressIndex: json['progressIndex'],
         phaseIndex: json['phaseIndex'],
-        timer:
-            json['timer'] != null ? TimerModel.fromJson(json['timer']) : null,
+        timer: TimerModel.fromJson(json['timer']),
       );
 
-  int? get competitor1Score => scores?.competitor1Score;
-  int? get competitor2Score => scores?.competitor2Score;
+  int? get competitor1Score => scores.competitor1Score;
+  int? get competitor2Score => scores.competitor2Score;
 
   @override
   String get displayTitle {
@@ -89,6 +76,23 @@ class AgendaItemModelKnockout extends AgendaItemModel {
       return '$competitor1Name vs. $competitor2Name';
     }
   }
+
   @override
-  String get displaySubtitle => 'Agenda item #${orderIndex + 1} – Knockout round';
+  String get displaySubtitle =>
+      'Agenda item #${orderIndex + 1} – Knockout round';
+
+  static Map<String, dynamic> minimalJson = {
+    'integralsCodes': [],
+    'spareIntegralsCodes': [],
+    'competitor1Name': '',
+    'competitor2Name': '',
+    'timeLimitPerIntegral': 5 * 60,
+    'timeLimitPerSpareIntegral': 3 * 60,
+    'title': '',
+    'currentIntegralCode': null,
+    'scores': [],
+    'progressIndex': 0,
+    'phaseIndex': ProblemPhase.idle.value,
+    'timer': TimerModel.empty.toJson(),
+  };
 }

@@ -43,15 +43,15 @@ class _PresentationScreenKnockoutState
 
   String get uid => widget.activeAgendaItem.uid;
   IntegralsService get integralsService => IntegralsService(uid: uid);
-  int get progressIndex => widget.activeAgendaItem.progressIndex!;
-  ProblemPhase get phaseIndex => widget.activeAgendaItem.phaseIndex!;
+  int get progressIndex => widget.activeAgendaItem.progressIndex;
+  ProblemPhase get phaseIndex => widget.activeAgendaItem.phaseIndex;
   List<String> get integralsCodes => widget.activeAgendaItem.integralsCodes;
   List<String> get spareIntegralsCodes =>
       widget.activeAgendaItem.spareIntegralsCodes;
   String? get currentIntegralCode =>
       widget.activeAgendaItem.currentIntegralCode;
   List<Score> get scores {
-    final scores = [...widget.activeAgendaItem.scores!];
+    final scores = [...widget.activeAgendaItem.scores];
 
     if (scores.length < integralsCodes.length) {
       final missing = integralsCodes.length - scores.length;
@@ -72,10 +72,10 @@ class _PresentationScreenKnockoutState
     }
   }
 
-  DateTime? get timerStopsAt => widget.activeAgendaItem.timer?.timerStopsAt;
+  DateTime? get timerStopsAt => widget.activeAgendaItem.timer.timerStopsAt;
 
   Duration? get pausedTimerDuration =>
-      widget.activeAgendaItem.timer?.pausedTimerDuration;
+      widget.activeAgendaItem.timer.pausedTimerDuration;
 
   IntegralModel? get currentIntegral => getIntegral(currentIntegralCode);
   IntegralModel? getIntegral(String? integralCode) {
@@ -88,7 +88,7 @@ class _PresentationScreenKnockoutState
 
   void initialize() async {
     integrals = [];
-    agendaItemId = widget.activeAgendaItem.id!;
+    agendaItemId = widget.activeAgendaItem.id;
 
     for (final code in integralsCodes) {
       final integral = await integralsService.getIntegral(code: code);
@@ -191,7 +191,7 @@ class _PresentationScreenKnockoutState
 
   @override
   Widget build(BuildContext context) {
-    if (agendaItemId != widget.activeAgendaItem.id!) {
+    if (agendaItemId != widget.activeAgendaItem.id) {
       initialize();
     }
 
@@ -210,7 +210,7 @@ class _PresentationScreenKnockoutState
             competitor1Name: widget.activeAgendaItem.competitor1Name,
             competitor2Name: widget.activeAgendaItem.competitor2Name,
             scores: scores,
-            progressIndex: widget.activeAgendaItem.progressIndex!,
+            progressIndex: widget.activeAgendaItem.progressIndex,
             problemName: problemName,
             size: widget.size),
         IntegralView(
