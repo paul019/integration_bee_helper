@@ -7,7 +7,6 @@ extension ManageAgendaItems on AgendaItemsService {
     await AgendaItemModel.collection.add(AgendaItemModelNotSpecified.getJson(
       uid: uid,
       orderIndex: currentAgendaItems.length,
-      currentlyActive: currentAgendaItems.isEmpty,
     ));
   }
 

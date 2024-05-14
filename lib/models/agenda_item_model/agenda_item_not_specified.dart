@@ -34,12 +34,11 @@ class AgendaItemModelNotSpecified extends AgendaItemModel {
   static Map<String, dynamic> getJson({
     required String uid,
     required int orderIndex,
-    required bool currentlyActive,
   }) =>
       {
         'uid': uid,
         'orderIndex': orderIndex,
         'type': AgendaItemType.notSpecified.id,
-        'currentlyActive': currentlyActive,
+        'currentlyActive': false,
       };
 }
