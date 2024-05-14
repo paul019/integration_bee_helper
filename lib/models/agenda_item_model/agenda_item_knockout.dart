@@ -2,7 +2,7 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_comp
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/score.dart';
-import 'package:integration_bee_helper/models/timer_model.dart';
+import 'package:integration_bee_helper/models/basic_models/timer_model.dart';
 
 class AgendaItemModelKnockout extends AgendaItemModelCompetition {
   // Static:

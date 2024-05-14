@@ -243,8 +243,8 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
               await widget.service.editAgendaItemQualification(
                 widget.agendaItem,
                 title: title,
-                integralsCodes: integralsCodes,
-                spareIntegralsCodes: spareIntegralsCodes,
+                integralsCodes: integralsCodes.split(','),
+                spareIntegralsCodes: spareIntegralsCodes.split(','),
                 timeLimitPerIntegral:
                     Duration(seconds: int.parse(timeLimitPerIntegral)),
                 timeLimitPerSpareIntegral:
