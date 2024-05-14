@@ -11,10 +11,24 @@ extension ManageAgendaItems on AgendaItemsService {
     ));
   }
 
+  bool canDeleteAgendaItem(
+    AgendaItemModel agendaItem, {
+    required List<AgendaItemModel> currentAgendaItems,
+  }) {
+    return !agendaItem.currentlyActive;
+  }
+
   Future deleteAgendaItem(
     AgendaItemModel agendaItem, {
     required List<AgendaItemModel> currentAgendaItems,
   }) async {
+    if (!canDeleteAgendaItem(
+      agendaItem,
+      currentAgendaItems: currentAgendaItems,
+    )) {
+      throw Exception();
+    }
+
     final batch = _firestore.batch();
 
     // Delete agenda item:
@@ -51,16 +65,27 @@ extension ManageAgendaItems on AgendaItemsService {
     await batch.commit();
   }
 
+  bool canRaiseAgendaItem(
+    AgendaItemModel agendaItem, {
+    required List<AgendaItemModel> currentAgendaItems,
+  }) {
+    return agendaItem.orderIndex > 0 &&
+        !agendaItem.activeOrFinished &&
+        !currentAgendaItems[agendaItem.orderIndex - 1].activeOrFinished;
+  }
+
   Future<bool> raiseAgendaItem(
     AgendaItemModel agendaItem, {
     required List<AgendaItemModel> currentAgendaItems,
   }) async {
-    final i = agendaItem.orderIndex;
-
-    if (i == 0) {
-      return false;
+    if (!canRaiseAgendaItem(
+      agendaItem,
+      currentAgendaItems: currentAgendaItems,
+    )) {
+      throw Exception();
     }
 
+    final i = agendaItem.orderIndex;
     final batch = _firestore.batch();
 
     batch.update(
@@ -76,16 +101,27 @@ extension ManageAgendaItems on AgendaItemsService {
     return true;
   }
 
+  bool canLowerAgendaItem(
+    AgendaItemModel agendaItem, {
+    required List<AgendaItemModel> currentAgendaItems,
+  }) {
+    return agendaItem.orderIndex < currentAgendaItems.length - 1 &&
+        !agendaItem.activeOrFinished &&
+        !currentAgendaItems[agendaItem.orderIndex + 1].activeOrFinished;
+  }
+
   Future<bool> lowerAgendaItem(
     AgendaItemModel agendaItem, {
     required List<AgendaItemModel> currentAgendaItems,
   }) async {
-    final i = agendaItem.orderIndex;
-
-    if (i == currentAgendaItems.length - 1) {
-      return false;
+    if (!canLowerAgendaItem(
+      agendaItem,
+      currentAgendaItems: currentAgendaItems,
+    )) {
+      throw Exception();
     }
 
+    final i = agendaItem.orderIndex;
     final batch = _firestore.batch();
 
     batch.update(
@@ -102,7 +138,7 @@ extension ManageAgendaItems on AgendaItemsService {
   }
 
   Future setAgendaItemType(
-    AgendaItemModel agendaItem,
+    AgendaItemModelNotSpecified agendaItem,
     AgendaItemType type,
   ) async {
     await agendaItem.reference.update(type.minimalJson);

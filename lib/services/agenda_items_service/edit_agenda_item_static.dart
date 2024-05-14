@@ -50,6 +50,10 @@ extension EditAgendaItemStatic on AgendaItemsService {
       title: title,
     );
 
+    if (integralsCodes.length > 1) {
+      throw Exception('Qualification can have only one integral');
+    }
+
     await agendaItem.reference.update({
       'integralsCodes': integralsCodes,
       'spareIntegralsCodes': spareIntegralsCodes,
@@ -76,7 +80,7 @@ extension EditAgendaItemStatic on AgendaItemsService {
 
   void _checkGeneralAgendaItemEdit(AgendaItemModel agendaItem) {
     // Make sure, agenda item is not finished
-    if(agendaItem.finished) {
+    if (agendaItem.finished) {
       throw Exception('Cannot edit finished agenda item');
     }
   }
@@ -90,39 +94,47 @@ extension EditAgendaItemStatic on AgendaItemsService {
     required String title,
   }) async {
     // Make sure, already used integrals are not edited:
-    if(agendaItem.currentlyActive) {
-      for(int i=0; i<agendaItem.integralsProgress; i++) {
-        if(agendaItem.integralsCodes[i] != integralsCodes[i]) {
+    if (agendaItem.currentlyActive) {
+      for (int i = 0; i <= agendaItem.integralsProgress; i++) {
+        if (integralsCodes.length <= i) {
+          throw Exception('Cannot edit already used integrals');
+        }
+        if (agendaItem.integralsCodes[i] != integralsCodes[i]) {
           throw Exception('Cannot edit already used integrals');
         }
       }
-      for(int i=0; i<agendaItem.spareIntegralsProgress; i++) {
-        if(agendaItem.spareIntegralsCodes[i] != spareIntegralsCodes[i]) {
-          throw Exception('Cannot edit already used spare integrals');
+      if(agendaItem.spareIntegralsProgress > -1) {  // if spare integrals are already used
+        if(integralsCodes.length > agendaItem.integralsCodes.length) {
+          throw Exception('Cannot add new integrals when spare integrals are already used');
         }
       }
     }
 
     // Make sure, time limits are not negative:
-    if(timeLimitPerIntegral.isNegative || timeLimitPerSpareIntegral.isNegative) {
+    if (timeLimitPerIntegral.isNegative ||
+        timeLimitPerSpareIntegral.isNegative) {
       throw Exception('Time limits cannot be negative');
     }
 
     // Check integral codes:
-    final currentIntegralCodes = agendaItem.integralsCodes.toSet().union(agendaItem.spareIntegralsCodes.toSet());
-    final editedIntegralCodes = integralsCodes.toSet().union(spareIntegralsCodes.toSet());
-    final newIntegralCodes = editedIntegralCodes.difference(currentIntegralCodes);
+    final currentIntegralCodes = agendaItem.integralsCodes
+        .toSet()
+        .union(agendaItem.spareIntegralsCodes.toSet());
+    final editedIntegralCodes =
+        integralsCodes.toSet().union(spareIntegralsCodes.toSet());
+    final newIntegralCodes =
+        editedIntegralCodes.difference(currentIntegralCodes);
 
     // Make sure, integral codes are not doubled:
-    if(currentIntegralCodes.toSet().length != currentIntegralCodes.length) {
+    if (currentIntegralCodes.toSet().length != currentIntegralCodes.length) {
       throw Exception('Integral codes cannot be doubled');
     }
 
     // Make sure, new integral codes exist:
-    for(String integralCode in newIntegralCodes) {
+    for (String integralCode in newIntegralCodes) {
       try {
         await integralsService.getIntegral(code: integralCode);
-      } catch(err) {
+      } catch (err) {
         throw Exception('Integral with code $integralCode does not exist');
       }
     }

@@ -74,6 +74,14 @@ class AgendaItemsService {
     return _agendaItemListFromFirebase(activeItems);
   }
 
+
+
+
+
+
+
+  
+
   void _resetAgendaItem(AgendaItemModel agendaItem, WriteBatch batch) async {
     switch (agendaItem.type) {
       case AgendaItemType.text:

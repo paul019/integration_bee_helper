@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_not_specified.dart';
@@ -71,21 +72,21 @@ class AgendaItemCard extends StatelessWidget {
                     children: [
                       IconButton(
                         onPressed: () {
-                          if (agendaItem.type == AgendaItemType.notSpecified) {
-                            service.deleteAgendaItem(
-                              agendaItem,
-                              currentAgendaItems: agendaItems,
-                            );
-                            return;
-                          }
-
                           ConfirmationDialog(
+                            bypassConfirmation:
+                                agendaItem.type == AgendaItemType.notSpecified,
                             title:
                                 'Do you really want to delete this agenda item?',
-                            payload: () => service.deleteAgendaItem(
-                              agendaItem,
-                              currentAgendaItems: agendaItems,
-                            ),
+                            payload: () {
+                              try {
+                                service.deleteAgendaItem(
+                                  agendaItem,
+                                  currentAgendaItems: agendaItems,
+                                );
+                              } on Exception catch (e) {
+                                e.show(context);
+                              }
+                            },
                           ).launch(context);
                         },
                         icon: const Icon(Icons.delete),
@@ -104,19 +105,27 @@ class AgendaItemCard extends StatelessWidget {
                       Flexible(child: Container()),
                       IconButton(
                         onPressed: () {
-                          service.raiseAgendaItem(
-                            agendaItem,
-                            currentAgendaItems: agendaItems,
-                          );
+                          try {
+                            service.raiseAgendaItem(
+                              agendaItem,
+                              currentAgendaItems: agendaItems,
+                            );
+                          } on Exception catch (e) {
+                            e.show(context);
+                          }
                         },
                         icon: const Icon(Icons.arrow_upward),
                       ),
                       IconButton(
                         onPressed: () {
-                          service.lowerAgendaItem(
-                            agendaItem,
-                            currentAgendaItems: agendaItems,
-                          );
+                          try {
+                            service.lowerAgendaItem(
+                              agendaItem,
+                              currentAgendaItems: agendaItems,
+                            );
+                          } on Exception catch (e) {
+                            e.show(context);
+                          }
                         },
                         icon: const Icon(Icons.arrow_downward),
                       ),
