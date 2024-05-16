@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
-import 'package:integration_bee_helper/services/latex_transformer.dart';
+import 'package:integration_bee_helper/services/basic_services/latex_transformer.dart';
 
 class IntegralView extends StatelessWidget {
   final IntegralModel? currentIntegral;

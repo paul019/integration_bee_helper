@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:integration_bee_helper/services/auth_service.dart';
+import 'package:integration_bee_helper/services/basic_services/auth_service.dart';
 import 'package:integration_bee_helper/widgets/max_width_wrapper.dart';
 
 class AuthScreen extends StatefulWidget {

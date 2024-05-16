@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_level.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
-import 'package:integration_bee_helper/services/integrals_service.dart';
-import 'package:integration_bee_helper/services/latex_transformer.dart';
+import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
+import 'package:integration_bee_helper/services/basic_services/latex_transformer.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 

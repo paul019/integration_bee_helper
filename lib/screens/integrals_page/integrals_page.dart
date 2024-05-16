@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/screens/integrals_page/integral_card.dart';
-import 'package:integration_bee_helper/services/integrals_service.dart';
+import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
 import 'package:integration_bee_helper/widgets/loading_screen.dart';
 import 'package:integration_bee_helper/widgets/max_width_wrapper.dart';
 import 'package:provider/provider.dart';

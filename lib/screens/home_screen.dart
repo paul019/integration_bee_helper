@@ -3,7 +3,7 @@ import 'package:integration_bee_helper/screens/competition_planner_page/competit
 import 'package:integration_bee_helper/screens/integrals_page/integrals_page.dart';
 import 'package:integration_bee_helper/screens/mission_control_page/mission_control_page.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_wrapper.dart';
-import 'package:integration_bee_helper/services/auth_service.dart';
+import 'package:integration_bee_helper/services/basic_services/auth_service.dart';
 
 class PageInfo {
   final String title;

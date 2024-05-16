@@ -6,7 +6,7 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/basic_models/timer_model.dart';
-import 'package:integration_bee_helper/services/integrals_service.dart';
+import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
 
 abstract class AgendaItemModelCompetition extends AgendaItemModel {
   // Static:

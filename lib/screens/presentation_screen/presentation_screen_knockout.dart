@@ -11,7 +11,7 @@ import 'package:integration_bee_helper/screens/presentation_screen/integral_view
 import 'package:integration_bee_helper/screens/presentation_screen/score_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/timer_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/title_view.dart';
-import 'package:integration_bee_helper/services/integrals_service.dart';
+import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
 import 'package:just_audio/just_audio.dart';
 
 class PresentationScreenKnockout extends StatefulWidget {
