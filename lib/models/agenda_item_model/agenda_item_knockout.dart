@@ -5,6 +5,7 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/score.dart';
 import 'package:integration_bee_helper/models/basic_models/timer_model.dart';
+import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
 
 class AgendaItemModelKnockout extends AgendaItemModelCompetition {
   // Static:
@@ -202,6 +203,9 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
 
     // Add score element:
     scores.add(Score.notSetYet);
+
+    // Set next integral to used:
+    await IntegralsService().setIntegralToUsed(nextIntegralCode);
 
     await reference.update({
       'scores': scores,

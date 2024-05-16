@@ -219,12 +219,14 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
     return finalList;
   }
 
-  Future startNextSpareIntegral(String spareIntegralsCode) async {
+  Future startNextSpareIntegral(String spareIntegralCode) async {
+    await IntegralsService().setIntegralToUsed(spareIntegralCode);
+
     await reference.update({
       'spareIntegralsProgress': (spareIntegralsProgress ?? -1) + 1,
       'problemPhase': ProblemPhase.idle.value,
       'timer': null,
-      'currentIntegralCode': spareIntegralsCode,
+      'currentIntegralCode': spareIntegralCode,
     });
   }
 }

@@ -151,7 +151,9 @@ class IntegralsService {
     });
   }
 
-  Future setIntegralToUsed(IntegralModel integral) async {
+  Future setIntegralToUsed(String code) async {
+    final integral = await getIntegral(code: code);
+
     await integral.reference.update({
       'alreadyUsed': true,
     });
