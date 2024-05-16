@@ -148,6 +148,8 @@ extension ManageAgendaItems on AgendaItemsService {
   }) async {
     final batch = _firestore.batch();
 
+    await IntegralsService().resetUsedIntegrals(batch);
+
     for (final item in currentAgendaItems) {
       item.reset(batch);
     }

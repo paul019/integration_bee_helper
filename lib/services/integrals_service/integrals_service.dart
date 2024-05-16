@@ -68,6 +68,16 @@ class IntegralsService {
     return _integralFromFirebase(response.docs.first)!;
   }
 
+  Future<List<IntegralModel>> getUsedIntegrals() async {
+    final response = await _firestore
+        .collection('integrals')
+        .where('uid', isEqualTo: _uid)
+        .where('alreadyUsed', isEqualTo: true)
+        .get();
+
+    return _integralListFromFirebase(response);
+  }
+
   Future<List<IntegralModel>> getUnusedIntegrals() async {
     final response = await _firestore
         .collection('integrals')
@@ -147,9 +157,11 @@ class IntegralsService {
     });
   }
 
-  Future resetUsedIntegrals(List<IntegralModel> integrals) async {
+  Future resetUsedIntegrals(WriteBatch batch) async {
+    final integrals = await getUsedIntegrals();
+
     for (var integral in integrals) {
-      await integral.reference.update({
+      batch.update(integral.reference, {
         'alreadyUsed': false,
       });
     }
