@@ -26,11 +26,6 @@ class AgendaItemModelNotSpecified extends AgendaItemModel {
         status: json['status'] ?? '',
       );
 
-  @override
-  String get displayTitle => 'Not specified yet';
-  @override
-  String get displaySubtitle => 'Agenda item #${orderIndex + 1}';
-
   static Map<String, dynamic> getJson({
     required String uid,
     required int orderIndex,
@@ -41,4 +36,14 @@ class AgendaItemModelNotSpecified extends AgendaItemModel {
         'type': AgendaItemType.notSpecified.id,
         'currentlyActive': false,
       };
+
+  // Getters:
+  @override
+  String get displayTitle => 'Not specified yet';
+  @override
+  String get displaySubtitle => 'Agenda item #${orderIndex + 1}';
+
+  // Database operations:
+  @override
+  Future<void> editStatic() async {}
 }

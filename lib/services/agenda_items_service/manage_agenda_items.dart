@@ -5,7 +5,7 @@ extension ManageAgendaItems on AgendaItemsService {
     required List<AgendaItemModel> currentAgendaItems,
   }) async {
     await AgendaItemModel.collection.add(AgendaItemModelNotSpecified.getJson(
-      uid: uid,
+      uid:  AgendaItemsService()._uid,
       orderIndex: currentAgendaItems.length,
     ));
   }
@@ -28,7 +28,7 @@ extension ManageAgendaItems on AgendaItemsService {
       throw Exception();
     }
 
-    final batch = _firestore.batch();
+    final batch =  AgendaItemsService()._firestore.batch();
 
     // Delete agenda item:
     batch.delete(agendaItem.reference);
@@ -85,7 +85,7 @@ extension ManageAgendaItems on AgendaItemsService {
     }
 
     final i = agendaItem.orderIndex;
-    final batch = _firestore.batch();
+    final batch =  AgendaItemsService()._firestore.batch();
 
     batch.update(
       currentAgendaItems[i - 1].reference,
@@ -121,7 +121,7 @@ extension ManageAgendaItems on AgendaItemsService {
     }
 
     final i = agendaItem.orderIndex;
-    final batch = _firestore.batch();
+    final batch =  AgendaItemsService()._firestore.batch();
 
     batch.update(
       currentAgendaItems[i + 1].reference,

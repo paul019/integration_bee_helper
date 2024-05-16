@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
@@ -13,12 +12,9 @@ class UsedIntegralsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authModel = Provider.of<User?>(context)!;
-    final service = IntegralsService(uid: authModel.uid);
-
     return StreamProvider<List<IntegralModel>?>.value(
       initialData: null,
-      value: service.onUsedIntegralsChanged,
+      value:  IntegralsService().onUsedIntegralsChanged,
       builder: (context, snapshot) {
         final integrals = Provider.of<List<IntegralModel>?>(context);
         final integralCodes = integrals?.map((e) => e.code).toList();
@@ -56,7 +52,7 @@ class UsedIntegralsCard extends StatelessWidget {
                               title: 'Do you really want to reset this list?',
                               description: 'Spare integrals will be re-used.',
                               payload: () =>
-                                  service.resetUsedIntegrals(integrals),
+                                   IntegralsService().resetUsedIntegrals(integrals),
                             ).launch(context);
                           }
                         : null,

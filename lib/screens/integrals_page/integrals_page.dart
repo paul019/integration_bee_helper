@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/screens/integrals_page/integral_card.dart';
@@ -17,12 +16,9 @@ class IntegralsPage extends StatefulWidget {
 class _IntegralsPageState extends State<IntegralsPage> {
   @override
   Widget build(BuildContext context) {
-    final authModel = Provider.of<User?>(context)!;
-    final service = IntegralsService(uid: authModel.uid);
-
     return StreamProvider<List<IntegralModel>?>.value(
         initialData: null,
-        value: service.onIntegralsChanged,
+        value:  IntegralsService().onIntegralsChanged,
         builder: (context, snapshot) {
           final integrals = Provider.of<List<IntegralModel>?>(context);
 
@@ -32,7 +28,7 @@ class _IntegralsPageState extends State<IntegralsPage> {
 
           return Scaffold(
             floatingActionButton: FloatingActionButton(
-              onPressed: () => service.addIntegral(currentIntegrals: integrals),
+              onPressed: () =>  IntegralsService().addIntegral(currentIntegrals: integrals),
               child: const Icon(Icons.add),
             ),
             body: ListView.builder(
@@ -43,7 +39,6 @@ class _IntegralsPageState extends State<IntegralsPage> {
                 return MaxWidthWrapper(
                   child: IntegralCard(
                     integral: integral,
-                    service: service,
                   ),
                 );
               },

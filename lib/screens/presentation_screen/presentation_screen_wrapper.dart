@@ -1,6 +1,5 @@
 import 'dart:html';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen.dart';
@@ -30,9 +29,6 @@ class _PresentationScreenWrapperState extends State<PresentationScreenWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    final authModel = Provider.of<User?>(context)!;
-    final service = AgendaItemsService(uid: authModel.uid);
-
     FocusScope.of(context).requestFocus(focusNode);
 
     if (!hasShownSnackbar) {
@@ -50,7 +46,7 @@ class _PresentationScreenWrapperState extends State<PresentationScreenWrapper> {
     return Scaffold(
       body: StreamProvider<List<AgendaItemModel>?>.value(
         initialData: null,
-        value: service.onActiveAgendaItemChanged,
+        value:  AgendaItemsService().onActiveAgendaItemChanged,
         builder: (context, snapshot) {
           final agendaItems = Provider.of<List<AgendaItemModel>?>(context);
           final activeAgendaItem = agendaItems == null

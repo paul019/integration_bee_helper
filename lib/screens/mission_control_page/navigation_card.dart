@@ -1,9 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
-import 'package:provider/provider.dart';
 
 class NavigationCard extends StatelessWidget {
   final AgendaItemModel? activeAgendaItem;
@@ -12,9 +11,6 @@ class NavigationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authModel = Provider.of<User?>(context)!;
-    final service = AgendaItemsService(uid: authModel.uid);
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -28,7 +24,13 @@ class NavigationCard extends StatelessWidget {
                     ? () {
                         ConfirmationDialog(
                           title: 'Do you really want to go back?',
-                          payload: () => service.goBack(activeAgendaItem!),
+                          payload: () {
+                            try {
+                              AgendaItemsService().goBack(activeAgendaItem!);
+                            } on Exception catch (e) {
+                              e.show(context);
+                            }
+                          },
                         ).launch(context);
                       }
                     : null,
@@ -59,15 +61,17 @@ class NavigationCard extends StatelessWidget {
               IconButton(
                 onPressed: activeAgendaItem?.orderIndex != null
                     ? () {
-                        if (activeAgendaItem!.finished) {
-                          service.goForward(activeAgendaItem!);
-                          return;
-                        }
-
                         ConfirmationDialog(
+                          bypassConfirmation: activeAgendaItem!.finished,
                           title:
                               'The current agenda item is not finished yet. Do you want to go forward anyway?',
-                          payload: () => service.goForward(activeAgendaItem!),
+                          payload: () {
+                            try {
+                              AgendaItemsService().goBack(activeAgendaItem!);
+                            } on Exception catch (e) {
+                              e.show(context);
+                            }
+                          },
                         ).launch(context);
                       }
                     : null,

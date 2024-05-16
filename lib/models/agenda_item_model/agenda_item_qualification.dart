@@ -1,3 +1,4 @@
+import 'package:integration_bee_helper/extensions/map_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_competition.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
@@ -50,12 +51,6 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
         timer: TimerModel.fromJson(json['timer']),
       );
 
-  @override
-  String get displayTitle => title != '' ? title : 'Qualification round';
-  @override
-  String get displaySubtitle =>
-      'Agenda item #${orderIndex + 1} – Qualification round';
-
   static Map<String, dynamic> minimalJson = {
     'integralsCodes': [],
     'spareIntegralsCodes': [],
@@ -67,4 +62,57 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
     'phaseIndex': ProblemPhase.idle.value,
     'timer': TimerModel.empty.toJson(),
   };
+
+  // Getters:
+  @override
+  String get displayTitle => title != '' ? title : 'Qualification round';
+  @override
+  String get displaySubtitle =>
+      'Agenda item #${orderIndex + 1} – Qualification round';
+
+  // Database operations:
+  @override
+  Future<void> checkEdit({
+    List<String>? integralsCodes,
+    List<String>? spareIntegralsCodes,
+    Duration? timeLimitPerIntegral,
+    Duration? timeLimitPerSpareIntegral,
+    String? title,
+  }) async {
+    await super.checkEdit();
+
+    // integralsCodes
+
+    // Make sure, there is only one integral:
+    if (integralsCodes != null) {
+      if (integralsCodes.length > 1) {
+        throw Exception('Qualification can have only one integral');
+      }
+    }
+  }
+
+  @override
+  Future<void> editStatic({
+    List<String>? integralsCodes,
+    List<String>? spareIntegralsCodes,
+    Duration? timeLimitPerIntegral,
+    Duration? timeLimitPerSpareIntegral,
+    String? title,
+  }) async {
+    await checkEdit(
+      integralsCodes: integralsCodes,
+      spareIntegralsCodes: spareIntegralsCodes,
+      timeLimitPerIntegral: timeLimitPerIntegral,
+      timeLimitPerSpareIntegral: timeLimitPerSpareIntegral,
+      title: title,
+    );
+
+    await reference.update({
+      'integralsCodes': integralsCodes,
+      'spareIntegralsCodes': spareIntegralsCodes,
+      'timeLimitPerIntegral': timeLimitPerIntegral?.inSeconds,
+      'timeLimitPerSpareIntegral': timeLimitPerSpareIntegral?.inSeconds,
+      'title': title,
+    }.deleteNullEntries());
+  }
 }

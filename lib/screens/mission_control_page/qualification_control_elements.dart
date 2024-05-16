@@ -1,12 +1,10 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
-import 'package:provider/provider.dart';
 
 class QualificationControlElements extends StatefulWidget {
   final AgendaItemModelQualification activeAgendaItem;
@@ -48,14 +46,11 @@ class _QualificationControlElementsState
 
   @override
   Widget build(BuildContext context) {
-    final authModel = Provider.of<User?>(context)!;
-    final service = AgendaItemsService(uid: authModel.uid);
-
     switch (widget.activeAgendaItem.phaseIndex) {
       case ProblemPhase.idle:
         return TextButton(
           onPressed: () =>
-              service.knockoutRound_startIntegral(widget.activeAgendaItem),
+               AgendaItemsService().knockoutRound_startIntegral(widget.activeAgendaItem),
           child: const Text('Start!'),
         );
       case ProblemPhase.showProblem:
@@ -69,10 +64,10 @@ class _QualificationControlElementsState
                   ? null
                   : () {
                       if (timerPaused) {
-                        service
+                        AgendaItemsService()
                             .knockoutRound_resumeTimer(widget.activeAgendaItem);
                       } else {
-                        service
+                        AgendaItemsService()
                             .knockoutRound_pauseTimer(widget.activeAgendaItem);
                       }
                     },
@@ -87,11 +82,11 @@ class _QualificationControlElementsState
                     .isAfter(DateTime.now())) {
                   ConfirmationDialog(
                     title: 'Do you really want to show the solution?',
-                    payload: () => service.qualificationRound_showSolution(
+                    payload: () =>  AgendaItemsService().qualificationRound_showSolution(
                         widget.activeAgendaItem),
                   ).launch(context);
                 } else {
-                  service.knockoutRound_showSolution(widget.activeAgendaItem);
+                   AgendaItemsService().knockoutRound_showSolution(widget.activeAgendaItem);
                 }
               },
               child: const Text('Show solution'),
@@ -110,7 +105,7 @@ class _QualificationControlElementsState
             children: [
               TextButton(
                 onPressed: () async {
-                  final success = await service
+                  final success = await AgendaItemsService()
                       .qualificationRound_nextIntegral(widget.activeAgendaItem);
 
                   if (!success && context.mounted) {
@@ -137,7 +132,7 @@ class _QualificationControlElementsState
                   ConfirmationDialog(
                     title:
                         'Do you really want to finish this qualification round?',
-                    payload: () => service
+                    payload: () => AgendaItemsService()
                         .qualificationRound_finish(widget.activeAgendaItem),
                   ).launch(context);
                 },

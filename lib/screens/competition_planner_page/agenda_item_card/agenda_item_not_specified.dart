@@ -5,12 +5,10 @@ import 'package:integration_bee_helper/services/agenda_items_service/agenda_item
 
 class AgendaItemNotSpecified extends StatelessWidget {
   final AgendaItemModelNotSpecified agendaItem;
-  final AgendaItemsService service;
 
   const AgendaItemNotSpecified({
     super.key,
     required this.agendaItem,
-    required this.service,
   });
 
   @override
@@ -24,7 +22,7 @@ class AgendaItemNotSpecified extends StatelessWidget {
             height: 150,
             child: InkWell(
               onTap: () {
-                service.setAgendaItemType(agendaItem, type);
+                 AgendaItemsService().setAgendaItemType(agendaItem, type);
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,

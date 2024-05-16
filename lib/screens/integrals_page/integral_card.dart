@@ -9,12 +9,10 @@ import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 
 class IntegralCard extends StatefulWidget {
   final IntegralModel integral;
-  final IntegralsService service;
 
   const IntegralCard({
     super.key,
     required this.integral,
-    required this.service,
   });
 
   @override
@@ -107,7 +105,7 @@ class _IntegralCardState extends State<IntegralCard> {
                       IconButton(
                         onPressed: () {
                           if (latexProblem == "" && latexSolution == "") {
-                            widget.service.deleteIntegral(widget.integral);
+                             IntegralsService().deleteIntegral(widget.integral);
                             return;
                           }
 
@@ -115,7 +113,7 @@ class _IntegralCardState extends State<IntegralCard> {
                             title:
                                 'Do you really want to delete this integral?',
                             payload: () =>
-                                widget.service.deleteIntegral(widget.integral),
+                                 IntegralsService().deleteIntegral(widget.integral),
                           ).launch(context);
                         },
                         icon: const Icon(Icons.delete),
@@ -234,7 +232,7 @@ class _IntegralCardState extends State<IntegralCard> {
                     });
                   },
                   onSave: () async {
-                    await widget.service.editIntegral(
+                    await  IntegralsService().editIntegral(
                       widget.integral,
                       latexProblem: latexProblem,
                       latexSolution: latexSolution,

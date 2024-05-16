@@ -1,3 +1,4 @@
+import 'package:integration_bee_helper/extensions/map_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 
@@ -37,6 +38,13 @@ class AgendaItemModelText extends AgendaItemModel {
         imageUrl: json['imageUrl'],
       );
 
+  static Map<String, dynamic> minimalJson = {
+    'title': '',
+    'subtitle': '',
+    'imageUrl': '',
+  };
+
+  // Getters:
   bool get hasTitle => title != '' || subtitle != '';
   bool get hasImage => imageUrl != '';
 
@@ -45,9 +53,19 @@ class AgendaItemModelText extends AgendaItemModel {
   @override
   String get displaySubtitle => 'Agenda item #${orderIndex + 1} – Text';
 
-  static Map<String, dynamic> minimalJson = {
-    'title': '',
-    'subtitle': '',
-    'imageUrl': '',
-  };
+  // Database operations:
+  @override
+  Future<void> editStatic({
+    String? title,
+    String? subtitle,
+    String? imageUrl,
+  }) async {
+    await checkEdit();
+
+    await reference.update({
+      'title': title,
+      'subtitle': subtitle,
+      'imageUrl': imageUrl,
+    }.deleteNullEntries());
+  }
 }

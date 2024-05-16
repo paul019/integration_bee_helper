@@ -1,24 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:integration_bee_helper/extensions/map_extension.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_competition.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_not_specified.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
+import 'package:integration_bee_helper/models/basic_models/timer_model.dart';
 import 'package:integration_bee_helper/services/integrals_service.dart';
 
 part 'manage_agenda_items.dart';
-part 'edit_agenda_item_static.dart';
 part 'edit_agenda_item_dynamic.dart';
 
 class AgendaItemsService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final String uid;
-  IntegralsService get integralsService => IntegralsService(uid: uid);
-
-  AgendaItemsService({required this.uid});
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  String get _uid => _firebaseAuth.currentUser!.uid;
 
   AgendaItemModel? _agendaItemFromFirebase(
     DocumentSnapshot<Map<String, dynamic>> doc,
@@ -49,7 +46,7 @@ class AgendaItemsService {
   Stream<List<AgendaItemModel>> get onAgendaItemsChanged {
     return _firestore
         .collection('agendaItems')
-        .where('uid', isEqualTo: uid)
+        .where('uid', isEqualTo: _uid)
         .orderBy('orderIndex')
         .snapshots()
         .map(_agendaItemListFromFirebase);
@@ -58,162 +55,39 @@ class AgendaItemsService {
   Stream<List<AgendaItemModel>> get onActiveAgendaItemChanged {
     return _firestore
         .collection('agendaItems')
-        .where('uid', isEqualTo: uid)
+        .where('uid', isEqualTo: _uid)
         .where('currentlyActive', isEqualTo: true)
         .limit(1)
         .snapshots()
         .map(_agendaItemListFromFirebase);
   }
 
-  Future<List<AgendaItemModel>> getActiveAgendaItems() async {
+  Future<AgendaItemModel?> getActiveAgendaItem() async {
     final activeItems = await _firestore
         .collection('agendaItems')
-        .where('uid', isEqualTo: uid)
+        .where('uid', isEqualTo: _uid)
         .where('currentlyActive', isEqualTo: true)
+        .limit(1)
         .get();
 
-    return _agendaItemListFromFirebase(activeItems);
+    return _agendaItemListFromFirebase(activeItems).firstOrNull;
   }
 
+  Future<AgendaItemModel?> getAgendaItemFromOrderIndex(int orderIndex) async {
+    final activeItems = await _firestore
+        .collection('agendaItems')
+        .where('uid', isEqualTo: _uid)
+        .where('orderIndex', isEqualTo: orderIndex)
+        .limit(1)
+        .get();
 
-
+    return _agendaItemListFromFirebase(activeItems).firstOrNull;
+  }
 
 
 
 
   
-
-  void _resetAgendaItem(AgendaItemModel agendaItem, WriteBatch batch) async {
-    switch (agendaItem.type) {
-      case AgendaItemType.text:
-        batch.update(agendaItem.reference, {
-          'currentlyActive': false,
-          'finished': false,
-          'status': '',
-        });
-      case AgendaItemType.knockout:
-        batch.update(agendaItem.reference, {
-          'currentlyActive': false,
-          'finished': false,
-          'status': '',
-          'scores': null,
-          'progressIndex': null,
-          'phaseIndex': null,
-          'timerStopsAt': null,
-          'pausedTimerDuration': null,
-          'currentIntegralCode': null,
-        });
-        break;
-      case AgendaItemType.qualification:
-        batch.update(agendaItem.reference, {
-          'currentlyActive': false,
-          'finished': false,
-          'status': '',
-          'progressIndex': null,
-          'phaseIndex': null,
-          'timerStopsAt': null,
-          'pausedTimerDuration': null,
-          'currentIntegralCode': null,
-        });
-        break;
-      case AgendaItemType.notSpecified:
-        batch.update(agendaItem.reference, {
-          'currentlyActive': false,
-          'finished': false,
-          'status': '',
-        });
-        break;
-    }
-  }
-
-  Future _startAgendaItem(AgendaItemModel agendaItem, WriteBatch batch) async {
-    switch (agendaItem.type) {
-      case AgendaItemType.text:
-        batch.update(agendaItem.reference, {
-          'currentlyActive': true,
-          'finished': true,
-          'status': '',
-        });
-        break;
-      case AgendaItemType.knockout:
-        batch.update(agendaItem.reference, {
-          'currentlyActive': true,
-          'finished': false,
-          'status': '',
-          'scores': [-1],
-          'progressIndex': 0,
-          'phaseIndex': 0,
-          'timerStopsAt': null,
-          'pausedTimerDuration': null,
-          'currentIntegralCode': agendaItem.integralsCodes?.firstOrNull,
-        });
-        break;
-      case AgendaItemType.qualification:
-        batch.update(agendaItem.reference, {
-          'currentlyActive': true,
-          'finished': false,
-          'status': '',
-          'progressIndex': 0,
-          'phaseIndex': 0,
-          'timerStopsAt': null,
-          'pausedTimerDuration': null,
-          'currentIntegralCode': agendaItem.integralsCodes?.firstOrNull,
-        });
-        break;
-      case AgendaItemType.notSpecified:
-        batch.update(agendaItem.reference, {
-          'currentlyActive': true,
-          'finished': true,
-          'status': '',
-        });
-        break;
-    }
-  }
-
-  Future forceStartAgendaItem(AgendaItemModel agendaItem) async {
-    final batch = _firestore.batch();
-
-    // Deactivate currently active items:
-    final activeItems = await getActiveAgendaItems();
-    for (var item in activeItems) {
-      _resetAgendaItem(item, batch);
-    }
-
-    // Start new item:
-    _startAgendaItem(agendaItem, batch);
-
-    await batch.commit();
-  }
-
-  Future goBack(AgendaItemModel currentAgendaItem) async {
-    final result = await AgendaItemModel.collection
-        .where('uid', isEqualTo: uid)
-        .where('orderIndex', isEqualTo: currentAgendaItem.orderIndex - 1)
-        .limit(1)
-        .get();
-    final previousAgendaItem = _agendaItemFromFirebase(result.docs.first)!;
-
-    final batch = _firestore.batch();
-    _resetAgendaItem(currentAgendaItem, batch);
-    _startAgendaItem(previousAgendaItem, batch);
-    await batch.commit();
-  }
-
-  Future goForward(AgendaItemModel currentAgendaItem) async {
-    final result = await AgendaItemModel.collection
-        .where('uid', isEqualTo: uid)
-        .where('orderIndex', isEqualTo: currentAgendaItem.orderIndex + 1)
-        .limit(1)
-        .get();
-
-    if (result.docs.isNotEmpty) {
-      final batch = _firestore.batch();
-      _resetAgendaItem(currentAgendaItem, batch);
-      final nextAgendaItem = _agendaItemFromFirebase(result.docs.first)!;
-      _startAgendaItem(nextAgendaItem, batch);
-      await batch.commit();
-    }
-  }
 
   // ignore: non_constant_identifier_names
   Future knockoutRound_startIntegral(AgendaItemModel agendaItem) async {
@@ -306,9 +180,8 @@ class AgendaItemsService {
       nextIntegralCode = agendaItem.integralsCodes![progressIndex + 1];
     } else {
       // Find unused spare integral:
-      final integralsService = IntegralsService(uid: uid);
-      final String? response = await integralsService
-          .findUnusedSpareIntegral(agendaItem.spareIntegralsCodes!);
+      final String? response = await IntegralsService.findUnusedSpareIntegral(
+          agendaItem.spareIntegralsCodes!);
 
       if (response == null) {
         return false;
@@ -348,9 +221,8 @@ class AgendaItemsService {
     late final String nextIntegralCode;
 
     // Find unused spare integral:
-    final integralsService = IntegralsService(uid: uid);
-    final String? response = await integralsService
-        .findUnusedSpareIntegral(agendaItem.spareIntegralsCodes!);
+    final String? response = await IntegralsService.findUnusedSpareIntegral(
+        agendaItem.spareIntegralsCodes!);
 
     if (response == null) {
       return false;

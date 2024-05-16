@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_card.dart';
@@ -17,12 +16,9 @@ class CompetitionPlannerPage extends StatefulWidget {
 class _CompetitionPlannerPageState extends State<CompetitionPlannerPage> {
   @override
   Widget build(BuildContext context) {
-    final authModel = Provider.of<User?>(context)!;
-    final service = AgendaItemsService(uid: authModel.uid);
-
     return StreamProvider<List<AgendaItemModel>?>.value(
         initialData: null,
-        value: service.onAgendaItemsChanged,
+        value:  AgendaItemsService().onAgendaItemsChanged,
         builder: (context, snapshot) {
           final agendaItems = Provider.of<List<AgendaItemModel>?>(context);
           final activeAgendaItems = agendaItems?.where((item) => item.currentlyActive) ?? [];
@@ -35,7 +31,7 @@ class _CompetitionPlannerPageState extends State<CompetitionPlannerPage> {
           return Scaffold(
             floatingActionButton: FloatingActionButton(
               onPressed: () =>
-                  service.addAgendaItem(currentAgendaItems: agendaItems),
+                   AgendaItemsService().addAgendaItem(currentAgendaItems: agendaItems),
               child: const Icon(Icons.add),
             ),
             body: ListView.builder(
@@ -47,7 +43,6 @@ class _CompetitionPlannerPageState extends State<CompetitionPlannerPage> {
                   child: AgendaItemCard(
                     agendaItem: agendaItem,
                     activeAgendaItem: activeAgendaItem,
-                    service: service,
                   ),
                 );
               },

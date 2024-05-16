@@ -1,14 +1,14 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 
 class IntegralsService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final random = Random();
-  final String uid;
-
-  IntegralsService({required this.uid});
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  String get _uid => _firebaseAuth.currentUser!.uid;
+  final _random = Random();
 
   IntegralModel? _integralFromFirebase(
     DocumentSnapshot<Map<String, dynamic>> doc,
@@ -39,7 +39,7 @@ class IntegralsService {
   Stream<List<IntegralModel>> get onIntegralsChanged {
     return _firestore
         .collection('integrals')
-        .where('uid', isEqualTo: uid)
+        .where('uid', isEqualTo: _uid)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map(_integralListFromFirebase);
@@ -48,7 +48,7 @@ class IntegralsService {
   Stream<List<IntegralModel>> get onUsedIntegralsChanged {
     return _firestore
         .collection('integrals')
-        .where('uid', isEqualTo: uid)
+        .where('uid', isEqualTo: _uid)
         .where('alreadyUsedAsSpareIntegral', isEqualTo: true)
         .orderBy('createdAt', descending: true)
         .snapshots()
@@ -58,7 +58,7 @@ class IntegralsService {
   Future<IntegralModel> getIntegral({required String code}) async {
     final response = await _firestore
         .collection('integrals')
-        .where('uid', isEqualTo: uid)
+        .where('uid', isEqualTo: _uid)
         .where('code', isEqualTo: code)
         .limit(1)
         .get();
@@ -70,7 +70,7 @@ class IntegralsService {
     // Find code for new integral:
     String code = "";
     while (code == "") {
-      final randomNumber = random.nextInt(10000);
+      final randomNumber = _random.nextInt(10000);
       code = randomNumber.toString();
       if (randomNumber < 10) {
         code = "0$code";
@@ -92,7 +92,7 @@ class IntegralsService {
 
     // Create integral:
     final integral = IntegralModel(
-      uid: uid,
+      uid: _uid,
       code: code,
       createdAt: DateTime.now(),
       latexProblem: "",

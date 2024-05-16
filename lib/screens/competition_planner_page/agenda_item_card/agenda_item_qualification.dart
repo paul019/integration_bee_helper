@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
-import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 
 class AgendaItemQualification extends StatefulWidget {
   final AgendaItemModelQualification agendaItem;
-  final AgendaItemsService service;
 
   const AgendaItemQualification({
     super.key,
     required this.agendaItem,
-    required this.service,
   });
 
   @override
@@ -242,8 +239,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
             },
             onSave: () async {
               try {
-                await widget.service.editAgendaItemQualification(
-                  widget.agendaItem,
+                await  widget.agendaItem.editStatic(
                   title: title,
                   integralsCodes: integralsCodes.split(','),
                   spareIntegralsCodes: spareIntegralsCodes.split(','),

@@ -17,7 +17,6 @@ abstract class AgendaItemModel {
   final bool finished;
   final String status;
 
-
   AgendaItemModel({
     required this.id,
     required this.uid,
@@ -45,12 +44,46 @@ abstract class AgendaItemModel {
     }
   }
 
+  // Firebase:
   static CollectionReference<Map<String, dynamic>> get collection =>
       FirebaseFirestore.instance.collection('agendaItems');
   DocumentReference<Map<String, dynamic>> get reference => collection.doc(id);
 
+  // Getters:
   bool get activeOrFinished => currentlyActive || finished;
-
   String get displayTitle;
   String get displaySubtitle;
+
+  // Database operations:
+  Future<void> editStatic();
+  Future<void> checkEdit() async {
+    // Make sure, agenda item is not finished:
+    if (finished) {
+      throw Exception('Cannot edit finished agenda item');
+    }
+  }
+
+  void reset(WriteBatch batch) {
+    batch.update(reference, {
+      'currentlyActive': false,
+      'finished': false,
+      'status': '',
+    });
+  }
+
+  void start(WriteBatch batch) {
+    batch.update(reference, {
+      'currentlyActive': true,
+      'finished': true,
+      'status': '',
+    });
+  }
+
+  void setToFinished(WriteBatch batch) {
+    batch.update(reference, {
+      'currentlyActive': false,
+      'finished': true,
+      'status': '',
+    });
+  }
 }

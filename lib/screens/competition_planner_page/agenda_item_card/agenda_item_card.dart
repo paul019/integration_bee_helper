@@ -17,13 +17,11 @@ import 'package:provider/provider.dart';
 class AgendaItemCard extends StatelessWidget {
   final AgendaItemModel agendaItem;
   final AgendaItemModel? activeAgendaItem;
-  final AgendaItemsService service;
 
   const AgendaItemCard({
     super.key,
     required this.agendaItem,
     required this.activeAgendaItem,
-    required this.service,
   });
 
   @override
@@ -79,7 +77,7 @@ class AgendaItemCard extends StatelessWidget {
                                 'Do you really want to delete this agenda item?',
                             payload: () {
                               try {
-                                service.deleteAgendaItem(
+                                 AgendaItemsService().deleteAgendaItem(
                                   agendaItem,
                                   currentAgendaItems: agendaItems,
                                 );
@@ -97,7 +95,7 @@ class AgendaItemCard extends StatelessWidget {
                               title:
                                   'Do you really want to force-start this agenda item?',
                               payload: () =>
-                                  service.forceStartAgendaItem(agendaItem),
+                                   AgendaItemsService().forceStartAgendaItem(agendaItem),
                               bypassConfirmation: activeAgendaItem == null,
                             ).launch(context);
                           },
@@ -106,7 +104,7 @@ class AgendaItemCard extends StatelessWidget {
                       IconButton(
                         onPressed: () {
                           try {
-                            service.raiseAgendaItem(
+                             AgendaItemsService().raiseAgendaItem(
                               agendaItem,
                               currentAgendaItems: agendaItems,
                             );
@@ -119,7 +117,7 @@ class AgendaItemCard extends StatelessWidget {
                       IconButton(
                         onPressed: () {
                           try {
-                            service.lowerAgendaItem(
+                             AgendaItemsService().lowerAgendaItem(
                               agendaItem,
                               currentAgendaItems: agendaItems,
                             );
@@ -137,22 +135,18 @@ class AgendaItemCard extends StatelessWidget {
               if (agendaItem.type == AgendaItemType.notSpecified)
                 AgendaItemNotSpecified(
                   agendaItem: agendaItem as AgendaItemModelNotSpecified,
-                  service: service,
                 ),
               if (agendaItem.type == AgendaItemType.text)
                 AgendaItemText(
                   agendaItem: agendaItem as AgendaItemModelText,
-                  service: service,
                 ),
               if (agendaItem.type == AgendaItemType.knockout)
                 AgendaItemKnockout(
                   agendaItem: agendaItem as AgendaItemModelKnockout,
-                  service: service,
                 ),
               if (agendaItem.type == AgendaItemType.qualification)
                 AgendaItemQualification(
                   agendaItem: agendaItem as AgendaItemModelQualification,
-                  service: service,
                 ),
             ],
           ),

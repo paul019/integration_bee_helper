@@ -42,7 +42,6 @@ class _PresentationScreenKnockoutState
   late final AudioPlayer player;
 
   String get uid => widget.activeAgendaItem.uid;
-  IntegralsService get integralsService => IntegralsService(uid: uid);
   int get progressIndex => widget.activeAgendaItem.progressIndex;
   ProblemPhase get phaseIndex => widget.activeAgendaItem.phaseIndex;
   List<String> get integralsCodes => widget.activeAgendaItem.integralsCodes;
@@ -91,12 +90,12 @@ class _PresentationScreenKnockoutState
     agendaItemId = widget.activeAgendaItem.id;
 
     for (final code in integralsCodes) {
-      final integral = await integralsService.getIntegral(code: code);
+      final integral = await IntegralsService().getIntegral(code: code);
       integrals.add(integral);
     }
 
     for (final code in spareIntegralsCodes) {
-      final integral = await integralsService.getIntegral(code: code);
+      final integral = await IntegralsService().getIntegral(code: code);
       integrals.add(integral);
     }
 

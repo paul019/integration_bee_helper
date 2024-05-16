@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
-import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 
 class AgendaItemText extends StatefulWidget {
   final AgendaItemModelText agendaItem;
-  final AgendaItemsService service;
 
   const AgendaItemText({
     super.key,
     required this.agendaItem,
-    required this.service,
   });
 
   @override
@@ -149,8 +146,7 @@ class _AgendaItemTextState extends State<AgendaItemText> {
             },
             onSave: () async {
               try {
-                await widget.service.editAgendaItemText(
-                  widget.agendaItem,
+                await  widget.agendaItem.editStatic(
                   title: title,
                   subtitle: subtitle,
                   imageUrl: imageUrl,
