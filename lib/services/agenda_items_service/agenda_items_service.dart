@@ -5,7 +5,7 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_not_
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 
 part 'manage_agenda_items.dart';
-part 'edit_agenda_item_dynamic.dart';
+part 'manage_agenda_items_dynamic.dart';
 
 class AgendaItemsService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

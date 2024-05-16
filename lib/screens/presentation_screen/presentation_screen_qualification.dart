@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/integral_type.dart';
+import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/integral_code_view.dart';

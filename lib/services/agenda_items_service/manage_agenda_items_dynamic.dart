@@ -1,6 +1,6 @@
 part of 'agenda_items_service.dart';
 
-extension EditAgendaItemDynamic on AgendaItemsService {
+extension ManageAgendaItemsDynamic on AgendaItemsService {
   Future forceStartAgendaItem(AgendaItemModel agendaItem) async {
     final activeItem = await getActiveAgendaItem();
     final activeItemOrderIndex = activeItem?.orderIndex ?? 0;
