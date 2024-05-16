@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_tex/flutter_tex.dart';
+import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_level.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
@@ -105,16 +106,19 @@ class _IntegralCardState extends State<IntegralCard> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          if (latexProblem == "" && latexSolution == "") {
-                             IntegralsService().deleteIntegral(widget.integral);
-                            return;
-                          }
-
                           ConfirmationDialog(
+                            bypassConfirmation:
+                                latexProblem == "" && latexSolution == "",
                             title:
                                 'Do you really want to delete this integral?',
-                            payload: () =>
-                                 IntegralsService().deleteIntegral(widget.integral),
+                            payload: () {
+                              try {
+                                IntegralsService()
+                                    .deleteIntegral(widget.integral);
+                              } on Exception catch (e) {
+                                e.show(context);
+                              }
+                            },
                           ).launch(context);
                         },
                         icon: const Icon(Icons.delete),
@@ -233,7 +237,7 @@ class _IntegralCardState extends State<IntegralCard> {
                     });
                   },
                   onSave: () async {
-                    await  IntegralsService().editIntegral(
+                    await IntegralsService().editIntegral(
                       widget.integral,
                       latexProblem: latexProblem,
                       latexSolution: latexSolution,

@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_level.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
+import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
 
 class IntegralsService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -133,6 +134,15 @@ class IntegralsService {
   }
 
   Future deleteIntegral(IntegralModel integral) async {
+    // Check if integral is used in an agenda item:
+    final agendaItem =
+        await AgendaItemsService().getAgendaItemByIntegralCode(integral.code);
+    if (agendaItem != null) {
+      throw Exception(
+        'Integral is used in agenda item number ${agendaItem.orderIndex + 1}. For this reason, it cannot be deleted.',
+      );
+    }
+
     await integral.reference.delete();
   }
 

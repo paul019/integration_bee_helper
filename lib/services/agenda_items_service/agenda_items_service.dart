@@ -79,4 +79,26 @@ class AgendaItemsService {
 
     return _agendaItemListFromFirebase(activeItems).firstOrNull;
   }
+
+  Future<AgendaItemModel?> getAgendaItemByIntegralCode(String integralCode) async {
+    final response1 = await AgendaItemModel.collection
+        .where('uid', isEqualTo: _uid)
+        .where('integralsCodes', arrayContains: integralCode)
+        .get();
+
+    if(response1.docs.isNotEmpty) {
+      return _agendaItemFromFirebase(response1.docs.first);
+    }
+
+    final response2 = await AgendaItemModel.collection
+        .where('uid', isEqualTo: _uid)
+        .where('spareIntegralsCodes', arrayContains: integralCode)
+        .get();
+
+    if(response2.docs.isNotEmpty) {
+      return _agendaItemFromFirebase(response2.docs.first);
+    }
+
+    return null;
+  }
 }
