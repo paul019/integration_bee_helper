@@ -26533,7 +26533,7 @@ j=a8.h(0,a)!=null?A.bM(0,0,a8.h(0,a)):d
 i=a8.h(0,a0)!=null?A.bM(0,0,a8.h(0,a0)):d
 h=a8.h(0,"scores")!=null?J.ee(t.j.a(a8.h(0,"scores")),new A.a2K(),t.S).cu(0):d
 g=a8.h(0,"progressIndex")
-f=a8.h(0,"phaseIndex")
+f=a8.h(0,"problemPhase")
 e=a8.h(0,a1)!=null?A.n9(a8.h(0,a1),!1):d
 return A.aE4(l,k,m,a6,a7,a9,p,o,a4,a8.h(0,a2)!=null?A.bM(0,0,a8.h(0,a2)):d,f,g,h,n,s,q,j,i,e,r,a5,a3)},
 aPc(a){var s,r,q
@@ -87638,7 +87638,7 @@ case 2:return"Qualification round"
 case 3:return"Text"}}}
 A.fA.prototype={
 dv(){var s=this
-return A.a_(["uid",s.b,"code",s.c,"createdAt",s.d.a,"latexProblem",s.e,"latexSolution",s.f,"level",s.r.c,"name",s.w,"alreadyUsedAsSpareIntegral",s.x],t.N,t.z)}}
+return A.a_(["uid",s.b,"code",s.c,"createdAt",s.d.a,"latexProblem",s.e,"latexSolution",s.f,"level",s.r.c,"name",s.w,"alreadyUsed",s.x],t.N,t.z)}}
 A.fz.prototype={
 F(){return"IntegralLevel."+this.b}}
 A.yE.prototype={
@@ -88693,7 +88693,7 @@ r=(s==null?$.a1=$.aX():s).aU(0,"[DEFAULT]")
 A.aF(r,$.b6(),!0)
 s=A.bs(new A.aQ(r))
 q=new A.j3(s,B.bL,p)
-p=A.bL(s,s.gaT().bz("integrals")).hB(0,"uid",p).hB(0,"alreadyUsedAsSpareIntegral",!0).JI("createdAt",!0).wZ()
+p=A.bL(s,s.gaT().bz("integrals")).hB(0,"uid",p).hB(0,"alreadyUsed",!0).JI("createdAt",!0).wZ()
 return A.Eb(new A.am3(q),null,new A.c2(q.gPe(),p,p.$ti.i("c2<aC.T,H<fA>>")),t.dJ)}}
 A.am3.prototype={
 $2(a,b){var s,r,q=null,p=A.h8(a,t.dJ),o=p==null,n=o?q:J.ee(p,new A.am1(),t.N).cu(0)
@@ -89431,7 +89431,7 @@ n=a.f
 p=n?[]:null
 o=n?0:null
 n=n?0:null
-n=A.f_(A.a_(["type","knockout","title","","integralsCodes",[],"spareIntegralsCodes",[],"currentIntegralCode",null,"competitor1Name","","competitor2Name","","timeLimitPerIntegral",300,"timeLimitPerSpareIntegral",300,"scores",p,"progressIndex",o,"phaseIndex",n,"timerStopsAt",null,"pausedTimerDuration",null],t.K,t.X))
+n=A.f_(A.a_(["type","knockout","title","","integralsCodes",[],"spareIntegralsCodes",[],"currentIntegralCode",null,"competitor1Name","","competitor2Name","","timeLimitPerIntegral",300,"timeLimitPerSpareIntegral",300,"scores",p,"progressIndex",o,"problemPhase",n,"timerStopsAt",null,"pausedTimerDuration",null],t.K,t.X))
 n.toString
 s=2
 return A.o(q.a.aE(0,n),$async$yE)
@@ -89451,7 +89451,7 @@ q=o.bI(0,q)
 o=a.f
 p=o?0:null
 o=o?0:null
-o=A.f_(A.a_(["type","qualification","title","","integralsCodes",[],"spareIntegralsCodes",[],"currentIntegralCode",null,"timeLimitPerIntegral",300,"timeLimitPerSpareIntegral",300,"progressIndex",p,"phaseIndex",o,"timerStopsAt",null,"pausedTimerDuration",null],t.K,t.X))
+o=A.f_(A.a_(["type","qualification","title","","integralsCodes",[],"spareIntegralsCodes",[],"currentIntegralCode",null,"timeLimitPerIntegral",300,"timeLimitPerSpareIntegral",300,"progressIndex",p,"problemPhase",o,"timerStopsAt",null,"pausedTimerDuration",null],t.K,t.X))
 o.toString
 s=2
 return A.o(q.a.aE(0,o),$async$yF)
@@ -89529,7 +89529,7 @@ q=A.bs(new A.aQ(p))
 q=A.bL(q,q.gaT().bz("agendaItems"))
 o=a.a
 o.toString
-b.cg(0,q.bI(0,o),A.a_(["currentlyActive",!1,"finished",!1,"status","","scores",null,"progressIndex",null,"phaseIndex",null,"timerStopsAt",null,"pausedTimerDuration",null,"currentIntegralCode",null],t.N,t.z))
+b.cg(0,q.bI(0,o),A.a_(["currentlyActive",!1,"finished",!1,"status","","scores",null,"progressIndex",null,"problemPhase",null,"timerStopsAt",null,"pausedTimerDuration",null,"currentIntegralCode",null],t.N,t.z))
 break
 case 2:q=$.a1
 p=(q==null?$.a1=$.aX():q).aU(0,"[DEFAULT]")
@@ -89538,7 +89538,7 @@ q=A.bs(new A.aQ(p))
 q=A.bL(q,q.gaT().bz("agendaItems"))
 o=a.a
 o.toString
-b.cg(0,q.bI(0,o),A.a_(["currentlyActive",!1,"finished",!1,"status","","progressIndex",null,"phaseIndex",null,"timerStopsAt",null,"pausedTimerDuration",null,"currentIntegralCode",null],t.N,t.z))
+b.cg(0,q.bI(0,o),A.a_(["currentlyActive",!1,"finished",!1,"status","","progressIndex",null,"problemPhase",null,"timerStopsAt",null,"pausedTimerDuration",null,"currentIntegralCode",null],t.N,t.z))
 break
 case 0:q=$.a1
 p=(q==null?$.a1=$.aX():q).aU(0,"[DEFAULT]")
@@ -89572,7 +89572,7 @@ o.toString
 o=q.bI(0,o)
 q=A.a([-1],t.t)
 n=a.z
-b.cg(0,o,A.a_(["currentlyActive",!0,"finished",!1,"status","","scores",q,"progressIndex",0,"phaseIndex",0,"timerStopsAt",null,"pausedTimerDuration",null,"currentIntegralCode",n==null?null:A.aG1(n)],t.N,t.z))
+b.cg(0,o,A.a_(["currentlyActive",!0,"finished",!1,"status","","scores",q,"progressIndex",0,"problemPhase",0,"timerStopsAt",null,"pausedTimerDuration",null,"currentIntegralCode",n==null?null:A.aG1(n)],t.N,t.z))
 break
 case 2:q=$.a1
 p=(q==null?$.a1=$.aX():q).aU(0,"[DEFAULT]")
@@ -89583,7 +89583,7 @@ o=a.a
 o.toString
 o=q.bI(0,o)
 q=a.z
-b.cg(0,o,A.a_(["currentlyActive",!0,"finished",!1,"status","","progressIndex",0,"phaseIndex",0,"timerStopsAt",null,"pausedTimerDuration",null,"currentIntegralCode",q==null?null:A.aG1(q)],t.N,t.z))
+b.cg(0,o,A.a_(["currentlyActive",!0,"finished",!1,"status","","progressIndex",0,"problemPhase",0,"timerStopsAt",null,"pausedTimerDuration",null,"currentIntegralCode",q==null?null:A.aG1(q)],t.N,t.z))
 break
 case 0:q=$.a1
 p=(q==null?$.a1=$.aX():q).aU(0,"[DEFAULT]")
@@ -89673,7 +89673,7 @@ m=A.bL(m,m.gaT().bz("agendaItems"))
 n=a.a
 n.toString
 n=m.bI(0,n)
-m=A.f_(A.a_(["phaseIndex",1,"timerStopsAt",p.a,"pausedTimerDuration",null],t.K,t.X))
+m=A.f_(A.a_(["problemPhase",1,"timerStopsAt",p.a,"pausedTimerDuration",null],t.K,t.X))
 m.toString
 s=2
 return A.o(n.a.aE(0,m),$async$vA)
@@ -89732,7 +89732,7 @@ p=A.bL(p,p.gaT().bz("agendaItems"))
 q=a.a
 q.toString
 q=p.bI(0,q)
-p=A.f_(A.a_(["phaseIndex",2,"pausedTimerDuration",null,"timerStopsAt",null],t.K,t.X))
+p=A.f_(A.a_(["problemPhase",2,"pausedTimerDuration",null,"timerStopsAt",null],t.K,t.X))
 p.toString
 s=2
 return A.o(q.a.aE(0,p),$async$qU)
@@ -89763,7 +89763,7 @@ q=A.bL(q,q.gaT().bz("agendaItems"))
 p=a.a
 p.toString
 p=q.bI(0,p)
-i=A.f_(A.a_(["finished",k,"status",l,"scores",i,"phaseIndex",3,"timerStopsAt",null,"pausedTimerDuration",null],t.K,t.X))
+i=A.f_(A.a_(["finished",k,"status",l,"scores",i,"problemPhase",3,"timerStopsAt",null,"pausedTimerDuration",null],t.K,t.X))
 i.toString
 s=2
 return A.o(p.a.aE(0,i),$async$qT)
@@ -89805,7 +89805,7 @@ m=A.bL(m,m.gaT().bz("agendaItems"))
 k=a.a
 k.toString
 k=m.bI(0,k)
-i=A.f_(A.a_(["scores",o,"progressIndex",i,"phaseIndex",0,"timerStopsAt",null,"pausedTimerDuration",null,"currentIntegralCode",n.aj()],t.K,t.X))
+i=A.f_(A.a_(["scores",o,"progressIndex",i,"problemPhase",0,"timerStopsAt",null,"pausedTimerDuration",null,"currentIntegralCode",n.aj()],t.K,t.X))
 i.toString
 s=7
 return A.o(k.a.aE(0,i),$async$vx)
@@ -89825,7 +89825,7 @@ p=A.bL(p,p.gaT().bz("agendaItems"))
 q=a.a
 q.toString
 q=p.bI(0,q)
-p=A.f_(A.a_(["phaseIndex",3,"pausedTimerDuration",null,"timerStopsAt",null],t.K,t.X))
+p=A.f_(A.a_(["problemPhase",3,"pausedTimerDuration",null,"timerStopsAt",null],t.K,t.X))
 p.toString
 s=2
 return A.o(q.a.aE(0,p),$async$Ca)
@@ -89858,7 +89858,7 @@ n=A.bL(n,n.gaT().bz("agendaItems"))
 l=a.a
 l.toString
 l=n.bI(0,l)
-i=A.f_(A.a_(["progressIndex",i+1,"phaseIndex",0,"timerStopsAt",null,"pausedTimerDuration",null,"currentIntegralCode",o.aj()],t.K,t.X))
+i=A.f_(A.a_(["progressIndex",i+1,"problemPhase",0,"timerStopsAt",null,"pausedTimerDuration",null,"currentIntegralCode",o.aj()],t.K,t.X))
 i.toString
 s=4
 return A.o(l.a.aE(0,i),$async$w6)
@@ -89878,7 +89878,7 @@ p=A.bL(p,p.gaT().bz("agendaItems"))
 q=a.a
 q.toString
 q=p.bI(0,q)
-p=A.f_(A.a_(["phaseIndex",3,"finished",!0,"status","Qualification round finished!"],t.K,t.X))
+p=A.f_(A.a_(["problemPhase",3,"finished",!0,"status","Qualification round finished!"],t.K,t.X))
 p.toString
 s=2
 return A.o(q.a.aE(0,p),$async$C9)
@@ -89904,7 +89904,7 @@ m=s.h(0,"latexSolution")
 l=A.aSz(s.h(0,"level"))
 k=s.h(0,"name")
 if(k==null)k=""
-s=s.h(0,"alreadyUsedAsSpareIntegral")
+s=s.h(0,"alreadyUsed")
 return new A.fA(r,q,p,o,n,m,l,k,s==null?!1:s)},
 aaO(a){var s,r,q,p,o=A.a([],t.qx)
 for(s=a.ghY(a),r=s.length,q=0;q<s.length;s.length===r||(0,A.P)(s),++q){p=this.Pd(s[q])
@@ -89983,7 +89983,7 @@ p=A.bL(p,p.gaT().bz("integrals"))
 q=a.a
 q.toString
 q=p.bI(0,q)
-p=A.f_(A.a_(["alreadyUsedAsSpareIntegral",!0],t.K,t.X))
+p=A.f_(A.a_(["alreadyUsed",!0],t.K,t.X))
 p.toString
 s=2
 return A.o(q.a.aE(0,p),$async$wO)
@@ -90020,7 +90020,7 @@ m=m.a
 m.toString
 m=p.a(l.b).bI(0,m)
 A.aF(m,$.JG(),!0)
-l=A.f_(A.a_(["alreadyUsedAsSpareIntegral",!1],o,n))
+l=A.f_(A.a_(["alreadyUsed",!1],o,n))
 l.toString
 s=4
 return A.o(m.aE(0,l),$async$Cq)

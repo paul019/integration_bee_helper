@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:integration_bee_helper/models/integral_model/integral_level.dart';
+import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
 
 class IntegralModel {
   final String? id;
@@ -8,8 +10,9 @@ class IntegralModel {
   final String latexProblem;
   final String latexSolution;
   final IntegralLevel level;
+  final IntegralType type;
   final String name;
-  final bool alreadyUsedAsSpareIntegral;
+  final bool alreadyUsed;
 
   IntegralModel({
     this.id,
@@ -19,8 +22,9 @@ class IntegralModel {
     required this.latexProblem,
     required this.latexSolution,
     required this.level,
+    required this.type,
     required this.name,
-    required this.alreadyUsedAsSpareIntegral,
+    required this.alreadyUsed,
   });
 
   factory IntegralModel.fromJson(
@@ -35,8 +39,9 @@ class IntegralModel {
         latexProblem: json['latexProblem'],
         latexSolution: json['latexSolution'],
         level: IntegralLevel.fromString(json['level']),
+        type: IntegralType.fromString(json['type']),
         name: json['name'] ?? '',
-        alreadyUsedAsSpareIntegral: json['alreadyUsedAsSpareIntegral'] ?? false,
+        alreadyUsed: json['alreadyUsed'] ?? false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -46,33 +51,12 @@ class IntegralModel {
         'latexProblem': latexProblem,
         'latexSolution': latexSolution,
         'level': level.id,
+        'type': type.id,
         'name': name,
-        'alreadyUsedAsSpareIntegral': alreadyUsedAsSpareIntegral,
+        'alreadyUsed': alreadyUsed,
       };
 
   static CollectionReference<Map<String, dynamic>> get collection =>
       FirebaseFirestore.instance.collection('integrals');
   DocumentReference<Map<String, dynamic>> get reference => collection.doc(id!);
-}
-
-enum IntegralLevel {
-  bachelor('bachelor'),
-  master('master');
-
-  static IntegralLevel standard = IntegralLevel.bachelor;
-
-  const IntegralLevel(this.id);
-  final String id;
-
-  factory IntegralLevel.fromString(String id) {
-    var level = bachelor;
-
-    for (var element in IntegralLevel.values) {
-      if (id == element.id) {
-        level = element;
-      }
-    }
-
-    return level;
-  }
 }

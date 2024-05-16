@@ -23,7 +23,7 @@ class AgendaItemModelNotSpecified extends AgendaItemModel {
         orderIndex: json['orderIndex'],
         currentlyActive: json['currentlyActive'],
         finished: json['finished'] ?? false,
-        status: json['status'] ?? '',
+        status: json['status'],
       );
 
   static Map<String, dynamic> getJson({

@@ -32,7 +32,7 @@ class AgendaItemModelText extends AgendaItemModel {
         orderIndex: json['orderIndex'],
         currentlyActive: json['currentlyActive'],
         finished: json['finished'] ?? false,
-        status: json['status'] ?? '',
+        status: json['status'],
         title: json['title'],
         subtitle: json['subtitle'],
         imageUrl: json['imageUrl'],

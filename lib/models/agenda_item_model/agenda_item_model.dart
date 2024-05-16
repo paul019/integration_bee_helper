@@ -15,7 +15,7 @@ abstract class AgendaItemModel {
   // Dynamic:
   final bool currentlyActive;
   final bool finished;
-  final String status;
+  final String? status;
 
   AgendaItemModel({
     required this.id,
@@ -23,7 +23,7 @@ abstract class AgendaItemModel {
     required this.orderIndex,
     this.currentlyActive = false,
     this.finished = false,
-    this.status = '',
+    this.status,
   });
 
   factory AgendaItemModel.fromJson(
@@ -67,7 +67,7 @@ abstract class AgendaItemModel {
     batch.update(reference, {
       'currentlyActive': false,
       'finished': false,
-      'status': '',
+      'status': null,
     });
   }
 
@@ -75,15 +75,14 @@ abstract class AgendaItemModel {
     batch.update(reference, {
       'currentlyActive': true,
       'finished': true,
-      'status': '',
+      'status': null,
     });
   }
 
-  void setToFinished(WriteBatch batch) {
+  void end(WriteBatch batch) {
     batch.update(reference, {
       'currentlyActive': false,
       'finished': true,
-      'status': '',
     });
   }
 }

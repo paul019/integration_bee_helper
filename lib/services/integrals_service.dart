@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:integration_bee_helper/models/integral_model/integral_level.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
+import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
 
 class IntegralsService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -49,7 +51,7 @@ class IntegralsService {
     return _firestore
         .collection('integrals')
         .where('uid', isEqualTo: _uid)
-        .where('alreadyUsedAsSpareIntegral', isEqualTo: true)
+        .where('alreadyUsed', isEqualTo: true)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map(_integralListFromFirebase);
@@ -66,8 +68,35 @@ class IntegralsService {
     return _integralFromFirebase(response.docs.first)!;
   }
 
+  Future<List<IntegralModel>> getUnusedIntegrals() async {
+    final response = await _firestore
+        .collection('integrals')
+        .where('uid', isEqualTo: _uid)
+        .where('alreadyUsed', isEqualTo: false)
+        .get();
+
+    return _integralListFromFirebase(response);
+  }
+
   void addIntegral({required List<IntegralModel> currentIntegrals}) async {
-    // Find code for new integral:
+    // Create integral:
+    final integral = IntegralModel(
+      uid: _uid,
+      code: _createIntegralCode(currentIntegrals: currentIntegrals),
+      createdAt: DateTime.now(),
+      latexProblem: "",
+      latexSolution: "",
+      level: IntegralLevel.standard,
+      type: IntegralType.regular,
+      name: "",
+      alreadyUsed: false,
+    );
+
+    // Add integral:
+    await IntegralModel.collection.add(integral.toJson());
+  }
+
+  String _createIntegralCode({required List<IntegralModel> currentIntegrals}) {
     String code = "";
     while (code == "") {
       final randomNumber = _random.nextInt(10000);
@@ -90,20 +119,7 @@ class IntegralsService {
       }
     }
 
-    // Create integral:
-    final integral = IntegralModel(
-      uid: _uid,
-      code: code,
-      createdAt: DateTime.now(),
-      latexProblem: "",
-      latexSolution: "",
-      level: IntegralLevel.standard,
-      name: "",
-      alreadyUsedAsSpareIntegral: false,
-    );
-
-    // Add integral:
-    await IntegralModel.collection.add(integral.toJson());
+    return code;
   }
 
   Future deleteIntegral(IntegralModel integral) async {
@@ -127,41 +143,15 @@ class IntegralsService {
 
   Future setIntegralToUsed(IntegralModel integral) async {
     await integral.reference.update({
-      'alreadyUsedAsSpareIntegral': true,
+      'alreadyUsed': true,
     });
   }
 
   Future resetUsedIntegrals(List<IntegralModel> integrals) async {
     for (var integral in integrals) {
       await integral.reference.update({
-        'alreadyUsedAsSpareIntegral': false,
+        'alreadyUsed': false,
       });
     }
-  }
-
-  Future<String?> findUnusedSpareIntegral(
-      List<String> spareIntegralsCodes) async {
-    final integrals = <IntegralModel>[];
-
-    for (final code in spareIntegralsCodes) {
-      if (code == '') continue;
-
-      final integral = await getIntegral(code: code);
-      integrals.add(integral);
-    }
-
-    late final IntegralModel integral;
-    try {
-      integral = integrals.firstWhere(
-        (integral) => !integral.alreadyUsedAsSpareIntegral,
-      );
-    } catch (err) {
-      return null;
-    }
-
-    // Set integral to used:
-    await setIntegralToUsed(integral);
-
-    return integral.code;
   }
 }

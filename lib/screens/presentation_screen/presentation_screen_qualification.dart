@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/integral_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/integral_code_view.dart';
@@ -40,8 +41,7 @@ class _PresentationScreenQualificationState
   late final AudioPlayer player;
 
   String get uid => widget.activeAgendaItem.uid;
-  int get progressIndex => widget.activeAgendaItem.progressIndex;
-  ProblemPhase get phaseIndex => widget.activeAgendaItem.phaseIndex;
+  ProblemPhase get problemPhase => widget.activeAgendaItem.problemPhase;
   List<String> get integralsCodes => widget.activeAgendaItem.integralsCodes;
   List<String> get spareIntegralsCodes =>
       widget.activeAgendaItem.spareIntegralsCodes;
@@ -49,11 +49,10 @@ class _PresentationScreenQualificationState
       widget.activeAgendaItem.currentIntegralCode;
 
   String? get problemName {
-    final numberOfRegularIntegrals = integralsCodes.length;
-    if (progressIndex == 0) {
+    if (widget.activeAgendaItem.currentIntegralType == IntegralType.regular) {
       return null;
     } else {
-      return 'Problem 1+${progressIndex - numberOfRegularIntegrals + 1}';
+      return 'Problem 1+${widget.activeAgendaItem.spareIntegralsProgress! + 1}';
     }
   }
 
@@ -98,9 +97,9 @@ class _PresentationScreenQualificationState
     const timeWarningDuration = Duration(seconds: 30);
 
     timer = Timer.periodic(timerInterval, (timer) {
-      switch (phaseIndex) {
+      switch (problemPhase) {
         case ProblemPhase.idle:
-          if (progressIndex == 0) {
+          if (widget.activeAgendaItem.currentIntegralType == IntegralType.regular) {
             setState(() {
               timeLeft = widget.activeAgendaItem.timeLimitPerIntegral;
               timerRed = false;
@@ -193,7 +192,7 @@ class _PresentationScreenQualificationState
         ),
         IntegralView(
           currentIntegral: currentIntegral,
-          phaseIndex: phaseIndex,
+          problemPhase: problemPhase,
           problemName: problemName,
           size: widget.size,
         ),

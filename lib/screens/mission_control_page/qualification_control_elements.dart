@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
-import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 
 class QualificationControlElements extends StatefulWidget {
@@ -30,8 +30,8 @@ class _QualificationControlElementsState
       if (widget.activeAgendaItem.timer.timerStopsAt == null) {
         setState(() => timeUp = false);
       } else {
-        setState(() => timeUp =
-            widget.activeAgendaItem.timer.timerStopsAt!.isBefore(DateTime.now()));
+        setState(() => timeUp = widget.activeAgendaItem.timer.timerStopsAt!
+            .isBefore(DateTime.now()));
       }
     });
 
@@ -46,15 +46,20 @@ class _QualificationControlElementsState
 
   @override
   Widget build(BuildContext context) {
-    switch (widget.activeAgendaItem.phaseIndex) {
+    switch (widget.activeAgendaItem.problemPhase) {
       case ProblemPhase.idle:
         return TextButton(
-          onPressed: () =>
-               AgendaItemsService().knockoutRound_startIntegral(widget.activeAgendaItem),
+          onPressed: () {
+            try {
+              widget.activeAgendaItem.startIntegral();
+            } on Exception catch (e) {
+              e.show(context);
+            }
+          },
           child: const Text('Start!'),
         );
       case ProblemPhase.showProblem:
-        final timerPaused = widget.activeAgendaItem.timer.pausedTimerDuration != null;
+        final timerPaused = widget.activeAgendaItem.timer.paused;
 
         return Row(
           mainAxisSize: MainAxisSize.min,
@@ -64,11 +69,9 @@ class _QualificationControlElementsState
                   ? null
                   : () {
                       if (timerPaused) {
-                        AgendaItemsService()
-                            .knockoutRound_resumeTimer(widget.activeAgendaItem);
+                        widget.activeAgendaItem.resumeTimer();
                       } else {
-                        AgendaItemsService()
-                            .knockoutRound_pauseTimer(widget.activeAgendaItem);
+                        widget.activeAgendaItem.pauseTimer();
                       }
                     },
               child: timerPaused
@@ -78,16 +81,11 @@ class _QualificationControlElementsState
             separator(),
             TextButton(
               onPressed: () {
-                if (widget.activeAgendaItem.timer.timerStopsAt!
-                    .isAfter(DateTime.now())) {
-                  ConfirmationDialog(
-                    title: 'Do you really want to show the solution?',
-                    payload: () =>  AgendaItemsService().qualificationRound_showSolution(
-                        widget.activeAgendaItem),
-                  ).launch(context);
-                } else {
-                   AgendaItemsService().knockoutRound_showSolution(widget.activeAgendaItem);
-                }
+                ConfirmationDialog(
+                  bypassConfirmation: widget.activeAgendaItem.timer.timeUp!,
+                  title: 'Do you really want to show the solution?',
+                  payload: () => widget.activeAgendaItem.showSolution(),
+                ).launch(context);
               },
               child: const Text('Show solution'),
             ),
@@ -96,7 +94,7 @@ class _QualificationControlElementsState
       case ProblemPhase.showSolution:
         if (widget.activeAgendaItem.finished) {
           return Text(
-            widget.activeAgendaItem.status,
+            widget.activeAgendaItem.status ?? '',
             style: const TextStyle(fontWeight: FontWeight.bold),
           );
         } else {
@@ -105,8 +103,8 @@ class _QualificationControlElementsState
             children: [
               TextButton(
                 onPressed: () async {
-                  final success = await AgendaItemsService()
-                      .qualificationRound_nextIntegral(widget.activeAgendaItem);
+                  throw UnimplementedError();
+                  final success = false;
 
                   if (!success && context.mounted) {
                     showDialog(
@@ -132,8 +130,7 @@ class _QualificationControlElementsState
                   ConfirmationDialog(
                     title:
                         'Do you really want to finish this qualification round?',
-                    payload: () => AgendaItemsService()
-                        .qualificationRound_finish(widget.activeAgendaItem),
+                    payload: () => widget.activeAgendaItem.setToFinished(),
                   ).launch(context);
                 },
                 child: const Text('Qualification round finished'),

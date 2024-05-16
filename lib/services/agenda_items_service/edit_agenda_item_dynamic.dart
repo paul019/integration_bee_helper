@@ -10,7 +10,7 @@ extension EditAgendaItemDynamic on AgendaItemsService {
     // Handle skipped agenda items:
     for (int i = activeItemOrderIndex; i < agendaItem.orderIndex; i++) {
       final skippedAgendaItem = await getAgendaItemFromOrderIndex(i);
-      skippedAgendaItem?.setToFinished(batch);
+      skippedAgendaItem?.end(batch);
     }
 
     // Activate new item:
@@ -46,7 +46,7 @@ extension EditAgendaItemDynamic on AgendaItemsService {
     }
 
     final batch = _firestore.batch();
-    currentAgendaItem.reset(batch);
+    currentAgendaItem.end(batch);
     nextAgendaItem.start(batch);
     await batch.commit();
   }

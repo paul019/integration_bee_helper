@@ -1,8 +1,9 @@
-import 'dart:math';
+import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
+import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/basic_models/timer_model.dart';
 import 'package:integration_bee_helper/services/integrals_service.dart';
@@ -17,8 +18,9 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
 
   // Dynamic:
   final String? currentIntegralCode;
-  final int progressIndex; // index of the current integral
-  final ProblemPhase phaseIndex;
+  final int? integralsProgress;
+  final int? spareIntegralsProgress;
+  final ProblemPhase problemPhase;
   final TimerModel timer;
 
   AgendaItemModelCompetition({
@@ -34,17 +36,31 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
     this.currentIntegralCode,
     required this.timeLimitPerIntegral,
     required this.timeLimitPerSpareIntegral,
-    required this.progressIndex,
-    required this.phaseIndex,
+    required this.integralsProgress,
+    required this.spareIntegralsProgress,
+    required this.problemPhase,
     required this.timer,
   }) {
     super.type = AgendaItemType.qualification;
   }
 
   // Getters:
-  int get integralsProgress => min(progressIndex, integralsCodes.length);
-  int get spareIntegralsProgress =>
-      max(-1, progressIndex - integralsCodes.length);
+  IntegralType get currentIntegralType => spareIntegralsProgress != null
+      ? IntegralType.spare
+      : IntegralType.regular;
+  IntegralType get nextIntegralType => currentIntegralType == IntegralType.spare
+      ? IntegralType.spare
+      : (integralsProgress ?? 0) + 1 < numOfIntegrals
+          ? IntegralType.regular
+          : IntegralType.spare;
+  Duration get timeLimit => currentIntegralType == IntegralType.spare
+      ? timeLimitPerSpareIntegral
+      : timeLimitPerIntegral;
+  int? get totalProgress =>
+      (integralsProgress == null && spareIntegralsProgress == null)
+          ? null
+          : (integralsProgress ?? 0) + (spareIntegralsProgress ?? 0);
+  int get numOfIntegrals => integralsCodes.length;
 
   // Database operations:
   @override
@@ -61,7 +77,7 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
 
     // Make sure, already used integrals are not edited:
     if (currentlyActive && integralsCodes != null) {
-      for (int i = 0; i <= integralsProgress; i++) {
+      for (int i = 0; i <= (integralsProgress ?? -1); i++) {
         if (integralsCodes.length <= i) {
           throw Exception('Cannot edit already used integrals');
         }
@@ -69,7 +85,7 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
           throw Exception('Cannot edit already used integrals');
         }
       }
-      if (spareIntegralsProgress > -1) {
+      if (currentIntegralType == IntegralType.spare) {
         // if spare integrals are already used
         if (integralsCodes.length > this.integralsCodes.length) {
           throw Exception(
@@ -128,8 +144,9 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
 
     batch.update(reference, {
       'currentIntegralCode': null,
-      'progressIndex': 0,
-      'phaseIndex': ProblemPhase.idle.value,
+      'integralsProgress': null,
+      'spareIntegralsProgress': null,
+      'problemPhase': ProblemPhase.idle.value,
       'timer': TimerModel.empty.toJson(),
     });
   }
@@ -137,12 +154,77 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
   @override
   void start(WriteBatch batch) {
     super.start(batch);
-    
+
     batch.update(reference, {
       'currentIntegralCode': integralsCodes.firstOrNull,
-      'progressIndex': 0,
-      'phaseIndex': ProblemPhase.idle.value,
+      'integralsProgress': 0,
+      'spareIntegralsProgress': null,
+      'problemPhase': ProblemPhase.idle.value,
       'timer': TimerModel.empty.toJson(),
+    });
+  }
+
+  // Agenda item specific operations:
+  Future startIntegral() async {
+    DateTime timerStopsAt = DateTime.now().add(timeLimit);
+
+    if (integralsProgress == -1) {
+      throw Exception('You have to add at least one integral!');
+    }
+
+    await reference.update({
+      'problemPhase': ProblemPhase.showProblem.value,
+      'timer': TimerModel(timerStopsAt: timerStopsAt).toJson(),
+    });
+  }
+
+  Future pauseTimer() async {
+    await reference.update({
+      'timer': timer.pause().toJson(),
+    });
+  }
+
+  Future resumeTimer() async {
+    await reference.update({
+      'timer': timer.resume().toJson(),
+    });
+  }
+
+  Future showSolution() async {
+    await reference.update({
+      'problemPhase': ProblemPhase.showSolution.value,
+      'timer': null,
+    });
+  }
+
+  Future<List<String>> getPotentialSpareIntegrals() async {
+    final allUnusedIntegrals = (await IntegralsService().getUnusedIntegrals());
+    final allUnusedIntegralsCodes =
+        allUnusedIntegrals.map((e) => e.code).toSet();
+    final allUnusedSpareIntegrals = allUnusedIntegrals
+        .where((integral) => integral.type == IntegralType.spare);
+    final allUnusedSpareIntegralsCodes =
+        allUnusedSpareIntegrals.map((e) => e.code).toSet();
+
+    final ownUnusedSpareIntegralsCodes = spareIntegralsCodes
+        .where((code) => allUnusedIntegralsCodes.contains(code))
+        .toList();
+
+    final finalList = ownUnusedSpareIntegralsCodes..addAll(
+      allUnusedSpareIntegralsCodes.difference(
+        ownUnusedSpareIntegralsCodes.toSet(),
+      ),
+    );
+
+    return finalList;
+  }
+
+  Future startNextSpareIntegral(String spareIntegralsCode) async {
+    await reference.update({
+      'spareIntegralsProgress': (spareIntegralsProgress ?? -1) + 1,
+      'problemPhase': ProblemPhase.idle.value,
+      'timer': null,
+      'currentIntegralCode': spareIntegralsCode,
     });
   }
 }

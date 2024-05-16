@@ -30,8 +30,9 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
     required super.timeLimitPerIntegral,
     required super.timeLimitPerSpareIntegral,
     required this.scores,
-    required super.progressIndex,
-    required super.phaseIndex,
+    required super.integralsProgress,
+    required super.spareIntegralsProgress,
+    required super.problemPhase,
     required super.timer,
   }) {
     super.type = AgendaItemType.knockout;
@@ -47,7 +48,7 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
         orderIndex: json['orderIndex'],
         currentlyActive: json['currentlyActive'],
         finished: json['finished'] ?? false,
-        status: json['status'] ?? '',
+        status: json['status'],
         title: json['title'] ?? '',
         integralsCodes:
             (json['integralsCodes'] as List).map((v) => v as String).toList(),
@@ -62,8 +63,9 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
             Duration(seconds: json['timeLimitPerSpareIntegral']),
         scores:
             (json['scores'] as List).map((v) => Score.fromValue(v)).toList(),
-        progressIndex: json['progressIndex'],
-        phaseIndex: json['phaseIndex'],
+        integralsProgress: json['integralsProgress'],
+        spareIntegralsProgress: json['spareIntegralsProgress'],
+        problemPhase: json['problemPhase'],
         timer: TimerModel.fromJson(json['timer']),
       );
 
@@ -77,14 +79,28 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
     'title': '',
     'currentIntegralCode': null,
     'scores': [],
-    'progressIndex': 0,
-    'phaseIndex': ProblemPhase.idle.value,
+    'integralsProgress': null,
+    'spareIntegralsProgress': null,
+    'problemPhase': ProblemPhase.idle.value,
     'timer': TimerModel.empty.toJson(),
   };
 
   // Getters:
-  int? get competitor1Score => scores.competitor1Score;
-  int? get competitor2Score => scores.competitor2Score;
+  int get competitor1Score => scores.competitor1Score;
+  int get competitor2Score => scores.competitor2Score;
+  Score get currentWinner => _getWinner(competitor1Score, competitor2Score);
+
+  Score _getWinner(int competitor1Score, int competitor2Score) {
+    if (competitor1Score > numOfIntegrals / 2.0 &&
+        competitor1Score > competitor2Score) {
+      return Score.competitor1;
+    } else if (competitor2Score > numOfIntegrals / 2.0 &&
+        competitor2Score > competitor1Score) {
+      return Score.competitor2;
+    } else {
+      return Score.notSetYet;
+    }
+  }
 
   @override
   String get displayTitle {
@@ -143,7 +159,58 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
     super.start(batch);
 
     batch.update(reference, {
-      'scores': [],
+      'scores': [Score.notSetYet],
     });
+  }
+
+  // Agenda item specific operations:
+  Future setWinner(Score winner) async {
+    var scores = this.scores;
+    scores[totalProgress!] = winner;
+
+    final competitor1Score = scores.competitor1Score;
+    final competitor2Score = scores.competitor2Score;
+
+    bool finished = false;
+    String? status;
+
+    switch (_getWinner(competitor1Score, competitor2Score)) {
+      case Score.competitor1:
+        status = '$competitor1Name wins!';
+        finished = true;
+        break;
+      case Score.competitor2:
+        status = '$competitor2Name wins!';
+        finished = true;
+        break;
+      default:
+        break;
+    }
+
+    await reference.update({
+      'finished': finished,
+      'status': status,
+      'scores': scores,
+      'problemPhase': ProblemPhase.showSolutionAndWinner,
+      'timer': null,
+    });
+  }
+
+  Future startNextRegularIntegral() async {
+    var scores = [...this.scores];
+    final nextIntegralCode = integralsCodes[integralsProgress! + 1];
+
+    // Add score element:
+    scores.add(Score.notSetYet);
+
+    await reference.update({
+      'scores': scores,
+      'integralsProgress': integralsProgress! + 1,
+      'problemPhase': ProblemPhase.idle.value,
+      'timer': TimerModel.empty.toJson(),
+      'currentIntegralCode': nextIntegralCode,
+    });
+
+    return true;
   }
 }

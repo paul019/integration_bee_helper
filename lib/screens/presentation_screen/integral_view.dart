@@ -6,20 +6,20 @@ import 'package:integration_bee_helper/services/latex_transformer.dart';
 
 class IntegralView extends StatelessWidget {
   final IntegralModel? currentIntegral;
-  final ProblemPhase phaseIndex;
+  final ProblemPhase problemPhase;
   final String? problemName;
   final Size size;
 
   const IntegralView({
     super.key,
     required this.currentIntegral,
-    required this.phaseIndex,
+    required this.problemPhase,
     required this.problemName,
     required this.size,
   });
 
   String get latex {
-    switch (phaseIndex) {
+    switch (problemPhase) {
       case ProblemPhase.idle:
         return '';
       case ProblemPhase.showProblem:
@@ -36,7 +36,7 @@ class IntegralView extends StatelessWidget {
   Widget build(BuildContext context) {
     final p = size.width / 1920.0;
 
-    if (phaseIndex == ProblemPhase.idle) {
+    if (problemPhase == ProblemPhase.idle) {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [

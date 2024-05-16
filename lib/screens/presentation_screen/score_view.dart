@@ -7,7 +7,7 @@ class ScoreView extends StatelessWidget {
   final String competitor1Name;
   final String competitor2Name;
   final List<Score> scores;
-  final int progressIndex;
+  final int totalProgress;
   final String problemName;
   final Size size;
 
@@ -16,7 +16,7 @@ class ScoreView extends StatelessWidget {
     required this.competitor1Name,
     required this.competitor2Name,
     required this.scores,
-    required this.progressIndex,
+    required this.totalProgress,
     required this.problemName,
     required this.size,
   });
@@ -35,7 +35,7 @@ class ScoreView extends StatelessWidget {
   }
 
   double getScoreDiameter(int index) {
-    if(index == progressIndex) {
+    if(index == totalProgress) {
       return 50;
     } else {
       return 40;

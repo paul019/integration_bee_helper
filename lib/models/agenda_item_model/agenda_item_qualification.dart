@@ -18,8 +18,9 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
     super.currentIntegralCode,
     required super.timeLimitPerIntegral,
     required super.timeLimitPerSpareIntegral,
-    required super.progressIndex,
-    required super.phaseIndex,
+    required super.integralsProgress,
+    required super.spareIntegralsProgress,
+    required super.problemPhase,
     required super.timer,
   }) {
     super.type = AgendaItemType.qualification;
@@ -35,7 +36,7 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
         orderIndex: json['orderIndex'],
         currentlyActive: json['currentlyActive'],
         finished: json['finished'] ?? false,
-        status: json['status'] ?? '',
+        status: json['status'],
         title: json['title'],
         integralsCodes:
             (json['integralsCodes'] as List).map((v) => v as String).toList(),
@@ -46,8 +47,9 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
         timeLimitPerIntegral: Duration(seconds: json['timeLimitPerIntegral']),
         timeLimitPerSpareIntegral:
             Duration(seconds: json['timeLimitPerSpareIntegral']),
-        progressIndex: json['progressIndex'],
-        phaseIndex: json['phaseIndex'],
+        integralsProgress: json['integralsProgress'],
+        spareIntegralsProgress: json['spareIntegralsProgress'],
+        problemPhase: json['problemPhase'],
         timer: TimerModel.fromJson(json['timer']),
       );
 
@@ -58,8 +60,9 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
     'timeLimitPerSpareIntegral': 3 * 60,
     'title': '',
     'currentIntegralCode': null,
-    'progressIndex': 0,
-    'phaseIndex': ProblemPhase.idle.value,
+    'integralsProgress': null,
+    'spareIntegralsProgress': null,
+    'problemPhase': ProblemPhase.idle.value,
     'timer': TimerModel.empty.toJson(),
   };
 
@@ -114,5 +117,14 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
       'timeLimitPerSpareIntegral': timeLimitPerSpareIntegral?.inSeconds,
       'title': title,
     }.deleteNullEntries());
+  }
+
+  // Agenda item specific operations:
+  Future setToFinished() async {
+    await reference.update({
+      'problemPhase': ProblemPhase.showSolutionAndWinner.value,
+      'finished': true,
+      'status': 'Qualification round finished!',
+    });
   }
 }
