@@ -162,7 +162,7 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
     super.start(batch);
 
     batch.update(reference, {
-      'scores': [Score.notSetYet],
+      'scores': [Score.notSetYet.value],
     });
   }
 
