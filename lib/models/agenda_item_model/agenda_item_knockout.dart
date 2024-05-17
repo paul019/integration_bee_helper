@@ -71,6 +71,7 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
       );
 
   static Map<String, dynamic> minimalJson = {
+    'type': AgendaItemType.knockout.id,
     'integralsCodes': [],
     'spareIntegralsCodes': [],
     'competitor1Name': '',

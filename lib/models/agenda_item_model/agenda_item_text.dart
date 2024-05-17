@@ -39,6 +39,7 @@ class AgendaItemModelText extends AgendaItemModel {
       );
 
   static Map<String, dynamic> minimalJson = {
+    'type': AgendaItemType.text.id,
     'title': '',
     'subtitle': '',
     'imageUrl': '',

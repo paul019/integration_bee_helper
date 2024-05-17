@@ -35,6 +35,8 @@ class AgendaItemModelNotSpecified extends AgendaItemModel {
         'orderIndex': orderIndex,
         'type': AgendaItemType.notSpecified.id,
         'currentlyActive': false,
+        'finished': false,
+        'status': null,
       };
 
   // Getters:

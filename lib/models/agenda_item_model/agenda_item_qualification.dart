@@ -54,6 +54,7 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
       );
 
   static Map<String, dynamic> minimalJson = {
+    'type': AgendaItemType.qualification.id,
     'integralsCodes': [],
     'spareIntegralsCodes': [],
     'timeLimitPerIntegral': 5 * 60,

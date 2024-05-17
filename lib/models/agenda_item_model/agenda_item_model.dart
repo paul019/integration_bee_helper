@@ -40,7 +40,7 @@ abstract class AgendaItemModel {
       case AgendaItemType.qualification:
         return AgendaItemModelQualification.fromJson(json, id: id);
       case AgendaItemType.text:
-        throw AgendaItemModelText.fromJson(json, id: id);
+        return AgendaItemModelText.fromJson(json, id: id);
     }
   }
 
