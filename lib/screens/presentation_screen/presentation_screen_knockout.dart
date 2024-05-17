@@ -94,7 +94,7 @@ class _PresentationScreenKnockoutState
       switch (problemPhase) {
         case ProblemPhase.idle:
           if (widget.activeAgendaItem.currentIntegralType ==
-              IntegralType.spare) {
+              IntegralType.regular) {
             setState(() {
               timeLeft = widget.activeAgendaItem.timeLimitPerIntegral;
               timerRed = false;
