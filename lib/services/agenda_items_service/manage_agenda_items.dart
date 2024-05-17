@@ -156,4 +156,11 @@ extension ManageAgendaItems on AgendaItemsService {
 
     batch.commit();
   }
+
+  Future startFromBeginning({
+    required List<AgendaItemModel> currentAgendaItems,
+  }) async {
+    await resetAllAgendaItems(currentAgendaItems: currentAgendaItems);
+    await forceStartAgendaItem(currentAgendaItems.first);
+  }
 }

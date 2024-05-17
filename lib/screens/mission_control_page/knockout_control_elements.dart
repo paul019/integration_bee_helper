@@ -6,6 +6,7 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knoc
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/score.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
+import 'package:integration_bee_helper/widgets/vertical_separator.dart';
 
 class KnockoutControlElements extends StatefulWidget {
   final AgendaItemModelKnockout activeAgendaItem;
@@ -78,8 +79,9 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
                   ? const Text('Resume timer')
                   : const Text('Pause timer'),
             ),
-            separator(),
-            if (widget.activeAgendaItem.problemPhase == ProblemPhase.showProblem)
+            const VerticalSeparator(),
+            if (widget.activeAgendaItem.problemPhase ==
+                ProblemPhase.showProblem)
               TextButton(
                 onPressed: () {
                   ConfirmationDialog(
@@ -90,23 +92,23 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
                 },
                 child: const Text('Show solution'),
               ),
-            if (widget.activeAgendaItem.problemPhase == ProblemPhase.showProblem)
-              separator(),
+            if (widget.activeAgendaItem.problemPhase ==
+                ProblemPhase.showProblem)
+              const VerticalSeparator(),
             TextButton(
               onPressed: () =>
                   widget.activeAgendaItem.setWinner(Score.competitor1),
               child: Text('${widget.activeAgendaItem.competitor1Name} wins'),
             ),
-            separator(),
+            const VerticalSeparator(),
             TextButton(
               onPressed: () =>
                   widget.activeAgendaItem.setWinner(Score.competitor2),
               child: Text('${widget.activeAgendaItem.competitor2Name} wins'),
             ),
-            separator(),
+            const VerticalSeparator(),
             TextButton(
-              onPressed: () =>
-                  widget.activeAgendaItem.setWinner(Score.tie),
+              onPressed: () => widget.activeAgendaItem.setWinner(Score.tie),
               child: const Text('Draw'),
             ),
           ],
@@ -121,7 +123,8 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
           return TextButton(
             onPressed: () async {
               throw UnimplementedError();
-              final success = await widget.activeAgendaItem.startNextRegularIntegral();
+              final success =
+                  await widget.activeAgendaItem.startNextRegularIntegral();
 
               if (success && context.mounted) {
                 showDialog(
@@ -145,12 +148,5 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
       default:
         return Container();
     }
-  }
-
-  Widget separator() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8.0),
-      child: Text('|'),
-    );
   }
 }
