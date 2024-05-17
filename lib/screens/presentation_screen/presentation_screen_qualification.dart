@@ -2,15 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
+import 'package:integration_bee_helper/models/integral_model/current_integral_wrapper.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
-import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/integral_code_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/integral_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/timer_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/title_view.dart';
 import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:provider/provider.dart';
 
 class PresentationScreenQualification extends StatefulWidget {
   final AgendaItemModelQualification activeAgendaItem;
@@ -31,7 +32,6 @@ class PresentationScreenQualification extends StatefulWidget {
 
 class _PresentationScreenQualificationState
     extends State<PresentationScreenQualification> {
-  List<IntegralModel> integrals = [];
   String agendaItemId = '';
 
   late Timer timer;
@@ -61,28 +61,8 @@ class _PresentationScreenQualificationState
   Duration? get pausedTimerDuration =>
       widget.activeAgendaItem.timer.pausedTimerDuration;
 
-  IntegralModel? get currentIntegral => getIntegral(currentIntegralCode);
-  IntegralModel? getIntegral(String? integralCode) {
-    try {
-      return integrals.firstWhere((integral) => integral.code == integralCode);
-    } catch (err) {
-      return null;
-    }
-  }
-
   void initialize() async {
-    integrals = [];
     agendaItemId = widget.activeAgendaItem.id;
-
-    for (final code in integralsCodes) {
-      final integral = await IntegralsService().getIntegral(code: code);
-      integrals.add(integral);
-    }
-
-    for (final code in spareIntegralsCodes) {
-      final integral = await IntegralsService().getIntegral(code: code);
-      integrals.add(integral);
-    }
 
     setState(() {});
   }
@@ -99,7 +79,8 @@ class _PresentationScreenQualificationState
     timer = Timer.periodic(timerInterval, (timer) {
       switch (problemPhase) {
         case ProblemPhase.idle:
-          if (widget.activeAgendaItem.currentIntegralType == IntegralType.regular) {
+          if (widget.activeAgendaItem.currentIntegralType ==
+              IntegralType.regular) {
             setState(() {
               timeLeft = widget.activeAgendaItem.timeLimitPerIntegral;
               timerRed = false;
@@ -181,27 +162,38 @@ class _PresentationScreenQualificationState
 
     // final p = size.width / 1920.0;
 
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        TimerView(
-          timeLeft: timeLeft,
-          timerRed: timerRed,
-          paused: pausedTimerDuration != null,
-          size: widget.size,
+    return StreamProvider<CurrentIntegralWrapper>.value(
+        initialData: CurrentIntegralWrapper(null),
+        value: IntegralsService().onActiveAgendaItemChanged(
+          integralCode: widget.activeAgendaItem.currentIntegralCode,
         ),
-        IntegralView(
-          currentIntegral: currentIntegral,
-          problemPhase: problemPhase,
-          problemName: problemName,
-          size: widget.size,
-        ),
-        IntegralCodeView(
-          code: currentIntegralCode ?? '',
-          size: widget.size,
-        ),
-        TitleView(title: widget.activeAgendaItem.title, size: widget.size),
-      ],
-    );
+        builder: (context, snapshot) {
+          final integralWrapper = Provider.of<CurrentIntegralWrapper>(context);
+          final currentIntegral = integralWrapper.integral;
+
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              TimerView(
+                timeLeft: timeLeft,
+                timerRed: timerRed,
+                paused: pausedTimerDuration != null,
+                size: widget.size,
+              ),
+              IntegralView(
+                currentIntegral: currentIntegral,
+                problemPhase: problemPhase,
+                problemName: problemName,
+                size: widget.size,
+              ),
+              IntegralCodeView(
+                code: currentIntegralCode ?? '',
+                size: widget.size,
+              ),
+              TitleView(
+                  title: widget.activeAgendaItem.title, size: widget.size),
+            ],
+          );
+        });
   }
 }

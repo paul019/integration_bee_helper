@@ -59,8 +59,11 @@ class IntegralsService {
         .map(_integralListFromFirebase);
   }
 
-  Stream<CurrentIntegralWrapper> onActiveAgendaItemChanged(
-      {required int integralCode}) {
+  Stream<CurrentIntegralWrapper>? onActiveAgendaItemChanged({
+    required String? integralCode,
+  }) {
+    if (integralCode == null) return null;
+
     return _firestore
         .collection('integrals')
         .where('uid', isEqualTo: _uid)
