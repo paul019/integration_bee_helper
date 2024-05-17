@@ -74,7 +74,7 @@ abstract class AgendaItemModel {
   void start(WriteBatch batch) {
     batch.update(reference, {
       'currentlyActive': true,
-      'finished': true,
+      'finished': false,
       'status': null,
     });
   }
