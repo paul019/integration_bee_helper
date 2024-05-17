@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:integration_bee_helper/extensions/exception_extension.dart';
-import 'package:integration_bee_helper/models/integral_model/integral_level.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
 import 'package:integration_bee_helper/services/basic_services/latex_transformer.dart';
@@ -28,8 +27,6 @@ class _IntegralCardState extends State<IntegralCard> {
   late String latexSolution;
   late String name;
 
-  late IntegralLevel level;
-
   late TextEditingController problemController;
   late TextEditingController solutionController;
   late TextEditingController nameController;
@@ -39,8 +36,6 @@ class _IntegralCardState extends State<IntegralCard> {
     latexProblem = widget.integral.latexProblem;
     latexSolution = widget.integral.latexSolution;
     name = widget.integral.name;
-
-    level = widget.integral.level;
 
     problemController = TextEditingController(text: latexProblem);
     solutionController = TextEditingController(text: latexSolution);
@@ -54,8 +49,6 @@ class _IntegralCardState extends State<IntegralCard> {
     latexProblem = widget.integral.latexProblem;
     latexSolution = widget.integral.latexSolution;
     name = widget.integral.name;
-
-    level = widget.integral.level;
 
     problemController.text = latexProblem;
     solutionController.text = latexSolution;
@@ -138,24 +131,6 @@ class _IntegralCardState extends State<IntegralCard> {
                         icon: const Icon(Icons.copy),
                       ),
                       Flexible(child: Container()),
-                      DropdownButtonHideUnderline(
-                        child: DropdownButton<IntegralLevel>(
-                          value: level,
-                          onChanged: (IntegralLevel? v) => setState(() {
-                            level = v!;
-                            hasChanged = true;
-                            FocusScope.of(context).unfocus();
-                          }),
-                          items: IntegralLevel.values
-                              .map<DropdownMenuItem<IntegralLevel>>(
-                                  (IntegralLevel v) {
-                            return DropdownMenuItem<IntegralLevel>(
-                              value: v,
-                              child: Text(v.name),
-                            );
-                          }).toList(),
-                        ),
-                      ),
                     ],
                   ),
                 ],
@@ -230,7 +205,6 @@ class _IntegralCardState extends State<IntegralCard> {
                       latexProblem = widget.integral.latexProblem;
                       latexSolution = widget.integral.latexSolution;
                       name = widget.integral.name;
-                      level = widget.integral.level;
                       problemController.text = latexProblem;
                       solutionController.text = latexSolution;
                       nameController.text = name;
@@ -241,7 +215,6 @@ class _IntegralCardState extends State<IntegralCard> {
                       widget.integral,
                       latexProblem: latexProblem,
                       latexSolution: latexSolution,
-                      level: level,
                       name: name,
                     );
                     setState(() => hasChanged = false);

@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:integration_bee_helper/models/integral_model/current_integral_wrapper.dart';
-import 'package:integration_bee_helper/models/integral_model/integral_level.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
 import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
@@ -116,7 +115,6 @@ class IntegralsService {
       createdAt: DateTime.now(),
       latexProblem: "",
       latexSolution: "",
-      level: IntegralLevel.standard,
       type: IntegralType.regular,
       name: "",
       alreadyUsed: false,
@@ -169,13 +167,11 @@ class IntegralsService {
     IntegralModel integral, {
     required String latexProblem,
     required String latexSolution,
-    required IntegralLevel level,
     required String name,
   }) async {
     await integral.reference.update({
       'latexProblem': latexProblem,
       'latexSolution': latexSolution,
-      'level': level.id,
       'name': name,
     });
   }
