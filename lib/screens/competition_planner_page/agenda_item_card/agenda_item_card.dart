@@ -59,7 +59,8 @@ class AgendaItemCard extends StatelessWidget {
                             ),
                             child: Text(
                               'Agenda item #${agendaItem.orderIndex + 1}',
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
@@ -82,14 +83,15 @@ class AgendaItemCard extends StatelessWidget {
                                         AgendaItemType.notSpecified,
                                     title:
                                         'Do you really want to delete this agenda item?',
-                                    payload: () {
+                                    payload: () async {
                                       try {
-                                        AgendaItemsService().deleteAgendaItem(
+                                        await AgendaItemsService()
+                                            .deleteAgendaItem(
                                           agendaItem,
                                           currentAgendaItems: agendaItems,
                                         );
                                       } on Exception catch (e) {
-                                        e.show(context);
+                                        if (context.mounted) e.show(context);
                                       }
                                     },
                                   ).launch(context);
@@ -114,14 +116,14 @@ class AgendaItemCard extends StatelessWidget {
                             agendaItem,
                             currentAgendaItems: agendaItems,
                           )
-                              ? () {
+                              ? () async {
                                   try {
-                                    AgendaItemsService().raiseAgendaItem(
+                                    await AgendaItemsService().raiseAgendaItem(
                                       agendaItem,
                                       currentAgendaItems: agendaItems,
                                     );
                                   } on Exception catch (e) {
-                                    e.show(context);
+                                    if (context.mounted) e.show(context);
                                   }
                                 }
                               : null,
@@ -132,14 +134,14 @@ class AgendaItemCard extends StatelessWidget {
                             agendaItem,
                             currentAgendaItems: agendaItems,
                           )
-                              ? () {
+                              ? () async {
                                   try {
-                                    AgendaItemsService().lowerAgendaItem(
+                                    await AgendaItemsService().lowerAgendaItem(
                                       agendaItem,
                                       currentAgendaItems: agendaItems,
                                     );
                                   } on Exception catch (e) {
-                                    e.show(context);
+                                    if (context.mounted) e.show(context);
                                   }
                                 }
                               : null,

@@ -50,11 +50,11 @@ class _QualificationControlElementsState
     switch (widget.activeAgendaItem.problemPhase) {
       case ProblemPhase.idle:
         return TextButton(
-          onPressed: () {
+          onPressed: () async {
             try {
-              widget.activeAgendaItem.startIntegral();
+              await widget.activeAgendaItem.startIntegral();
             } on Exception catch (e) {
-              e.show(context);
+              if (context.mounted) e.show(context);
             }
           },
           child: const Text('Start!'),
@@ -93,7 +93,8 @@ class _QualificationControlElementsState
           ],
         );
       case ProblemPhase.showSolution:
-        if (widget.activeAgendaItem.phase == AgendaItemPhase.activeButFinished) {
+        if (widget.activeAgendaItem.phase ==
+            AgendaItemPhase.activeButFinished) {
           return Text(
             widget.activeAgendaItem.status ?? '',
             style: const TextStyle(fontWeight: FontWeight.bold),

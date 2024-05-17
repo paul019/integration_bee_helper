@@ -108,12 +108,12 @@ class _IntegralCardState extends State<IntegralCard> {
                                 latexProblem == "" && latexSolution == "",
                             title:
                                 'Do you really want to delete this integral?',
-                            payload: () {
+                            payload: () async {
                               try {
-                                IntegralsService()
+                                await IntegralsService()
                                     .deleteIntegral(widget.integral);
                               } on Exception catch (e) {
-                                e.show(context);
+                                if(context.mounted) e.show(context);
                               }
                             },
                           ).launch(context);

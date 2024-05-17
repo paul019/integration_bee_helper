@@ -25,11 +25,12 @@ class NavigationCard extends StatelessWidget {
                     ? () {
                         ConfirmationDialog(
                           title: 'Do you really want to go back?',
-                          payload: () {
+                          payload: () async {
                             try {
-                              AgendaItemsService().goBack(activeAgendaItem!);
+                              await AgendaItemsService()
+                                  .goBack(activeAgendaItem!);
                             } on Exception catch (e) {
-                              e.show(context);
+                              if (context.mounted) e.show(context);
                             }
                           },
                         ).launch(context);
@@ -63,14 +64,16 @@ class NavigationCard extends StatelessWidget {
                 onPressed: activeAgendaItem?.orderIndex != null
                     ? () {
                         ConfirmationDialog(
-                          bypassConfirmation: activeAgendaItem!.phase == AgendaItemPhase.activeButFinished,
+                          bypassConfirmation: activeAgendaItem!.phase ==
+                              AgendaItemPhase.activeButFinished,
                           title:
                               'The current agenda item is not finished yet. Do you want to go forward anyway?',
-                          payload: () {
+                          payload: () async {
                             try {
-                              AgendaItemsService().goForward(activeAgendaItem!);
+                              await AgendaItemsService()
+                                  .goForward(activeAgendaItem!);
                             } on Exception catch (e) {
-                              e.show(context);
+                              if (context.mounted) e.show(context);
                             }
                           },
                         ).launch(context);
