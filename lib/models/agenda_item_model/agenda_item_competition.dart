@@ -191,7 +191,7 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
   Future showSolution() async {
     await reference.update({
       'problemPhase': ProblemPhase.showSolution.value,
-      'timer': null,
+      'timer': TimerModel.empty.toJson(),
     });
   }
 
@@ -223,7 +223,7 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
     await reference.update({
       'spareIntegralsProgress': (spareIntegralsProgress ?? -1) + 1,
       'problemPhase': ProblemPhase.idle.value,
-      'timer': null,
+      'timer': TimerModel.empty.toJson(),
       'currentIntegralCode': spareIntegralCode,
     });
   }

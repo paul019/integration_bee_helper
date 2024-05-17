@@ -36,4 +36,6 @@ extension ScoreModelListExtension on List<Score> {
   int get competitor2Score {
     return where((element) => element == Score.competitor2).length;
   }
+
+  List<int> toJson() => map((e) => e.value).toList();
 }

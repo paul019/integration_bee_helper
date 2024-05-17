@@ -195,9 +195,9 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
           ? AgendaItemPhase.activeButFinished.value
           : AgendaItemPhase.active.value,
       'status': status,
-      'scores': scores,
-      'problemPhase': ProblemPhase.showSolutionAndWinner,
-      'timer': null,
+      'scores': scores.toJson(),
+      'problemPhase': ProblemPhase.showSolutionAndWinner.value,
+      'timer': TimerModel.empty.toJson(),
     });
   }
 
@@ -212,7 +212,7 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
     await IntegralsService().setIntegralToUsed(nextIntegralCode);
 
     await reference.update({
-      'scores': scores,
+      'scores': scores.toJson(),
       'integralsProgress': integralsProgress! + 1,
       'problemPhase': ProblemPhase.idle.value,
       'timer': TimerModel.empty.toJson(),
