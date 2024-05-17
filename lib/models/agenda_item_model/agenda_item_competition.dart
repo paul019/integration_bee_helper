@@ -116,8 +116,7 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
     // Check integral codes:
     final currentIntegralCodes =
         this.integralsCodes.toSet().union(this.spareIntegralsCodes.toSet());
-    final editedIntegralCodes =
-        [...integralsCodes, ...spareIntegralsCodes];
+    final editedIntegralCodes = [...integralsCodes, ...spareIntegralsCodes];
     final newIntegralCodes =
         editedIntegralCodes.toSet().difference(currentIntegralCodes);
 
@@ -150,8 +149,12 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
   }
 
   @override
-  void start(WriteBatch batch) {
-    super.start(batch);
+  Future start(WriteBatch batch) async {
+    await super.start(batch);
+
+    if (integralsCodes.isNotEmpty) {
+      await IntegralsService().setIntegralToUsed(integralsCodes.first);
+    }
 
     batch.update(reference, {
       'currentIntegralCode': integralsCodes.firstOrNull,
@@ -168,6 +171,8 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
 
     if (integralsProgress == -1) {
       throw Exception('You have to add at least one integral!');
+    } else if (integralsProgress == 0) {
+      await IntegralsService().setIntegralToUsed(integralsCodes.first);
     }
 
     await reference.update({
@@ -208,11 +213,12 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
         .where((code) => allUnusedIntegralsCodes.contains(code))
         .toList();
 
-    final finalList = ownUnusedSpareIntegralsCodes..addAll(
-      allUnusedSpareIntegralsCodes.difference(
-        ownUnusedSpareIntegralsCodes.toSet(),
-      ),
-    );
+    final finalList = ownUnusedSpareIntegralsCodes
+      ..addAll(
+        allUnusedSpareIntegralsCodes.difference(
+          ownUnusedSpareIntegralsCodes.toSet(),
+        ),
+      );
 
     return finalList;
   }

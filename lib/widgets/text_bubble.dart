@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 
 class TextBubble extends StatelessWidget {
   final Color? color;
+  final Color textColor;
   final String text;
 
-  const TextBubble({super.key, required this.color, required this.text});
+  const TextBubble({
+    super.key,
+    required this.color,
+    this.textColor = Colors.black,
+    required this.text,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +28,7 @@ class TextBubble extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
         ),
       ),
     );

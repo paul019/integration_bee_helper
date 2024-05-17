@@ -158,8 +158,8 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
   }
 
   @override
-  void start(WriteBatch batch) {
-    super.start(batch);
+  Future start(WriteBatch batch) async {
+    await super.start(batch);
 
     batch.update(reference, {
       'scores': [Score.notSetYet.value],

@@ -14,7 +14,7 @@ extension ManageAgendaItemsDynamic on AgendaItemsService {
     }
 
     // Activate new item:
-    agendaItem.start(batch);
+    await agendaItem.start(batch);
 
     // Handle backwards skipped agenda items:
     for (int i = agendaItem.orderIndex + 1; i <= activeItemOrderIndex; i++) {
@@ -34,7 +34,7 @@ extension ManageAgendaItemsDynamic on AgendaItemsService {
 
     final batch = _firestore.batch();
     currentAgendaItem.reset(batch);
-    previousAgendaItem.start(batch);
+    await previousAgendaItem.start(batch);
     await batch.commit();
   }
 
@@ -47,7 +47,7 @@ extension ManageAgendaItemsDynamic on AgendaItemsService {
 
     final batch = _firestore.batch();
     currentAgendaItem.end(batch);
-    nextAgendaItem.start(batch);
+    await nextAgendaItem.start(batch);
     await batch.commit();
   }
 }

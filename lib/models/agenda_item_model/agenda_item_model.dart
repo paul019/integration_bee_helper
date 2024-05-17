@@ -72,7 +72,7 @@ abstract class AgendaItemModel {
     });
   }
 
-  void start(WriteBatch batch) {
+  Future start(WriteBatch batch) async {
     batch.update(reference, {
       'currentlyActive': true,
       'phase': AgendaItemPhase.active.value,

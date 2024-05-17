@@ -8,6 +8,7 @@ import 'package:integration_bee_helper/services/integrals_service/integrals_serv
 import 'package:integration_bee_helper/services/basic_services/latex_transformer.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
+import 'package:integration_bee_helper/widgets/text_bubble.dart';
 
 class IntegralCard extends StatefulWidget {
   final IntegralModel integral;
@@ -77,9 +78,14 @@ class _IntegralCardState extends State<IntegralCard> {
                 children: [
                   Column(
                     children: [
-                      Text(
-                        'Integral #${widget.integral.code}',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      TextBubble(
+                        color: widget.integral.alreadyUsed
+                            ? Theme.of(context).colorScheme.error
+                            : null,
+                        textColor: widget.integral.alreadyUsed
+                            ? Colors.white
+                            : Colors.black,
+                        text: 'Integral #${widget.integral.code}',
                       ),
                       SizedBox(
                         width: 400,
@@ -113,7 +119,7 @@ class _IntegralCardState extends State<IntegralCard> {
                                 await IntegralsService()
                                     .deleteIntegral(widget.integral);
                               } on Exception catch (e) {
-                                if(context.mounted) e.show(context);
+                                if (context.mounted) e.show(context);
                               }
                             },
                           ).launch(context);
