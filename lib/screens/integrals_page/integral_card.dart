@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
+import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
 import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
 import 'package:integration_bee_helper/services/basic_services/latex_transformer.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
@@ -26,6 +27,7 @@ class _IntegralCardState extends State<IntegralCard> {
   late String latexProblem;
   late String latexSolution;
   late String name;
+  late IntegralType type;
 
   late TextEditingController problemController;
   late TextEditingController solutionController;
@@ -36,6 +38,7 @@ class _IntegralCardState extends State<IntegralCard> {
     latexProblem = widget.integral.latexProblem;
     latexSolution = widget.integral.latexSolution;
     name = widget.integral.name;
+    type = widget.integral.type;
 
     problemController = TextEditingController(text: latexProblem);
     solutionController = TextEditingController(text: latexSolution);
@@ -49,6 +52,7 @@ class _IntegralCardState extends State<IntegralCard> {
     latexProblem = widget.integral.latexProblem;
     latexSolution = widget.integral.latexSolution;
     name = widget.integral.name;
+    type = widget.integral.type;
 
     problemController.text = latexProblem;
     solutionController.text = latexSolution;
@@ -131,6 +135,19 @@ class _IntegralCardState extends State<IntegralCard> {
                         icon: const Icon(Icons.copy),
                       ),
                       Flexible(child: Container()),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 4.0),
+                        child: Text('Spare Integral?'),
+                      ),
+                      Checkbox(
+                        value: type == IntegralType.spare,
+                        onChanged: (v) => setState(() {
+                          type = (v ?? false)
+                              ? IntegralType.spare
+                              : IntegralType.regular;
+                          hasChanged = true;
+                        }),
+                      ),
                     ],
                   ),
                 ],
@@ -216,6 +233,7 @@ class _IntegralCardState extends State<IntegralCard> {
                       latexProblem: latexProblem,
                       latexSolution: latexSolution,
                       name: name,
+                      type: type,
                     );
                     setState(() => hasChanged = false);
                   },

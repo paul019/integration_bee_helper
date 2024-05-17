@@ -168,11 +168,13 @@ class IntegralsService {
     required String latexProblem,
     required String latexSolution,
     required String name,
+    required IntegralType type,
   }) async {
     await integral.reference.update({
       'latexProblem': latexProblem,
       'latexSolution': latexSolution,
       'name': name,
+      'type': type.id,
     });
   }
 
