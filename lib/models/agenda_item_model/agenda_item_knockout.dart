@@ -191,7 +191,9 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
     }
 
     await reference.update({
-      'finished': finished,
+      'phase': finished
+          ? AgendaItemPhase.activeButFinished.value
+          : AgendaItemPhase.active.value,
       'status': status,
       'scores': scores,
       'problemPhase': ProblemPhase.showSolutionAndWinner,
