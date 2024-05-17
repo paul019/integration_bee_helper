@@ -117,12 +117,12 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
     final currentIntegralCodes =
         this.integralsCodes.toSet().union(this.spareIntegralsCodes.toSet());
     final editedIntegralCodes =
-        integralsCodes.toSet().union(spareIntegralsCodes.toSet());
+        [...integralsCodes, ...spareIntegralsCodes];
     final newIntegralCodes =
-        editedIntegralCodes.difference(currentIntegralCodes);
+        editedIntegralCodes.toSet().difference(currentIntegralCodes);
 
     // Make sure, integral codes are not doubled:
-    if (currentIntegralCodes.toSet().length != currentIntegralCodes.length) {
+    if (editedIntegralCodes.toSet().length != editedIntegralCodes.length) {
       throw Exception('Integral codes cannot be doubled');
     }
 
