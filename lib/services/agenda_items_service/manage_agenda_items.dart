@@ -69,8 +69,8 @@ extension ManageAgendaItems on AgendaItemsService {
     required List<AgendaItemModel> currentAgendaItems,
   }) {
     return agendaItem.orderIndex > 0 &&
-        !agendaItem.activeOrFinished &&
-        !currentAgendaItems[agendaItem.orderIndex - 1].activeOrFinished;
+        !agendaItem.activeOrOver &&
+        !currentAgendaItems[agendaItem.orderIndex - 1].activeOrOver;
   }
 
   Future<bool> raiseAgendaItem(
@@ -105,8 +105,8 @@ extension ManageAgendaItems on AgendaItemsService {
     required List<AgendaItemModel> currentAgendaItems,
   }) {
     return agendaItem.orderIndex < currentAgendaItems.length - 1 &&
-        !agendaItem.activeOrFinished &&
-        !currentAgendaItems[agendaItem.orderIndex + 1].activeOrFinished;
+        !agendaItem.activeOrOver &&
+        !currentAgendaItems[agendaItem.orderIndex + 1].activeOrOver;
   }
 
   Future<bool> lowerAgendaItem(

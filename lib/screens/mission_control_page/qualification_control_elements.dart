@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/extensions/exception_extension.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
@@ -92,7 +93,7 @@ class _QualificationControlElementsState
           ],
         );
       case ProblemPhase.showSolution:
-        if (widget.activeAgendaItem.finished) {
+        if (widget.activeAgendaItem.phase == AgendaItemPhase.activeButFinished) {
           return Text(
             widget.activeAgendaItem.status ?? '',
             style: const TextStyle(fontWeight: FontWeight.bold),

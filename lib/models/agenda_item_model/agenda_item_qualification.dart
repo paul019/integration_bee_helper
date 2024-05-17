@@ -1,5 +1,6 @@
 import 'package:integration_bee_helper/extensions/map_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_competition.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/basic_models/timer_model.dart';
@@ -10,7 +11,7 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
     required super.uid,
     required super.orderIndex,
     super.currentlyActive = false,
-    super.finished = false,
+    super.phase = AgendaItemPhase.idle,
     super.status = '',
     super.title = '',
     required super.integralsCodes,
@@ -33,7 +34,7 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
         uid: json['uid'],
         orderIndex: json['orderIndex'],
         currentlyActive: json['currentlyActive'],
-        finished: json['finished'] ?? false,
+        phase: AgendaItemPhase.fromValue(json['phase']),
         status: json['status'],
         title: json['title'],
         integralsCodes:
@@ -124,7 +125,7 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
   Future setToFinished() async {
     await reference.update({
       'problemPhase': ProblemPhase.showSolutionAndWinner.value,
-      'finished': true,
+      'phase': AgendaItemPhase.activeButFinished.value,
       'status': 'Qualification round finished!',
     });
   }

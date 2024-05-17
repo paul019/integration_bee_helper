@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:integration_bee_helper/extensions/map_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 
 class AgendaItemModelText extends AgendaItemModel {
@@ -14,7 +15,7 @@ class AgendaItemModelText extends AgendaItemModel {
     required super.uid,
     required super.orderIndex,
     super.currentlyActive = false,
-    super.finished = false,
+    super.phase = AgendaItemPhase.idle,
     super.status = '',
     required this.title,
     required this.subtitle,
@@ -30,7 +31,7 @@ class AgendaItemModelText extends AgendaItemModel {
         uid: json['uid'],
         orderIndex: json['orderIndex'],
         currentlyActive: json['currentlyActive'],
-        finished: json['finished'] ?? false,
+        phase: AgendaItemPhase.fromValue(json['phase']),
         status: json['status'],
         title: json['title'],
         subtitle: json['subtitle'],
@@ -75,7 +76,7 @@ class AgendaItemModelText extends AgendaItemModel {
   void start(WriteBatch batch) {
     batch.update(reference, {
       'currentlyActive': true,
-      'finished': true,
+      'phase': AgendaItemPhase.activeButFinished.value,
       'status': null,
     });
   }

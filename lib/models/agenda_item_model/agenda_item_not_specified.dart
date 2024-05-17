@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 
 class AgendaItemModelNotSpecified extends AgendaItemModel {
@@ -8,7 +9,7 @@ class AgendaItemModelNotSpecified extends AgendaItemModel {
     required super.uid,
     required super.orderIndex,
     super.currentlyActive = false,
-    super.finished = false,
+    super.phase = AgendaItemPhase.idle,
     super.status = '',
   });
 
@@ -21,7 +22,7 @@ class AgendaItemModelNotSpecified extends AgendaItemModel {
         uid: json['uid'],
         orderIndex: json['orderIndex'],
         currentlyActive: json['currentlyActive'],
-        finished: json['finished'] ?? false,
+        phase: AgendaItemPhase.fromValue(json['phase']),
         status: json['status'],
       );
 
@@ -34,7 +35,7 @@ class AgendaItemModelNotSpecified extends AgendaItemModel {
         'orderIndex': orderIndex,
         'type': AgendaItemType.notSpecified.id,
         'currentlyActive': false,
-        'finished': false,
+        'phase': AgendaItemPhase.idle.value,
         'status': null,
       };
 
@@ -54,7 +55,7 @@ class AgendaItemModelNotSpecified extends AgendaItemModel {
   void start(WriteBatch batch) {
     batch.update(reference, {
       'currentlyActive': true,
-      'finished': true,
+      'phase': AgendaItemPhase.activeButFinished.value,
       'status': null,
     });
   }

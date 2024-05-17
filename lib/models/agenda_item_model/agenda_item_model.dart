@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_not_specified.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
@@ -13,7 +14,7 @@ abstract class AgendaItemModel {
 
   // Dynamic:
   final bool currentlyActive;
-  final bool finished;
+  final AgendaItemPhase phase;
   final String? status;
 
   AgendaItemModel({
@@ -21,7 +22,7 @@ abstract class AgendaItemModel {
     required this.uid,
     required this.orderIndex,
     this.currentlyActive = false,
-    this.finished = false,
+    this.phase = AgendaItemPhase.idle,
     this.status,
   });
 
@@ -50,7 +51,7 @@ abstract class AgendaItemModel {
 
   // Getters:
   AgendaItemType get type;
-  bool get activeOrFinished => currentlyActive || finished;
+  bool get activeOrOver => phase.activeOrOver;
   String get displayTitle;
   String get displaySubtitle;
 
@@ -58,7 +59,7 @@ abstract class AgendaItemModel {
   Future<void> editStatic();
   Future<void> checkEdit() async {
     // Make sure, agenda item is not finished:
-    if (finished) {
+    if (phase == AgendaItemPhase.over) {
       throw Exception('Cannot edit finished agenda item');
     }
   }
@@ -66,7 +67,7 @@ abstract class AgendaItemModel {
   void reset(WriteBatch batch) {
     batch.update(reference, {
       'currentlyActive': false,
-      'finished': false,
+      'phase': AgendaItemPhase.idle.value,
       'status': null,
     });
   }
@@ -74,7 +75,7 @@ abstract class AgendaItemModel {
   void start(WriteBatch batch) {
     batch.update(reference, {
       'currentlyActive': true,
-      'finished': false,
+      'phase': AgendaItemPhase.active.value,
       'status': null,
     });
   }
@@ -82,7 +83,7 @@ abstract class AgendaItemModel {
   void end(WriteBatch batch) {
     batch.update(reference, {
       'currentlyActive': false,
-      'finished': true,
+      'phase': AgendaItemPhase.over.value,
     });
   }
 }

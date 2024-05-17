@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 
 class AgendaItemKnockout extends StatefulWidget {
@@ -106,7 +107,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
             ),
             Expanded(
               child: TextField(
-                enabled: !widget.agendaItem.finished,
+                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Title (optional)',
@@ -126,7 +127,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
           children: [
             Expanded(
               child: TextField(
-                enabled: !widget.agendaItem.finished,
+                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Competitor 1',
@@ -147,7 +148,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
             const SizedBox(width: 50),
             Expanded(
               child: TextField(
-                enabled: !widget.agendaItem.finished,
+                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Competitor 2',
@@ -180,7 +181,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                       ),
                       Expanded(
                         child: TextField(
-                          enabled: !widget.agendaItem.finished,
+                          enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Codes',
@@ -205,7 +206,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                       ),
                       Expanded(
                         child: TextField(
-                          enabled: !widget.agendaItem.finished,
+                          enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Duration in seconds',
@@ -240,7 +241,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                       ),
                       Expanded(
                         child: TextField(
-                          enabled: !widget.agendaItem.finished,
+                          enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Codes',
@@ -265,7 +266,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                       ),
                       Expanded(
                         child: TextField(
-                          enabled: !widget.agendaItem.finished,
+                          enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Duration in seconds',

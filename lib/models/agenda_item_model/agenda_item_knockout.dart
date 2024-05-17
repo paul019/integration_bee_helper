@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:integration_bee_helper/extensions/map_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_competition.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/score.dart';
@@ -20,7 +21,7 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
     required super.uid,
     required super.orderIndex,
     super.currentlyActive = false,
-    super.finished = false,
+    super.phase = AgendaItemPhase.idle,
     super.status = '',
     super.title = '',
     required super.integralsCodes,
@@ -46,7 +47,7 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
         uid: json['uid'],
         orderIndex: json['orderIndex'],
         currentlyActive: json['currentlyActive'],
-        finished: json['finished'] ?? false,
+        phase: AgendaItemPhase.fromValue(json['phase']),
         status: json['status'],
         title: json['title'] ?? '',
         integralsCodes:

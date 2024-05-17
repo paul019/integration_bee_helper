@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 
@@ -62,7 +63,7 @@ class NavigationCard extends StatelessWidget {
                 onPressed: activeAgendaItem?.orderIndex != null
                     ? () {
                         ConfirmationDialog(
-                          bypassConfirmation: activeAgendaItem!.finished,
+                          bypassConfirmation: activeAgendaItem!.phase == AgendaItemPhase.activeButFinished,
                           title:
                               'The current agenda item is not finished yet. Do you want to go forward anyway?',
                           payload: () {
