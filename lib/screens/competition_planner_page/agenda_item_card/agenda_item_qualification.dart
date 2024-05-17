@@ -239,7 +239,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
             },
             onSave: () async {
               try {
-                await  widget.agendaItem.editStatic(
+                await widget.agendaItem.editStatic(
                   title: title,
                   integralsCodes: integralsCodes.split(','),
                   spareIntegralsCodes: spareIntegralsCodes.split(','),
@@ -248,10 +248,10 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                   timeLimitPerSpareIntegral:
                       Duration(seconds: int.parse(timeLimitPerSpareIntegral)),
                 );
+                setState(() => hasChanged = false);
               } on Exception catch (e) {
                 if (context.mounted) e.show(context);
               }
-              setState(() => hasChanged = false);
             },
           ),
       ],

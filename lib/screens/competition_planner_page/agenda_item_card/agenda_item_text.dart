@@ -146,15 +146,15 @@ class _AgendaItemTextState extends State<AgendaItemText> {
             },
             onSave: () async {
               try {
-                await  widget.agendaItem.editStatic(
+                await widget.agendaItem.editStatic(
                   title: title,
                   subtitle: subtitle,
                   imageUrl: imageUrl,
                 );
+                setState(() => hasChanged = false);
               } on Exception catch (e) {
                 if (context.mounted) e.show(context);
               }
-              setState(() => hasChanged = false);
             },
           ),
       ],

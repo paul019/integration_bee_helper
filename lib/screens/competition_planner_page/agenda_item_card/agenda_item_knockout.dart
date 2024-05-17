@@ -300,10 +300,10 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                   timeLimitPerSpareIntegral:
                       Duration(seconds: int.parse(timeLimitPerSpareIntegral)),
                 );
+                setState(() => hasChanged = false);
               } on Exception catch (e) {
                 if (context.mounted) e.show(context);
               }
-              setState(() => hasChanged = false);
             },
           ),
       ],
