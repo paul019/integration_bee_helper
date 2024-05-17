@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/active_agenda_item_wrapper.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/screens/mission_control_page/control_card.dart';
 import 'package:integration_bee_helper/screens/mission_control_page/navigation_card.dart';
@@ -19,16 +20,12 @@ class _MissionControlPageState extends State<MissionControlPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<List<AgendaItemModel>?>.value(
-      initialData: null,
-      value:  AgendaItemsService().onActiveAgendaItemChanged,
+    return StreamProvider<ActiveAgendaItemWrapper>.value(
+      initialData: ActiveAgendaItemWrapper(null),
+      value: AgendaItemsService().onActiveAgendaItemChanged,
       builder: (context, snapshot) {
-        final agendaItems = Provider.of<List<AgendaItemModel>?>(context);
-        final newAgendaItem = agendaItems == null
-            ? null
-            : agendaItems.isEmpty
-                ? null
-                : agendaItems[0];
+        final agendaItemWrapper = Provider.of<ActiveAgendaItemWrapper>(context);
+        final newAgendaItem = agendaItemWrapper.agendaItem;
 
         if (newAgendaItem != null) {
           activeAgendaItem = newAgendaItem;

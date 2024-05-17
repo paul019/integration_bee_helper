@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/active_agenda_item_wrapper.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_not_specified.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
@@ -48,14 +49,18 @@ class AgendaItemsService {
         .map(_agendaItemListFromFirebase);
   }
 
-  Stream<List<AgendaItemModel>> get onActiveAgendaItemChanged {
+  Stream<ActiveAgendaItemWrapper> get onActiveAgendaItemChanged {
     return _firestore
         .collection('agendaItems')
         .where('uid', isEqualTo: _uid)
         .where('currentlyActive', isEqualTo: true)
         .limit(1)
         .snapshots()
-        .map(_agendaItemListFromFirebase);
+        .map(
+          (res) =>
+              res.docs.isEmpty ? null : _agendaItemFromFirebase(res.docs.first),
+        )
+        .map((item) => ActiveAgendaItemWrapper(item));
   }
 
   Future<AgendaItemModel?> getActiveAgendaItem() async {
@@ -80,13 +85,14 @@ class AgendaItemsService {
     return _agendaItemListFromFirebase(activeItems).firstOrNull;
   }
 
-  Future<AgendaItemModel?> getAgendaItemByIntegralCode(String integralCode) async {
+  Future<AgendaItemModel?> getAgendaItemByIntegralCode(
+      String integralCode) async {
     final response1 = await AgendaItemModel.collection
         .where('uid', isEqualTo: _uid)
         .where('integralsCodes', arrayContains: integralCode)
         .get();
 
-    if(response1.docs.isNotEmpty) {
+    if (response1.docs.isNotEmpty) {
       return _agendaItemFromFirebase(response1.docs.first);
     }
 
@@ -95,7 +101,7 @@ class AgendaItemsService {
         .where('spareIntegralsCodes', arrayContains: integralCode)
         .get();
 
-    if(response2.docs.isNotEmpty) {
+    if (response2.docs.isNotEmpty) {
       return _agendaItemFromFirebase(response2.docs.first);
     }
 

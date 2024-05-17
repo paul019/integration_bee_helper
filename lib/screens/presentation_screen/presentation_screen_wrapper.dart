@@ -1,7 +1,7 @@
 import 'dart:html';
 
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/active_agenda_item_wrapper.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen.dart';
 import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
 import 'package:provider/provider.dart';
@@ -44,16 +44,12 @@ class _PresentationScreenWrapperState extends State<PresentationScreenWrapper> {
     }
 
     return Scaffold(
-      body: StreamProvider<List<AgendaItemModel>?>.value(
-        initialData: null,
+      body: StreamProvider<ActiveAgendaItemWrapper>.value(
+        initialData: ActiveAgendaItemWrapper(null),
         value:  AgendaItemsService().onActiveAgendaItemChanged,
         builder: (context, snapshot) {
-          final agendaItems = Provider.of<List<AgendaItemModel>?>(context);
-          final activeAgendaItem = agendaItems == null
-              ? null
-              : agendaItems.isEmpty
-                  ? null
-                  : agendaItems[0];
+          final agendaItemWrapper = Provider.of<ActiveAgendaItemWrapper>(context);
+          final activeAgendaItem = agendaItemWrapper.agendaItem;
 
           return RawKeyboardListener(
             focusNode: focusNode,
