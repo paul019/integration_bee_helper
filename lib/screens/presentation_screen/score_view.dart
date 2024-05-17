@@ -111,10 +111,10 @@ class ScoreView extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                                child: scores[i] == -1
+                                child: scores[i] == Score.notSetYet
                                     ? null
                                     : Icon(
-                                        scores[i] == 0
+                                        scores[i] == Score.tie
                                             ? Icons.close_rounded
                                             : Icons.check_rounded,
                                         color: ThemeColors.white,
