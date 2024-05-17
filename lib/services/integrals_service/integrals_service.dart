@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:integration_bee_helper/models/integral_model/current_integral_wrapper.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_level.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
@@ -56,6 +57,21 @@ class IntegralsService {
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map(_integralListFromFirebase);
+  }
+
+  Stream<CurrentIntegralWrapper> onActiveAgendaItemChanged(
+      {required int integralCode}) {
+    return _firestore
+        .collection('integrals')
+        .where('uid', isEqualTo: _uid)
+        .where('code', isEqualTo: integralCode)
+        .limit(1)
+        .snapshots()
+        .map(
+          (res) =>
+              res.docs.isEmpty ? null : _integralFromFirebase(res.docs.first),
+        )
+        .map((item) => CurrentIntegralWrapper(item));
   }
 
   Future<IntegralModel> getIntegral({required String code}) async {
