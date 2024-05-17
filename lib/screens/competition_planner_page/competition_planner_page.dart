@@ -40,10 +40,12 @@ class _CompetitionPlannerPageState extends State<CompetitionPlannerPage> {
             body: agendaItems.isEmpty
                 ? const Center(child: Text('No agenda items yet.'))
                 : ListView.builder(
-                    itemCount: agendaItems.length + 1,
+                    itemCount: agendaItems.length + 2,
                     itemBuilder: (context, index) {
                       if (index == 0) {
                         return ActionRow(agendaItems: agendaItems);
+                      } else if (index == agendaItems.length + 1) {
+                        return const SizedBox(height: 100);
                       }
 
                       final agendaItem = agendaItems[index - 1];

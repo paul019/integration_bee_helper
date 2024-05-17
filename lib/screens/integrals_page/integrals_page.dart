@@ -18,7 +18,7 @@ class _IntegralsPageState extends State<IntegralsPage> {
   Widget build(BuildContext context) {
     return StreamProvider<List<IntegralModel>?>.value(
         initialData: null,
-        value:  IntegralsService().onIntegralsChanged,
+        value: IntegralsService().onIntegralsChanged,
         builder: (context, snapshot) {
           final integrals = Provider.of<List<IntegralModel>?>(context);
 
@@ -28,14 +28,19 @@ class _IntegralsPageState extends State<IntegralsPage> {
 
           return Scaffold(
             floatingActionButton: FloatingActionButton(
-              onPressed: () =>  IntegralsService().addIntegral(currentIntegrals: integrals),
+              onPressed: () =>
+                  IntegralsService().addIntegral(currentIntegrals: integrals),
               child: const Icon(Icons.add),
             ),
             body: ListView.builder(
-              itemCount: integrals.length,
+              itemCount: integrals.length + 1,
               itemBuilder: (context, index) {
+                if (index == integrals.length) {
+                  return const SizedBox(height: 100);
+                }
+
                 final integral = integrals[index];
-            
+
                 return MaxWidthWrapper(
                   child: IntegralCard(
                     integral: integral,
