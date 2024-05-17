@@ -22,9 +22,7 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
     required super.spareIntegralsProgress,
     required super.problemPhase,
     required super.timer,
-  }) {
-    super.type = AgendaItemType.qualification;
-  }
+  });
 
   factory AgendaItemModelQualification.fromJson(
     Map<String, dynamic> json, {
@@ -49,7 +47,7 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
             Duration(seconds: json['timeLimitPerSpareIntegral']),
         integralsProgress: json['integralsProgress'],
         spareIntegralsProgress: json['spareIntegralsProgress'],
-        problemPhase: json['problemPhase'],
+        problemPhase: ProblemPhase.fromValue(json['problemPhase']),
         timer: TimerModel.fromJson(json['timer']),
       );
 
@@ -68,6 +66,8 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
   };
 
   // Getters:
+  @override
+  AgendaItemType get type => AgendaItemType.qualification;
   @override
   String get displayTitle => title != '' ? title : 'Qualification round';
   @override

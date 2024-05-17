@@ -10,7 +10,6 @@ abstract class AgendaItemModel {
   final String id;
   final String uid;
   final int orderIndex;
-  late final AgendaItemType type;
 
   // Dynamic:
   final bool currentlyActive;
@@ -50,6 +49,7 @@ abstract class AgendaItemModel {
   DocumentReference<Map<String, dynamic>> get reference => collection.doc(id);
 
   // Getters:
+  AgendaItemType get type;
   bool get activeOrFinished => currentlyActive || finished;
   String get displayTitle;
   String get displaySubtitle;

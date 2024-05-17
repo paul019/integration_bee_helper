@@ -18,9 +18,7 @@ class AgendaItemModelText extends AgendaItemModel {
     required this.title,
     required this.subtitle,
     required this.imageUrl,
-  }) {
-    super.type = AgendaItemType.text;
-  }
+  });
 
   factory AgendaItemModelText.fromJson(
     Map<String, dynamic> json, {
@@ -46,6 +44,8 @@ class AgendaItemModelText extends AgendaItemModel {
   };
 
   // Getters:
+  @override
+  AgendaItemType get type => AgendaItemType.text;
   bool get hasTitle => title != '' || subtitle != '';
   bool get hasImage => imageUrl != '';
 

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/basic_models/timer_model.dart';
@@ -40,9 +39,7 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
     required this.spareIntegralsProgress,
     required this.problemPhase,
     required this.timer,
-  }) {
-    super.type = AgendaItemType.qualification;
-  }
+  });
 
   // Getters:
   IntegralType get currentIntegralType => spareIntegralsProgress != null

@@ -9,9 +9,7 @@ class AgendaItemModelNotSpecified extends AgendaItemModel {
     super.currentlyActive = false,
     super.finished = false,
     super.status = '',
-  }) {
-    super.type = AgendaItemType.notSpecified;
-  }
+  });
 
   factory AgendaItemModelNotSpecified.fromJson(
     Map<String, dynamic> json, {
@@ -40,6 +38,8 @@ class AgendaItemModelNotSpecified extends AgendaItemModel {
       };
 
   // Getters:
+  @override
+  AgendaItemType get type => AgendaItemType.notSpecified;
   @override
   String get displayTitle => 'Not specified yet';
   @override

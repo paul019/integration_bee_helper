@@ -35,9 +35,7 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
     required super.spareIntegralsProgress,
     required super.problemPhase,
     required super.timer,
-  }) {
-    super.type = AgendaItemType.knockout;
-  }
+  });
 
   factory AgendaItemModelKnockout.fromJson(
     Map<String, dynamic> json, {
@@ -66,7 +64,7 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
             (json['scores'] as List).map((v) => Score.fromValue(v)).toList(),
         integralsProgress: json['integralsProgress'],
         spareIntegralsProgress: json['spareIntegralsProgress'],
-        problemPhase: json['problemPhase'],
+        problemPhase: ProblemPhase.fromValue(json['problemPhase']),
         timer: TimerModel.fromJson(json['timer']),
       );
 
@@ -88,6 +86,8 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
   };
 
   // Getters:
+  @override
+  AgendaItemType get type => AgendaItemType.knockout;
   int get competitor1Score => scores.competitor1Score;
   int get competitor2Score => scores.competitor2Score;
   Score get currentWinner => _getWinner(competitor1Score, competitor2Score);
