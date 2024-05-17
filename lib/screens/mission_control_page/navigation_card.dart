@@ -67,7 +67,7 @@ class NavigationCard extends StatelessWidget {
                               'The current agenda item is not finished yet. Do you want to go forward anyway?',
                           payload: () {
                             try {
-                              AgendaItemsService().goBack(activeAgendaItem!);
+                              AgendaItemsService().goForward(activeAgendaItem!);
                             } on Exception catch (e) {
                               e.show(context);
                             }

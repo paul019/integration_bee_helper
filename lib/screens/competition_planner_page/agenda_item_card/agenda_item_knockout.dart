@@ -106,6 +106,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
             ),
             Expanded(
               child: TextField(
+                enabled: !widget.agendaItem.finished,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Title (optional)',
@@ -125,6 +126,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
           children: [
             Expanded(
               child: TextField(
+                enabled: !widget.agendaItem.finished,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Competitor 1',
@@ -145,6 +147,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
             const SizedBox(width: 50),
             Expanded(
               child: TextField(
+                enabled: !widget.agendaItem.finished,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Competitor 2',
@@ -177,6 +180,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                       ),
                       Expanded(
                         child: TextField(
+                          enabled: !widget.agendaItem.finished,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Codes',
@@ -201,6 +205,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                       ),
                       Expanded(
                         child: TextField(
+                          enabled: !widget.agendaItem.finished,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Duration in seconds',
@@ -235,6 +240,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                       ),
                       Expanded(
                         child: TextField(
+                          enabled: !widget.agendaItem.finished,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Codes',
@@ -259,6 +265,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                       ),
                       Expanded(
                         child: TextField(
+                          enabled: !widget.agendaItem.finished,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Duration in seconds',
@@ -289,7 +296,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
             },
             onSave: () async {
               try {
-                await  widget.agendaItem.editStatic(
+                await widget.agendaItem.editStatic(
                   title: title,
                   integralsCodes: integralsCodes.split(','),
                   spareIntegralsCodes: spareIntegralsCodes.split(','),

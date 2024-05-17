@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:integration_bee_helper/extensions/map_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
@@ -68,5 +69,14 @@ class AgendaItemModelText extends AgendaItemModel {
       'subtitle': subtitle,
       'imageUrl': imageUrl,
     }.deleteNullEntries());
+  }
+
+  @override
+  void start(WriteBatch batch) {
+    batch.update(reference, {
+      'currentlyActive': true,
+      'finished': true,
+      'status': null,
+    });
   }
 }

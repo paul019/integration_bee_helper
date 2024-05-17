@@ -95,6 +95,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
             ),
             Expanded(
               child: TextField(
+                enabled: !widget.agendaItem.finished,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Title (optional)',
@@ -127,6 +128,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                       ),
                       Expanded(
                         child: TextField(
+                          enabled: !widget.agendaItem.finished,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Codes',
@@ -151,6 +153,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                       ),
                       Expanded(
                         child: TextField(
+                          enabled: !widget.agendaItem.finished,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Duration in seconds',
@@ -185,6 +188,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                       ),
                       Expanded(
                         child: TextField(
+                          enabled: !widget.agendaItem.finished,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Codes',
@@ -209,6 +213,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                       ),
                       Expanded(
                         child: TextField(
+                          enabled: !widget.agendaItem.finished,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Duration in seconds',

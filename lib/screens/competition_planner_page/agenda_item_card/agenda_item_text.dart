@@ -73,6 +73,7 @@ class _AgendaItemTextState extends State<AgendaItemText> {
             ),
             Expanded(
               child: TextField(
+                enabled: !widget.agendaItem.finished,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Title',
@@ -98,6 +99,7 @@ class _AgendaItemTextState extends State<AgendaItemText> {
             ),
             Expanded(
               child: TextField(
+                enabled: !widget.agendaItem.finished,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Subtitle',
@@ -123,6 +125,7 @@ class _AgendaItemTextState extends State<AgendaItemText> {
             ),
             Expanded(
               child: TextField(
+                enabled: !widget.agendaItem.finished,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Image URL',

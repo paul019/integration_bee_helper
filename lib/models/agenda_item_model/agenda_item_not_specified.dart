@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 
@@ -48,4 +49,13 @@ class AgendaItemModelNotSpecified extends AgendaItemModel {
   // Database operations:
   @override
   Future<void> editStatic() async {}
+
+  @override
+  void start(WriteBatch batch) {
+    batch.update(reference, {
+      'currentlyActive': true,
+      'finished': true,
+      'status': null,
+    });
+  }
 }
