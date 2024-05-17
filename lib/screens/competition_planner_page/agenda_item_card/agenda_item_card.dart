@@ -13,6 +13,7 @@ import 'package:integration_bee_helper/screens/competition_planner_page/agenda_i
 import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_text.dart';
 import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
+import 'package:integration_bee_helper/widgets/text_bubble.dart';
 import 'package:provider/provider.dart';
 
 class AgendaItemCard extends StatelessWidget {
@@ -43,26 +44,11 @@ class AgendaItemCard extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(100),
-                            ),
-                            color: agendaItem.currentlyActive
-                                ? Theme.of(context).colorScheme.inversePrimary
-                                : null,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 2.0,
-                              horizontal: 6.0,
-                            ),
-                            child: Text(
-                              'Agenda item #${agendaItem.orderIndex + 1}',
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
+                        TextBubble(
+                          color: agendaItem.currentlyActive
+                              ? Theme.of(context).colorScheme.inversePrimary
+                              : null,
+                          text: 'Agenda item #${agendaItem.orderIndex + 1}',
                         ),
                         Text(
                           '(${agendaItem.type.title})',
