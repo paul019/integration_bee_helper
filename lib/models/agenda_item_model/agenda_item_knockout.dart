@@ -146,6 +146,12 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
       'timeLimitPerSpareIntegral': timeLimitPerSpareIntegral?.inSeconds,
       'title': title,
     }.deleteNullEntries());
+
+    if (this.integralsCodes.isEmpty && (integralsCodes?.isNotEmpty ?? false)) {
+      await reference.update({
+        'currentIntegralCode': integralsCodes!.first,
+      });
+    }
   }
 
   @override

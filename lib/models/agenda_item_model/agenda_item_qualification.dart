@@ -84,7 +84,13 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
     Duration? timeLimitPerSpareIntegral,
     String? title,
   }) async {
-    await super.checkEdit();
+    await super.checkEdit(
+      integralsCodes: integralsCodes,
+      spareIntegralsCodes: spareIntegralsCodes,
+      timeLimitPerIntegral: timeLimitPerIntegral,
+      timeLimitPerSpareIntegral: timeLimitPerSpareIntegral,
+      title: title,
+    );
 
     // integralsCodes
 
@@ -119,6 +125,12 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
       'timeLimitPerSpareIntegral': timeLimitPerSpareIntegral?.inSeconds,
       'title': title,
     }.deleteNullEntries());
+
+    if (this.integralsCodes.isEmpty && (integralsCodes?.isNotEmpty ?? false)) {
+      await reference.update({
+        'currentIntegralCode': integralsCodes!.first,
+      });
+    }
   }
 
   // Agenda item specific operations:

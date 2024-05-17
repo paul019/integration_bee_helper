@@ -79,7 +79,8 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
         if (integralsCodes.length <= i) {
           throw Exception('Cannot edit already used integrals');
         }
-        if (this.integralsCodes[i] != integralsCodes[i]) {
+        if (this.integralsCodes.isNotEmpty &&
+            this.integralsCodes[i] != integralsCodes[i]) {
           throw Exception('Cannot edit already used integrals');
         }
       }
@@ -87,7 +88,8 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
         // if spare integrals are already used
         if (integralsCodes.length > this.integralsCodes.length) {
           throw Exception(
-              'Cannot add new integrals when spare integrals are already used');
+            'Cannot add new integrals when spare integrals are already used',
+          );
         }
       }
     }
