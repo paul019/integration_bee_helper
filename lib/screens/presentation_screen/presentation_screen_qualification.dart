@@ -191,7 +191,9 @@ class _PresentationScreenQualificationState
                 size: widget.size,
               ),
               TitleView(
-                  title: widget.activeAgendaItem.title, size: widget.size),
+                title: widget.activeAgendaItem.title,
+                size: widget.size,
+              ),
             ],
           );
         });

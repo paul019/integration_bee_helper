@@ -5,6 +5,7 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qual
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/background_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/copyright_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/logo_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_knockout.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_qualification.dart';
@@ -34,7 +35,8 @@ class _PresentationScreenState extends State<PresentationScreen> {
   @override
   Widget build(BuildContext context) {
     if (widget.activeAgendaItem != null) {
-      if (widget.activeAgendaItem?.id != activeAgendaItemId && activeAgendaItem != null) {
+      if (widget.activeAgendaItem?.id != activeAgendaItemId &&
+          activeAgendaItem != null) {
         doTransition(widget.activeAgendaItem!);
       } else {
         setState(() {
@@ -57,7 +59,8 @@ class _PresentationScreenState extends State<PresentationScreen> {
         LogoView(
           size: widget.size,
           transitionMode: transitionMode,
-        )
+        ),
+        CopyrightView(size: widget.size),
       ],
     );
   }

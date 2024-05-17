@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-class IntegralCodeView extends StatelessWidget {
-  final String code;
+class CopyrightView extends StatelessWidget {
   final Size size;
 
-  const IntegralCodeView({
+  const CopyrightView({
     super.key,
-    required this.code,
     required this.size,
   });
 
@@ -17,11 +15,11 @@ class IntegralCodeView extends StatelessWidget {
     return Container(
       width: size.width,
       height: size.height,
-      alignment: Alignment.bottomRight,
+      alignment: Alignment.bottomLeft,
       child: Padding(
-        padding: EdgeInsets.only(right: 8.0 * p, bottom: 8.0 * p),
+        padding: EdgeInsets.only(left: 8.0 * p, bottom: 8.0 * p),
         child: Text(
-          code,
+          '© Software copyright: Paul Obernolte, 2024, MIT license.',
           style: TextStyle(fontSize: 20 * p),
         ),
       ),
