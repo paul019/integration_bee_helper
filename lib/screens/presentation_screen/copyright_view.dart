@@ -19,7 +19,7 @@ class CopyrightView extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(left: 8.0 * p, bottom: 8.0 * p),
         child: Text(
-          '© Software copyright: Paul Obernolte, 2024, MIT license.',
+          'Software developed in Heidelberg by Paul Obernolte (MIT license, 2024)',
           style: TextStyle(fontSize: 20 * p),
         ),
       ),
