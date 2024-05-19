@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
-import 'package:integration_bee_helper/models/basic_models/latex_expression.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 
 class IntegralView extends StatelessWidget {
@@ -26,9 +25,7 @@ class IntegralView extends StatelessWidget {
         return currentIntegral?.latexProblem.transformedWithDollarSigns ?? '';
       case ProblemPhase.showSolution:
       case ProblemPhase.showSolutionAndWinner:
-        return LatexExpression(
-          '${currentIntegral?.latexProblem.raw ?? ''}=\\boxed{${currentIntegral?.latexSolution.raw ?? ''}}',
-        ).transformedWithDollarSigns;
+        return currentIntegral?.latexProblemAndSolution.transformedWithDollarSigns ?? '';
       default:
         return '';
     }

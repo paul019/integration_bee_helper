@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
+import 'package:integration_bee_helper/services/basic_services/export_documents_service.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 import 'package:integration_bee_helper/widgets/text_button_with_icon.dart';
 import 'package:integration_bee_helper/widgets/vertical_separator.dart';
@@ -53,10 +54,10 @@ class ActionRow extends StatelessWidget {
             const VerticalSeparator(),
             TextButtonWithIcon(
               onPressed: () {
-                throw UnimplementedError();
+                ExportDocumentsService().exportDocuments(context);
               },
               icon: Icons.download,
-              child: const Text('Download LaTeX'),
+              child: const Text('Download Documents'),
             ),
           ],
         ));

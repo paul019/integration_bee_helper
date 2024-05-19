@@ -226,7 +226,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                           enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'Codes',
+                            hintText: 'Codes (required)',
                           ),
                           controller: spareIntegralsCodesController,
                           onChanged: (v) => setState(() {

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/active_agenda_item_wrapper.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_competition.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_not_specified.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
@@ -106,5 +107,18 @@ class AgendaItemsService {
     }
 
     return null;
+  }
+
+  Future<List<AgendaItemModelCompetition>> getCompetitionAgendaItems() async {
+    final response = await AgendaItemModel.collection
+        .where('uid', isEqualTo: _uid)
+        .where('type', whereIn: [
+      AgendaItemType.qualification.id,
+      AgendaItemType.knockout.id,
+    ]).get();
+
+    return _agendaItemListFromFirebase(response)
+        .whereType<AgendaItemModelCompetition>()
+        .toList();
   }
 }

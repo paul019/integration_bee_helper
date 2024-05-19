@@ -88,7 +88,7 @@ class IntegralsService {
     return _integralFromFirebase(response.docs.first)!;
   }
 
-  Future<List<IntegralModel>> getIntegrals({required List<String> codes}) async {
+  Future<List<IntegralModel>> getIntegralsByCodes({required List<String> codes}) async {
     final response = await _firestore
         .collection('integrals')
         .where('uid', isEqualTo: _uid)
@@ -108,6 +108,15 @@ class IntegralsService {
     }
 
     return sortedList;
+  }
+
+  Future<List<IntegralModel>> getAllIntegrals() async {
+    final response = await _firestore
+        .collection('integrals')
+        .where('uid', isEqualTo: _uid)
+        .get();
+
+    return _integralListFromFirebase(response);
   }
 
   Future<List<IntegralModel>> getUsedIntegrals() async {

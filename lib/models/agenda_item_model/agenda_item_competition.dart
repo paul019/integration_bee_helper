@@ -224,7 +224,7 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
 
     if (finalList.isEmpty) throw Exception('No spare integrals available!');
 
-    return await IntegralsService().getIntegrals(codes: finalList);
+    return await IntegralsService().getIntegralsByCodes(codes: finalList);
   }
 
   Future startNextSpareIntegral(String spareIntegralCode) async {

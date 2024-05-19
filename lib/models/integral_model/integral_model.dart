@@ -55,4 +55,7 @@ class IntegralModel {
   static CollectionReference<Map<String, dynamic>> get collection =>
       FirebaseFirestore.instance.collection('integrals');
   DocumentReference<Map<String, dynamic>> get reference => collection.doc(id!);
+
+  LatexExpression get latexProblemAndSolution =>
+      LatexExpression('${latexProblem.raw}=\\boxed{${latexSolution.raw}}');
 }

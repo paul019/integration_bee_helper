@@ -245,7 +245,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                           enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'Codes',
+                            hintText: 'Codes (optional)',
                           ),
                           controller: spareIntegralsCodesController,
                           onChanged: (v) => setState(() {

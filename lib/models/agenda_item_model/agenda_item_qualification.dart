@@ -81,6 +81,7 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
   @override
   String get displaySubtitle =>
       'Agenda item #${orderIndex + 1} – Qualification round';
+  int get numOfCompetitors => competitorNames.length;
 
   // Database operations:
   @override
