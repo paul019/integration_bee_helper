@@ -55,10 +55,9 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
   Duration get timeLimit => currentIntegralType == IntegralType.spare
       ? timeLimitPerSpareIntegral
       : timeLimitPerIntegral;
-  int? get totalProgress =>
-      (integralsProgress == null && spareIntegralsProgress == null)
-          ? null
-          : (integralsProgress ?? 0) + (spareIntegralsProgress ?? 0);
+  int? get totalProgress => spareIntegralsProgress != null
+      ? numOfIntegrals + spareIntegralsProgress!
+      : integralsProgress;
   int get numOfIntegrals => integralsCodes.length;
 
   // Database operations:

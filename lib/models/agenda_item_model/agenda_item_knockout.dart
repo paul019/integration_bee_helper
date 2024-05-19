@@ -227,4 +227,23 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
 
     return true;
   }
+
+  @override
+  Future startNextSpareIntegral(String spareIntegralCode) async {
+    var scores = [...this.scores];
+
+    // Add score element:
+    scores.add(Score.notSetYet);
+
+    // Set next integral to used:
+    await IntegralsService().setIntegralToUsed(spareIntegralCode);
+
+    await reference.update({
+      'scores': scores.toJson(),
+      'spareIntegralsProgress': (spareIntegralsProgress ?? -1) + 1,
+      'problemPhase': ProblemPhase.idle.value,
+      'timer': TimerModel.empty.toJson(),
+      'currentIntegralCode': spareIntegralCode,
+    });
+  }
 }
