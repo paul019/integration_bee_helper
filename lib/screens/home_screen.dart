@@ -4,6 +4,7 @@ import 'package:integration_bee_helper/screens/integrals_page/integrals_page.dar
 import 'package:integration_bee_helper/screens/mission_control_page/mission_control_page.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_wrapper.dart';
 import 'package:integration_bee_helper/screens/presentation_screen_two/presentation_screen_two_wrapper.dart';
+import 'package:integration_bee_helper/screens/settings_page/settings_page.dart';
 import 'package:integration_bee_helper/services/basic_services/auth_service.dart';
 
 class PageInfo {
@@ -37,6 +38,11 @@ class _HomeScreenState extends State<HomeScreen> {
       title: 'Integrals',
       icon: const Icon(Icons.edit),
       page: const IntegralsPage(),
+    ),
+    PageInfo(
+      title: 'Settings',
+      icon: const Icon(Icons.settings),
+      page: const SettingsPage(),
     ),
   ];
 
@@ -99,6 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: pages[selectedIndex].page,
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: pages
             .map(
               (page) => BottomNavigationBarItem(
