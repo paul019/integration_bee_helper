@@ -34,7 +34,7 @@ class LogoView extends StatelessWidget {
                 right: 25 * p,
               ),
         child: Image.asset(
-          'assets/logo.png',
+          'assets/images/logo.png',
         ),
       ),
     );

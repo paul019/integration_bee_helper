@@ -153,12 +153,12 @@ class _PresentationScreenKnockoutState
 
   void playWarningSound() {
     if (widget.muted) return;
-    player.setAsset('time_warning.mp3').then((_) => player.play());
+    player.setAsset('sound/time_warning.mp3').then((_) => player.play());
   }
 
   void playTimeUpSound() {
     if (widget.muted) return;
-    player.setAsset('time_up.mp3').then((_) => player.play());
+    player.setAsset('sound/time_up.mp3').then((_) => player.play());
   }
 
   @override

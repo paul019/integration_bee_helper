@@ -14,7 +14,7 @@ class BackgroundView extends StatelessWidget {
       width: size.width,
       height: size.height,
       child: Image.asset(
-        'assets/background.png',
+        'assets/images/background.png',
         fit: BoxFit.cover,
         opacity: const AlwaysStoppedAnimation(0.24),
       ),
