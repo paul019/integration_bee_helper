@@ -108,22 +108,24 @@ class _IntegralCardState extends State<IntegralCard> {
                   Row(
                     children: [
                       IconButton(
-                        onPressed: () {
-                          ConfirmationDialog(
-                            bypassConfirmation:
-                                latexProblem == "" && latexSolution == "",
-                            title:
-                                'Do you really want to delete this integral?',
-                            payload: () async {
-                              try {
-                                await IntegralsService()
-                                    .deleteIntegral(widget.integral);
-                              } on Exception catch (e) {
-                                if (context.mounted) e.show(context);
+                        onPressed: widget.integral.agendaItemIds.isEmpty
+                            ? () {
+                                ConfirmationDialog(
+                                  bypassConfirmation: latexProblem.raw == "" &&
+                                      latexSolution.raw == "",
+                                  title:
+                                      'Do you really want to delete this integral?',
+                                  payload: () async {
+                                    try {
+                                      await IntegralsService()
+                                          .deleteIntegral(widget.integral);
+                                    } on Exception catch (e) {
+                                      if (context.mounted) e.show(context);
+                                    }
+                                  },
+                                ).launch(context);
                               }
-                            },
-                          ).launch(context);
-                        },
+                            : null,
                         icon: const Icon(Icons.delete),
                       ),
                       IconButton(

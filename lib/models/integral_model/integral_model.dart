@@ -12,6 +12,7 @@ class IntegralModel {
   final IntegralType type;
   final String name;
   final bool alreadyUsed;
+  final List<String> agendaItemIds;
 
   IntegralModel({
     this.id,
@@ -23,6 +24,7 @@ class IntegralModel {
     required this.type,
     required this.name,
     required this.alreadyUsed,
+    required this.agendaItemIds,
   });
 
   factory IntegralModel.fromJson(
@@ -39,6 +41,8 @@ class IntegralModel {
         type: IntegralType.fromString(json['type']),
         name: json['name'] ?? '',
         alreadyUsed: json['alreadyUsed'] ?? false,
+        agendaItemIds:
+            (json['agendaItemIds'] as List).map((e) => e as String).toList(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -50,6 +54,7 @@ class IntegralModel {
         'type': type.id,
         'name': name,
         'alreadyUsed': alreadyUsed,
+        'agendaItemIds': agendaItemIds,
       };
 
   static CollectionReference<Map<String, dynamic>> get collection =>

@@ -141,6 +141,11 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
         'currentIntegralCode': integralsCodes!.first,
       });
     }
+
+    await updateAgendaItemIdsInIntegrals(
+      integralsCodes: integralsCodes,
+      spareIntegralsCodes: spareIntegralsCodes,
+    );
   }
 
   // Agenda item specific operations:

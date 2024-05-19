@@ -237,4 +237,41 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
       'currentIntegralCode': spareIntegralCode,
     });
   }
+
+  Future updateAgendaItemIdsInIntegrals({
+    required List<String>? integralsCodes,
+    required List<String>? spareIntegralsCodes,
+  }) async {
+    final newRegularIntegralsCodes = integralsCodes ?? this.integralsCodes;
+    final newSpareIntegralsCodes =
+        spareIntegralsCodes ?? this.spareIntegralsCodes;
+
+    final newIntegralCodes = {
+      ...newRegularIntegralsCodes,
+      ...newSpareIntegralsCodes
+    };
+    final currentIntegralCodes = {
+      ...this.integralsCodes,
+      ...this.spareIntegralsCodes
+    };
+
+    final addedIntegralCodes =
+        newIntegralCodes.difference(currentIntegralCodes);
+    final removedIntegralCodes =
+        currentIntegralCodes.difference(newIntegralCodes);
+
+    for (var integralCode in addedIntegralCodes) {
+      final integral = await IntegralsService().getIntegral(code: integralCode);
+      await integral.reference.update({
+        'agendaItemIds': FieldValue.arrayUnion([id]),
+      });
+    }
+
+    for (var integralCode in removedIntegralCodes) {
+      final integral = await IntegralsService().getIntegral(code: integralCode);
+      await integral.reference.update({
+        'agendaItemIds': FieldValue.arrayRemove([id]),
+      });
+    }
+  }
 }

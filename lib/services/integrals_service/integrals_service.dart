@@ -150,6 +150,7 @@ class IntegralsService {
       type: IntegralType.regular,
       name: "",
       alreadyUsed: false,
+      agendaItemIds: [],
     );
 
     // Add integral:
