@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:integration_bee_helper/models/basic_models/latex_expression.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
 
 class IntegralModel {
@@ -6,8 +7,8 @@ class IntegralModel {
   final String uid;
   final String code;
   final DateTime createdAt;
-  final String latexProblem;
-  final String latexSolution;
+  final LatexExpression latexProblem;
+  final LatexExpression latexSolution;
   final IntegralType type;
   final String name;
   final bool alreadyUsed;
@@ -33,8 +34,8 @@ class IntegralModel {
         uid: json['uid'],
         code: json['code'],
         createdAt: DateTime.fromMillisecondsSinceEpoch(json['createdAt']),
-        latexProblem: json['latexProblem'],
-        latexSolution: json['latexSolution'],
+        latexProblem: LatexExpression(json['latexProblem']),
+        latexSolution: LatexExpression(json['latexSolution']),
         type: IntegralType.fromString(json['type']),
         name: json['name'] ?? '',
         alreadyUsed: json['alreadyUsed'] ?? false,
@@ -44,8 +45,8 @@ class IntegralModel {
         'uid': uid,
         'code': code,
         'createdAt': createdAt.millisecondsSinceEpoch,
-        'latexProblem': latexProblem,
-        'latexSolution': latexSolution,
+        'latexProblem': latexProblem.raw,
+        'latexSolution': latexSolution.raw,
         'type': type.id,
         'name': name,
         'alreadyUsed': alreadyUsed,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
-import 'package:integration_bee_helper/services/basic_services/latex_transformer.dart';
+import 'package:integration_bee_helper/models/basic_models/latex_expression.dart';
 
 class LatexView extends StatelessWidget {
-  final String latex;
+  final LatexExpression latex;
 
   const LatexView({super.key, required this.latex});
 
@@ -13,7 +13,7 @@ class LatexView extends StatelessWidget {
       height: 150,
       child: TeXView(
         child: TeXViewDocument(
-          LatexTransformer.transform(latex),
+          latex.transformed,
           style: const TeXViewStyle.fromCSS('padding: 5px;'),
         ),
       ),

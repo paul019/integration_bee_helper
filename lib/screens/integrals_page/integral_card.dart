@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:integration_bee_helper/extensions/exception_extension.dart';
+import 'package:integration_bee_helper/models/basic_models/latex_expression.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
 import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
@@ -24,8 +25,8 @@ class IntegralCard extends StatefulWidget {
 class _IntegralCardState extends State<IntegralCard> {
   bool hasChanged = false;
 
-  late String latexProblem;
-  late String latexSolution;
+  late LatexExpression latexProblem;
+  late LatexExpression latexSolution;
   late String name;
   late IntegralType type;
 
@@ -40,8 +41,8 @@ class _IntegralCardState extends State<IntegralCard> {
     name = widget.integral.name;
     type = widget.integral.type;
 
-    problemController = TextEditingController(text: latexProblem);
-    solutionController = TextEditingController(text: latexSolution);
+    problemController = TextEditingController(text: latexProblem.raw);
+    solutionController = TextEditingController(text: latexSolution.raw);
     nameController = TextEditingController(text: name);
 
     super.initState();
@@ -54,8 +55,8 @@ class _IntegralCardState extends State<IntegralCard> {
     name = widget.integral.name;
     type = widget.integral.type;
 
-    problemController.text = latexProblem;
-    solutionController.text = latexSolution;
+    problemController.text = latexProblem.raw;
+    solutionController.text = latexSolution.raw;
     nameController.text = name;
 
     hasChanged = false;
@@ -171,7 +172,7 @@ class _IntegralCardState extends State<IntegralCard> {
                           ),
                           controller: problemController,
                           onChanged: (v) => setState(() {
-                            latexProblem = v;
+                            latexProblem = LatexExpression(v);
                             hasChanged = true;
                           }),
                           maxLines: 3,
@@ -191,7 +192,7 @@ class _IntegralCardState extends State<IntegralCard> {
                           ),
                           controller: solutionController,
                           onChanged: (v) => setState(() {
-                            latexSolution = v;
+                            latexSolution = LatexExpression(v);
                             hasChanged = true;
                           }),
                           maxLines: 3,
@@ -209,8 +210,8 @@ class _IntegralCardState extends State<IntegralCard> {
                       latexProblem = widget.integral.latexProblem;
                       latexSolution = widget.integral.latexSolution;
                       name = widget.integral.name;
-                      problemController.text = latexProblem;
-                      solutionController.text = latexSolution;
+                      problemController.text = latexProblem.raw;
+                      solutionController.text = latexSolution.raw;
                       nameController.text = name;
                     });
                   },

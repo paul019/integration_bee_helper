@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
-import 'package:integration_bee_helper/services/basic_services/latex_transformer.dart';
 
 class IntegralView extends StatelessWidget {
   final IntegralModel? currentIntegral;
@@ -23,10 +22,10 @@ class IntegralView extends StatelessWidget {
       case ProblemPhase.idle:
         return '';
       case ProblemPhase.showProblem:
-        return currentIntegral?.latexProblem ?? '';
+        return currentIntegral?.latexProblem.transformed ?? '';
       case ProblemPhase.showSolution:
       case ProblemPhase.showSolutionAndWinner:
-        return '${currentIntegral?.latexProblem ?? ''}=\\boxed{${currentIntegral?.latexSolution ?? ''}}';
+        return '${currentIntegral?.latexProblem.transformed ?? ''}=\\boxed{${currentIntegral?.latexSolution.transformed ?? ''}}';
       default:
         return '';
     }
@@ -61,7 +60,7 @@ class IntegralView extends StatelessWidget {
       alignment: Alignment.center,
       child: TeXView(
         child: TeXViewDocument(
-          LatexTransformer.transform(latex),
+          latex,
           style: TeXViewStyle.fromCSS(
               'padding: 5px; font-size: ${(75 * p).toInt()}px'),
         ),

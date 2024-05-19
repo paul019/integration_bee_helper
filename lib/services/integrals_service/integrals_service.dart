@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:integration_bee_helper/models/basic_models/latex_expression.dart';
 import 'package:integration_bee_helper/models/integral_model/current_integral_wrapper.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
@@ -135,8 +136,8 @@ class IntegralsService {
       uid: _uid,
       code: _createIntegralCode(currentIntegrals: currentIntegrals),
       createdAt: DateTime.now(),
-      latexProblem: "",
-      latexSolution: "",
+      latexProblem: LatexExpression(""),
+      latexSolution: LatexExpression(""),
       type: IntegralType.regular,
       name: "",
       alreadyUsed: false,
@@ -187,14 +188,14 @@ class IntegralsService {
 
   Future editIntegral(
     IntegralModel integral, {
-    required String latexProblem,
-    required String latexSolution,
+    required LatexExpression latexProblem,
+    required LatexExpression latexSolution,
     required String name,
     required IntegralType type,
   }) async {
     await integral.reference.update({
-      'latexProblem': latexProblem,
-      'latexSolution': latexSolution,
+      'latexProblem': latexProblem.raw,
+      'latexSolution': latexSolution.raw,
       'name': name,
       'type': type.id,
     });
