@@ -44,17 +44,7 @@ class IntegralsService {
     return _firestore
         .collection('integrals')
         .where('uid', isEqualTo: _uid)
-        .orderBy('createdAt', descending: true)
-        .snapshots()
-        .map(_integralListFromFirebase);
-  }
-
-  Stream<List<IntegralModel>> get onUsedIntegralsChanged {
-    return _firestore
-        .collection('integrals')
-        .where('uid', isEqualTo: _uid)
-        .where('alreadyUsed', isEqualTo: true)
-        .orderBy('createdAt', descending: true)
+        .orderBy('createdAt')
         .snapshots()
         .map(_integralListFromFirebase);
   }
