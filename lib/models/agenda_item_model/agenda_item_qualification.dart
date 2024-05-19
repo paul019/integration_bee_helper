@@ -6,6 +6,9 @@ import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.da
 import 'package:integration_bee_helper/models/basic_models/timer_model.dart';
 
 class AgendaItemModelQualification extends AgendaItemModelCompetition {
+  // Static:
+  final List<String> competitorNames;
+
   AgendaItemModelQualification({
     required super.id,
     required super.uid,
@@ -16,9 +19,10 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
     super.title = '',
     required super.integralsCodes,
     required super.spareIntegralsCodes,
-    super.currentIntegralCode,
     required super.timeLimitPerIntegral,
     required super.timeLimitPerSpareIntegral,
+    required this.competitorNames,
+    super.currentIntegralCode,
     required super.integralsProgress,
     required super.spareIntegralsProgress,
     required super.problemPhase,
@@ -42,10 +46,12 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
         spareIntegralsCodes: (json['spareIntegralsCodes'] as List)
             .map((v) => v as String)
             .toList(),
-        currentIntegralCode: json['currentIntegralCode'],
         timeLimitPerIntegral: Duration(seconds: json['timeLimitPerIntegral']),
         timeLimitPerSpareIntegral:
             Duration(seconds: json['timeLimitPerSpareIntegral']),
+        competitorNames:
+            (json['competitorNames'] as List).map((v) => v as String).toList(),
+        currentIntegralCode: json['currentIntegralCode'],
         integralsProgress: json['integralsProgress'],
         spareIntegralsProgress: json['spareIntegralsProgress'],
         problemPhase: ProblemPhase.fromValue(json['problemPhase']),
@@ -59,6 +65,7 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
     'timeLimitPerIntegral': 5 * 60,
     'timeLimitPerSpareIntegral': 3 * 60,
     'title': '',
+    'competitorNames': [],
     'currentIntegralCode': null,
     'integralsProgress': null,
     'spareIntegralsProgress': null,
@@ -109,6 +116,7 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
     Duration? timeLimitPerIntegral,
     Duration? timeLimitPerSpareIntegral,
     String? title,
+    List<String>? competitorNames,
   }) async {
     await checkEdit(
       integralsCodes: integralsCodes,
@@ -124,6 +132,7 @@ class AgendaItemModelQualification extends AgendaItemModelCompetition {
       'timeLimitPerIntegral': timeLimitPerIntegral?.inSeconds,
       'timeLimitPerSpareIntegral': timeLimitPerSpareIntegral?.inSeconds,
       'title': title,
+      'competitorNames': competitorNames,
     }.deleteNullEntries());
 
     if (this.integralsCodes.isEmpty && (integralsCodes?.isNotEmpty ?? false)) {

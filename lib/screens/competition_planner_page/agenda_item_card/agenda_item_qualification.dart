@@ -23,12 +23,14 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
   bool hasChanged = false;
 
   late String title;
+  late String competitorNames;
   late String integralsCodes;
   late String spareIntegralsCodes;
   late String timeLimitPerIntegral;
   late String timeLimitPerSpareIntegral;
 
   late TextEditingController titleController;
+  late TextEditingController competitorNamesController;
   late TextEditingController integralsCodesController;
   late TextEditingController spareIntegralsCodesController;
   late TextEditingController timeLimitPerIntegralController;
@@ -37,6 +39,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
   @override
   void initState() {
     title = widget.agendaItem.title;
+    competitorNames = widget.agendaItem.competitorNames.join(',');
     integralsCodes = widget.agendaItem.integralsCodes.join(',');
     spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes.join(',');
     timeLimitPerIntegral =
@@ -45,6 +48,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
         widget.agendaItem.timeLimitPerSpareIntegral.inSeconds.toString();
 
     titleController = TextEditingController(text: title);
+    competitorNamesController = TextEditingController(text: competitorNames);
     integralsCodesController = TextEditingController(text: integralsCodes);
     spareIntegralsCodesController =
         TextEditingController(text: spareIntegralsCodes);
@@ -65,6 +69,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
 
   void reset() {
     title = widget.agendaItem.title;
+    competitorNames = widget.agendaItem.competitorNames.join(',');
     integralsCodes = widget.agendaItem.integralsCodes.join(',');
     spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes.join(',');
     timeLimitPerIntegral =
@@ -73,6 +78,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
         widget.agendaItem.timeLimitPerSpareIntegral.inSeconds.toString();
 
     titleController.text = title;
+    competitorNamesController.text = competitorNames;
     integralsCodesController.text = integralsCodes;
     spareIntegralsCodesController.text = spareIntegralsCodes;
     timeLimitPerIntegralController.text = timeLimitPerIntegral;
@@ -105,6 +111,33 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                 controller: titleController,
                 onChanged: (v) => setState(() {
                   title = v;
+                  hasChanged = true;
+                }),
+                maxLines: 1,
+              ),
+            ),
+          ],
+        ),
+        const Divider(),
+        Row(
+          children: [
+            const SizedBox(
+              width: 100,
+              child: Text(
+                'Competitors:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Expanded(
+              child: TextField(
+                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Competitors',
+                ),
+                controller: competitorNamesController,
+                onChanged: (v) => setState(() {
+                  competitorNames = v;
                   hasChanged = true;
                 }),
                 maxLines: 1,
@@ -248,6 +281,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
               try {
                 await widget.agendaItem.editStatic(
                   title: title,
+                  competitorNames: competitorNames.split(',').deleteEmptyEntries(),
                   integralsCodes: integralsCodes.split(',').deleteEmptyEntries(),
                   spareIntegralsCodes: spareIntegralsCodes.split(',').deleteEmptyEntries(),
                   timeLimitPerIntegral:
