@@ -216,12 +216,12 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
         .where((code) => allUnusedIntegralsCodes.contains(code))
         .toList();
 
-    final finalList = ownUnusedSpareIntegralsCodes
-      ..addAll(
-        allUnusedSpareIntegralsCodes.difference(
-          ownUnusedSpareIntegralsCodes.toSet(),
-        ),
-      );
+    final finalList = [
+      ...ownUnusedSpareIntegralsCodes,
+      ...allUnusedSpareIntegralsCodes.difference(
+        ownUnusedSpareIntegralsCodes.toSet(),
+      ),
+    ];
 
     if (finalList.isEmpty) throw Exception('No spare integrals available!');
 

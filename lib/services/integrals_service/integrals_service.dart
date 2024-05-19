@@ -94,7 +94,19 @@ class IntegralsService {
         .where('code', whereIn: codes)
         .get();
 
-    return _integralListFromFirebase(response);
+    final unsortedList = _integralListFromFirebase(response);
+    final List<IntegralModel> sortedList = [];
+
+    for (var code in codes) {
+      for (var integral in unsortedList) {
+        if (integral.code == code) {
+          sortedList.add(integral);
+          break;
+        }
+      }
+    }
+
+    return sortedList;
   }
 
   Future<List<IntegralModel>> getUsedIntegrals() async {
