@@ -1,7 +1,11 @@
 class LatexTransformer {
-  static String transform(String latex) {
-    latex = latex.replaceAll('\\dd{', '\\text{d}{');
+  static String transform(String raw) {
+    final transformed = raw.replaceAll('\\dd{', '\\text{d}{');
 
-    return '\$\$$latex\$\$';
+    return transformed;
+  }
+
+  static String transformWithDollarSigns(String raw) {
+    return '\$\$${transform(raw)}\$\$';
   }
 }

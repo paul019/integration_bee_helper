@@ -13,7 +13,7 @@ class LatexView extends StatelessWidget {
       height: 150,
       child: TeXView(
         child: TeXViewDocument(
-          latex.transformed,
+          latex.transformedWithDollarSigns,
           style: const TeXViewStyle.fromCSS('padding: 5px;'),
         ),
       ),
