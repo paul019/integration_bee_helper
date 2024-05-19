@@ -171,7 +171,7 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
   Future startIntegral() async {
     DateTime timerStopsAt = DateTime.now().add(timeLimit);
 
-    if (integralsProgress == -1) {
+    if (currentIntegralCode == null) {
       throw Exception('You have to add at least one integral!');
     } else if (integralsProgress == 0) {
       await IntegralsService().setIntegralToUsed(integralsCodes.first);
