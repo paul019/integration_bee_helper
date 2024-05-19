@@ -32,22 +32,24 @@ class _IntegralsPageState extends State<IntegralsPage> {
                   IntegralsService().addIntegral(currentIntegrals: integrals),
               child: const Icon(Icons.add),
             ),
-            body: ListView.builder(
-              itemCount: integrals.length + 1,
-              itemBuilder: (context, index) {
-                if (index == integrals.length) {
-                  return const SizedBox(height: 100);
-                }
+            body: integrals.isEmpty
+                ? const Center(child: Text('No integrals yet.'))
+                : ListView.builder(
+                    itemCount: integrals.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index == integrals.length) {
+                        return const SizedBox(height: 100);
+                      }
 
-                final integral = integrals[index];
+                      final integral = integrals[index];
 
-                return MaxWidthWrapper(
-                  child: IntegralCard(
-                    integral: integral,
+                      return MaxWidthWrapper(
+                        child: IntegralCard(
+                          integral: integral,
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
           );
         });
   }
