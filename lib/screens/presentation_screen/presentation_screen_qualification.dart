@@ -7,6 +7,7 @@ import 'package:integration_bee_helper/models/integral_model/integral_type.dart'
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/integral_code_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/integral_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/names_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/timer_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/title_view.dart';
 import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
@@ -192,6 +193,11 @@ class _PresentationScreenQualificationState
               ),
               TitleView(
                 title: widget.activeAgendaItem.title,
+                size: widget.size,
+              ),
+              NamesView(
+                competitorNames: widget.activeAgendaItem.competitorNames,
+                problemName: problemName ?? 'Problem 1',
                 size: widget.size,
               ),
             ],
