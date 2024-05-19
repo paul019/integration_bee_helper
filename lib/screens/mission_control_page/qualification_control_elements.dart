@@ -5,6 +5,8 @@ import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
+import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
+import 'package:integration_bee_helper/screens/mission_control_page/spare_integral_dialog.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 
 class QualificationControlElements extends StatefulWidget {
@@ -105,23 +107,28 @@ class _QualificationControlElementsState
             children: [
               TextButton(
                 onPressed: () async {
-                  throw UnimplementedError();
-                  final success = false;
+                  late final List<IntegralModel> potentialSpareIntegrals;
 
-                  if (!success && context.mounted) {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) => AlertDialog(
-                              title: const Text('Not enough spare integrals'),
-                              content: const Text(
-                                  'Please add new unused spare integrals.'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: const Text('OK'),
-                                ),
-                              ],
-                            ));
+                  try {
+                    potentialSpareIntegrals = await widget.activeAgendaItem
+                        .getPotentialSpareIntegrals();
+                  } on Exception catch (e) {
+                    if (context.mounted) e.show(context);
+                  }
+
+                  if (context.mounted) {
+                    SpareIntegralDialog.launch(
+                      context,
+                      potentialSpareIntegrals: potentialSpareIntegrals,
+                      onChoose: (integral) async {
+                        try {
+                          await widget.activeAgendaItem
+                              .startNextSpareIntegral(integral.code);
+                        } on Exception catch (e) {
+                          if (context.mounted) e.show(context);
+                        }
+                      },
+                    );
                   }
                 },
                 child: const Text('Additional integral'),

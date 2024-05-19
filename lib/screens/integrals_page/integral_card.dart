@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_tex/flutter_tex.dart';
 import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
 import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
-import 'package:integration_bee_helper/services/basic_services/latex_transformer.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
+import 'package:integration_bee_helper/widgets/latex_view.dart';
 import 'package:integration_bee_helper/widgets/text_bubble.dart';
 
 class IntegralCard extends StatefulWidget {
@@ -164,16 +163,7 @@ class _IntegralCardState extends State<IntegralCard> {
                   Expanded(
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 150,
-                          child: TeXView(
-                            child: TeXViewDocument(
-                              LatexTransformer.transform(latexProblem),
-                              style:
-                                  const TeXViewStyle.fromCSS('padding: 5px;'),
-                            ),
-                          ),
-                        ),
+                        LatexView(latex: latexProblem),
                         TextField(
                           decoration: const InputDecoration(
                             border: InputBorder.none,
@@ -193,16 +183,7 @@ class _IntegralCardState extends State<IntegralCard> {
                   Expanded(
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 150,
-                          child: TeXView(
-                            child: TeXViewDocument(
-                              LatexTransformer.transform(latexSolution),
-                              style:
-                                  const TeXViewStyle.fromCSS('padding: 5px;'),
-                            ),
-                          ),
-                        ),
+                        LatexView(latex: latexSolution),
                         TextField(
                           decoration: const InputDecoration(
                             border: InputBorder.none,

@@ -6,6 +6,9 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knoc
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/score.dart';
+import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
+import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
+import 'package:integration_bee_helper/screens/mission_control_page/spare_integral_dialog.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 import 'package:integration_bee_helper/widgets/vertical_separator.dart';
 
@@ -124,24 +127,37 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
         } else {
           return TextButton(
             onPressed: () async {
-              throw UnimplementedError();
-              final success =
+              if (widget.activeAgendaItem.nextIntegralType ==
+                  IntegralType.regular) {
+                try {
                   await widget.activeAgendaItem.startNextRegularIntegral();
+                } on Exception catch (e) {
+                  if (context.mounted) e.show(context);
+                }
+              } else {
+                late final List<IntegralModel> potentialSpareIntegrals;
 
-              if (success && context.mounted) {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext dialogContext) => AlertDialog(
-                          title: const Text('Not enough spare integrals'),
-                          content: const Text(
-                              'Please add new unused spare integrals.'),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('OK'),
-                            ),
-                          ],
-                        ));
+                try {
+                  potentialSpareIntegrals = await widget.activeAgendaItem
+                      .getPotentialSpareIntegrals();
+                } on Exception catch (e) {
+                  if (context.mounted) e.show(context);
+                }
+
+                if (context.mounted) {
+                  SpareIntegralDialog.launch(
+                    context,
+                    potentialSpareIntegrals: potentialSpareIntegrals,
+                    onChoose: (integral) async {
+                      try {
+                        await widget.activeAgendaItem
+                            .startNextSpareIntegral(integral.code);
+                      } on Exception catch (e) {
+                        if (context.mounted) e.show(context);
+                      }
+                    },
+                  );
+                }
               }
             },
             child: const Text('Next integral'),
