@@ -95,6 +95,7 @@ class _QualificationControlElementsState
           ],
         );
       case ProblemPhase.showSolution:
+      case ProblemPhase.showSolutionAndWinner:
         if (widget.activeAgendaItem.phase ==
             AgendaItemPhase.activeButFinished) {
           return Text(
@@ -147,8 +148,6 @@ class _QualificationControlElementsState
             ],
           );
         }
-      default:
-        return Container();
     }
   }
 
