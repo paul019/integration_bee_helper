@@ -50,6 +50,14 @@ class ActionRow extends StatelessWidget {
               icon: Icons.refresh,
               child: const Text('Reset'),
             ),
+            const VerticalSeparator(),
+            TextButtonWithIcon(
+              onPressed: () {
+                throw UnimplementedError();
+              },
+              icon: Icons.download,
+              child: const Text('Download LaTeX'),
+            ),
           ],
         ));
   }

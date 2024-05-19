@@ -43,6 +43,7 @@ dependencies:
   tuple: ^2.0.2
   flutter_launcher_icons: ^0.13.1
   just_audio: ^0.9.37
+  archive: ^3.5.1
 
 dev_dependencies:
   flutter_test:
