@@ -7,7 +7,7 @@ class ConfirmationDialog {
   final String positiveText;
   final Function() payload;
   final Function()? onCancel;
-  final bool bypassConfirmation;
+  final bool? bypassConfirmation;
 
   ConfirmationDialog({
     required this.title,
@@ -16,11 +16,11 @@ class ConfirmationDialog {
     this.onCancel,
     this.negativeText = 'Cancel',
     this.positiveText = 'Yes',
-    this.bypassConfirmation = false,
+    this.bypassConfirmation,
   });
 
   void launch(BuildContext context) {
-    if(bypassConfirmation) {
+    if(bypassConfirmation == true) {
       payload();
       return;
     }

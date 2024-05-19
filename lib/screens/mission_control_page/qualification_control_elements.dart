@@ -85,7 +85,7 @@ class _QualificationControlElementsState
             TextButton(
               onPressed: () {
                 ConfirmationDialog(
-                  bypassConfirmation: widget.activeAgendaItem.timer.timeUp!,
+                  bypassConfirmation: widget.activeAgendaItem.timer.timeUp,
                   title: 'Do you really want to show the solution?',
                   payload: () => widget.activeAgendaItem.showSolution(),
                 ).launch(context);
