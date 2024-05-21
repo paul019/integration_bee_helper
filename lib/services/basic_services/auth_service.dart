@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:integration_bee_helper/services/settings_service/settings_service.dart';
 
 class AuthService {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -7,16 +8,18 @@ class AuthService {
     return _auth.authStateChanges();
   }
 
-  static void registerAccountUsingEmail({
+  static Future registerAccountUsingEmail({
     required String email,
     required String password,
     required Function(String) onError,
   }) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      final credentials = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      await SettingsService().createSettings(uid: credentials.user!.uid);
     } on FirebaseAuthException catch (err) {
-      print(err);
       if (err.code == "weak-password") {
         onError("Please enter a stronger password");
       } else if (err.code == "email-already-in-use") {
@@ -24,11 +27,10 @@ class AuthService {
       }
     } catch (err) {
       // other errors
-      print(err);
     }
   }
 
-  static void loginUsingEmail({
+  static Future loginUsingEmail({
     required String email,
     required String password,
     required Function(String) onError,
@@ -43,7 +45,6 @@ class AuthService {
       }
     } catch (err) {
       // other errors
-      print(err);
     }
   }
 

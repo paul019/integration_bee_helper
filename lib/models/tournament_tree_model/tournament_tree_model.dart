@@ -2,9 +2,10 @@ import 'package:integration_bee_helper/models/tournament_tree_model/tournament_t
 import 'package:integration_bee_helper/models/tournament_tree_model/tournament_tree_stage.dart';
 
 class TournamentTreeModel {
+  final String? rawText;
   final List<TournamentTreeStage> stages;
 
-  TournamentTreeModel({required this.stages});
+  TournamentTreeModel({this.rawText, required this.stages});
 
   static TournamentTreeModel decode(String text) {
     final List<TournamentTreeStage> stages = [];
@@ -25,11 +26,11 @@ class TournamentTreeModel {
       stages.add(TournamentTreeStage(entries: entries));
     }
 
-    return TournamentTreeModel(stages: stages);
+    return TournamentTreeModel(rawText: text, stages: stages);
   }
 
   String encode() {
-    return stages.map((stage) {
+    return rawText ?? stages.map((stage) {
       return stage.entries.map((entry) {
         return '${entry.title},${entry.subtitle},${entry.flex}';
       }).join(';');
