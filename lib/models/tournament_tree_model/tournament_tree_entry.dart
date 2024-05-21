@@ -8,4 +8,6 @@ class TournamentTreeEntry {
     this.subtitle = '',
     this.flex = 1,
   });
+
+  bool get isEmpty => title.isEmpty && subtitle.isEmpty;
 }

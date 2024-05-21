@@ -60,7 +60,7 @@ class _PresentationScreenWrapperState extends State<PresentationScreenWrapper> {
             },
             child: PresentationScreen(
               activeAgendaItem: activeAgendaItem,
-              size: MediaQuery.of(context).size,
+              size: MediaQuery.sizeOf(context),
             ),
           );
         },

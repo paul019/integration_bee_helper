@@ -11,14 +11,18 @@ class TournamentTreeModel {
     final List<TournamentTreeStage> stages = [];
 
     for (final String stage in text.split('\n')) {
+      if (stage.trim().isEmpty) {
+        continue;
+      }
+
       final List<TournamentTreeEntry> entries = [];
 
       for (final String entry in stage.split(';')) {
         final List<String> parts = entry.split(',');
 
         entries.add(TournamentTreeEntry(
-          title: parts[0],
-          subtitle: parts.length >= 2 ? parts[1] : '',
+          title: parts.isNotEmpty ? parts[0].trim() : '',
+          subtitle: parts.length >= 2 ? parts[1].trim() : '',
           flex: parts.length >= 3 ? int.parse(parts[2]) : 1,
         ));
       }
@@ -30,10 +34,14 @@ class TournamentTreeModel {
   }
 
   String encode() {
-    return rawText ?? stages.map((stage) {
-      return stage.entries.map((entry) {
-        return '${entry.title},${entry.subtitle},${entry.flex}';
-      }).join(';');
-    }).join('\n');
+    return rawText ??
+        stages.map((stage) {
+          return stage.entries.map((entry) {
+            return '${entry.title},${entry.subtitle},${entry.flex}';
+          }).join(';');
+        }).join('\n');
   }
+
+  bool get isEmpty => stages.isEmpty;
+  int get numOfStages => stages.length;
 }
