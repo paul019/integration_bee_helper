@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
-import 'package:integration_bee_helper/models/integral_model/current_integral_wrapper.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/score.dart';
@@ -11,9 +10,8 @@ import 'package:integration_bee_helper/screens/presentation_screen/integral_view
 import 'package:integration_bee_helper/screens/presentation_screen/score_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/timer_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/title_view.dart';
-import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
+import 'package:integration_bee_helper/widgets/current_integral_stream.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:provider/provider.dart';
 
 class PresentationScreenKnockout extends StatefulWidget {
   final AgendaItemModelKnockout activeAgendaItem;
@@ -176,15 +174,9 @@ class _PresentationScreenKnockoutState
 
     // final p = size.width / 1920.0;
 
-    return StreamProvider<CurrentIntegralWrapper>.value(
-      initialData: CurrentIntegralWrapper(null),
-      value: IntegralsService().onActiveAgendaItemChanged(
-        integralCode: widget.activeAgendaItem.currentIntegralCode,
-      ),
-      builder: (context, snapshot) {
-        final integralWrapper = Provider.of<CurrentIntegralWrapper>(context);
-        final currentIntegral = integralWrapper.integral;
-
+    return CurrentIntegralStream(
+      integralCode: widget.activeAgendaItem.currentIntegralCode,
+      builder: (context, currentIntegral) {
         return Stack(
           alignment: Alignment.center,
           children: [

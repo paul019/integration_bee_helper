@@ -29,10 +29,12 @@ class _IntegralCardState extends State<IntegralCard> {
   late LatexExpression latexSolution;
   late String name;
   late IntegralType type;
+  late String youtubeVideoId;
 
   late TextEditingController problemController;
   late TextEditingController solutionController;
   late TextEditingController nameController;
+  late TextEditingController youtubeVideoIdController;
 
   @override
   void initState() {
@@ -40,10 +42,12 @@ class _IntegralCardState extends State<IntegralCard> {
     latexSolution = widget.integral.latexSolution;
     name = widget.integral.name;
     type = widget.integral.type;
+    youtubeVideoId = widget.integral.youtubeVideoId;
 
     problemController = TextEditingController(text: latexProblem.raw);
     solutionController = TextEditingController(text: latexSolution.raw);
     nameController = TextEditingController(text: name);
+    youtubeVideoIdController = TextEditingController(text: youtubeVideoId);
 
     super.initState();
   }
@@ -54,10 +58,12 @@ class _IntegralCardState extends State<IntegralCard> {
     latexSolution = widget.integral.latexSolution;
     name = widget.integral.name;
     type = widget.integral.type;
+    youtubeVideoId = widget.integral.youtubeVideoId;
 
     problemController.text = latexProblem.raw;
     solutionController.text = latexSolution.raw;
     nameController.text = name;
+    youtubeVideoIdController.text = youtubeVideoId;
 
     hasChanged = false;
 
@@ -204,6 +210,31 @@ class _IntegralCardState extends State<IntegralCard> {
                   ),
                 ],
               ),
+              const Divider(),
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 150,
+                    child: Text(
+                      'YouTube video ID:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Expanded(
+                    child: TextField(
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'YouTube video ID (optional)',
+                      ),
+                      controller: youtubeVideoIdController,
+                      onChanged: (v) => setState(() {
+                        youtubeVideoId = v;
+                        hasChanged = true;
+                      }),
+                    ),
+                  ),
+                ],
+              ),
               if (hasChanged)
                 CancelSaveButtons(
                   onCancel: () {
@@ -224,6 +255,7 @@ class _IntegralCardState extends State<IntegralCard> {
                       latexSolution: latexSolution,
                       name: name,
                       type: type,
+                      youtubeVideoId: youtubeVideoId,
                     );
                     setState(() => hasChanged = false);
                   },

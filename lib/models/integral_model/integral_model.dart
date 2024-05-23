@@ -13,6 +13,7 @@ class IntegralModel {
   final String name;
   final bool alreadyUsed;
   final List<String> agendaItemIds;
+  final String youtubeVideoId;
 
   IntegralModel({
     this.id,
@@ -25,6 +26,7 @@ class IntegralModel {
     required this.name,
     required this.alreadyUsed,
     required this.agendaItemIds,
+    required this.youtubeVideoId,
   });
 
   factory IntegralModel.fromJson(
@@ -43,6 +45,7 @@ class IntegralModel {
         alreadyUsed: json['alreadyUsed'] ?? false,
         agendaItemIds:
             (json['agendaItemIds'] as List).map((e) => e as String).toList(),
+        youtubeVideoId: json['youtubeVideoId'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -55,6 +58,7 @@ class IntegralModel {
         'name': name,
         'alreadyUsed': alreadyUsed,
         'agendaItemIds': agendaItemIds,
+        'youtubeVideoId': youtubeVideoId,
       };
 
   static CollectionReference<Map<String, dynamic>> get collection =>

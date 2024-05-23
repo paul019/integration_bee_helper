@@ -70,4 +70,7 @@ enum AgendaItemType {
         return AgendaItemModelText.minimalJson;
     }
   }
+
+  bool get isCompetition =>
+      this == AgendaItemType.knockout || this == AgendaItemType.qualification;
 }

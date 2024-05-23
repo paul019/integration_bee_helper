@@ -1,10 +1,8 @@
 import 'dart:html';
 
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/active_agenda_item_wrapper.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen.dart';
-import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
-import 'package:provider/provider.dart';
+import 'package:integration_bee_helper/widgets/active_agenda_item_stream.dart';
 
 enum PresentationScreenEvents { timeUp }
 
@@ -44,13 +42,8 @@ class _PresentationScreenWrapperState extends State<PresentationScreenWrapper> {
     }
 
     return Scaffold(
-      body: StreamProvider<ActiveAgendaItemWrapper>.value(
-        initialData: ActiveAgendaItemWrapper(null),
-        value:  AgendaItemsService().onActiveAgendaItemChanged,
-        builder: (context, snapshot) {
-          final agendaItemWrapper = Provider.of<ActiveAgendaItemWrapper>(context);
-          final activeAgendaItem = agendaItemWrapper.agendaItem;
-
+      body: ActiveAgendaItemStream(
+        builder: (context, activeAgendaItem) {
           return RawKeyboardListener(
             focusNode: focusNode,
             onKey: (event) {

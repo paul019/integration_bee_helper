@@ -49,7 +49,7 @@ class IntegralsService {
         .map(_integralListFromFirebase);
   }
 
-  Stream<CurrentIntegralWrapper>? onActiveAgendaItemChanged({
+  Stream<CurrentIntegralWrapper>? onCurrentIntegralChanged({
     required String? integralCode,
   }) {
     if (integralCode == null) return null;
@@ -141,6 +141,7 @@ class IntegralsService {
       name: "",
       alreadyUsed: false,
       agendaItemIds: [],
+      youtubeVideoId: "",
     );
 
     // Add integral:
@@ -192,12 +193,14 @@ class IntegralsService {
     required LatexExpression latexSolution,
     required String name,
     required IntegralType type,
+    required String youtubeVideoId,
   }) async {
     await integral.reference.update({
       'latexProblem': latexProblem.raw,
       'latexSolution': latexSolution.raw,
       'name': name,
       'type': type.id,
+      'youtubeVideoId': youtubeVideoId,
     });
   }
 

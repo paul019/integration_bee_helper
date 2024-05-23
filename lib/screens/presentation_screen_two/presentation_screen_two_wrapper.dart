@@ -1,11 +1,10 @@
 import 'dart:html';
 
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/active_agenda_item_wrapper.dart';
 import 'package:integration_bee_helper/models/settings_model/settings_model.dart';
 import 'package:integration_bee_helper/screens/presentation_screen_two/presentation_screen_two.dart';
-import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
 import 'package:integration_bee_helper/services/settings_service/settings_service.dart';
+import 'package:integration_bee_helper/widgets/active_agenda_item_stream.dart';
 import 'package:provider/provider.dart';
 
 enum PresentationScreenEvents { timeUp }
@@ -47,17 +46,12 @@ class _PresentationScreenTwoWrapperState
     }
 
     return Scaffold(
-      body: StreamProvider<ActiveAgendaItemWrapper>.value(
-        initialData: ActiveAgendaItemWrapper(null),
-        value: AgendaItemsService().onActiveAgendaItemChanged,
-        builder: (context, snapshot) {
+      body: ActiveAgendaItemStream(
+        builder: (context, activeAgendaItem) {
           return StreamProvider<SettingsModel?>.value(
               initialData: null,
               value: SettingsService().onSettingsChanged,
               builder: (context, snapshot) {
-                final agendaItemWrapper =
-                    Provider.of<ActiveAgendaItemWrapper>(context);
-                final activeAgendaItem = agendaItemWrapper.agendaItem;
                 final settings = Provider.of<SettingsModel?>(context);
 
                 return RawKeyboardListener(

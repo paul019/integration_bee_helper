@@ -165,7 +165,7 @@ class _PresentationScreenQualificationState
 
     return StreamProvider<CurrentIntegralWrapper>.value(
         initialData: CurrentIntegralWrapper(null),
-        value: IntegralsService().onActiveAgendaItemChanged(
+        value: IntegralsService().onCurrentIntegralChanged(
           integralCode: widget.activeAgendaItem.currentIntegralCode,
         ),
         builder: (context, snapshot) {
