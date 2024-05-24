@@ -1,0 +1,91 @@
+\documentclass[parskip=full]{article}
+
+% Import packages
+\usepackage[ngerman]{babel}
+\usepackage[hidelinks]{hyperref}
+\usepackage{multicol}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+
+% Set layout params
+\usepackage[a4paper, left=0.5cm, right=0.5cm, top=0.5cm, bottom=0.5cm, landscape]{geometry}
+\setlength\parindent{0pt}
+\pagestyle{empty}
+
+\newcommand{\dd}[1]{\text{d}{#1}}
+
+% Arguments:
+% 1. Integral code \hfill Agenda item name
+% 2. latex
+%    ...
+\newcommand{\quartet}[8]{
+\begin{figure*}[!ht]
+    \fbox{
+    \begin{minipage}[t][9.5cm][t]{13.75cm}
+        \begin{minipage}[t][1cm][t]{\linewidth}
+            #1
+        \end{minipage}
+        \begin{minipage}[t][7.5cm][t]{\linewidth}
+            \vspace*{\fill}
+                \begin{equation*}
+                    #2
+                \end{equation*}
+            \vspace*{\fill}
+        \end{minipage}
+    \end{minipage}}%
+    \hspace*{0.5cm}%
+    \fbox{
+    \begin{minipage}[t][9.5cm][t]{13.75cm}
+        \begin{minipage}[t][1cm][t]{\linewidth}
+            #3
+        \end{minipage}
+        \begin{minipage}[t][7.5cm][t]{\linewidth}
+            \vspace*{\fill}
+                \begin{equation*}
+                    #4
+                \end{equation*}
+            \vspace*{\fill}
+        \end{minipage}
+    \end{minipage}}
+    \vspace*{0.4cm}
+
+    \fbox{
+    \begin{minipage}[t][9.5cm][t]{13.75cm}
+        \begin{minipage}[t][1cm][t]{\linewidth}
+            #5
+        \end{minipage}
+        \begin{minipage}[t][7.5cm][t]{\linewidth}
+            \vspace*{\fill}
+                \begin{equation*}
+                    #6
+                \end{equation*}
+            \vspace*{\fill}
+        \end{minipage}
+    \end{minipage}}%
+    \hspace*{0.5cm}%
+    \fbox{
+    \begin{minipage}[t][9.5cm][t]{13.75cm}
+        \begin{minipage}[t][1cm][t]{\linewidth}
+            #7
+        \end{minipage}
+        \begin{minipage}[t][7.5cm][t]{\linewidth}
+            \vspace*{\fill}
+                \begin{equation*}
+                    #8
+                \end{equation*}
+            \vspace*{\fill}
+        \end{minipage}
+    \end{minipage}}
+    \vspace*{0.5cm}
+\end{figure*}
+}
+
+
+\begin{document}
+% \quartet{1001 \hfill Viertelfinale}{\int{x\dd{x}}}{1002 \hfill Viertelfinale}{\int{x\dd{x}}}{1003 \hfill Viertelfinale}{\int{x\dd{x}}}{1004 \hfill Viertelfinale}{\int{x\dd{x}}}
+% \quartet{1001 \hfill Viertelfinale}{\int{x\dd{x}}}{1002 \hfill Viertelfinale}{\int{x\dd{x}}}{1003 \hfill Viertelfinale}{\int{x\dd{x}}}{Leer}{}
+
+% PLACEHOLDER
+\end{document}
