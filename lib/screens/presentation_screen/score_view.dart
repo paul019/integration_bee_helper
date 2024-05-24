@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/score.dart';
 import 'package:integration_bee_helper/theme/theme_colors.dart';
 import 'package:integration_bee_helper/widgets/triangle_painter.dart';
 
 class ScoreView extends StatelessWidget {
   final String competitor1Name;
   final String competitor2Name;
-  final List<int> scores;
-  final int progressIndex;
+  final List<Score> scores;
+  final int totalProgress;
   final String problemName;
   final Size size;
 
@@ -15,26 +16,26 @@ class ScoreView extends StatelessWidget {
     required this.competitor1Name,
     required this.competitor2Name,
     required this.scores,
-    required this.progressIndex,
+    required this.totalProgress,
     required this.problemName,
     required this.size,
   });
 
-  Color getScoreColor(int score) {
+  Color getScoreColor(Score score) {
     switch (score) {
-      case 0:
+      case Score.tie:
         return ThemeColors.red;
-      case 1:
+      case Score.competitor1:
         return ThemeColors.blue;
-      case 2:
+      case Score.competitor2:
         return ThemeColors.yellow;
-      default:
+      case Score.notSetYet:
         return ThemeColors.grey;
     }
   }
 
   double getScoreDiameter(int index) {
-    if(index == progressIndex) {
+    if(index == totalProgress) {
       return 50;
     } else {
       return 40;
@@ -110,10 +111,10 @@ class ScoreView extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                                child: scores[i] == -1
+                                child: scores[i] == Score.notSetYet
                                     ? null
                                     : Icon(
-                                        scores[i] == 0
+                                        scores[i] == Score.tie
                                             ? Icons.close_rounded
                                             : Icons.check_rounded,
                                         color: ThemeColors.white,

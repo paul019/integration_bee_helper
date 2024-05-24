@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/models/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/screens/mission_control_page/knockout_control_elements.dart';
 import 'package:integration_bee_helper/screens/mission_control_page/qualification_control_elements.dart';
 
@@ -38,10 +41,15 @@ class ControlCard extends StatelessWidget {
       case AgendaItemType.text:
         return null;
       case AgendaItemType.knockout:
-        return KnockoutControlElements(activeAgendaItem: activeAgendaItem!);
+        return KnockoutControlElements(
+          activeAgendaItem: activeAgendaItem as AgendaItemModelKnockout,
+        );
       case AgendaItemType.qualification:
         return QualificationControlElements(
-            activeAgendaItem: activeAgendaItem!);
+          activeAgendaItem: activeAgendaItem as AgendaItemModelQualification,
+        );
+      case AgendaItemType.video:
+        return null;
     }
   }
 }

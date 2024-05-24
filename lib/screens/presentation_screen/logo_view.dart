@@ -29,12 +29,11 @@ class LogoView extends StatelessWidget {
               )
             : EdgeInsets.only(
                 top: 25 * p,
-                bottom: (1080 - 150 - 25) * p,
                 left: (1920 - 150 - 25) * p,
                 right: 25 * p,
               ),
         child: Image.asset(
-          'assets/logo.png',
+          'assets/images/logo.png',
         ),
       ),
     );

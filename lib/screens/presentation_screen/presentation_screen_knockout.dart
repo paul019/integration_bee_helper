@@ -1,26 +1,28 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/models/agenda_item_model.dart';
-import 'package:integration_bee_helper/models/integral_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
+import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/score.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/integral_code_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/integral_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/score_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/timer_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/title_view.dart';
-import 'package:integration_bee_helper/services/integrals_service.dart';
+import 'package:integration_bee_helper/widgets/current_integral_stream.dart';
 import 'package:just_audio/just_audio.dart';
 
 class PresentationScreenKnockout extends StatefulWidget {
-  final AgendaItemModel activeAgendaItem;
+  final AgendaItemModelKnockout activeAgendaItem;
   final Size size;
-  final bool muted;
+  final bool isPreview;
 
   const PresentationScreenKnockout({
     super.key,
     required this.activeAgendaItem,
     required this.size,
-    this.muted = false,
+    required this.isPreview,
   });
 
   @override
@@ -30,7 +32,6 @@ class PresentationScreenKnockout extends StatefulWidget {
 
 class _PresentationScreenKnockoutState
     extends State<PresentationScreenKnockout> {
-  List<IntegralModel> integrals = [];
   String agendaItemId = '';
 
   late Timer timer;
@@ -40,21 +41,19 @@ class _PresentationScreenKnockoutState
   late final AudioPlayer player;
 
   String get uid => widget.activeAgendaItem.uid;
-  IntegralsService get integralsService => IntegralsService(uid: uid);
-  int get progressIndex => widget.activeAgendaItem.progressIndex!;
-  int get phaseIndex => widget.activeAgendaItem.phaseIndex!;
-  List<String> get integralsCodes => widget.activeAgendaItem.integralsCodes!;
+  ProblemPhase get problemPhase => widget.activeAgendaItem.problemPhase;
+  List<String> get integralsCodes => widget.activeAgendaItem.integralsCodes;
   List<String> get spareIntegralsCodes =>
-      widget.activeAgendaItem.spareIntegralsCodes!;
+      widget.activeAgendaItem.spareIntegralsCodes;
   String? get currentIntegralCode =>
       widget.activeAgendaItem.currentIntegralCode;
-  List<int> get scores {
-    final scores = [...widget.activeAgendaItem.scores!];
+  List<Score> get scores {
+    final scores = [...widget.activeAgendaItem.scores];
 
-    if (scores.length < integralsCodes.length) {
+    if (scores.length < widget.activeAgendaItem.numOfIntegrals) {
       final missing = integralsCodes.length - scores.length;
       for (var i = 0; i < missing; i++) {
-        scores.add(-1);
+        scores.add(Score.notSetYet);
       }
     }
 
@@ -62,41 +61,20 @@ class _PresentationScreenKnockoutState
   }
 
   String get problemName {
-    final numberOfRegularIntegrals = integralsCodes.length;
-    if (progressIndex < numberOfRegularIntegrals) {
-      return 'Problem ${(progressIndex + 1).toString()}';
+    if (widget.activeAgendaItem.currentIntegralType == IntegralType.regular) {
+      return 'Problem ${widget.activeAgendaItem.integralsProgress! + 1}';
     } else {
-      return 'Problem $numberOfRegularIntegrals+${progressIndex - numberOfRegularIntegrals + 1}';
+      return 'Problem ${widget.activeAgendaItem.numOfIntegrals}+${widget.activeAgendaItem.spareIntegralsProgress! + 1}';
     }
   }
 
-  DateTime? get timerStopsAt => widget.activeAgendaItem.timerStopsAt;
+  DateTime? get timerStopsAt => widget.activeAgendaItem.timer.timerStopsAt;
 
   Duration? get pausedTimerDuration =>
-      widget.activeAgendaItem.pausedTimerDuration;
-
-  IntegralModel? get currentIntegral => getIntegral(currentIntegralCode);
-  IntegralModel? getIntegral(String? integralCode) {
-    try {
-      return integrals.firstWhere((integral) => integral.code == integralCode);
-    } catch (err) {
-      return null;
-    }
-  }
+      widget.activeAgendaItem.timer.pausedTimerDuration;
 
   void initialize() async {
-    integrals = [];
-    agendaItemId = widget.activeAgendaItem.id!;
-
-    for (final code in integralsCodes) {
-      final integral = await integralsService.getIntegral(code: code);
-      integrals.add(integral);
-    }
-
-    for (final code in spareIntegralsCodes) {
-      final integral = await integralsService.getIntegral(code: code);
-      integrals.add(integral);
-    }
+    agendaItemId = widget.activeAgendaItem.id;
 
     setState(() {});
   }
@@ -111,21 +89,22 @@ class _PresentationScreenKnockoutState
     const timeWarningDuration = Duration(seconds: 30);
 
     timer = Timer.periodic(timerInterval, (timer) {
-      switch (phaseIndex) {
-        case 0:
-          if (progressIndex < integralsCodes.length) {
+      switch (problemPhase) {
+        case ProblemPhase.idle:
+          if (widget.activeAgendaItem.currentIntegralType ==
+              IntegralType.regular) {
             setState(() {
-              timeLeft = widget.activeAgendaItem.timeLimitPerIntegral!;
+              timeLeft = widget.activeAgendaItem.timeLimitPerIntegral;
               timerRed = false;
             });
           } else {
             setState(() {
-              timeLeft = widget.activeAgendaItem.timeLimitPerSpareIntegral!;
+              timeLeft = widget.activeAgendaItem.timeLimitPerSpareIntegral;
               timerRed = false;
             });
           }
           break;
-        case 1:
+        case ProblemPhase.showProblem:
           if (pausedTimerDuration != null) {
             setState(() {
               timeLeft = pausedTimerDuration!;
@@ -157,9 +136,8 @@ class _PresentationScreenKnockoutState
             }
           }
           break;
-        case 2:
-        case 3:
-        default:
+        case ProblemPhase.showSolution:
+        case ProblemPhase.showSolutionAndWinner:
           setState(() {
             timeLeft = Duration.zero;
             timerRed = false;
@@ -172,13 +150,13 @@ class _PresentationScreenKnockoutState
   }
 
   void playWarningSound() {
-    if (widget.muted) return;
-    player.setAsset('time_warning.mp3').then((_) => player.play());
+    if (widget.isPreview) return;
+    player.setAsset('sound/time_warning.mp3').then((_) => player.play());
   }
 
   void playTimeUpSound() {
-    if (widget.muted) return;
-    player.setAsset('time_up.mp3').then((_) => player.play());
+    if (widget.isPreview) return;
+    player.setAsset('sound/time_up.mp3').then((_) => player.play());
   }
 
   @override
@@ -190,40 +168,45 @@ class _PresentationScreenKnockoutState
 
   @override
   Widget build(BuildContext context) {
-    if (agendaItemId != widget.activeAgendaItem.id!) {
+    if (agendaItemId != widget.activeAgendaItem.id) {
       initialize();
     }
 
     // final p = size.width / 1920.0;
 
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        TimerView(
-          timeLeft: timeLeft,
-          timerRed: timerRed,
-          paused: pausedTimerDuration != null,
-          size: widget.size,
-        ),
-        ScoreView(
-            competitor1Name: widget.activeAgendaItem.competitor1Name!,
-            competitor2Name: widget.activeAgendaItem.competitor2Name!,
-            scores: scores,
-            progressIndex: widget.activeAgendaItem.progressIndex!,
-            problemName: problemName,
-            size: widget.size),
-        IntegralView(
-          currentIntegral: currentIntegral,
-          phaseIndex: phaseIndex,
-          problemName: problemName,
-          size: widget.size,
-        ),
-        IntegralCodeView(
-          code: currentIntegralCode ?? '',
-          size: widget.size,
-        ),
-        TitleView(title: widget.activeAgendaItem.title, size: widget.size),
-      ],
+    return CurrentIntegralStream(
+      integralCode: widget.activeAgendaItem.currentIntegralCode,
+      builder: (context, currentIntegral) {
+        return Stack(
+          alignment: Alignment.center,
+          children: [
+            TimerView(
+              timeLeft: timeLeft,
+              timerRed: timerRed,
+              paused: pausedTimerDuration != null,
+              size: widget.size,
+            ),
+            ScoreView(
+                competitor1Name: widget.activeAgendaItem.competitor1Name,
+                competitor2Name: widget.activeAgendaItem.competitor2Name,
+                scores: scores,
+                totalProgress: widget.activeAgendaItem.totalProgress ?? 0,
+                problemName: problemName,
+                size: widget.size),
+            IntegralView(
+              currentIntegral: currentIntegral,
+              problemPhase: problemPhase,
+              problemName: problemName,
+              size: widget.size,
+            ),
+            IntegralCodeView(
+              code: currentIntegralCode ?? '',
+              size: widget.size,
+            ),
+            TitleView(title: widget.activeAgendaItem.title, size: widget.size),
+          ],
+        );
+      },
     );
   }
 }

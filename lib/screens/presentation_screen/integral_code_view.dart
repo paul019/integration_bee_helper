@@ -19,7 +19,7 @@ class IntegralCodeView extends StatelessWidget {
       height: size.height,
       alignment: Alignment.bottomRight,
       child: Padding(
-        padding: const EdgeInsets.only(right: 8.0, bottom: 4.0),
+        padding: EdgeInsets.only(right: 8.0 * p, bottom: 8.0 * p),
         child: Text(
           code,
           style: TextStyle(fontSize: 20 * p),

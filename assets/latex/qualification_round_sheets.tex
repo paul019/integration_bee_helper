@@ -1,0 +1,64 @@
+\documentclass[parskip=full]{article}
+
+% Import packages
+\usepackage[ngerman]{babel}
+\usepackage[hidelinks]{hyperref}
+\usepackage{multicol}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+
+% Set layout params
+\usepackage[a4paper]{geometry}
+\setlength\parindent{0pt}
+\pagestyle{empty}
+
+\newcommand{\dd}[1]{\text{d}{#1}}
+
+% Arguments:
+% 1. Integral code
+% 2. Agenda item name
+% 3. Competitor name
+% 4. Latex
+\newcommand{\singlet}[4]{
+    \topskip0pt
+    
+    \begin{center}
+        \textbf{Bitte erst auf Anweisung umdrehen!}
+    \end{center}
+    
+    \vspace*{\fill}
+    \begin{center}
+        \Huge
+        \textbf{#3}
+        \normalsize
+    \end{center}
+    \vspace*{0.2cm}
+    \begin{center}
+        \Large
+        \textit{#2}
+        \normalsize
+    \end{center}
+    \vspace*{\fill}
+
+    \begin{center}
+        Integral Nr. #1
+    \end{center}
+
+    \newpage
+
+    \begin{equation*}
+        #4
+    \end{equation*}
+
+    \newpage
+}
+
+
+\begin{document}
+% \singlet{1001}{Vorentscheid \#1}{Paul}{\int{x\dd{x}}}
+% \singlet{1001}{}{}{\int{x\dd{x}}}
+
+% PLACEHOLDER
+\end{document}

@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_tex/flutter_tex.dart';
-import 'package:integration_bee_helper/models/integral_model.dart';
-import 'package:integration_bee_helper/services/integrals_service.dart';
-import 'package:integration_bee_helper/services/latex_transformer.dart';
+import 'package:integration_bee_helper/extensions/exception_extension.dart';
+import 'package:integration_bee_helper/models/basic_models/latex_expression.dart';
+import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
+import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
+import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
+import 'package:integration_bee_helper/widgets/latex_view.dart';
+import 'package:integration_bee_helper/widgets/text_bubble.dart';
 
 class IntegralCard extends StatefulWidget {
   final IntegralModel integral;
-  final IntegralsService service;
 
   const IntegralCard({
     super.key,
     required this.integral,
-    required this.service,
   });
 
   @override
@@ -24,27 +25,29 @@ class IntegralCard extends StatefulWidget {
 class _IntegralCardState extends State<IntegralCard> {
   bool hasChanged = false;
 
-  late String latexProblem;
-  late String latexSolution;
+  late LatexExpression latexProblem;
+  late LatexExpression latexSolution;
   late String name;
-
-  late IntegralLevel level;
+  late IntegralType type;
+  late String youtubeVideoId;
 
   late TextEditingController problemController;
   late TextEditingController solutionController;
   late TextEditingController nameController;
+  late TextEditingController youtubeVideoIdController;
 
   @override
   void initState() {
     latexProblem = widget.integral.latexProblem;
     latexSolution = widget.integral.latexSolution;
     name = widget.integral.name;
+    type = widget.integral.type;
+    youtubeVideoId = widget.integral.youtubeVideoId;
 
-    level = widget.integral.level;
-
-    problemController = TextEditingController(text: latexProblem);
-    solutionController = TextEditingController(text: latexSolution);
+    problemController = TextEditingController(text: latexProblem.raw);
+    solutionController = TextEditingController(text: latexSolution.raw);
     nameController = TextEditingController(text: name);
+    youtubeVideoIdController = TextEditingController(text: youtubeVideoId);
 
     super.initState();
   }
@@ -54,12 +57,13 @@ class _IntegralCardState extends State<IntegralCard> {
     latexProblem = widget.integral.latexProblem;
     latexSolution = widget.integral.latexSolution;
     name = widget.integral.name;
+    type = widget.integral.type;
+    youtubeVideoId = widget.integral.youtubeVideoId;
 
-    level = widget.integral.level;
-
-    problemController.text = latexProblem;
-    solutionController.text = latexSolution;
+    problemController.text = latexProblem.raw;
+    solutionController.text = latexSolution.raw;
     nameController.text = name;
+    youtubeVideoIdController.text = youtubeVideoId;
 
     hasChanged = false;
 
@@ -80,9 +84,14 @@ class _IntegralCardState extends State<IntegralCard> {
                 children: [
                   Column(
                     children: [
-                      Text(
-                        'Integral #${widget.integral.code}',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      TextBubble(
+                        color: widget.integral.alreadyUsed
+                            ? Theme.of(context).colorScheme.error
+                            : null,
+                        textColor: widget.integral.alreadyUsed
+                            ? Colors.white
+                            : Colors.black,
+                        text: 'Integral #${widget.integral.code}',
                       ),
                       SizedBox(
                         width: 400,
@@ -105,19 +114,24 @@ class _IntegralCardState extends State<IntegralCard> {
                   Row(
                     children: [
                       IconButton(
-                        onPressed: () {
-                          if (latexProblem == "" && latexSolution == "") {
-                            widget.service.deleteIntegral(widget.integral);
-                            return;
-                          }
-
-                          ConfirmationDialog(
-                            title:
-                                'Do you really want to delete this integral?',
-                            payload: () =>
-                                widget.service.deleteIntegral(widget.integral),
-                          ).launch(context);
-                        },
+                        onPressed: widget.integral.agendaItemIds.isEmpty
+                            ? () {
+                                ConfirmationDialog(
+                                  bypassConfirmation: latexProblem.raw == "" &&
+                                      latexSolution.raw == "",
+                                  title:
+                                      'Do you really want to delete this integral?',
+                                  payload: () async {
+                                    try {
+                                      await IntegralsService()
+                                          .deleteIntegral(widget.integral);
+                                    } on Exception catch (e) {
+                                      if (context.mounted) e.show(context);
+                                    }
+                                  },
+                                ).launch(context);
+                              }
+                            : null,
                         icon: const Icon(Icons.delete),
                       ),
                       IconButton(
@@ -135,23 +149,18 @@ class _IntegralCardState extends State<IntegralCard> {
                         icon: const Icon(Icons.copy),
                       ),
                       Flexible(child: Container()),
-                      DropdownButtonHideUnderline(
-                        child: DropdownButton<IntegralLevel>(
-                          value: level,
-                          onChanged: (IntegralLevel? v) => setState(() {
-                            level = v!;
-                            hasChanged = true;
-                            FocusScope.of(context).unfocus();
-                          }),
-                          items: IntegralLevel.values
-                              .map<DropdownMenuItem<IntegralLevel>>(
-                                  (IntegralLevel v) {
-                            return DropdownMenuItem<IntegralLevel>(
-                              value: v,
-                              child: Text(v.name),
-                            );
-                          }).toList(),
-                        ),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 4.0),
+                        child: Text('Spare Integral?'),
+                      ),
+                      Checkbox(
+                        value: type == IntegralType.spare,
+                        onChanged: (v) => setState(() {
+                          type = (v ?? false)
+                              ? IntegralType.spare
+                              : IntegralType.regular;
+                          hasChanged = true;
+                        }),
                       ),
                     ],
                   ),
@@ -163,16 +172,7 @@ class _IntegralCardState extends State<IntegralCard> {
                   Expanded(
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 150,
-                          child: TeXView(
-                            child: TeXViewDocument(
-                              LatexTransformer.transform(latexProblem),
-                              style:
-                                  const TeXViewStyle.fromCSS('padding: 5px;'),
-                            ),
-                          ),
-                        ),
+                        LatexView(latex: latexProblem),
                         TextField(
                           decoration: const InputDecoration(
                             border: InputBorder.none,
@@ -180,7 +180,7 @@ class _IntegralCardState extends State<IntegralCard> {
                           ),
                           controller: problemController,
                           onChanged: (v) => setState(() {
-                            latexProblem = v;
+                            latexProblem = LatexExpression(v);
                             hasChanged = true;
                           }),
                           maxLines: 3,
@@ -192,16 +192,7 @@ class _IntegralCardState extends State<IntegralCard> {
                   Expanded(
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 150,
-                          child: TeXView(
-                            child: TeXViewDocument(
-                              LatexTransformer.transform(latexSolution),
-                              style:
-                                  const TeXViewStyle.fromCSS('padding: 5px;'),
-                            ),
-                          ),
-                        ),
+                        LatexView(latex: latexSolution),
                         TextField(
                           decoration: const InputDecoration(
                             border: InputBorder.none,
@@ -209,12 +200,37 @@ class _IntegralCardState extends State<IntegralCard> {
                           ),
                           controller: solutionController,
                           onChanged: (v) => setState(() {
-                            latexSolution = v;
+                            latexSolution = LatexExpression(v);
                             hasChanged = true;
                           }),
                           maxLines: 3,
                         ),
                       ],
+                    ),
+                  ),
+                ],
+              ),
+              const Divider(),
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 150,
+                    child: Text(
+                      'YouTube video ID:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Expanded(
+                    child: TextField(
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'YouTube video ID (optional)',
+                      ),
+                      controller: youtubeVideoIdController,
+                      onChanged: (v) => setState(() {
+                        youtubeVideoId = v;
+                        hasChanged = true;
+                      }),
                     ),
                   ),
                 ],
@@ -227,19 +243,19 @@ class _IntegralCardState extends State<IntegralCard> {
                       latexProblem = widget.integral.latexProblem;
                       latexSolution = widget.integral.latexSolution;
                       name = widget.integral.name;
-                      level = widget.integral.level;
-                      problemController.text = latexProblem;
-                      solutionController.text = latexSolution;
+                      problemController.text = latexProblem.raw;
+                      solutionController.text = latexSolution.raw;
                       nameController.text = name;
                     });
                   },
                   onSave: () async {
-                    await widget.service.editIntegral(
+                    await IntegralsService().editIntegral(
                       widget.integral,
                       latexProblem: latexProblem,
                       latexSolution: latexSolution,
-                      level: level,
                       name: name,
+                      type: type,
+                      youtubeVideoId: youtubeVideoId,
                     );
                     setState(() => hasChanged = false);
                   },

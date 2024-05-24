@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:integration_bee_helper/models/agenda_item_model.dart';
-import 'package:integration_bee_helper/services/agenda_items_service.dart';
+import 'package:integration_bee_helper/extensions/exception_extension.dart';
+import 'package:integration_bee_helper/extensions/list_extension.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 
 class AgendaItemKnockout extends StatefulWidget {
-  final AgendaItemModel agendaItem;
-  final AgendaItemsService service;
+  final AgendaItemModelKnockout agendaItem;
 
   const AgendaItemKnockout({
     super.key,
     required this.agendaItem,
-    required this.service,
   });
 
   @override
@@ -40,14 +40,14 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
   @override
   void initState() {
     title = widget.agendaItem.title;
-    integralsCodes = widget.agendaItem.integralsCodes!.join(',');
-    spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes!.join(',');
-    competitor1Name = widget.agendaItem.competitor1Name!;
-    competitor2Name = widget.agendaItem.competitor2Name!;
+    integralsCodes = widget.agendaItem.integralsCodes.join(',');
+    spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes.join(',');
+    competitor1Name = widget.agendaItem.competitor1Name;
+    competitor2Name = widget.agendaItem.competitor2Name;
     timeLimitPerIntegral =
-        widget.agendaItem.timeLimitPerIntegral!.inSeconds.toString();
+        widget.agendaItem.timeLimitPerIntegral.inSeconds.toString();
     timeLimitPerSpareIntegral =
-        widget.agendaItem.timeLimitPerSpareIntegral!.inSeconds.toString();
+        widget.agendaItem.timeLimitPerSpareIntegral.inSeconds.toString();
 
     titleController = TextEditingController(text: title);
     integralsCodesController = TextEditingController(text: integralsCodes);
@@ -72,14 +72,14 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
 
   void reset() {
     title = widget.agendaItem.title;
-    integralsCodes = widget.agendaItem.integralsCodes!.join(',');
-    spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes!.join(',');
-    competitor1Name = widget.agendaItem.competitor1Name!;
-    competitor2Name = widget.agendaItem.competitor2Name!;
+    integralsCodes = widget.agendaItem.integralsCodes.join(',');
+    spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes.join(',');
+    competitor1Name = widget.agendaItem.competitor1Name;
+    competitor2Name = widget.agendaItem.competitor2Name;
     timeLimitPerIntegral =
-        widget.agendaItem.timeLimitPerIntegral!.inSeconds.toString();
+        widget.agendaItem.timeLimitPerIntegral.inSeconds.toString();
     timeLimitPerSpareIntegral =
-        widget.agendaItem.timeLimitPerSpareIntegral!.inSeconds.toString();
+        widget.agendaItem.timeLimitPerSpareIntegral.inSeconds.toString();
 
     titleController.text = title;
     integralsCodesController.text = integralsCodes;
@@ -108,6 +108,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
             ),
             Expanded(
               child: TextField(
+                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Title (optional)',
@@ -127,6 +128,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
           children: [
             Expanded(
               child: TextField(
+                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Competitor 1',
@@ -147,6 +149,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
             const SizedBox(width: 50),
             Expanded(
               child: TextField(
+                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Competitor 2',
@@ -179,6 +182,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                       ),
                       Expanded(
                         child: TextField(
+                          enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Codes',
@@ -203,6 +207,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                       ),
                       Expanded(
                         child: TextField(
+                          enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Duration in seconds',
@@ -237,9 +242,10 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                       ),
                       Expanded(
                         child: TextField(
+                          enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'Codes',
+                            hintText: 'Codes (optional)',
                           ),
                           controller: spareIntegralsCodesController,
                           onChanged: (v) => setState(() {
@@ -261,6 +267,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                       ),
                       Expanded(
                         child: TextField(
+                          enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Duration in seconds',
@@ -290,19 +297,22 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
               });
             },
             onSave: () async {
-              await widget.service.editAgendaItemKnockout(
-                widget.agendaItem,
-                title: title,
-                integralsCodes: integralsCodes,
-                spareIntegralsCodes: spareIntegralsCodes,
-                competitor1Name: competitor1Name,
-                competitor2Name: competitor2Name,
-                timeLimitPerIntegral:
-                    Duration(seconds: int.parse(timeLimitPerIntegral)),
-                timeLimitPerSpareIntegral:
-                    Duration(seconds: int.parse(timeLimitPerSpareIntegral)),
-              );
-              setState(() => hasChanged = false);
+              try {
+                await widget.agendaItem.editStatic(
+                  title: title,
+                  integralsCodes: integralsCodes.split(',').deleteEmptyEntries(),
+                  spareIntegralsCodes: spareIntegralsCodes.split(',').deleteEmptyEntries(),
+                  competitor1Name: competitor1Name,
+                  competitor2Name: competitor2Name,
+                  timeLimitPerIntegral:
+                      Duration(seconds: int.parse(timeLimitPerIntegral)),
+                  timeLimitPerSpareIntegral:
+                      Duration(seconds: int.parse(timeLimitPerSpareIntegral)),
+                );
+                setState(() => hasChanged = false);
+              } on Exception catch (e) {
+                if (context.mounted) e.show(context);
+              }
             },
           ),
       ],

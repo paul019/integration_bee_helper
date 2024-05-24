@@ -3,7 +3,10 @@ import 'package:integration_bee_helper/screens/competition_planner_page/competit
 import 'package:integration_bee_helper/screens/integrals_page/integrals_page.dart';
 import 'package:integration_bee_helper/screens/mission_control_page/mission_control_page.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_wrapper.dart';
-import 'package:integration_bee_helper/services/auth_service.dart';
+import 'package:integration_bee_helper/screens/presentation_screen_two/presentation_screen_two_wrapper.dart';
+import 'package:integration_bee_helper/screens/settings_page/settings_page.dart';
+import 'package:integration_bee_helper/services/basic_services/auth_service.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class PageInfo {
   final String title;
@@ -37,6 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
       icon: const Icon(Icons.edit),
       page: const IntegralsPage(),
     ),
+    PageInfo(
+      title: 'Settings',
+      icon: const Icon(Icons.settings),
+      page: const SettingsPage(),
+    ),
   ];
 
   int selectedIndex = 0;
@@ -52,9 +60,42 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.only(right: 8.0),
             child: IconButton(
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const PresentationScreenWrapper(),
+                showDialog(
+                  context: context,
+                  builder: (context) => PointerInterceptor(
+                    child: AlertDialog(
+                      title: const Text('Choose presentation'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const PresentationScreenWrapper(),
+                              ),
+                              (route) => false,
+                            );
+                          },
+                          child: const Text('Main presentation'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const PresentationScreenTwoWrapper(),
+                              ),
+                              (route) => false,
+                            );
+                          },
+                          child: const Text('Side presentation'),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(true),
+                          child: const Text('Cancel'),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
@@ -69,6 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: pages[selectedIndex].page,
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: pages
             .map(
               (page) => BottomNavigationBarItem(

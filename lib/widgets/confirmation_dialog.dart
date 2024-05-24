@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class ConfirmationDialog {
   final String title;
@@ -7,7 +8,7 @@ class ConfirmationDialog {
   final String positiveText;
   final Function() payload;
   final Function()? onCancel;
-  final bool bypassConfirmation;
+  final bool? bypassConfirmation;
 
   ConfirmationDialog({
     required this.title,
@@ -16,11 +17,11 @@ class ConfirmationDialog {
     this.onCancel,
     this.negativeText = 'Cancel',
     this.positiveText = 'Yes',
-    this.bypassConfirmation = false,
+    this.bypassConfirmation,
   });
 
   void launch(BuildContext context) {
-    if(bypassConfirmation) {
+    if(bypassConfirmation == true) {
       payload();
       return;
     }
@@ -28,25 +29,27 @@ class ConfirmationDialog {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          title: Text(title),
-          content: description != null ? Text(description!) : null,
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                if (onCancel != null) onCancel!();
-                Navigator.pop(dialogContext);
-              },
-              child: Text(negativeText),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(dialogContext);
-                payload();
-              },
-              child: Text(positiveText),
-            ),
-          ],
+        return PointerInterceptor(
+          child: AlertDialog(
+            title: Text(title),
+            content: description != null ? Text(description!) : null,
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  if (onCancel != null) onCancel!();
+                  Navigator.pop(dialogContext);
+                },
+                child: Text(negativeText),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(dialogContext);
+                  payload();
+                },
+                child: Text(positiveText),
+              ),
+            ],
+          ),
         );
       },
     );

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/models/agenda_item_model.dart';
-import 'package:integration_bee_helper/services/agenda_items_service.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_not_specified.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
+import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
 
 class AgendaItemNotSpecified extends StatelessWidget {
-  final AgendaItemModel agendaItem;
-  final AgendaItemsService service;
+  final AgendaItemModelNotSpecified agendaItem;
 
   const AgendaItemNotSpecified({
     super.key,
     required this.agendaItem,
-    required this.service,
   });
 
   @override
@@ -23,7 +22,7 @@ class AgendaItemNotSpecified extends StatelessWidget {
             height: 150,
             child: InkWell(
               onTap: () {
-                service.setAgendaItemType(agendaItem, type);
+                 AgendaItemsService().setAgendaItemType(agendaItem, type);
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,

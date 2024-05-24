@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/models/agenda_item_model.dart';
-import 'package:integration_bee_helper/services/agenda_items_service.dart';
+import 'package:integration_bee_helper/extensions/exception_extension.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 
 class AgendaItemText extends StatefulWidget {
-  final AgendaItemModel agendaItem;
-  final AgendaItemsService service;
+  final AgendaItemModelText agendaItem;
 
   const AgendaItemText({
     super.key,
     required this.agendaItem,
-    required this.service,
   });
 
   @override
@@ -31,8 +30,8 @@ class _AgendaItemTextState extends State<AgendaItemText> {
   @override
   void initState() {
     title = widget.agendaItem.title;
-    subtitle = widget.agendaItem.subtitle!;
-    imageUrl = widget.agendaItem.imageUrl!;
+    subtitle = widget.agendaItem.subtitle;
+    imageUrl = widget.agendaItem.imageUrl;
 
     titleController = TextEditingController(text: title);
     subtitleController = TextEditingController(text: subtitle);
@@ -50,8 +49,8 @@ class _AgendaItemTextState extends State<AgendaItemText> {
 
   void reset() {
     title = widget.agendaItem.title;
-    subtitle = widget.agendaItem.subtitle!;
-    imageUrl = widget.agendaItem.imageUrl!;
+    subtitle = widget.agendaItem.subtitle;
+    imageUrl = widget.agendaItem.imageUrl;
 
     titleController.text = title;
     subtitleController.text = subtitle;
@@ -75,6 +74,7 @@ class _AgendaItemTextState extends State<AgendaItemText> {
             ),
             Expanded(
               child: TextField(
+                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Title',
@@ -100,6 +100,7 @@ class _AgendaItemTextState extends State<AgendaItemText> {
             ),
             Expanded(
               child: TextField(
+                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Subtitle',
@@ -125,6 +126,7 @@ class _AgendaItemTextState extends State<AgendaItemText> {
             ),
             Expanded(
               child: TextField(
+                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Image URL',
@@ -147,13 +149,16 @@ class _AgendaItemTextState extends State<AgendaItemText> {
               });
             },
             onSave: () async {
-              await widget.service.editAgendaItemText(
-                widget.agendaItem,
-                title: title,
-                subtitle: subtitle,
-                imageUrl: imageUrl,
-              );
-              setState(() => hasChanged = false);
+              try {
+                await widget.agendaItem.editStatic(
+                  title: title,
+                  subtitle: subtitle,
+                  imageUrl: imageUrl,
+                );
+                setState(() => hasChanged = false);
+              } on Exception catch (e) {
+                if (context.mounted) e.show(context);
+              }
             },
           ),
       ],
