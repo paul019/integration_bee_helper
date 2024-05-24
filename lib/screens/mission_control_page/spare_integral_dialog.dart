@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/widgets/latex_view.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class SpareIntegralDialog extends StatefulWidget {
   final List<IntegralModel> potentialSpareIntegrals;
@@ -22,9 +23,11 @@ class SpareIntegralDialog extends StatefulWidget {
   }) async {
     await showDialog(
       context: context,
-      builder: (context) => SpareIntegralDialog(
-        potentialSpareIntegrals: potentialSpareIntegrals,
-        onChoose: onChoose,
+      builder: (context) => PointerInterceptor(
+        child: SpareIntegralDialog(
+          potentialSpareIntegrals: potentialSpareIntegrals,
+          onChoose: onChoose,
+        ),
       ),
     );
   }

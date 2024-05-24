@@ -6,6 +6,7 @@ import 'package:integration_bee_helper/screens/presentation_screen/presentation_
 import 'package:integration_bee_helper/screens/presentation_screen_two/presentation_screen_two_wrapper.dart';
 import 'package:integration_bee_helper/screens/settings_page/settings_page.dart';
 import 'package:integration_bee_helper/services/basic_services/auth_service.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class PageInfo {
   final String title;
@@ -61,36 +62,38 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 showDialog(
                   context: context,
-                  builder: (context) => AlertDialog(
-                    title: const Text('Choose presentation'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const PresentationScreenWrapper(),
-                            ),
-                          );
-                        },
-                        child: const Text('Main presentation'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const PresentationScreenTwoWrapper(),
-                            ),
-                          );
-                        },
-                        child: const Text('Side presentation'),
-                      ),
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(true),
-                        child: const Text('Cancel'),
-                      ),
-                    ],
+                  builder: (context) => PointerInterceptor(
+                    child: AlertDialog(
+                      title: const Text('Choose presentation'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const PresentationScreenWrapper(),
+                              ),
+                            );
+                          },
+                          child: const Text('Main presentation'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const PresentationScreenTwoWrapper(),
+                              ),
+                            );
+                          },
+                          child: const Text('Side presentation'),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(true),
+                          child: const Text('Cancel'),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },

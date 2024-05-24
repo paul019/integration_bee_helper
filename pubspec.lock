@@ -448,6 +448,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
+  pointer_interceptor:
+    dependency: "direct main"
+    description:
+      name: pointer_interceptor
+      sha256: d0a8e660d1204eaec5bd34b34cc92174690e076d2e4f893d9d68c486a13b07c4
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.1+1"
+  pointer_interceptor_ios:
+    dependency: transitive
+    description:
+      name: pointer_interceptor_ios
+      sha256: "2e73c39452830adc4695757130676a39412a3b7f3c34e3f752791b5384770877"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.0+2"
+  pointer_interceptor_platform_interface:
+    dependency: transitive
+    description:
+      name: pointer_interceptor_platform_interface
+      sha256: "0597b0560e14354baeb23f8375cd612e8bd4841bf8306ecb71fcd0bb78552506"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.0+1"
+  pointer_interceptor_web:
+    dependency: transitive
+    description:
+      name: pointer_interceptor_web
+      sha256: a6237528b46c411d8d55cdfad8fcb3269fc4cbb26060b14bff94879165887d1e
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.2"
   provider:
     dependency: "direct main"
     description:
@@ -647,4 +679,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.3.0 <4.0.0"
-  flutter: ">=3.10.0"
+  flutter: ">=3.19.0"
