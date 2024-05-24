@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_video.dart';
 
 enum AgendaItemType {
   notSpecified('notSpecified'),
   knockout('knockout'),
   qualification('qualification'),
-  text('text');
+  text('text'),
+  video('video');
 
   static AgendaItemType standard = AgendaItemType.notSpecified;
 
@@ -29,7 +31,8 @@ enum AgendaItemType {
   static List<AgendaItemType> selectable = [
     AgendaItemType.qualification,
     AgendaItemType.knockout,
-    AgendaItemType.text
+    AgendaItemType.text,
+    AgendaItemType.video,
   ];
 
   IconData get icon {
@@ -42,6 +45,8 @@ enum AgendaItemType {
         return Icons.groups;
       case AgendaItemType.text:
         return Icons.abc;
+      case AgendaItemType.video:
+        return Icons.video_library;
     }
   }
 
@@ -55,6 +60,8 @@ enum AgendaItemType {
         return 'Qualification round';
       case AgendaItemType.text:
         return 'Text';
+      case AgendaItemType.video:
+        return 'Video';
     }
   }
 
@@ -68,6 +75,8 @@ enum AgendaItemType {
         return AgendaItemModelQualification.minimalJson;
       case AgendaItemType.text:
         return AgendaItemModelText.minimalJson;
+      case AgendaItemType.video:
+        return AgendaItemModelVideo.minimalJson;
     }
   }
 

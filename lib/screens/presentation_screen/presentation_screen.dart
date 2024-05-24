@@ -4,23 +4,25 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_mode
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_video.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/background_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/copyright_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/logo_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_knockout.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_qualification.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_text.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_video.dart';
 
 class PresentationScreen extends StatefulWidget {
   final AgendaItemModel? activeAgendaItem;
   final Size size;
-  final bool muted;
+  final bool isPreview;
 
   const PresentationScreen({
     super.key,
     required this.activeAgendaItem,
     required this.size,
-    this.muted = false,
+    this.isPreview = false,
   });
 
   @override
@@ -82,13 +84,19 @@ class _PresentationScreenState extends State<PresentationScreen> {
         return PresentationScreenKnockout(
           activeAgendaItem: activeAgendaItem as AgendaItemModelKnockout,
           size: widget.size,
-          muted: widget.muted,
+          isPreview: widget.isPreview,
         );
       case AgendaItemType.qualification:
         return PresentationScreenQualification(
           activeAgendaItem: activeAgendaItem as AgendaItemModelQualification,
           size: widget.size,
-          muted: widget.muted,
+          isPreview: widget.isPreview,
+        );
+      case AgendaItemType.video:
+        return PresentationScreenVideo(
+          activeAgendaItem: activeAgendaItem as AgendaItemModelVideo,
+          size: widget.size,
+          isPreview: widget.isPreview,
         );
     }
   }

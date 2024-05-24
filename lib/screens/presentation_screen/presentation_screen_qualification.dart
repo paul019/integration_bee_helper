@@ -17,13 +17,13 @@ import 'package:provider/provider.dart';
 class PresentationScreenQualification extends StatefulWidget {
   final AgendaItemModelQualification activeAgendaItem;
   final Size size;
-  final bool muted;
+  final bool isPreview;
 
   const PresentationScreenQualification({
     super.key,
     required this.activeAgendaItem,
     required this.size,
-    this.muted = false,
+    required this.isPreview,
   });
 
   @override
@@ -139,12 +139,12 @@ class _PresentationScreenQualificationState
   }
 
   void playWarningSound() {
-    if (widget.muted) return;
+    if (widget.isPreview) return;
     player.setAsset('time_warning.mp3').then((_) => player.play());
   }
 
   void playTimeUpSound() {
-    if (widget.muted) return;
+    if (widget.isPreview) return;
     player.setAsset('time_up.mp3').then((_) => player.play());
   }
 

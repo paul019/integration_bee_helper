@@ -23,7 +23,7 @@ class PreviewCard extends StatelessWidget {
             child: PresentationScreen(
               activeAgendaItem: activeAgendaItem,
               size: const Size(width, height),
-              muted: true,
+              isPreview: true,
             ),
           ),
         ),

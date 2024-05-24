@@ -5,6 +5,7 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phas
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_video.dart';
 
 abstract class AgendaItemModel {
   // Static:
@@ -41,6 +42,8 @@ abstract class AgendaItemModel {
         return AgendaItemModelQualification.fromJson(json, id: id);
       case AgendaItemType.text:
         return AgendaItemModelText.fromJson(json, id: id);
+      case AgendaItemType.video:
+        return AgendaItemModelVideo.fromJson(json, id: id);
     }
   }
 

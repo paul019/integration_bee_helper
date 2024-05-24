@@ -48,6 +48,8 @@ class ControlCard extends StatelessWidget {
         return QualificationControlElements(
           activeAgendaItem: activeAgendaItem as AgendaItemModelQualification,
         );
+      case AgendaItemType.video:
+        return null;
     }
   }
 }

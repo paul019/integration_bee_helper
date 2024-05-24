@@ -7,10 +7,12 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phas
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_video.dart';
 import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_knockout.dart';
 import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_not_specified.dart';
 import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_qualification.dart';
 import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_text.dart';
+import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_video.dart';
 import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 import 'package:integration_bee_helper/widgets/text_bubble.dart';
@@ -154,6 +156,10 @@ class AgendaItemCard extends StatelessWidget {
                   AgendaItemQualification(
                     agendaItem: agendaItem as AgendaItemModelQualification,
                   ),
+                if (agendaItem.type == AgendaItemType.video)
+                  AgendaItemVideo(
+                    agendaItem: agendaItem as AgendaItemModelVideo,
+                  )
               ],
             ),
           ),
