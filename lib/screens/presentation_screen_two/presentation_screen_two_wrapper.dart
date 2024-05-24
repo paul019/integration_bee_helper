@@ -19,9 +19,6 @@ class PresentationScreenTwoWrapper extends StatefulWidget {
 
 class _PresentationScreenTwoWrapperState
     extends State<PresentationScreenTwoWrapper> {
-  var focusNode = FocusNode();
-  var hasShownSnackbar = false;
-
   @override
   void initState() {
     document.documentElement?.requestFullscreen();
@@ -31,20 +28,6 @@ class _PresentationScreenTwoWrapperState
 
   @override
   Widget build(BuildContext context) {
-    FocusScope.of(context).requestFocus(focusNode);
-
-    if (!hasShownSnackbar) {
-      WidgetsBinding.instance.addPostFrameCallback(
-        (_) => ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Press q to exit presentation mode.'),
-          ),
-        ),
-      );
-
-      hasShownSnackbar = true;
-    }
-
     return Scaffold(
       body: ActiveAgendaItemStream(
         builder: (context, activeAgendaItem) {
@@ -54,18 +37,10 @@ class _PresentationScreenTwoWrapperState
               builder: (context, snapshot) {
                 final settings = Provider.of<SettingsModel?>(context);
 
-                return RawKeyboardListener(
-                  focusNode: focusNode,
-                  onKey: (event) {
-                    if (event.character == 'q') {
-                      Navigator.of(context).pop();
-                    }
-                  },
-                  child: PresentationScreenTwo(
-                    activeAgendaItem: activeAgendaItem,
-                    settings: settings,
-                    size: MediaQuery.sizeOf(context),
-                  ),
+                return PresentationScreenTwo(
+                  activeAgendaItem: activeAgendaItem,
+                  settings: settings,
+                  size: MediaQuery.sizeOf(context),
                 );
               });
         },

@@ -68,22 +68,24 @@ class _HomeScreenState extends State<HomeScreen> {
                       actions: [
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).pushReplacement(
+                            Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
                                 builder: (context) =>
                                     const PresentationScreenWrapper(),
                               ),
+                              (route) => false,
                             );
                           },
                           child: const Text('Main presentation'),
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).pushReplacement(
+                            Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
                                 builder: (context) =>
                                     const PresentationScreenTwoWrapper(),
                               ),
+                              (route) => false,
                             );
                           },
                           child: const Text('Side presentation'),
