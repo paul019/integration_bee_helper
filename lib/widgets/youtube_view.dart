@@ -1,6 +1,6 @@
 import 'dart:html' as html;
 import 'package:flutter/material.dart';
-import 'dart:ui' as ui;
+import 'dart:ui_web';
 
 class YoutubeView extends StatelessWidget {
   final Size size;
@@ -17,7 +17,7 @@ class YoutubeView extends StatelessWidget {
     final viewID = hashCode.toString();
 
     // ignore: undefined_prefixed_name
-    ui.platformViewRegistry.registerViewFactory(
+    platformViewRegistry.registerViewFactory(
       viewID,
       (int id) => html.IFrameElement()
         ..width = MediaQuery.of(context).size.width.toString()
