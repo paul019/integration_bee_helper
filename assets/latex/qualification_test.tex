@@ -1,0 +1,159 @@
+\documentclass[parskip=full]{article}
+
+% Import packages
+\usepackage[ngerman]{babel}
+\usepackage[hidelinks]{hyperref}
+\usepackage{multicol}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+
+% Set layout params
+\usepackage[a4paper, top=1.5cm, bottom=1.5cm]{geometry}
+\setlength\parindent{0pt}
+\pagestyle{empty}
+
+\newcommand{\dd}[1]{\text{d}{#1}}
+
+% Arguments:
+% 1. Competitor name
+\newcommand{\coverSheet}[1]{
+    \topskip0pt
+    
+    \vspace*{\fill}
+    \begin{center}
+        \textbf{Bitte erst auf Anweisung umdrehen!}
+    \end{center}
+    \vspace*{\fill}
+    \begin{center}
+        \Large
+        Heidelberg Integration Bee 2024
+
+        \Huge
+        \textbf{Qualifikations-Test}
+
+        \normalsize
+    \end{center}
+    \vspace*{\fill}
+    \begin{center}
+        \Large
+        \textbf{#1}
+
+        \normalsize
+    \end{center}
+    \vspace*{\fill}
+    \textbf{Hinweise -- bitte gründlich durchlesen:}
+    \begin{itemize}
+        \item Dieser Qualifikations-Test enthält 20 Aufgaben, die innerhalb von 20 Minuten gelöst werden dürfen.
+        \item Bei den Aufgaben handelt es sich um bestimmte Integrale -- die Lösungen sind also nur Zahlenwerte.
+        \item Die Aufgaben sind bewusst so zusammengestellt, dass vermutlich nicht alle innerhalb der vorgegebenen Zeit gelöst werden können.
+        \item Jede Aufgabe zählt gleich viel; es gibt genau dann einen Punkt auf eine Aufgabe, wenn die Lösung korrekt ist.
+        \item Jede Lösung muss eingekreist werden. Es werden nur eingekreiste Lösungen gewertet. Ist mehr als eine Lösung eingekreist, so kann kein Punkt vergeben werden.
+        \item Falls es nicht offensichtlich ist, schreibt an eine Lösung die Nummer der zugehörigen Aufgabe.
+        \item Der Test darf erst geöffnet werden, wenn die Jury den Test startet. Sobald die Zeit abgelaufen ist, müssen alle Teilnehmenden sofort aufhören, zu schreiben.
+    \end{itemize}
+    \vspace*{\fill}
+    \begin{center}
+        \textbf{Viel Erfolg!}
+    \end{center}
+    \vspace*{\fill}
+
+    \newpage
+}
+
+% Arguments:
+% 1. Index
+% 2. Latex
+\newcommand{\singlet}[2]{
+
+    \textbf{#1. Aufgabe}
+
+    \begin{align*}
+        #2
+    \end{align*}
+    
+    \vspace*{5.9cm}
+
+    \hfill\boxed{$\quad$/1}
+
+    \vspace*{0.1cm}
+}
+
+\newcommand{\points}{
+    \vspace*{5.9cm}
+
+    \hfill\boxed{$\quad$/20}
+
+    \vspace*{0.1cm}
+}
+
+
+\begin{document}
+% \singlet{1001}{Vorentscheid \#1}{Paul}{\int{x\dd{x}}}
+% \singlet{1001}{}{}{\int{x\dd{x}}}
+% \coverSheet{Martina Musterfrau}
+
+% \hrulefill
+% \singlet{1}{\int{x\dd{x}}}
+% \hrulefill
+% \singlet{2}{\int{x\dd{x}}}
+% \hrulefill
+% \singlet{3}{\int{x\dd{x}}}
+% \hrulefill
+% \newpage
+
+% \hrulefill
+% \singlet{4}{\int{x\dd{x}}}
+% \hrulefill
+% \singlet{5}{\int{x\dd{x}}}
+% \hrulefill
+% \singlet{6}{\int{x\dd{x}}}
+% \hrulefill
+% \newpage
+
+% \hrulefill
+% \singlet{7}{\int{x\dd{x}}}
+% \hrulefill
+% \singlet{8}{\int{x\dd{x}}}
+% \hrulefill
+% \singlet{9}{\int{x\dd{x}}}
+% \hrulefill
+% \newpage
+
+% \hrulefill
+% \singlet{10}{\int{x\dd{x}}}
+% \hrulefill
+% \singlet{11}{\int{x\dd{x}}}
+% \hrulefill
+% \singlet{12}{\int{x\dd{x}}}
+% \hrulefill
+% \newpage
+
+% \hrulefill
+% \singlet{13}{\int{x\dd{x}}}
+% \hrulefill
+% \singlet{14}{\int{x\dd{x}}}
+% \hrulefill
+% \singlet{15}{\int{x\dd{x}}}
+% \hrulefill
+% \newpage
+
+% \hrulefill
+% \singlet{16}{\int{x\dd{x}}}
+% \hrulefill
+% \singlet{17}{\int{x\dd{x}}}
+% \hrulefill
+% \singlet{18}{\int{x\dd{x}}}
+% \hrulefill
+% \newpage
+
+% \hrulefill
+% \singlet{19}{\int{x\dd{x}}}
+% \hrulefill
+% \singlet{20}{\int{x\dd{x}}}
+% \hrulefill
+% \points
+
+% PLACEHOLDER
+\end{document}
