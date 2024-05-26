@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:integration_bee_helper/extensions/map_extension.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_competition.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_live_competition.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
@@ -8,7 +8,7 @@ import 'package:integration_bee_helper/models/agenda_item_model/score.dart';
 import 'package:integration_bee_helper/models/basic_models/timer_model.dart';
 import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
 
-class AgendaItemModelKnockout extends AgendaItemModelCompetition {
+class AgendaItemModelKnockout extends AgendaItemModelLiveCompetition {
   // Static:
   final String competitor1Name;
   final String competitor2Name;

@@ -3,6 +3,7 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knoc
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_not_specified.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_test.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_video.dart';
@@ -44,6 +45,8 @@ abstract class AgendaItemModel {
         return AgendaItemModelText.fromJson(json, id: id);
       case AgendaItemType.video:
         return AgendaItemModelVideo.fromJson(json, id: id);
+      case AgendaItemType.test:
+        return AgendaItemModelTest.fromJson(json, id: id);
     }
   }
 

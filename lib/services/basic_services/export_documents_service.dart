@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_competition.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_live_competition.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
@@ -27,7 +27,7 @@ class ExportDocumentsService {
   Future<void> _exportDocuments(
     BuildContext context, {
     String eventName = 'Heidelberg Integration Bee 2024', // TODO
-    required List<AgendaItemModelCompetition> agendaItems,
+    required List<AgendaItemModelLiveCompetition> agendaItems,
     required List<IntegralModel> allIntegrals,
   }) async {
     final List<Future<TextFile?>> futures = [];
@@ -200,7 +200,7 @@ class ExportDocumentsService {
   Future<TextFile> _generateIntegralsList(
     BuildContext context, {
     String eventName = 'Heidelberg Integration Bee 2024', //TODO
-    required List<AgendaItemModelCompetition> agendaItems,
+    required List<AgendaItemModelLiveCompetition> agendaItems,
     required List<IntegralModel> allIntegrals,
   }) async {
     final List<String> commands = [

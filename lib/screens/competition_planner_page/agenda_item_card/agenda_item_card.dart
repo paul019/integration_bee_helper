@@ -5,12 +5,14 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_mode
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_not_specified.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_test.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_video.dart';
 import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_knockout.dart';
 import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_not_specified.dart';
 import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_qualification.dart';
+import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_test.dart';
 import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_text.dart';
 import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_video.dart';
 import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
@@ -159,7 +161,11 @@ class AgendaItemCard extends StatelessWidget {
                 if (agendaItem.type == AgendaItemType.video)
                   AgendaItemVideo(
                     agendaItem: agendaItem as AgendaItemModelVideo,
-                  )
+                  ),
+                if (agendaItem.type == AgendaItemType.test)
+                  AgendaItemTest(
+                    agendaItem: agendaItem as AgendaItemModelTest,
+                  ),
               ],
             ),
           ),

@@ -100,6 +100,8 @@ class _PresentationScreenState extends State<PresentationScreen> {
           size: widget.size,
           isPreview: widget.isPreview,
         );
+      case AgendaItemType.test:
+        return Container();
     }
   }
 

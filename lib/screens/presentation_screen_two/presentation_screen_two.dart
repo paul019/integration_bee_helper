@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_competition.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_live_competition.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/settings_model/settings_model.dart';
@@ -53,9 +53,9 @@ class _PresentationScreenTwoState extends State<PresentationScreenTwo> {
   }
 
   Widget _buildContent() {
-    if (widget.activeAgendaItem is AgendaItemModelCompetition) {
-      final AgendaItemModelCompetition agendaItem =
-          widget.activeAgendaItem as AgendaItemModelCompetition;
+    if (widget.activeAgendaItem is AgendaItemModelLiveCompetition) {
+      final AgendaItemModelLiveCompetition agendaItem =
+          widget.activeAgendaItem as AgendaItemModelLiveCompetition;
 
       return CurrentIntegralStream(
         integralCode: agendaItem.currentIntegralCode,

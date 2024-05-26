@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model_competition.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
@@ -9,13 +9,11 @@ import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.da
 import 'package:integration_bee_helper/models/basic_models/timer_model.dart';
 import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
 
-abstract class AgendaItemModelCompetition extends AgendaItemModel {
+abstract class AgendaItemModelLiveCompetition
+    extends AgendaItemModelCompetition {
   // Static:
-  final List<String> integralsCodes;
-  final List<String> spareIntegralsCodes;
   final Duration timeLimitPerIntegral;
   final Duration timeLimitPerSpareIntegral;
-  final String title;
 
   // Dynamic:
   final String? currentIntegralCode;
@@ -24,16 +22,16 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
   final ProblemPhase problemPhase;
   final TimerModel timer;
 
-  AgendaItemModelCompetition({
+  AgendaItemModelLiveCompetition({
     required super.id,
     required super.uid,
     required super.orderIndex,
     super.currentlyActive = false,
     super.phase = AgendaItemPhase.idle,
     super.status = '',
-    this.title = '',
-    required this.integralsCodes,
-    required this.spareIntegralsCodes,
+    super.title = '',
+    required super.integralsCodes,
+    required super.spareIntegralsCodes,
     this.currentIntegralCode,
     required this.timeLimitPerIntegral,
     required this.timeLimitPerSpareIntegral,
@@ -58,7 +56,6 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
   int? get totalProgress => spareIntegralsProgress != null
       ? numOfIntegrals + spareIntegralsProgress!
       : integralsProgress;
-  int get numOfIntegrals => integralsCodes.length;
 
   // Database operations:
   @override
@@ -69,7 +66,11 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
     Duration? timeLimitPerSpareIntegral,
     String? title,
   }) async {
-    await super.checkEdit();
+    await super.checkEdit(
+      integralsCodes: integralsCodes,
+      spareIntegralsCodes: spareIntegralsCodes,
+      title: title,
+    );
 
     // integralsCodes
 
@@ -109,30 +110,6 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
     if (timeLimitPerSpareIntegral != null) {
       if (timeLimitPerSpareIntegral.isNegative) {
         throw Exception('Time limits cannot be negative');
-      }
-    }
-
-    integralsCodes ??= this.integralsCodes;
-    spareIntegralsCodes ??= this.spareIntegralsCodes;
-
-    // Check integral codes:
-    final currentIntegralCodes =
-        this.integralsCodes.toSet().union(this.spareIntegralsCodes.toSet());
-    final editedIntegralCodes = [...integralsCodes, ...spareIntegralsCodes];
-    final newIntegralCodes =
-        editedIntegralCodes.toSet().difference(currentIntegralCodes);
-
-    // Make sure, integral codes are not doubled:
-    if (editedIntegralCodes.toSet().length != editedIntegralCodes.length) {
-      throw Exception('Integral codes cannot be doubled');
-    }
-
-    // Make sure, new integral codes exist:
-    for (String integralCode in newIntegralCodes) {
-      try {
-        await IntegralsService().getIntegral(code: integralCode);
-      } catch (err) {
-        throw Exception('Integral with code $integralCode does not exist');
       }
     }
   }
@@ -236,42 +213,5 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
       'timer': TimerModel.empty.toJson(),
       'currentIntegralCode': spareIntegralCode,
     });
-  }
-
-  Future updateAgendaItemIdsInIntegrals({
-    required List<String>? integralsCodes,
-    required List<String>? spareIntegralsCodes,
-  }) async {
-    final newRegularIntegralsCodes = integralsCodes ?? this.integralsCodes;
-    final newSpareIntegralsCodes =
-        spareIntegralsCodes ?? this.spareIntegralsCodes;
-
-    final newIntegralCodes = {
-      ...newRegularIntegralsCodes,
-      ...newSpareIntegralsCodes
-    };
-    final currentIntegralCodes = {
-      ...this.integralsCodes,
-      ...this.spareIntegralsCodes
-    };
-
-    final addedIntegralCodes =
-        newIntegralCodes.difference(currentIntegralCodes);
-    final removedIntegralCodes =
-        currentIntegralCodes.difference(newIntegralCodes);
-
-    for (var integralCode in addedIntegralCodes) {
-      final integral = await IntegralsService().getIntegral(code: integralCode);
-      await integral.reference.update({
-        'agendaItemIds': FieldValue.arrayUnion([id]),
-      });
-    }
-
-    for (var integralCode in removedIntegralCodes) {
-      final integral = await IntegralsService().getIntegral(code: integralCode);
-      await integral.reference.update({
-        'agendaItemIds': FieldValue.arrayRemove([id]),
-      });
-    }
   }
 }

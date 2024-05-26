@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_test.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_video.dart';
 
@@ -9,7 +10,8 @@ enum AgendaItemType {
   knockout('knockout'),
   qualification('qualification'),
   text('text'),
-  video('video');
+  video('video'),
+  test('test');
 
   static AgendaItemType standard = AgendaItemType.notSpecified;
 
@@ -29,6 +31,7 @@ enum AgendaItemType {
   }
 
   static List<AgendaItemType> selectable = [
+    AgendaItemType.test,
     AgendaItemType.qualification,
     AgendaItemType.knockout,
     AgendaItemType.text,
@@ -47,6 +50,8 @@ enum AgendaItemType {
         return Icons.abc;
       case AgendaItemType.video:
         return Icons.video_library;
+      case AgendaItemType.test:
+        return Icons.assignment_outlined;
     }
   }
 
@@ -62,6 +67,8 @@ enum AgendaItemType {
         return 'Text';
       case AgendaItemType.video:
         return 'Video';
+      case AgendaItemType.test:
+        return 'Qualification test';
     }
   }
 
@@ -77,6 +84,8 @@ enum AgendaItemType {
         return AgendaItemModelText.minimalJson;
       case AgendaItemType.video:
         return AgendaItemModelVideo.minimalJson;
+      case AgendaItemType.test:
+        return AgendaItemModelTest.minimalJson;
     }
   }
 

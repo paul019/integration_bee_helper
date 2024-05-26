@@ -50,6 +50,8 @@ class ControlCard extends StatelessWidget {
         );
       case AgendaItemType.video:
         return null;
+      case AgendaItemType.test:
+        return null;
     }
   }
 }

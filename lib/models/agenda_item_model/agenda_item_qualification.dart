@@ -1,11 +1,11 @@
 import 'package:integration_bee_helper/extensions/map_extension.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_competition.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_live_competition.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/basic_models/timer_model.dart';
 
-class AgendaItemModelQualification extends AgendaItemModelCompetition {
+class AgendaItemModelQualification extends AgendaItemModelLiveCompetition {
   // Static:
   final List<String> competitorNames;
 
