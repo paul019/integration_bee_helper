@@ -93,4 +93,6 @@ abstract class AgendaItemModel {
       'phase': AgendaItemPhase.over.value,
     });
   }
+
+  Future<void> beforeDelete() async {}
 }

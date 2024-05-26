@@ -160,6 +160,14 @@ class AgendaItemModelKnockout extends AgendaItemModelLiveCompetition {
   }
 
   @override
+  Future<void> beforeDelete() async {
+    await editStatic(
+      integralsCodes: [],
+      spareIntegralsCodes: [],
+    );
+  }
+
+  @override
   void reset(WriteBatch batch) {
     super.reset(batch);
 

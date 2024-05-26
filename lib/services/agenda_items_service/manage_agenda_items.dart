@@ -30,6 +30,9 @@ extension ManageAgendaItems on AgendaItemsService {
 
     final batch = AgendaItemsService()._firestore.batch();
 
+    // Call beforeDelete method:
+    agendaItem.beforeDelete();
+
     // Delete agenda item:
     batch.delete(agendaItem.reference);
 

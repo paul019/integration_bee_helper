@@ -84,6 +84,14 @@ class AgendaItemModelTest extends AgendaItemModelCompetition {
   }
 
   @override
+  Future<void> beforeDelete() async {
+    await editStatic(
+      integralsCodes: [],
+      spareIntegralsCodes: [],
+    );
+  }
+
+  @override
   Future start(WriteBatch batch) async {
     batch.update(reference, {
       'currentlyActive': true,

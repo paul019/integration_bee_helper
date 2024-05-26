@@ -156,4 +156,12 @@ class AgendaItemModelQualification extends AgendaItemModelLiveCompetition {
       'status': 'Qualification round finished!',
     });
   }
+
+  @override
+  Future<void> beforeDelete() async {
+    await editStatic(
+      integralsCodes: [],
+      spareIntegralsCodes: [],
+    );
+  }
 }
