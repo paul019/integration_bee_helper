@@ -57,6 +57,7 @@ abstract class AgendaItemModel {
   bool get activeOrOver => phase.activeOrOver;
   String get displayTitle;
   String get displaySubtitle;
+  bool get fullscreenPresentationView => false;
 
   // Database operations:
   Future<void> editStatic();

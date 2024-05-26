@@ -58,11 +58,13 @@ class _PresentationScreenState extends State<PresentationScreen> {
           opacity: transitionMode ? 0.0 : 1.0,
           child: foreground(),
         ),
-        LogoView(
-          size: widget.size,
-          transitionMode: transitionMode,
-        ),
-        CopyrightView(size: widget.size),
+        if (!(activeAgendaItem?.fullscreenPresentationView ?? false))
+          LogoView(
+            size: widget.size,
+            transitionMode: transitionMode,
+          ),
+        if (!(activeAgendaItem?.fullscreenPresentationView ?? false))
+          CopyrightView(size: widget.size),
       ],
     );
   }

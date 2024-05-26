@@ -40,6 +40,7 @@ class AgendaItemModelVideo extends AgendaItemModel {
   // Getters:
   @override
   AgendaItemType get type => AgendaItemType.video;
+  bool get fullscreenPresentationView => true;
 
   @override
   String get displayTitle => 'Video';
