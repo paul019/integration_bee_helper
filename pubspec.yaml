@@ -45,6 +45,7 @@ dependencies:
   just_audio: ^0.9.37
   archive: ^3.5.1
   pointer_interceptor: ^0.10.1+1
+  confetti: ^0.7.0
 
 dev_dependencies:
   flutter_test:

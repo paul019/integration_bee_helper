@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
@@ -39,6 +40,9 @@ class _PresentationScreenKnockoutState
   bool timerRed = false;
 
   late final AudioPlayer player;
+
+  late final ConfettiController competitor1ConfettiController;
+  late final ConfettiController competitor2ConfettiController;
 
   String get uid => widget.activeAgendaItem.uid;
   ProblemPhase get problemPhase => widget.activeAgendaItem.problemPhase;
@@ -85,12 +89,20 @@ class _PresentationScreenKnockoutState
 
     player = AudioPlayer();
 
+    competitor1ConfettiController =
+        ConfettiController(duration: const Duration(seconds: 10));
+    competitor2ConfettiController =
+        ConfettiController(duration: const Duration(seconds: 10));
+
     const timerInterval = Duration(milliseconds: 250);
     const timeWarningDuration = Duration(seconds: 30);
 
     timer = Timer.periodic(timerInterval, (timer) {
       switch (problemPhase) {
         case ProblemPhase.idle:
+          competitor1ConfettiController.stop();
+          competitor2ConfettiController.stop();
+
           if (widget.activeAgendaItem.currentIntegralType ==
               IntegralType.regular) {
             setState(() {
@@ -105,6 +117,9 @@ class _PresentationScreenKnockoutState
           }
           break;
         case ProblemPhase.showProblem:
+          competitor1ConfettiController.stop();
+          competitor2ConfettiController.stop();
+
           if (pausedTimerDuration != null) {
             setState(() {
               timeLeft = pausedTimerDuration!;
@@ -138,10 +153,24 @@ class _PresentationScreenKnockoutState
           break;
         case ProblemPhase.showSolution:
         case ProblemPhase.showSolutionAndWinner:
+          if (widget.activeAgendaItem.currentWinner == Score.competitor1) {
+            if (competitor1ConfettiController.state !=
+                ConfettiControllerState.playing) {
+              competitor1ConfettiController.play();
+            }
+          } else if (widget.activeAgendaItem.currentWinner ==
+              Score.competitor2) {
+            if (competitor2ConfettiController.state !=
+                ConfettiControllerState.playing) {
+              competitor2ConfettiController.play();
+            }
+          }
+
           setState(() {
             timeLeft = Duration.zero;
             timerRed = false;
           });
+
           break;
       }
     });
@@ -163,6 +192,8 @@ class _PresentationScreenKnockoutState
   void dispose() {
     timer.cancel();
     player.dispose();
+    competitor1ConfettiController.dispose();
+    competitor2ConfettiController.dispose();
     super.dispose();
   }
 
@@ -187,12 +218,15 @@ class _PresentationScreenKnockoutState
               size: widget.size,
             ),
             ScoreView(
-                competitor1Name: widget.activeAgendaItem.competitor1Name,
-                competitor2Name: widget.activeAgendaItem.competitor2Name,
-                scores: scores,
-                totalProgress: widget.activeAgendaItem.totalProgress ?? 0,
-                problemName: problemName,
-                size: widget.size),
+              competitor1Name: widget.activeAgendaItem.competitor1Name,
+              competitor2Name: widget.activeAgendaItem.competitor2Name,
+              scores: scores,
+              totalProgress: widget.activeAgendaItem.totalProgress ?? 0,
+              problemName: problemName,
+              size: widget.size,
+              competitor1ConfettiController: competitor1ConfettiController,
+              competitor2ConfettiController: competitor2ConfettiController,
+            ),
             IntegralView(
               currentIntegral: currentIntegral,
               problemPhase: problemPhase,

@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/score.dart';
 import 'package:integration_bee_helper/theme/theme_colors.dart';
@@ -10,6 +13,8 @@ class ScoreView extends StatelessWidget {
   final int totalProgress;
   final String problemName;
   final Size size;
+  final ConfettiController competitor1ConfettiController;
+  final ConfettiController competitor2ConfettiController;
 
   const ScoreView({
     super.key,
@@ -19,6 +24,8 @@ class ScoreView extends StatelessWidget {
     required this.totalProgress,
     required this.problemName,
     required this.size,
+    required this.competitor1ConfettiController,
+    required this.competitor2ConfettiController,
   });
 
   Color getScoreColor(Score score) {
@@ -35,7 +42,7 @@ class ScoreView extends StatelessWidget {
   }
 
   double getScoreDiameter(int index) {
-    if(index == totalProgress) {
+    if (index == totalProgress) {
       return 50;
     } else {
       return 40;
@@ -66,21 +73,34 @@ class ScoreView extends StatelessWidget {
                     color: ThemeColors.blue,
                     child: Padding(
                       padding: EdgeInsets.only(left: 10 * p),
-                      child: Center(
-                        child: Text(
-                          competitor1Name,
-                          style: TextStyle(
-                            color: ThemeColors.white,
-                            fontSize: 50 * p,
-                            fontWeight: FontWeight.bold,
-                            shadows: const [
-                              Shadow(
-                                color: ThemeColors.black,
-                                blurRadius: 1,
-                              )
-                            ],
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Text(
+                            competitor1Name,
+                            style: TextStyle(
+                              color: ThemeColors.white,
+                              fontSize: 50 * p,
+                              fontWeight: FontWeight.bold,
+                              shadows: const [
+                                Shadow(
+                                  color: ThemeColors.black,
+                                  blurRadius: 1,
+                                )
+                              ],
+                            ),
                           ),
-                        ),
+                          ConfettiWidget(
+                            confettiController: competitor1ConfettiController,
+                            blastDirection: -pi / 4,
+                            shouldLoop: true,
+                            colors: const [ThemeColors.blue],
+                            maxBlastForce: p * 100,
+                            minBlastForce: p * 80,
+                            minimumSize: Size(10 * p, 10 * p),
+                            maximumSize: Size(50 * p, 50 * p),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -94,7 +114,7 @@ class ScoreView extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          for (var i=0; i<scores.length; i++)
+                          for (var i = 0; i < scores.length; i++)
                             Padding(
                               padding: EdgeInsets.all(5 * p),
                               child: AnimatedContainer(
@@ -138,21 +158,34 @@ class ScoreView extends StatelessWidget {
                     color: ThemeColors.yellow,
                     child: Padding(
                       padding: EdgeInsets.only(left: 10 * p),
-                      child: Center(
-                        child: Text(
-                          competitor2Name,
-                          style: TextStyle(
-                            color: ThemeColors.white,
-                            fontSize: 50 * p,
-                            fontWeight: FontWeight.bold,
-                            shadows: const [
-                              Shadow(
-                                color: ThemeColors.black,
-                                blurRadius: 1,
-                              )
-                            ],
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Text(
+                            competitor2Name,
+                            style: TextStyle(
+                              color: ThemeColors.white,
+                              fontSize: 50 * p,
+                              fontWeight: FontWeight.bold,
+                              shadows: const [
+                                Shadow(
+                                  color: ThemeColors.black,
+                                  blurRadius: 1,
+                                )
+                              ],
+                            ),
                           ),
-                        ),
+                          ConfettiWidget(
+                            confettiController: competitor2ConfettiController,
+                            blastDirection: -3 * pi / 4,
+                            shouldLoop: true,
+                            colors: const [ThemeColors.yellow],
+                            maxBlastForce: p * 100,
+                            minBlastForce: p * 80,
+                            minimumSize: Size(10 * p, 10 * p),
+                            maximumSize: Size(50 * p, 50 * p),
+                          ),
+                        ],
                       ),
                     ),
                   ),
