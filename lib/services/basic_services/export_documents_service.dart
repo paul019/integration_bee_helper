@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_live_competition.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_live_competition.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model_competition.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_test.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/models/basic_models/text_file.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
@@ -27,7 +29,7 @@ class ExportDocumentsService {
   Future<void> _exportDocuments(
     BuildContext context, {
     String eventName = 'Heidelberg Integration Bee 2024', // TODO
-    required List<AgendaItemModelLiveCompetition> agendaItems,
+    required List<AgendaItemModelCompetition> agendaItems,
     required List<IntegralModel> allIntegrals,
   }) async {
     final List<Future<TextFile?>> futures = [];
@@ -45,9 +47,16 @@ class ExportDocumentsService {
       allIntegrals: allIntegrals,
     ));
 
+    futures.add(_generateTests(
+      context,
+      tests: agendaItems.whereType<AgendaItemModelTest>().toList(),
+      allIntegrals: allIntegrals,
+    ));
+
     futures.add(_generateIntegralsList(
       context,
-      agendaItems: agendaItems,
+      agendaItems:
+          agendaItems.whereType<AgendaItemModelLiveCompetition>().toList(),
       allIntegrals: allIntegrals,
     ));
 
@@ -130,7 +139,7 @@ class ExportDocumentsService {
     var file = await TextFile.fromAsset(
       context,
       assetFileName: 'latex/knockout_round_cards.tex',
-      displayFileName: 'knockout_EINSEITIG.tex',
+      displayFileName: 'EINSEITIG_SW_knockout.tex',
     );
     file = file.makeReplacement(newText: commands.join('\n'));
 
@@ -190,7 +199,57 @@ class ExportDocumentsService {
     var file = await TextFile.fromAsset(
       context,
       assetFileName: 'latex/qualification_round_sheets.tex',
-      displayFileName: 'qualifikation_DOPPELSEITIG.tex',
+      displayFileName: 'DOPPELSEITIG_SW_qualifikation.tex',
+    );
+    file = file.makeReplacement(newText: commands.join('\n'));
+
+    return file;
+  }
+
+  Future<TextFile> _generateTests(
+    BuildContext context, {
+    required List<AgendaItemModelTest> tests,
+    required List<IntegralModel> allIntegrals,
+  }) async {
+    final List<String> commands = [];
+
+    for (var test in tests) {
+      for (var competitorName in test.competitorNames) {
+        commands.add(
+          '\\coverSheet{$competitorName}',
+        );
+
+        var i = 0;
+
+        for (var integralCode in test.integralsCodes) {
+          final integral = allIntegrals.firstWhere(
+            (integral) => integral.code == integralCode,
+          );
+          commands.add('\\hrulefill');
+          commands.add(
+            '\\singlet{${i + 1}}{${integral.latexProblem.transformed}}',
+          );
+
+          if (i % 3 == 2) {
+            commands.add('\\hrulefill');
+            commands.add('\\newpage');
+          }
+
+          i++;
+        }
+
+        if (i % 3 != 2) {
+          commands.add('\\hrulefill');
+        }
+
+        commands.add('\\points{${test.numOfIntegrals}}');
+      }
+    }
+
+    var file = await TextFile.fromAsset(
+      context,
+      assetFileName: 'latex/qualification_test.tex',
+      displayFileName: 'DOPPELSEITIG_SW_qualifikations_test.tex',
     );
     file = file.makeReplacement(newText: commands.join('\n'));
 
@@ -253,7 +312,7 @@ class ExportDocumentsService {
     var file = await TextFile.fromAsset(
       context,
       assetFileName: 'latex/integrals_list.tex',
-      displayFileName: 'integral_liste.tex',
+      displayFileName: 'DOPPELSEITIG_SW_integral_liste.tex',
     );
     file = file.makeReplacement(newText: commands.join('\n'));
 
