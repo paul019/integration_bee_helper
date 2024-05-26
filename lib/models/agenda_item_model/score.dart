@@ -37,5 +37,9 @@ extension ScoreModelListExtension on List<Score> {
     return where((element) => element == Score.competitor2).length;
   }
 
+  int get tieCount {
+    return where((element) => element == Score.tie).length;
+  }
+
   List<int> toJson() => map((e) => e.value).toList();
 }

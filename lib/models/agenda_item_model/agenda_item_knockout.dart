@@ -94,10 +94,10 @@ class AgendaItemModelKnockout extends AgendaItemModelCompetition {
   Score get currentWinner => _getWinner(competitor1Score, competitor2Score);
 
   Score _getWinner(int competitor1Score, int competitor2Score) {
-    if (competitor1Score > numOfIntegrals / 2.0 &&
+    if (competitor1Score > (numOfIntegrals - scores.tieCount) / 2.0 &&
         competitor1Score > competitor2Score) {
       return Score.competitor1;
-    } else if (competitor2Score > numOfIntegrals / 2.0 &&
+    } else if (competitor2Score > (numOfIntegrals - scores.tieCount) / 2.0 &&
         competitor2Score > competitor1Score) {
       return Score.competitor2;
     } else {
