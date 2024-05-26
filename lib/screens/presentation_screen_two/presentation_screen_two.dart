@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_competition.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/settings_model/settings_model.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/background_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/copyright_view.dart';
@@ -61,7 +62,8 @@ class _PresentationScreenTwoState extends State<PresentationScreenTwo> {
         builder: (context, currentIntegral) {
           final youtubeVideoId = currentIntegral?.youtubeVideoId ?? '';
 
-          if (youtubeVideoId != '') {
+          if (youtubeVideoId != '' &&
+              agendaItem.problemPhase == ProblemPhase.idle) {
             return YoutubeView(
               size: widget.size,
               videoId: youtubeVideoId,
