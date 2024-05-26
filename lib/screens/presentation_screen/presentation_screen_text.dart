@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 
 class PresentationScreenText extends StatelessWidget {
@@ -17,45 +18,49 @@ class PresentationScreenText extends StatelessWidget {
 
     if (activeAgendaItem.hasTitle && activeAgendaItem.hasImage) {
       return Padding(
-        padding: EdgeInsets.all(50 * p),
+        padding: EdgeInsets.all(75 * p),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.only(right: 50 * p),
-              child: Image.network(
-                activeAgendaItem.imageUrl,
-                width: 400 * p,
-                height: 400 * p,
+              padding: EdgeInsets.only(right: 75 * p),
+              child: Image(
+                image: NetworkImage(activeAgendaItem.imageUrl),
+                width: 500 * p,
+                height: (1080 - 2 * 75) * p,
+                fit: BoxFit.contain,
               ),
             ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  activeAgendaItem.title,
-                  textAlign: TextAlign.left,
-                  style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 100 * p),
-                ),
-                Text(
-                  activeAgendaItem.subtitle,
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 60 * p),
-                ),
-              ],
+            Flexible(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    activeAgendaItem.title,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 100 * p),
+                  ),
+                  Text(
+                    activeAgendaItem.subtitle,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 60 * p),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       );
     } else if (activeAgendaItem.hasImage) {
       return Padding(
-        padding: EdgeInsets.all(50 * p),
-        child: Image.network(
-          activeAgendaItem.imageUrl,
+        padding: EdgeInsets.all(75 * p),
+        child: Image(
+          image: NetworkImage(activeAgendaItem.imageUrl),
           width: 1000 * p,
           height: 750 * p,
+          fit: BoxFit.contain,
         ),
       );
     } else {

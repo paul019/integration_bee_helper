@@ -1,0 +1,11 @@
+[
+    {
+        "origin": [
+            "https://paul019.github.io"
+        ],
+        "method": [
+            "GET"
+        ],
+        "maxAgeSeconds": 3600
+    }
+]
