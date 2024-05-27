@@ -58,10 +58,12 @@ class AgendaItemsService {
         .limit(1)
         .snapshots()
         .map(
-          (res) =>
-              res.docs.isEmpty ? null : _agendaItemFromFirebase(res.docs.first),
-        )
-        .map((item) => ActiveAgendaItemWrapper(item));
+          (res) => res.docs.isEmpty
+              ? ActiveAgendaItemWrapper(null)
+              : ActiveAgendaItemWrapper(
+                  _agendaItemFromFirebase(res.docs.first),
+                ),
+        );
   }
 
   Future<AgendaItemModel?> getActiveAgendaItem() async {
