@@ -206,7 +206,7 @@ class ExportDocumentsService {
     return file;
   }
 
-  Future<TextFile> _generateTests(
+  Future<TextFile?> _generateTests(
     BuildContext context, {
     required List<AgendaItemModelTest> tests,
     required List<IntegralModel> allIntegrals,
@@ -244,6 +244,10 @@ class ExportDocumentsService {
 
         commands.add('\\points{${test.numOfIntegrals}}');
       }
+    }
+
+    if (commands.isEmpty) {
+      return null;
     }
 
     var file = await TextFile.fromAsset(
