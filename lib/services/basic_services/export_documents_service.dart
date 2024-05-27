@@ -227,7 +227,7 @@ class ExportDocumentsService {
           );
           commands.add('\\hrulefill');
           commands.add(
-            '\\singlet{${i + 1}}{${integral.latexProblem.transformed}}',
+            '\\singlet{${i + 1}}{${integral.latexProblem.transformed}}{${integral.name}}',
           );
 
           if (i % 3 == 2) {
@@ -238,7 +238,7 @@ class ExportDocumentsService {
           i++;
         }
 
-        if (i % 3 != 2) {
+        if ((i - 1) % 3 != 2) {
           commands.add('\\hrulefill');
         }
 

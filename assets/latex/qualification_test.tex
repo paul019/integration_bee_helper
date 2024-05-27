@@ -65,19 +65,23 @@
 % Arguments:
 % 1. Index
 % 2. Latex
-\newcommand{\singlet}[2]{
+% 3. Name
+\newcommand{\singlet}[3]{
 
-    \textbf{#1. Aufgabe}
+    \begin{minipage}[t][8.6cm][t]{\textwidth}
+        \textbf{#1. Aufgabe} \textit{#3}
 
-    \begin{align*}
-        #2
-    \end{align*}
-    
-    \vspace*{5.6cm}
+        \begin{align*}
+            #2
+        \end{align*}
+        
+        \vspace*{\fill}
 
-    \hfill\boxed{$\quad$/1}
+        \hfill\boxed{$\quad$/1}
 
-    \vspace*{0.1cm}
+        \vspace*{0.1cm}
+    \end{minipage}%
+
 }
 
 % Arguments:
@@ -95,65 +99,65 @@
 % \coverSheet{Martina Musterfrau}
 
 % \hrulefill
-% \singlet{1}{\int{x\dd{x}}}
+% \singlet{1}{\int{x\dd{x}}}{Ergebnis vollständig vereinfachen!}
 % \hrulefill
-% \singlet{2}{\int{x\dd{x}}}
+% \singlet{2}{\int{x\dd{x}}}{}
 % \hrulefill
-% \singlet{3}{\int{x\dd{x}}}
-% \hrulefill
-% \newpage
-
-% \hrulefill
-% \singlet{4}{\int{x\dd{x}}}
-% \hrulefill
-% \singlet{5}{\int{x\dd{x}}}
-% \hrulefill
-% \singlet{6}{\int{x\dd{x}}}
+% \singlet{3}{\int{x\dd{x}}}{}
 % \hrulefill
 % \newpage
 
 % \hrulefill
-% \singlet{7}{\int{x\dd{x}}}
+% \singlet{4}{\int{x\dd{x}}}{}
 % \hrulefill
-% \singlet{8}{\int{x\dd{x}}}
+% \singlet{5}{\int{x\dd{x}}}{}
 % \hrulefill
-% \singlet{9}{\int{x\dd{x}}}
-% \hrulefill
-% \newpage
-
-% \hrulefill
-% \singlet{10}{\int{x\dd{x}}}
-% \hrulefill
-% \singlet{11}{\int{x\dd{x}}}
-% \hrulefill
-% \singlet{12}{\int{x\dd{x}}}
+% \singlet{6}{\int{x\dd{x}}}{}
 % \hrulefill
 % \newpage
 
 % \hrulefill
-% \singlet{13}{\int{x\dd{x}}}
+% \singlet{7}{\int{x\dd{x}}}{}
 % \hrulefill
-% \singlet{14}{\int{x\dd{x}}}
+% \singlet{8}{\int{x\dd{x}}}{}
 % \hrulefill
-% \singlet{15}{\int{x\dd{x}}}
-% \hrulefill
-% \newpage
-
-% \hrulefill
-% \singlet{16}{\int{x\dd{x}}}
-% \hrulefill
-% \singlet{17}{\int{x\dd{x}}}
-% \hrulefill
-% \singlet{18}{\int{x\dd{x}}}
+% \singlet{9}{\int{x\dd{x}}}{}
 % \hrulefill
 % \newpage
 
 % \hrulefill
-% \singlet{19}{\int{x\dd{x}}}
+% \singlet{10}{\int{x\dd{x}}}{}
 % \hrulefill
-% \singlet{20}{\int{x\dd{x}}}
+% \singlet{11}{\int{x\dd{x}}}{}
 % \hrulefill
-% \points
+% \singlet{12}{\int{x\dd{x}}}{}
+% \hrulefill
+% \newpage
+
+% \hrulefill
+% \singlet{13}{\int{x\dd{x}}}{}
+% \hrulefill
+% \singlet{14}{\int{x\dd{x}}}{}
+% \hrulefill
+% \singlet{15}{\int{x\dd{x}}}{}
+% \hrulefill
+% \newpage
+
+% \hrulefill
+% \singlet{16}{\int{x\dd{x}}}{}
+% \hrulefill
+% \singlet{17}{\int{x\dd{x}}}{}
+% \hrulefill
+% \singlet{18}{\int{x\dd{x}}}{}
+% \hrulefill
+% \newpage
+
+% \hrulefill
+% \singlet{19}{\int{x\dd{x}}}{}
+% \hrulefill
+% \singlet{20}{\int{x\dd{x}}}{}
+% \hrulefill
+% \points{20}
 
 % PLACEHOLDER
 \end{document}
