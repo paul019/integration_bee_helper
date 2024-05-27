@@ -1,32 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:integration_bee_helper/models/basic_models/latex_expression.dart';
+import 'package:integration_bee_helper/models/integral_model/integral_prototype.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
 
-class IntegralModel {
+class IntegralModel extends IntegralPrototype {
   final String? id;
   final String uid;
   final String code;
   final DateTime createdAt;
-  final LatexExpression latexProblem;
-  final LatexExpression latexSolution;
-  final IntegralType type;
-  final String name;
   final bool alreadyUsed;
   final List<String> agendaItemIds;
-  final String youtubeVideoId;
 
   IntegralModel({
     this.id,
     required this.uid,
     required this.code,
     required this.createdAt,
-    required this.latexProblem,
-    required this.latexSolution,
-    required this.type,
-    required this.name,
+    required super.latexProblem,
+    required super.latexSolution,
+    required super.type,
+    required super.name,
     required this.alreadyUsed,
     required this.agendaItemIds,
-    required this.youtubeVideoId,
+    required super.youtubeVideoId,
   });
 
   factory IntegralModel.fromJson(

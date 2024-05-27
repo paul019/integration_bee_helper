@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:integration_bee_helper/models/basic_models/latex_expression.dart';
 import 'package:integration_bee_helper/models/integral_model/current_integral_wrapper.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
+import 'package:integration_bee_helper/models/integral_model/integral_prototype.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
 import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
 
@@ -146,6 +147,41 @@ class IntegralsService {
 
     // Add integral:
     await IntegralModel.collection.add(integral.toJson());
+  }
+
+  Future<List<String>> addBulk({required List<IntegralPrototype> integrals}) async {
+    final currentIntegrals = await getAllIntegrals();
+    final batch = _firestore.batch();
+
+    final List<String> integralCodes = [];
+    var i = 0;
+
+    for (var integralPrototype in integrals) {
+      final code = _createIntegralCode(currentIntegrals: currentIntegrals);
+      integralCodes.add(code);
+
+      final IntegralModel integral = IntegralModel(
+        uid: _uid,
+        code: code,
+        createdAt: DateTime.now().add(Duration(seconds: i)),
+        latexProblem: integralPrototype.latexProblem,
+        latexSolution: integralPrototype.latexSolution,
+        type: integralPrototype.type,
+        name: integralPrototype.name,
+        alreadyUsed: false,
+        agendaItemIds: [],
+        youtubeVideoId: integralPrototype.youtubeVideoId,
+      );
+
+      currentIntegrals.add(integral);
+
+      batch.set(IntegralModel.collection.doc(), integral.toJson());
+
+      i++;
+    }
+
+    await batch.commit();
+    return integralCodes;
   }
 
   String _createIntegralCode({required List<IntegralModel> currentIntegrals}) {
