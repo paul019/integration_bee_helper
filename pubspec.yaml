@@ -68,6 +68,10 @@ flutter:
     - assets/sound/
     - assets/latex/knockout_round_cards.tex
     - assets/latex/qualification_round_sheets.tex
+    - assets/latex/integrals_list.tex
+    - assets/latex/qualification_test_solutions.tex
+    - assets/latex/qualification_test.tex
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

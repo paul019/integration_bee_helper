@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:integration_bee_helper/extensions/list_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_live_competition.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model_competition.dart';
@@ -16,6 +17,7 @@ part 'knockout_round_cards.dart';
 part 'qualification_round_sheets.dart';
 part 'tests.dart';
 part 'integrals_list.dart';
+part 'tests_solutions.dart';
 
 class ExportDocumentsService {
   Future<void> exportDocuments(BuildContext context) async {
@@ -58,6 +60,12 @@ class ExportDocumentsService {
       allIntegrals: allIntegrals,
     ));
 
+    futures.add(_generateTestsSolutions(
+      context,
+      tests: agendaItems.whereType<AgendaItemModelTest>().toList(),
+      allIntegrals: allIntegrals,
+    ));
+
     futures.add(_generateIntegralsList(
       context,
       agendaItems:
@@ -71,5 +79,9 @@ class ExportDocumentsService {
       files: textFiles.whereType<TextFile>().toList(),
       zipFileName: 'integration_bee_documents.zip',
     );
+  }
+
+  String _transformTitle(String title) {
+    return title.replaceAll('#', '\\#');
   }
 }

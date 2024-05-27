@@ -1,0 +1,64 @@
+\documentclass[parskip=full]{article}
+
+% Import packages
+\usepackage[ngerman]{babel}
+\usepackage[hidelinks]{hyperref}
+\usepackage{multicol}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+
+% Set layout params
+\usepackage[a4paper,left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\setlength\parindent{0pt}
+\pagestyle{empty}
+
+\newcommand{\dd}[1]{\text{d}{#1}}
+
+\newcommand{\mainTitle}[1]{
+    \begin{center}
+        \Huge
+        \textbf{#1}
+
+        \vspace*{0.2cm}
+
+        \Large
+        Lösungen zum Qualifikations-Test
+
+        \normalsize
+    \end{center}
+}
+
+\newcommand{\testTitle}[1]{
+    \hrulefill
+
+    \begin{center}
+        \Large
+        \textbf{#1}
+    \end{center}
+}
+
+% Arguments:
+% 1. Index
+% 2. Latex
+% 3. Name
+\newcommand{\integral}[3]{
+    \hrulefill
+
+    \textbf{#1. Aufgabe} \textit{#3}
+
+    \begin{align*}
+        #2
+    \end{align*}
+}
+
+
+\begin{document}
+% \mainTitle{Heidelberg Integration Bee 2024}
+
+% \integral{1}{\int{x}}{Vereinfachen!}
+% \integral{1}{\int{x}}{Vereinfachen!}
+
+% PLACEHOLDER
+\end{document}

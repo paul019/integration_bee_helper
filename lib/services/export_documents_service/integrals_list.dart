@@ -35,9 +35,14 @@ extension GenerateIntegralsList on ExportDocumentsService {
         commands.add(
           '\\integral{${integral.code}}{${integral.latexProblemAndSolution.transformed}}',
         );
-        if (integral.name != '') {
+        if (integral.name != '' || integral.youtubeVideoId != '') {
+          final parts = [
+            integral.name,
+            integral.youtubeVideoId != '' ? 'mit Video' : '',
+          ].deleteEmptyEntries();
+
           commands.add(
-            '\\integralName{${integral.name}}',
+            '\\integralName{${parts.join(' -- ')}}',
           );
         }
       }
@@ -72,9 +77,5 @@ extension GenerateIntegralsList on ExportDocumentsService {
     file = file.makeReplacement(newText: commands.join('\n'));
 
     return file;
-  }
-
-  String _transformTitle(String title) {
-    return title.replaceAll('#', '\\#');
   }
 }
