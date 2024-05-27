@@ -86,6 +86,7 @@ class _IntegralsAddBulkDialogState extends State<IntegralsAddBulkDialog> {
   List<String> _format(String rawText) {
     return rawText
         .replaceAll('\\item', '')
+        .replaceAll('\$', '')
         .replaceAll('\\begin{align*}', '')
         .replaceAll('\\begin{align}', '')
         .replaceAll('\\begin{equation*}', '')
@@ -106,14 +107,28 @@ class _IntegralsAddBulkDialogState extends State<IntegralsAddBulkDialog> {
     List<IntegralPrototype> integrals = [];
 
     for (var line in formattedLines) {
-      final parts = line.split(' = ');
-      final solution = parts.getRange(1, parts.length).join(' = ');
+      final parts = line.split('\\name');
+      var name = parts.length > 1
+          ? parts[1].replaceAll('{', '').replaceAll('}', '').trim()
+          : '';
+
+      if(name.isNotEmpty && name[0] == '(') {
+        name = name.substring(1, name.length - 1);
+      }
+      if(name.isNotEmpty && name[name.length-1] == ')') {
+        name = name.substring(0, name.length - 1);
+      }
+
+
+      final parts2 = parts[0].split(' = ');
+      final problem = parts2[0];
+      final solution = parts2.getRange(1, parts2.length).join(' = ');
 
       integrals.add(IntegralPrototype(
-        latexProblem: LatexExpression(parts[0]),
+        latexProblem: LatexExpression(problem),
         latexSolution: LatexExpression(solution),
         type: type,
-        name: '',
+        name: name,
         youtubeVideoId: '',
       ));
     }
