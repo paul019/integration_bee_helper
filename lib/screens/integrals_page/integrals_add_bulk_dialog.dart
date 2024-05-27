@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/models/basic_models/latex_expression.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_prototype.dart';
@@ -175,10 +176,15 @@ class _IntegralsAddBulkDialogState extends State<IntegralsAddBulkDialog> {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
-                      Text(
-                        formattedLines.indexed
-                            .map((e) => '${e.$1 + 1}. ${e.$2}')
-                            .join('\n\n'),
+                      SizedBox(
+                        height: 450,
+                        child: SingleChildScrollView(
+                          child: Text(
+                            formattedLines.indexed
+                                .map((e) => '${e.$1 + 1}. ${e.$2}')
+                                .join('\n\n'),
+                          ),
+                        ),
                       ),
                     ],
                   ),
