@@ -294,6 +294,11 @@ class ExportDocumentsService {
         commands.add(
           '\\integral{${integral.code}}{${integral.latexProblemAndSolution.transformed}}',
         );
+        if (integral.name != '') {
+          commands.add(
+            '\\integralName{${integral.name}}',
+          );
+        }
       }
 
       if (agendaItem.spareIntegralsCodes.isNotEmpty) {
@@ -310,6 +315,11 @@ class ExportDocumentsService {
         commands.add(
           '\\integral{${integral.code}}{${integral.latexProblemAndSolution.transformed}}',
         );
+        if (integral.name != '') {
+          commands.add(
+            '\\integralName{${integral.name}}',
+          );
+        }
       }
     }
 

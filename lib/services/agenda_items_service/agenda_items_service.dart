@@ -113,10 +113,12 @@ class AgendaItemsService {
     final response = await AgendaItemModel.collection
         .where('uid', isEqualTo: _uid)
         .where('type', whereIn: [
-      AgendaItemType.qualification.id,
-      AgendaItemType.knockout.id,
-      AgendaItemType.test.id,
-    ]).get();
+          AgendaItemType.qualification.id,
+          AgendaItemType.knockout.id,
+          AgendaItemType.test.id,
+        ])
+        .orderBy('orderIndex')
+        .get();
 
     return _agendaItemListFromFirebase(response)
         .whereType<AgendaItemModelCompetition>()
