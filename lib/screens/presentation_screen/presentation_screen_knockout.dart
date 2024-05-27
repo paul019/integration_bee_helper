@@ -66,9 +66,9 @@ class _PresentationScreenKnockoutState
 
   String get problemName {
     if (widget.activeAgendaItem.currentIntegralType == IntegralType.regular) {
-      return 'Problem ${widget.activeAgendaItem.integralsProgress! + 1}';
+      return 'Aufgabe ${widget.activeAgendaItem.integralsProgress! + 1}';
     } else {
-      return 'Problem ${widget.activeAgendaItem.numOfIntegrals}+${widget.activeAgendaItem.spareIntegralsProgress! + 1}';
+      return 'Aufgabe ${widget.activeAgendaItem.numOfIntegrals}+${widget.activeAgendaItem.spareIntegralsProgress! + 1}';
     }
   }
 

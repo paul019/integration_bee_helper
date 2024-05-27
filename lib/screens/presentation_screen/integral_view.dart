@@ -41,8 +41,8 @@ class IntegralView extends StatelessWidget {
         children: [
           Text(
             problemName != null
-                ? 'Coming up: $problemName'
-                : 'Next problem coming up',
+                ? 'Als nächstes: $problemName'
+                : 'Nächste Aufgabe...',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 100 * p),
           ),
           if ((currentIntegral?.name ?? '') != '')

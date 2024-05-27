@@ -53,7 +53,7 @@ class _PresentationScreenQualificationState
     if (widget.activeAgendaItem.currentIntegralType == IntegralType.regular) {
       return null;
     } else {
-      return 'Problem 1+${widget.activeAgendaItem.spareIntegralsProgress! + 1}';
+      return 'Aufgabe 1+${widget.activeAgendaItem.spareIntegralsProgress! + 1}';
     }
   }
 
@@ -197,7 +197,7 @@ class _PresentationScreenQualificationState
               ),
               NamesView(
                 competitorNames: widget.activeAgendaItem.competitorNames,
-                problemName: problemName ?? 'Problem 1',
+                problemName: problemName ?? 'Aufgabe 1',
                 size: widget.size,
               ),
             ],
