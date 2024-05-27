@@ -25,11 +25,15 @@ class IntegralView extends StatelessWidget {
         return currentIntegral?.latexProblem.transformedWithDollarSigns ?? '';
       case ProblemPhase.showSolution:
       case ProblemPhase.showSolutionAndWinner:
-        return currentIntegral?.latexProblemAndSolution.transformedWithDollarSigns ?? '';
+        return currentIntegral
+                ?.latexProblemAndSolution.transformedWithDollarSigns ??
+            '';
       default:
         return '';
     }
   }
+
+  int get _integralSize => latex.length > 75 ? 50 : 75;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +66,8 @@ class IntegralView extends StatelessWidget {
         child: TeXViewDocument(
           latex,
           style: TeXViewStyle.fromCSS(
-              'padding: 5px; font-size: ${(75 * p).toInt()}px'),
+            'padding: 5px; font-size: ${(_integralSize * p).toInt()}px',
+          ),
         ),
       ),
     );
