@@ -44,7 +44,7 @@ class NavigationCard extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        activeAgendaItem?.displayTitle ??
+                        activeAgendaItem?.displayTitle(context) ??
                             MyIntl.of(context).noActiveAgendaItem,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
@@ -53,7 +53,7 @@ class NavigationCard extends StatelessWidget {
                         maxLines: 1,
                       ),
                       Text(
-                        activeAgendaItem?.displaySubtitle ??
+                        activeAgendaItem?.displaySubtitle(context) ??
                             MyIntl.of(context)
                                 .pleaseChooseAnAgendaItemInCompetitionPlanner,
                         maxLines: 1,

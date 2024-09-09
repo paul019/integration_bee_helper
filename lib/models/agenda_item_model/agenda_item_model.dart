@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_not_specified.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
@@ -58,8 +59,8 @@ abstract class AgendaItemModel {
   // Getters:
   AgendaItemType get type;
   bool get activeOrOver => phase.activeOrOver;
-  String get displayTitle;
-  String get displaySubtitle;
+  String displayTitle(BuildContext context);
+  String displaySubtitle(BuildContext context);
   bool get fullscreenPresentationView => false;
 
   // Database operations:

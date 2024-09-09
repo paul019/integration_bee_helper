@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/extensions/map_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_live_competition.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
@@ -6,6 +7,7 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/score.dart';
 import 'package:integration_bee_helper/models/basic_models/timer_model.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
 
 class AgendaItemModelKnockout extends AgendaItemModelLiveCompetition {
@@ -106,17 +108,17 @@ class AgendaItemModelKnockout extends AgendaItemModelLiveCompetition {
   }
 
   @override
-  String get displayTitle {
+  String displayTitle(BuildContext context) {
     if (title != '') {
-      return '$competitor1Name vs. $competitor2Name ($title)';
+      return '${MyIntl.of(context).aVsB(competitor1Name, competitor2Name)} ($title)';
     } else {
-      return '$competitor1Name vs. $competitor2Name';
+      return MyIntl.of(context).aVsB(competitor1Name, competitor2Name);
     }
   }
 
   @override
-  String get displaySubtitle =>
-      'Agenda item #${orderIndex + 1} – Knockout round';
+  String displaySubtitle(BuildContext context) =>
+      '${MyIntl.of(context).agendaItemNumber(orderIndex + 1)} – ${MyIntl.of(context).knockoutRound}';
 
   // Database operations:
   @override
@@ -186,7 +188,7 @@ class AgendaItemModelKnockout extends AgendaItemModelLiveCompetition {
   }
 
   // Agenda item specific operations:
-  Future setWinner(Score winner) async {
+  Future setWinner(Score winner, BuildContext context) async {
     var scores = this.scores;
     scores[totalProgress!] = winner;
 
@@ -198,11 +200,11 @@ class AgendaItemModelKnockout extends AgendaItemModelLiveCompetition {
 
     switch (_getWinner(competitor1Score, competitor2Score)) {
       case Score.competitor1:
-        status = '$competitor1Name wins!';
+        status = MyIntl.of(context).personWins(competitor1Name);
         finished = true;
         break;
       case Score.competitor2:
-        status = '$competitor2Name wins!';
+        status = MyIntl.of(context).personWins(competitor2Name);
         finished = true;
         break;
       default:

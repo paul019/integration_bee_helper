@@ -101,20 +101,20 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
               const VerticalSeparator(),
             TextButton(
               onPressed: () =>
-                  widget.activeAgendaItem.setWinner(Score.competitor1),
+                  widget.activeAgendaItem.setWinner(Score.competitor1, context),
               child: Text(
                   MyIntl.of(context).personWins(widget.activeAgendaItem.competitor1Name)),
             ),
             const VerticalSeparator(),
             TextButton(
               onPressed: () =>
-                  widget.activeAgendaItem.setWinner(Score.competitor2),
+                  widget.activeAgendaItem.setWinner(Score.competitor2, context),
               child: Text(
                   MyIntl.of(context).personWins(widget.activeAgendaItem.competitor2Name)),
             ),
             const VerticalSeparator(),
             TextButton(
-              onPressed: () => widget.activeAgendaItem.setWinner(Score.tie),
+              onPressed: () => widget.activeAgendaItem.setWinner(Score.tie, context),
               child: Text(MyIntl.of(context).draw),
             ),
           ],

@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 
 class AgendaItemModelNotSpecified extends AgendaItemModel {
   AgendaItemModelNotSpecified({
@@ -43,9 +45,9 @@ class AgendaItemModelNotSpecified extends AgendaItemModel {
   @override
   AgendaItemType get type => AgendaItemType.notSpecified;
   @override
-  String get displayTitle => 'Not specified yet';
+  String displayTitle(BuildContext context) => MyIntl.of(context).notSpecified;
   @override
-  String get displaySubtitle => 'Agenda item #${orderIndex + 1}';
+  String displaySubtitle(BuildContext context) => MyIntl.of(context).agendaItemNumber(orderIndex + 1);
 
   // Database operations:
   @override

@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/extensions/map_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_live_competition.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/basic_models/timer_model.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 
 class AgendaItemModelQualification extends AgendaItemModelLiveCompetition {
   // Static:
@@ -77,10 +79,11 @@ class AgendaItemModelQualification extends AgendaItemModelLiveCompetition {
   @override
   AgendaItemType get type => AgendaItemType.qualification;
   @override
-  String get displayTitle => title != '' ? title : 'Qualification round';
+  String displayTitle(BuildContext context) =>
+      title != '' ? title : MyIntl.of(context).qualificationRound;
   @override
-  String get displaySubtitle =>
-      'Agenda item #${orderIndex + 1} – Qualification round';
+  String displaySubtitle(BuildContext context) =>
+      '${MyIntl.of(context).agendaItemNumber(orderIndex + 1)} – ${MyIntl.of(context).qualificationRound}';
   int get numOfCompetitors => competitorNames.length;
 
   // Database operations:
