@@ -18,9 +18,9 @@ class SettingsService {
     }
   }
 
-  Stream<SettingsModel?> get onSettingsChanged {
+  Stream<SettingsModel?> onSettingsChanged(String uid) {
     return SettingsModel.collection
-        .doc(_uid)
+        .doc(uid)
         .snapshots()
         .map(_settingsFromFirebase);
   }

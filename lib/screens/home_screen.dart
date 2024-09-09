@@ -31,30 +31,28 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (pages.isEmpty) {
-      pages = [
-        PageInfo(
-          title: MyIntl.of(context).missionControl,
-          icon: const Icon(Icons.keyboard),
-          page: const MissionControlPage(),
-        ),
-        PageInfo(
-          title: MyIntl.of(context).competitionPlanner,
-          icon: const Icon(Icons.list),
-          page: const CompetitionPlannerPage(),
-        ),
-        PageInfo(
-          title: MyIntl.of(context).integrals,
-          icon: const Icon(Icons.edit),
-          page: const IntegralsPage(),
-        ),
-        PageInfo(
-          title: MyIntl.of(context).settings,
-          icon: const Icon(Icons.settings),
-          page: const SettingsPage(),
-        ),
-      ];
-    }
+    pages = [
+      PageInfo(
+        title: MyIntl.of(context).missionControl,
+        icon: const Icon(Icons.keyboard),
+        page: const MissionControlPage(),
+      ),
+      PageInfo(
+        title: MyIntl.of(context).competitionPlanner,
+        icon: const Icon(Icons.list),
+        page: const CompetitionPlannerPage(),
+      ),
+      PageInfo(
+        title: MyIntl.of(context).integrals,
+        icon: const Icon(Icons.edit),
+        page: const IntegralsPage(),
+      ),
+      PageInfo(
+        title: MyIntl.of(context).settings,
+        icon: const Icon(Icons.settings),
+        page: const SettingsPage(),
+      ),
+    ];
 
     return Scaffold(
       appBar: AppBar(

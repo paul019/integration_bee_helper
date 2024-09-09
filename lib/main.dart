@@ -29,9 +29,13 @@ class MyApp extends StatelessWidget {
         initialData: null,
         value: AuthService.onAuthStateChanged,
         builder: (context, snapshot) {
+          final user = Provider.of<User?>(context);
+
           return StreamProvider<SettingsModel?>.value(
             initialData: null,
-            value: SettingsService().onSettingsChanged,
+            value: user != null
+                ? SettingsService().onSettingsChanged(user.uid)
+                : null,
             builder: (context, snapshot) {
               final settings = Provider.of<SettingsModel?>(context);
 

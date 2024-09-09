@@ -80,16 +80,6 @@ Der Test darf erst geöffnet werden, wenn die Jury den Test startet. Sobald die 
     return formatted;
   }
 
-  String get remarksFormatted {
-    var formatted = '';
-
-    for (var line in remarks.split('\n')) {
-      formatted += r'\item ' + line;
-    }
-
-    return formatted;
-  }
-
   // Database operations:
   @override
   Future<void> editStatic({
