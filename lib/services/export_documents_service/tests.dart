@@ -52,16 +52,16 @@ extension GenerateTests on ExportDocumentsService {
     );
     file = file
         .makeReplacement(
-            oldText: '<exercise>', newText: MyIntl.S.exerciseNumberPrint)
+            oldText: '<exercise>', newText: MyIntl.of(context).exerciseNumberPrint)
         .makeReplacement(
             oldText: '<instruction-text>',
-            newText: MyIntl.S.turnAroundWhenInstructed)
+            newText: MyIntl.of(context).turnAroundWhenInstructed)
         .makeReplacement(
             oldText: '<competition-title>',
             newText: 'Heidelberg Integration Bee 2024')
         .makeReplacement(
-            oldText: '<remarks>', newText: MyIntl.S.remarksOnTheTest)
-        .makeReplacement(oldText: '<good-luck>', newText: MyIntl.S.goodLuck)
+            oldText: '<remarks>', newText: MyIntl.of(context).remarksOnTheTest)
+        .makeReplacement(oldText: '<good-luck>', newText: MyIntl.of(context).goodLuck)
         .makeReplacement(newText: commands.join('\n'));
 
     return file;

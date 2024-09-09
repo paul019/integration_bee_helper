@@ -59,7 +59,7 @@ class _QualificationControlElementsState
               if (context.mounted) e.show(context);
             }
           },
-          child: Text(MyIntl.S.startExclamationMark),
+          child: Text(MyIntl.of(context).startExclamationMark),
         );
       case ProblemPhase.showProblem:
         final timerPaused = widget.activeAgendaItem.timer.paused;
@@ -78,19 +78,19 @@ class _QualificationControlElementsState
                       }
                     },
               child: timerPaused
-                  ? Text(MyIntl.S.resumeTimer)
-                  : Text(MyIntl.S.pauseTimer),
+                  ? Text(MyIntl.of(context).resumeTimer)
+                  : Text(MyIntl.of(context).pauseTimer),
             ),
             separator(),
             TextButton(
               onPressed: () {
                 ConfirmationDialog(
                   bypassConfirmation: widget.activeAgendaItem.timer.timeUp,
-                  title: MyIntl.S.doYouReallyWantToShowTheSolution,
+                  title: MyIntl.of(context).doYouReallyWantToShowTheSolution,
                   payload: () => widget.activeAgendaItem.showSolution(),
                 ).launch(context);
               },
-              child: Text(MyIntl.S.showSolution),
+              child: Text(MyIntl.of(context).showSolution),
             ),
           ],
         );
@@ -131,18 +131,18 @@ class _QualificationControlElementsState
                     if (context.mounted) e.show(context);
                   }
                 },
-                child: Text(MyIntl.S.additionalIntegral),
+                child: Text(MyIntl.of(context).additionalIntegral),
               ),
               separator(),
               TextButton(
                 onPressed: () {
                   ConfirmationDialog(
                     title:
-                        MyIntl.S.doYouReallyWantToFinishThisQualificationRound,
+                        MyIntl.of(context).doYouReallyWantToFinishThisQualificationRound,
                     payload: () => widget.activeAgendaItem.setToFinished(),
                   ).launch(context);
                 },
-                child: Text(MyIntl.S.qualificationRoundFinished),
+                child: Text(MyIntl.of(context).qualificationRoundFinished),
               ),
             ],
           );

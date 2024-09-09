@@ -33,7 +33,7 @@ class NamesView extends StatelessWidget {
               color: ThemeColors.greyTransparent,
               alignment: Alignment.center,
               child: Text(
-                MyIntl.S.aVsB(competitorNames[0], competitorNames[1]),
+                MyIntl.of(context).aVsB(competitorNames[0], competitorNames[1]),
                 style: TextStyle(
                   color: ThemeColors.black,
                   fontSize: 50 * p,

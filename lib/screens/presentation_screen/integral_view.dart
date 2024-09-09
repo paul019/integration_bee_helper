@@ -46,8 +46,8 @@ class IntegralView extends StatelessWidget {
         children: [
           Text(
             problemName != null
-                ? MyIntl.S.comingUpTitle(problemName!)
-                : MyIntl.S.nextIntegralComingUp,
+                ? MyIntl.of(context).comingUpTitle(problemName!)
+                : MyIntl.of(context).nextIntegralComingUp,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 100 * p),
           ),
           if ((currentIntegral?.name ?? '') != '')

@@ -25,7 +25,7 @@ class NavigationCard extends StatelessWidget {
                         activeAgendaItem?.orderIndex != 0
                     ? () {
                         ConfirmationDialog(
-                          title: MyIntl.S.doYouReallyWantToGoBack,
+                          title: MyIntl.of(context).doYouReallyWantToGoBack,
                           payload: () async {
                             try {
                               await AgendaItemsService()
@@ -45,7 +45,7 @@ class NavigationCard extends StatelessWidget {
                     children: [
                       Text(
                         activeAgendaItem?.displayTitle ??
-                            MyIntl.S.noActiveAgendaItem,
+                            MyIntl.of(context).noActiveAgendaItem,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
@@ -54,8 +54,8 @@ class NavigationCard extends StatelessWidget {
                       ),
                       Text(
                         activeAgendaItem?.displaySubtitle ??
-                            MyIntl
-                                .S.pleaseChooseAnAgendaItemInCompetitionPlanner,
+                            MyIntl.of(context)
+                                .pleaseChooseAnAgendaItemInCompetitionPlanner,
                         maxLines: 1,
                       ),
                     ],
@@ -68,7 +68,8 @@ class NavigationCard extends StatelessWidget {
                         ConfirmationDialog(
                           bypassConfirmation: activeAgendaItem!.phase ==
                               AgendaItemPhase.activeButFinished,
-                          title: MyIntl.S.currentAgendaItemIsNotFinishedYet,
+                          title: MyIntl.of(context)
+                              .currentAgendaItemIsNotFinishedYet,
                           payload: () async {
                             try {
                               await AgendaItemsService()

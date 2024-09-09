@@ -92,14 +92,15 @@ class _IntegralCardState extends State<IntegralCard> {
                         textColor: widget.integral.alreadyUsed
                             ? Colors.white
                             : Colors.black,
-                        text: MyIntl.S.integralNumber(widget.integral.code),
+                        text: MyIntl.of(context)
+                            .integralNumber(widget.integral.code),
                       ),
                       SizedBox(
                         width: 400,
                         child: TextField(
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: MyIntl.S.nameOptional,
+                            hintText: MyIntl.of(context).nameOptional,
                           ),
                           textAlign: TextAlign.center,
                           controller: nameController,
@@ -120,8 +121,8 @@ class _IntegralCardState extends State<IntegralCard> {
                                 ConfirmationDialog(
                                   bypassConfirmation: latexProblem.raw == "" &&
                                       latexSolution.raw == "",
-                                  title: MyIntl
-                                      .S.doYouReallyWantToDeleteThisIntegral,
+                                  title: MyIntl.of(context)
+                                      .doYouReallyWantToDeleteThisIntegral,
                                   payload: () async {
                                     try {
                                       await IntegralsService()
@@ -142,7 +143,8 @@ class _IntegralCardState extends State<IntegralCard> {
                           ).then((_) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text(MyIntl.S.codeCopiedToClipboard),
+                                content: Text(
+                                    MyIntl.of(context).codeCopiedToClipboard),
                               ),
                             );
                           });
@@ -152,7 +154,8 @@ class _IntegralCardState extends State<IntegralCard> {
                       Flexible(child: Container()),
                       Padding(
                         padding: const EdgeInsets.only(right: 4.0),
-                        child: Text(MyIntl.S.spareIntegralQuestionMark),
+                        child:
+                            Text(MyIntl.of(context).spareIntegralQuestionMark),
                       ),
                       Checkbox(
                         value: type == IntegralType.spare,
@@ -177,7 +180,7 @@ class _IntegralCardState extends State<IntegralCard> {
                         TextField(
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: MyIntl.S.problemLatex,
+                            hintText: MyIntl.of(context).problemLatex,
                           ),
                           controller: problemController,
                           onChanged: (v) => setState(() {
@@ -197,7 +200,7 @@ class _IntegralCardState extends State<IntegralCard> {
                         TextField(
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: MyIntl.S.solutionLatex,
+                            hintText: MyIntl.of(context).solutionLatex,
                           ),
                           controller: solutionController,
                           onChanged: (v) => setState(() {
@@ -217,7 +220,7 @@ class _IntegralCardState extends State<IntegralCard> {
                   SizedBox(
                     width: 150,
                     child: Text(
-                      MyIntl.S.youtubeVideoID,
+                      MyIntl.of(context).youtubeVideoID,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -225,7 +228,7 @@ class _IntegralCardState extends State<IntegralCard> {
                     child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: MyIntl.S.youtubeVideoIDOptional,
+                        hintText: MyIntl.of(context).youtubeVideoIDOptional,
                       ),
                       controller: youtubeVideoIdController,
                       onChanged: (v) => setState(() {

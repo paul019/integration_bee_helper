@@ -98,7 +98,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
             SizedBox(
               width: 100,
               child: Text(
-                MyIntl.S.titleColon,
+                MyIntl.of(context).titleColon,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -107,7 +107,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: MyIntl.S.titleOptional,
+                  hintText: MyIntl.of(context).titleOptional,
                 ),
                 controller: titleController,
                 onChanged: (v) => setState(() {
@@ -125,7 +125,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
             SizedBox(
               width: 100,
               child: Text(
-                MyIntl.S.competitorsColon,
+                MyIntl.of(context).competitorsColon,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -134,7 +134,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: MyIntl.S.competitors,
+                  hintText: MyIntl.of(context).competitors,
                 ),
                 controller: competitorNamesController,
                 onChanged: (v) => setState(() {
@@ -158,7 +158,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                       SizedBox(
                         width: 100,
                         child: Text(
-                          MyIntl.S.integralColon,
+                          MyIntl.of(context).integralColon,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -168,7 +168,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                               widget.agendaItem.phase != AgendaItemPhase.over,
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: MyIntl.S.codes,
+                            hintText: MyIntl.of(context).codes,
                           ),
                           controller: integralsCodesController,
                           onChanged: (v) => setState(() {
@@ -184,7 +184,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                       SizedBox(
                         width: 100,
                         child: Text(
-                          MyIntl.S.timeLimitColon,
+                          MyIntl.of(context).timeLimitColon,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -194,7 +194,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                               widget.agendaItem.phase != AgendaItemPhase.over,
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: MyIntl.S.durationInSeconds,
+                            hintText: MyIntl.of(context).durationInSeconds,
                           ),
                           controller: timeLimitPerIntegralController,
                           onChanged: (v) => setState(() {
@@ -220,7 +220,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                       SizedBox(
                         width: 125,
                         child: Text(
-                          MyIntl.S.spareIntegralsColon,
+                          MyIntl.of(context).spareIntegralsColon,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -230,7 +230,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                               widget.agendaItem.phase != AgendaItemPhase.over,
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: MyIntl.S.codesRequired,
+                            hintText: MyIntl.of(context).codesRequired,
                           ),
                           controller: spareIntegralsCodesController,
                           onChanged: (v) => setState(() {
@@ -246,7 +246,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                       SizedBox(
                         width: 125,
                         child: Text(
-                          MyIntl.S.timeLimitColon,
+                          MyIntl.of(context).timeLimitColon,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -256,7 +256,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                               widget.agendaItem.phase != AgendaItemPhase.over,
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: MyIntl.S.durationInSeconds,
+                            hintText: MyIntl.of(context).durationInSeconds,
                           ),
                           controller: timeLimitPerSpareIntegralController,
                           onChanged: (v) => setState(() {

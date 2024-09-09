@@ -60,7 +60,7 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
               if (context.mounted) e.show(context);
             }
           },
-          child: Text(MyIntl.S.start),
+          child: Text(MyIntl.of(context).start),
         );
       case ProblemPhase.showProblem:
       case ProblemPhase.showSolution:
@@ -80,8 +80,8 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
                       }
                     },
               child: timerPaused
-                  ? Text(MyIntl.S.resumeTimer)
-                  : Text(MyIntl.S.pauseTimer),
+                  ? Text(MyIntl.of(context).resumeTimer)
+                  : Text(MyIntl.of(context).pauseTimer),
             ),
             const VerticalSeparator(),
             if (widget.activeAgendaItem.problemPhase ==
@@ -90,11 +90,11 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
                 onPressed: () {
                   ConfirmationDialog(
                     bypassConfirmation: widget.activeAgendaItem.timer.timeUp!,
-                    title: MyIntl.S.doYouReallyWantToShowTheSolution,
+                    title: MyIntl.of(context).doYouReallyWantToShowTheSolution,
                     payload: () => widget.activeAgendaItem.showSolution(),
                   ).launch(context);
                 },
-                child: Text(MyIntl.S.showSolution),
+                child: Text(MyIntl.of(context).showSolution),
               ),
             if (widget.activeAgendaItem.problemPhase ==
                 ProblemPhase.showProblem)
@@ -103,19 +103,19 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
               onPressed: () =>
                   widget.activeAgendaItem.setWinner(Score.competitor1),
               child: Text(
-                  MyIntl.S.personWins(widget.activeAgendaItem.competitor1Name)),
+                  MyIntl.of(context).personWins(widget.activeAgendaItem.competitor1Name)),
             ),
             const VerticalSeparator(),
             TextButton(
               onPressed: () =>
                   widget.activeAgendaItem.setWinner(Score.competitor2),
               child: Text(
-                  MyIntl.S.personWins(widget.activeAgendaItem.competitor2Name)),
+                  MyIntl.of(context).personWins(widget.activeAgendaItem.competitor2Name)),
             ),
             const VerticalSeparator(),
             TextButton(
               onPressed: () => widget.activeAgendaItem.setWinner(Score.tie),
-              child: Text(MyIntl.S.draw),
+              child: Text(MyIntl.of(context).draw),
             ),
           ],
         );
@@ -160,7 +160,7 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
                 }
               }
             },
-            child: Text(MyIntl.S.nextIntegral),
+            child: Text(MyIntl.of(context).nextIntegral),
           );
         }
       default:

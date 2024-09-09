@@ -54,7 +54,7 @@ class _PresentationScreenQualificationState
     if (widget.activeAgendaItem.currentIntegralType == IntegralType.regular) {
       return null;
     } else {
-      return MyIntl.S.extraExerciseNumber(
+      return MyIntl.of(context).extraExerciseNumber(
         1,
         widget.activeAgendaItem.spareIntegralsProgress! + 1,
       );
@@ -201,7 +201,7 @@ class _PresentationScreenQualificationState
               ),
               NamesView(
                 competitorNames: widget.activeAgendaItem.competitorNames,
-                problemName: problemName ?? MyIntl.S.exerciseNumber(1),
+                problemName: problemName ?? MyIntl.of(context).exerciseNumber(1),
                 size: widget.size,
               ),
             ],

@@ -40,8 +40,8 @@ class IntegralsAddBulkDialog extends StatefulWidget {
       builder: (BuildContext dialogContext) {
         return PointerInterceptor(
           child: AlertDialog(
-            title: Text(MyIntl.S.integralsAdded),
-            content: Text(MyIntl.S.codesList(codes.join(', '))),
+            title: Text(MyIntl.of(context).integralsAdded),
+            content: Text(MyIntl.of(context).codesList(codes.join(', '))),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -50,18 +50,18 @@ class IntegralsAddBulkDialog extends StatefulWidget {
                   ).then((_) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(MyIntl.S.codeCopiedToClipboard),
+                        content: Text(MyIntl.of(context).codeCopiedToClipboard),
                       ),
                     );
                   });
                 },
-                child: Text(MyIntl.S.copyCodes),
+                child: Text(MyIntl.of(context).copyCodes),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text(MyIntl.S.close),
+                child: Text(MyIntl.of(context).close),
               ),
             ],
           ),
@@ -140,7 +140,7 @@ class _IntegralsAddBulkDialogState extends State<IntegralsAddBulkDialog> {
   Widget build(BuildContext context) {
     return PointerInterceptor(
       child: AlertDialog(
-        title: Text(MyIntl.S.importIntegrals),
+        title: Text(MyIntl.of(context).importIntegrals),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,14 +154,14 @@ class _IntegralsAddBulkDialogState extends State<IntegralsAddBulkDialog> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        MyIntl.S.import,
+                        MyIntl.of(context).import,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
                       TextField(
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: MyIntl.S.tournamentTree,
+                          hintText: MyIntl.of(context).tournamentTree,
                         ),
                         controller: rawTextController,
                         onChanged: (v) => setState(() {
@@ -187,7 +187,7 @@ class _IntegralsAddBulkDialogState extends State<IntegralsAddBulkDialog> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        MyIntl.S.preview,
+                        MyIntl.of(context).preview,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
@@ -218,7 +218,7 @@ class _IntegralsAddBulkDialogState extends State<IntegralsAddBulkDialog> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 4.0),
-                  child: Text(MyIntl.S.spareIntegralQuestionMark),
+                  child: Text(MyIntl.of(context).spareIntegralQuestionMark),
                 ),
               ],
             ),
@@ -229,7 +229,7 @@ class _IntegralsAddBulkDialogState extends State<IntegralsAddBulkDialog> {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text(MyIntl.S.cancel),
+            child: Text(MyIntl.of(context).cancel),
           ),
           TextButton(
             onPressed: () async {
@@ -243,7 +243,7 @@ class _IntegralsAddBulkDialogState extends State<IntegralsAddBulkDialog> {
                 if (context.mounted) e.show(context);
               }
             },
-            child: Text(MyIntl.S.add),
+            child: Text(MyIntl.of(context).add),
           ),
         ],
       ),

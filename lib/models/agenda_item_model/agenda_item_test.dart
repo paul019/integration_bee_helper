@@ -38,7 +38,7 @@ class AgendaItemModelTest extends AgendaItemModelCompetition {
             (json['integralsCodes'] as List).map((v) => v as String).toList(),
         competitorNames:
             (json['competitorNames'] as List).map((v) => v as String).toList(),
-        remarks: json['remarks'] ?? '',
+        remarks: json['remarks'],
         title: json['title'],
       );
 

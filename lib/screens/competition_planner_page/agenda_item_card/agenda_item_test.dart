@@ -78,7 +78,7 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
             SizedBox(
               width: 100,
               child: Text(
-                MyIntl.S.titleColon,
+                MyIntl.of(context).titleColon,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -87,7 +87,7 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: MyIntl.S.titleOptional,
+                  hintText: MyIntl.of(context).titleOptional,
                 ),
                 controller: titleController,
                 onChanged: (v) => setState(() {
@@ -106,7 +106,7 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
             SizedBox(
               width: 100,
               child: Text(
-                MyIntl.S.remarksColon,
+                MyIntl.of(context).remarksColon,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -115,7 +115,7 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: MyIntl.S.remarks,
+                  hintText: MyIntl.of(context).remarks,
                 ),
                 controller: remarksController,
                 onChanged: (v) => setState(() {
@@ -133,7 +133,7 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
             SizedBox(
               width: 100,
               child: Text(
-                MyIntl.S.competitorsColon,
+                MyIntl.of(context).competitorsColon,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -142,7 +142,7 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: MyIntl.S.competitors,
+                  hintText: MyIntl.of(context).competitors,
                 ),
                 controller: competitorNamesController,
                 onChanged: (v) => setState(() {
@@ -160,7 +160,7 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
             SizedBox(
               width: 100,
               child: Text(
-                MyIntl.S.integralsColon,
+                MyIntl.of(context).integralsColon,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -169,7 +169,7 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: MyIntl.S.codes,
+                  hintText: MyIntl.of(context).codes,
                 ),
                 controller: integralsCodesController,
                 onChanged: (v) => setState(() {

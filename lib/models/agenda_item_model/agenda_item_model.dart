@@ -7,7 +7,6 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_test
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_video.dart';
-import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 
 abstract class AgendaItemModel {
   // Static:
@@ -68,7 +67,7 @@ abstract class AgendaItemModel {
   Future<void> checkEdit() async {
     // Make sure, agenda item is not finished:
     if (phase == AgendaItemPhase.over) {
-      throw Exception(MyIntl.S.cannotEditFinishedAgendaItem);
+      throw Exception('Cannot edit finished agenda item');
     }
   }
 

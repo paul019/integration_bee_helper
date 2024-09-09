@@ -15,14 +15,14 @@ enum IntegralTypeFilter {
   regular,
   spare;
 
-  String get label {
+  String label(BuildContext context) {
     switch (this) {
       case IntegralTypeFilter.all:
-        return MyIntl.S.allIntegralTypes;
+        return MyIntl.of(context).allIntegralTypes;
       case IntegralTypeFilter.regular:
-        return MyIntl.S.regularIntegrals;
+        return MyIntl.of(context).regularIntegrals;
       case IntegralTypeFilter.spare:
-        return MyIntl.S.spareIntegrals;
+        return MyIntl.of(context).spareIntegrals;
     }
   }
 }
@@ -32,14 +32,14 @@ enum IntegralAllocationFilter {
   allocated,
   unallocated;
 
-  String get label {
+  String label(BuildContext context) {
     switch (this) {
       case IntegralAllocationFilter.all:
-        return MyIntl.S.allIntegrals;
+        return MyIntl.of(context).allIntegrals;
       case IntegralAllocationFilter.allocated:
-        return MyIntl.S.allocatedIntegrals;
+        return MyIntl.of(context).allocatedIntegrals;
       case IntegralAllocationFilter.unallocated:
-        return MyIntl.S.unallocatedIntegrals;
+        return MyIntl.of(context).unallocatedIntegrals;
     }
   }
 }
@@ -49,14 +49,14 @@ enum IntegralUsageFilter {
   used,
   unused;
 
-  String get label {
+  String label(BuildContext context) {
     switch (this) {
       case IntegralUsageFilter.all:
-        return MyIntl.S.allIntegrals;
+        return MyIntl.of(context).allIntegrals;
       case IntegralUsageFilter.used:
-        return MyIntl.S.usedIntegrals;
+        return MyIntl.of(context).usedIntegrals;
       case IntegralUsageFilter.unused:
-        return MyIntl.S.unusedIntegrals;
+        return MyIntl.of(context).unusedIntegrals;
     }
   }
 }
@@ -141,7 +141,7 @@ class _IntegralsPageState extends State<IntegralsPage> {
                   )
                 : null,
             body: integrals.isEmpty
-                ? Center(child: Text(MyIntl.S.noIntegralsYet))
+                ? Center(child: Text(MyIntl.of(context).noIntegralsYet))
                 : ListView.builder(
                     itemCount: filteredIntegrals.length + 2,
                     itemBuilder: (context, index) {
@@ -152,7 +152,7 @@ class _IntegralsPageState extends State<IntegralsPage> {
                           return Center(
                             child: Padding(
                               padding: const EdgeInsets.only(top: 50.0),
-                              child: Text(MyIntl.S.noIntegralsMatchTheFilter),
+                              child: Text(MyIntl.of(context).noIntegralsMatchTheFilter),
                             ),
                           );
                         } else {
@@ -186,7 +186,7 @@ class _IntegralsPageState extends State<IntegralsPage> {
             items: IntegralTypeFilter.values
                 .map((e) => DropdownMenuItem(
                       value: e,
-                      child: Text(e.label),
+                      child: Text(e.label(context)),
                     ))
                 .toList(),
           ),
@@ -197,7 +197,7 @@ class _IntegralsPageState extends State<IntegralsPage> {
             items: IntegralAllocationFilter.values
                 .map((e) => DropdownMenuItem(
                       value: e,
-                      child: Text(e.label),
+                      child: Text(e.label(context)),
                     ))
                 .toList(),
           ),
@@ -208,7 +208,7 @@ class _IntegralsPageState extends State<IntegralsPage> {
             items: IntegralUsageFilter.values
                 .map((e) => DropdownMenuItem(
                       value: e,
-                      child: Text(e.label),
+                      child: Text(e.label(context)),
                     ))
                 .toList(),
           ),
@@ -219,7 +219,7 @@ class _IntegralsPageState extends State<IntegralsPage> {
               integralAllocationFilter = IntegralAllocationFilter.all;
               integralUsageFilter = IntegralUsageFilter.all;
             }),
-            child: Text(MyIntl.S.resetFilters),
+            child: Text(MyIntl.of(context).resetFilters),
           ),
         ],
       ),

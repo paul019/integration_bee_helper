@@ -69,7 +69,7 @@ class _AgendaItemTextState extends State<AgendaItemText> {
             SizedBox(
               width: 100,
               child: Text(
-                MyIntl.S.titleColon,
+                MyIntl.of(context).titleColon,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -78,7 +78,7 @@ class _AgendaItemTextState extends State<AgendaItemText> {
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: MyIntl.S.title,
+                  hintText: MyIntl.of(context).title,
                 ),
                 controller: titleController,
                 onChanged: (v) => setState(() {
@@ -95,7 +95,7 @@ class _AgendaItemTextState extends State<AgendaItemText> {
             SizedBox(
               width: 100,
               child: Text(
-                MyIntl.S.subtitleColon,
+                MyIntl.of(context).subtitleColon,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -104,7 +104,7 @@ class _AgendaItemTextState extends State<AgendaItemText> {
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: MyIntl.S.subtitle,
+                  hintText: MyIntl.of(context).subtitle,
                 ),
                 controller: subtitleController,
                 onChanged: (v) => setState(() {
@@ -121,7 +121,7 @@ class _AgendaItemTextState extends State<AgendaItemText> {
             SizedBox(
               width: 100,
               child: Text(
-                MyIntl.S.imageUrlColon,
+                MyIntl.of(context).imageUrlColon,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -130,7 +130,7 @@ class _AgendaItemTextState extends State<AgendaItemText> {
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: MyIntl.S.imageUrl,
+                  hintText: MyIntl.of(context).imageUrl,
                 ),
                 controller: imageUrlController,
                 onChanged: (v) => setState(() {

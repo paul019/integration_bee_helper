@@ -53,7 +53,7 @@ class AgendaItemCard extends StatelessWidget {
                           color: agendaItem.currentlyActive
                               ? Theme.of(context).colorScheme.inversePrimary
                               : null,
-                          text: MyIntl.S.agendaItemNumber(agendaItem.orderIndex + 1),
+                          text: MyIntl.of(context).agendaItemNumber(agendaItem.orderIndex + 1),
                         ),
                         Text(
                           '(${agendaItem.type.title})',
@@ -73,7 +73,7 @@ class AgendaItemCard extends StatelessWidget {
                                     bypassConfirmation: agendaItem.type ==
                                         AgendaItemType.notSpecified,
                                     title:
-                                        MyIntl.S.doYouReallyWantToDeleteThisAgendaItem,
+                                        MyIntl.of(context).doYouReallyWantToDeleteThisAgendaItem,
                                     payload: () async {
                                       try {
                                         await AgendaItemsService()
@@ -94,7 +94,7 @@ class AgendaItemCard extends StatelessWidget {
                             onPressed: () {
                               ConfirmationDialog(
                                 title:
-                                    MyIntl.S.doYouReallyWantToForceStartThisAgendaItem,
+                                    MyIntl.of(context).doYouReallyWantToForceStartThisAgendaItem,
                                 payload: () => AgendaItemsService()
                                     .forceStartAgendaItem(agendaItem),
                                 bypassConfirmation: activeAgendaItem == null,

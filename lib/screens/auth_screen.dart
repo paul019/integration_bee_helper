@@ -43,16 +43,16 @@ class AuthScreenState extends State<AuthScreen> {
 
   String? emailAddressValidator(String? email) {
     if (email == null || !email.contains("@")) {
-      return MyIntl.S.pleaseEnterAValidEmail;
+      return MyIntl.of(context).pleaseEnterAValidEmail;
     }
     return null;
   }
 
   String? passwordValidator(String? password) {
     if (password == null || password.length < 5) {
-      return MyIntl.S.passwordTooShort;
+      return MyIntl.of(context).passwordTooShort;
     } else if (password.length > 25) {
-      return MyIntl.S.passwordTooLong;
+      return MyIntl.of(context).passwordTooLong;
     }
     return null;
   }
@@ -83,7 +83,7 @@ class AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(MyIntl.S.authentication),
+        title: Text(MyIntl.of(context).authentication),
       ),
       body: MaxWidthWrapper(
         child: Form(
@@ -97,7 +97,7 @@ class AuthScreenState extends State<AuthScreen> {
                 child: TextFormField(
                   decoration: InputDecoration(
                     icon: const Icon(Icons.email),
-                    labelText: MyIntl.S.email,
+                    labelText: MyIntl.of(context).email,
                   ),
                   validator: emailAddressValidator,
                   onSaved: (value) {
@@ -114,7 +114,7 @@ class AuthScreenState extends State<AuthScreen> {
                   obscureText: true,
                   decoration: InputDecoration(
                     icon: const Icon(Icons.lock),
-                    labelText: MyIntl.S.password,
+                    labelText: MyIntl.of(context).password,
                   ),
                   validator: passwordValidator,
                   onSaved: (value) {
@@ -146,11 +146,11 @@ class AuthScreenState extends State<AuthScreen> {
                   children: [
                     ElevatedButton(
                       onPressed: onRegisterFormSubmitted,
-                      child: Text(MyIntl.S.register),
+                      child: Text(MyIntl.of(context).register),
                     ),
                     ElevatedButton(
                       onPressed: onLoginFormSubmitted,
-                      child: Text(MyIntl.S.login),
+                      child: Text(MyIntl.of(context).login),
                     ),
                   ],
                 ),

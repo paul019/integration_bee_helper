@@ -25,33 +25,37 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  static List<PageInfo> pages = [
-    PageInfo(
-      title: MyIntl.S.missionControl,
-      icon: const Icon(Icons.keyboard),
-      page: const MissionControlPage(),
-    ),
-    PageInfo(
-      title: MyIntl.S.competitionPlanner,
-      icon: const Icon(Icons.list),
-      page: const CompetitionPlannerPage(),
-    ),
-    PageInfo(
-      title: MyIntl.S.integrals,
-      icon: const Icon(Icons.edit),
-      page: const IntegralsPage(),
-    ),
-    PageInfo(
-      title: MyIntl.S.settings,
-      icon: const Icon(Icons.settings),
-      page: const SettingsPage(),
-    ),
-  ];
+  static List<PageInfo> pages = [];
 
   int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    if (pages.isEmpty) {
+      pages = [
+        PageInfo(
+          title: MyIntl.of(context).missionControl,
+          icon: const Icon(Icons.keyboard),
+          page: const MissionControlPage(),
+        ),
+        PageInfo(
+          title: MyIntl.of(context).competitionPlanner,
+          icon: const Icon(Icons.list),
+          page: const CompetitionPlannerPage(),
+        ),
+        PageInfo(
+          title: MyIntl.of(context).integrals,
+          icon: const Icon(Icons.edit),
+          page: const IntegralsPage(),
+        ),
+        PageInfo(
+          title: MyIntl.of(context).settings,
+          icon: const Icon(Icons.settings),
+          page: const SettingsPage(),
+        ),
+      ];
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Heidelberg Integration Bee'),
@@ -65,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   context: context,
                   builder: (context) => PointerInterceptor(
                     child: AlertDialog(
-                      title: Text(MyIntl.S.choosePresentation),
+                      title: Text(MyIntl.of(context).choosePresentation),
                       actions: [
                         TextButton(
                           onPressed: () {
@@ -77,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               (route) => false,
                             );
                           },
-                          child: Text(MyIntl.S.mainPresentation),
+                          child: Text(MyIntl.of(context).mainPresentation),
                         ),
                         TextButton(
                           onPressed: () {
@@ -89,11 +93,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               (route) => false,
                             );
                           },
-                          child: Text(MyIntl.S.sidePresentation),
+                          child: Text(MyIntl.of(context).sidePresentation),
                         ),
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(true),
-                          child: Text(MyIntl.S.cancel),
+                          child: Text(MyIntl.of(context).cancel),
                         ),
                       ],
                     ),

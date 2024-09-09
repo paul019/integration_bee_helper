@@ -59,9 +59,9 @@ extension GenerateQualificationRoundSheets on ExportDocumentsService {
     file = file
         .makeReplacement(
             oldText: '<instruction-text>',
-            newText: MyIntl.S.turnAroundWhenInstructed)
+            newText: MyIntl.of(context).turnAroundWhenInstructed)
         .makeReplacement(
-            oldText: '<integral-number>', newText: MyIntl.S.integralNumberPrint)
+            oldText: '<integral-number>', newText: MyIntl.of(context).integralNumberPrint)
         .makeReplacement(newText: commands.join('\n'));
 
     return file;

@@ -67,11 +67,11 @@ class _PresentationScreenKnockoutState
 
   String get problemName {
     if (widget.activeAgendaItem.currentIntegralType == IntegralType.regular) {
-      return MyIntl.S.exerciseNumber(
+      return MyIntl.of(context).exerciseNumber(
         widget.activeAgendaItem.integralsProgress! + 1,
       );
     } else {
-      return MyIntl.S.extraExerciseNumber(
+      return MyIntl.of(context).extraExerciseNumber(
         widget.activeAgendaItem.numOfIntegrals,
         widget.activeAgendaItem.spareIntegralsProgress! + 1,
       );

@@ -31,9 +31,11 @@ class SettingsService {
 
   Future edit({
     TournamentTreeModel? tournamentTree,
+    String? languageCode,
   }) async {
     await SettingsModel.collection.doc(_uid).update({
           "tournamentTree": tournamentTree?.encode(),
+          "languageCode": languageCode,
         }.deleteNullEntries());
   }
 }

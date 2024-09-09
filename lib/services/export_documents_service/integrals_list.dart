@@ -76,16 +76,16 @@ extension GenerateIntegralsList on ExportDocumentsService {
     );
     file = file
         .makeReplacement(
-            oldText: '<babel-language>', newText: MyIntl.S.latexBabelLanguage)
+            oldText: '<babel-language>', newText: MyIntl.of(context).latexBabelLanguage)
         .makeReplacement(
-            oldText: '<title>', newText: MyIntl.S.integralListConfidential)
+            oldText: '<title>', newText: MyIntl.of(context).integralListConfidential)
         .makeReplacement(
             oldText: '<qualification-round>',
-            newText: MyIntl.S.qualificationRound)
+            newText: MyIntl.of(context).qualificationRound)
         .makeReplacement(
-            oldText: '<knockout-round>', newText: MyIntl.S.knockoutRound)
+            oldText: '<knockout-round>', newText: MyIntl.of(context).knockoutRound)
         .makeReplacement(
-            oldText: '<spare-integrals>', newText: MyIntl.S.spareIntegrals)
+            oldText: '<spare-integrals>', newText: MyIntl.of(context).spareIntegrals)
         .makeReplacement(newText: commands.join('\n'));
 
     return file;

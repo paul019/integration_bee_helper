@@ -39,7 +39,7 @@ class _CompetitionPlannerPageState extends State<CompetitionPlannerPage> {
               child: const Icon(Icons.add),
             ),
             body: agendaItems.isEmpty
-                ? Center(child: Text(MyIntl.S.noAgendaItemsYet))
+                ? Center(child: Text(MyIntl.of(context).noAgendaItemsYet))
                 : ListView.builder(
                     itemCount: agendaItems.length + 2,
                     itemBuilder: (context, index) {

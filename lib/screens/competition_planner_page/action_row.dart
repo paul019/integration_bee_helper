@@ -15,7 +15,7 @@ class ActionRow extends StatelessWidget {
   void startFromBeginning(BuildContext context) {
     ConfirmationDialog(
       bypassConfirmation: agendaItems.every((item) => !item.currentlyActive),
-      title: MyIntl.S.doYouReallyWantToStartFromTheBeginning,
+      title: MyIntl.of(context).doYouReallyWantToStartFromTheBeginning,
       payload: () {
         AgendaItemsService()
             .startFromBeginning(currentAgendaItems: agendaItems);
@@ -26,7 +26,7 @@ class ActionRow extends StatelessWidget {
   void reset(BuildContext context) {
     ConfirmationDialog(
       bypassConfirmation: agendaItems.every((item) => !item.currentlyActive),
-      title: MyIntl.S.doYouReallyWantToReset,
+      title: MyIntl.of(context).doYouReallyWantToReset,
       payload: () {
         AgendaItemsService()
             .resetAllAgendaItems(currentAgendaItems: agendaItems);
@@ -44,13 +44,13 @@ class ActionRow extends StatelessWidget {
             TextButtonWithIcon(
               onPressed: () => startFromBeginning(context),
               icon: Icons.play_arrow,
-              child: Text(MyIntl.S.startFromBeginning),
+              child: Text(MyIntl.of(context).startFromBeginning),
             ),
             const VerticalSeparator(),
             TextButtonWithIcon(
               onPressed: () => reset(context),
               icon: Icons.refresh,
-              child: Text(MyIntl.S.reset),
+              child: Text(MyIntl.of(context).reset),
             ),
             const VerticalSeparator(),
             TextButtonWithIcon(
@@ -58,7 +58,7 @@ class ActionRow extends StatelessWidget {
                 ExportDocumentsService().exportDocuments(context);
               },
               icon: Icons.download,
-              child: Text(MyIntl.S.downloadDocuments),
+              child: Text(MyIntl.of(context).downloadDocuments),
             ),
           ],
         ));

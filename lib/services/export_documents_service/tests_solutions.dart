@@ -41,9 +41,9 @@ extension GenerateTestsSolutions on ExportDocumentsService {
     file = file
         .makeReplacement(
             oldText: '<qualification-test-solutions>',
-            newText: MyIntl.S.qualificationTestSolutions)
+            newText: MyIntl.of(context).qualificationTestSolutions)
         .makeReplacement(
-            oldText: '<exercise>', newText: MyIntl.S.exerciseNumberPrint)
+            oldText: '<exercise>', newText: MyIntl.of(context).exerciseNumberPrint)
         .makeReplacement(newText: commands.join('\n'));
 
     return file;

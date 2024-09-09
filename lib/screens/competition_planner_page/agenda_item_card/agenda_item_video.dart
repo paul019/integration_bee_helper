@@ -54,7 +54,7 @@ class _AgendaItemVideoState extends State<AgendaItemVideo> {
             SizedBox(
               width: 150,
               child: Text(
-                MyIntl.S.youtubeVideoIdColon,
+                MyIntl.of(context).youtubeVideoIdColon,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -63,7 +63,7 @@ class _AgendaItemVideoState extends State<AgendaItemVideo> {
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: MyIntl.S.title,
+                  hintText: MyIntl.of(context).title,
                 ),
                 controller: youtubeVideoIdController,
                 onChanged: (v) => setState(() {

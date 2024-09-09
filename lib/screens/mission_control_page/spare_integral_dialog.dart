@@ -40,7 +40,7 @@ class _SpareIntegralDialogState extends State<SpareIntegralDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(MyIntl.S.chooseASpareIntegral),
+      title: Text(MyIntl.of(context).chooseASpareIntegral),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -79,7 +79,7 @@ class _SpareIntegralDialogState extends State<SpareIntegralDialog> {
             ],
           ),
           Text(
-            MyIntl.S.integralNumber(
+            MyIntl.of(context).integralNumber(
                 widget.potentialSpareIntegrals[selectedIndex].code),
           ),
           Text(
@@ -90,14 +90,14 @@ class _SpareIntegralDialogState extends State<SpareIntegralDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: Text(MyIntl.S.cancel),
+          child: Text(MyIntl.of(context).cancel),
         ),
         TextButton(
           onPressed: () {
             widget.onChoose(widget.potentialSpareIntegrals[selectedIndex]);
             Navigator.of(context).pop();
           },
-          child:  Text(MyIntl.S.choose),
+          child:  Text(MyIntl.of(context).choose),
         ),
       ],
     );

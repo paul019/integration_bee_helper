@@ -52,7 +52,7 @@ class _TournamentTreeCardState extends State<TournamentTreeCard> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
-                    MyIntl.S.tournamentTree,
+                    MyIntl.of(context).tournamentTree,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -61,7 +61,7 @@ class _TournamentTreeCardState extends State<TournamentTreeCard> {
               TextField(
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: MyIntl.S.tournamentTree,
+                  hintText: MyIntl.of(context).tournamentTree,
                 ),
                 controller: tournamentTreeStringController,
                 onChanged: (v) => setState(() {

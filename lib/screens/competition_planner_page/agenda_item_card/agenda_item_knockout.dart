@@ -103,7 +103,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
             SizedBox(
               width: 100,
               child: Text(
-                MyIntl.S.titleColon,
+                MyIntl.of(context).titleColon,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -112,7 +112,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: MyIntl.S.titleOptional,
+                  hintText: MyIntl.of(context).titleOptional,
                 ),
                 controller: titleController,
                 onChanged: (v) => setState(() {
@@ -132,7 +132,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: MyIntl.S.competitor1,
+                  hintText: MyIntl.of(context).competitor1,
                 ),
                 controller: competitor1NameController,
                 onChanged: (v) => setState(() {
@@ -153,7 +153,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: MyIntl.S.competitor2,
+                  hintText: MyIntl.of(context).competitor2,
                 ),
                 controller: competitor2NameController,
                 onChanged: (v) => setState(() {
@@ -177,7 +177,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                       SizedBox(
                         width: 100,
                         child: Text(
-                          MyIntl.S.integralsColon,
+                          MyIntl.of(context).integralsColon,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -187,7 +187,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                               widget.agendaItem.phase != AgendaItemPhase.over,
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: MyIntl.S.codes,
+                            hintText: MyIntl.of(context).codes,
                           ),
                           controller: integralsCodesController,
                           onChanged: (v) => setState(() {
@@ -203,7 +203,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                       SizedBox(
                         width: 100,
                         child: Text(
-                          MyIntl.S.timeLimitColon,
+                          MyIntl.of(context).timeLimitColon,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -213,7 +213,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                               widget.agendaItem.phase != AgendaItemPhase.over,
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: MyIntl.S.durationInSeconds,
+                            hintText: MyIntl.of(context).durationInSeconds,
                           ),
                           controller: timeLimitPerIntegralController,
                           onChanged: (v) => setState(() {
@@ -239,7 +239,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                       SizedBox(
                         width: 125,
                         child: Text(
-                          MyIntl.S.spareIntegralsColon,
+                          MyIntl.of(context).spareIntegralsColon,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -249,7 +249,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                               widget.agendaItem.phase != AgendaItemPhase.over,
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: MyIntl.S.codesOptional,
+                            hintText: MyIntl.of(context).codesOptional,
                           ),
                           controller: spareIntegralsCodesController,
                           onChanged: (v) => setState(() {
@@ -265,7 +265,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                       SizedBox(
                         width: 125,
                         child: Text(
-                          MyIntl.S.timeLimitColon,
+                          MyIntl.of(context).timeLimitColon,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -275,7 +275,7 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
                               widget.agendaItem.phase != AgendaItemPhase.over,
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: MyIntl.S.durationInSeconds,
+                            hintText: MyIntl.of(context).durationInSeconds,
                           ),
                           controller: timeLimitPerSpareIntegralController,
                           onChanged: (v) => setState(() {
