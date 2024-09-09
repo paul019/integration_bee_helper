@@ -20,7 +20,7 @@ class CopyrightView extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(left: 8.0 * p, bottom: 8.0 * p),
         child: Text(
-          MyIntl.of(context).copyrightNotice('2024'),
+          MyIntl.of(context).copyrightNotice(DateTime.now().year),
           style: TextStyle(fontSize: 20 * p),
         ),
       ),
