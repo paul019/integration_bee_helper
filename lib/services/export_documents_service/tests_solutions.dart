@@ -7,7 +7,7 @@ extension GenerateTestsSolutions on ExportDocumentsService {
     required List<AgendaItemModelTest> tests,
     required List<IntegralModel> allIntegrals,
   }) async {
-    if(tests.isEmpty) {
+    if (tests.isEmpty) {
       return null;
     }
 
@@ -38,7 +38,13 @@ extension GenerateTestsSolutions on ExportDocumentsService {
       assetFileName: 'latex/qualification_test_solutions.tex',
       displayFileName: 'DOPPELSEITIG_SW_qualifikations_test_loesung.tex',
     );
-    file = file.makeReplacement(newText: commands.join('\n'));
+    file = file
+        .makeReplacement(
+            oldText: '<qualification-test-solutions>',
+            newText: MyIntl.of(context).qualificationTestSolutions)
+        .makeReplacement(
+            oldText: '<exercise>', newText: MyIntl.of(context).exerciseNumberPrint)
+        .makeReplacement(newText: commands.join('\n'));
 
     return file;
   }

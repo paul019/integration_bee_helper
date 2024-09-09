@@ -74,7 +74,19 @@ extension GenerateIntegralsList on ExportDocumentsService {
       assetFileName: 'latex/integrals_list.tex',
       displayFileName: 'DOPPELSEITIG_SW_integral_liste.tex',
     );
-    file = file.makeReplacement(newText: commands.join('\n'));
+    file = file
+        .makeReplacement(
+            oldText: '<babel-language>', newText: MyIntl.of(context).latexBabelLanguage)
+        .makeReplacement(
+            oldText: '<title>', newText: MyIntl.of(context).integralListConfidential)
+        .makeReplacement(
+            oldText: '<qualification-round>',
+            newText: MyIntl.of(context).qualificationRound)
+        .makeReplacement(
+            oldText: '<knockout-round>', newText: MyIntl.of(context).knockoutRound)
+        .makeReplacement(
+            oldText: '<spare-integrals>', newText: MyIntl.of(context).spareIntegrals)
+        .makeReplacement(newText: commands.join('\n'));
 
     return file;
   }

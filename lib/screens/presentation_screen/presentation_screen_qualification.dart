@@ -10,6 +10,7 @@ import 'package:integration_bee_helper/screens/presentation_screen/integral_view
 import 'package:integration_bee_helper/screens/presentation_screen/names_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/timer_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/title_view.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
@@ -53,7 +54,10 @@ class _PresentationScreenQualificationState
     if (widget.activeAgendaItem.currentIntegralType == IntegralType.regular) {
       return null;
     } else {
-      return 'Aufgabe 1+${widget.activeAgendaItem.spareIntegralsProgress! + 1}';
+      return MyIntl.of(context).extraExerciseNumber(
+        1,
+        widget.activeAgendaItem.spareIntegralsProgress! + 1,
+      );
     }
   }
 
@@ -197,7 +201,7 @@ class _PresentationScreenQualificationState
               ),
               NamesView(
                 competitorNames: widget.activeAgendaItem.competitorNames,
-                problemName: problemName ?? 'Aufgabe 1',
+                problemName: problemName ?? MyIntl.of(context).exerciseNumber(1),
                 size: widget.size,
               ),
             ],

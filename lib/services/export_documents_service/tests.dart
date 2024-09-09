@@ -11,7 +11,7 @@ extension GenerateTests on ExportDocumentsService {
     for (var test in tests) {
       for (var competitorName in test.competitorNames) {
         commands.add(
-          '\\coverSheet{$competitorName}',
+          '\\coverSheet{${test.title}}{${test.remarksFormatted}}{$competitorName}',
         );
 
         var i = 0;
@@ -50,7 +50,19 @@ extension GenerateTests on ExportDocumentsService {
       assetFileName: 'latex/qualification_test.tex',
       displayFileName: 'DOPPELSEITIG_SW_qualifikations_test.tex',
     );
-    file = file.makeReplacement(newText: commands.join('\n'));
+    file = file
+        .makeReplacement(
+            oldText: '<exercise>', newText: MyIntl.of(context).exerciseNumberPrint)
+        .makeReplacement(
+            oldText: '<instruction-text>',
+            newText: MyIntl.of(context).turnAroundWhenInstructed)
+        .makeReplacement(
+            oldText: '<competition-title>',
+            newText: 'Heidelberg Integration Bee 2024')
+        .makeReplacement(
+            oldText: '<remarks>', newText: MyIntl.of(context).remarksOnTheTest)
+        .makeReplacement(oldText: '<good-luck>', newText: MyIntl.of(context).goodLuck)
+        .makeReplacement(newText: commands.join('\n'));
 
     return file;
   }

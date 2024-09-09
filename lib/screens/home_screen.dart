@@ -6,6 +6,7 @@ import 'package:integration_bee_helper/screens/presentation_screen/presentation_
 import 'package:integration_bee_helper/screens/presentation_screen_two/presentation_screen_two_wrapper.dart';
 import 'package:integration_bee_helper/screens/settings_page/settings_page.dart';
 import 'package:integration_bee_helper/services/basic_services/auth_service.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class PageInfo {
@@ -24,33 +25,37 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  static List<PageInfo> pages = [
-    PageInfo(
-      title: 'Mission control',
-      icon: const Icon(Icons.keyboard),
-      page: const MissionControlPage(),
-    ),
-    PageInfo(
-      title: 'Competition planner',
-      icon: const Icon(Icons.list),
-      page: const CompetitionPlannerPage(),
-    ),
-    PageInfo(
-      title: 'Integrals',
-      icon: const Icon(Icons.edit),
-      page: const IntegralsPage(),
-    ),
-    PageInfo(
-      title: 'Settings',
-      icon: const Icon(Icons.settings),
-      page: const SettingsPage(),
-    ),
-  ];
+  static List<PageInfo> pages = [];
 
   int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    if (pages.isEmpty) {
+      pages = [
+        PageInfo(
+          title: MyIntl.of(context).missionControl,
+          icon: const Icon(Icons.keyboard),
+          page: const MissionControlPage(),
+        ),
+        PageInfo(
+          title: MyIntl.of(context).competitionPlanner,
+          icon: const Icon(Icons.list),
+          page: const CompetitionPlannerPage(),
+        ),
+        PageInfo(
+          title: MyIntl.of(context).integrals,
+          icon: const Icon(Icons.edit),
+          page: const IntegralsPage(),
+        ),
+        PageInfo(
+          title: MyIntl.of(context).settings,
+          icon: const Icon(Icons.settings),
+          page: const SettingsPage(),
+        ),
+      ];
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Heidelberg Integration Bee'),
@@ -64,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   context: context,
                   builder: (context) => PointerInterceptor(
                     child: AlertDialog(
-                      title: const Text('Choose presentation'),
+                      title: Text(MyIntl.of(context).choosePresentation),
                       actions: [
                         TextButton(
                           onPressed: () {
@@ -76,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               (route) => false,
                             );
                           },
-                          child: const Text('Main presentation'),
+                          child: Text(MyIntl.of(context).mainPresentation),
                         ),
                         TextButton(
                           onPressed: () {
@@ -88,11 +93,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               (route) => false,
                             );
                           },
-                          child: const Text('Side presentation'),
+                          child: Text(MyIntl.of(context).sidePresentation),
                         ),
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(true),
-                          child: const Text('Cancel'),
+                          child: Text(MyIntl.of(context).cancel),
                         ),
                       ],
                     ),

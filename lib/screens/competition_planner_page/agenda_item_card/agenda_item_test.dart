@@ -4,6 +4,7 @@ import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/extensions/list_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_test.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 
 class AgendaItemTest extends StatefulWidget {
@@ -22,20 +23,24 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
   bool hasChanged = false;
 
   late String title;
+  late String remarks;
   late String competitorNames;
   late String integralsCodes;
 
   late TextEditingController titleController;
+  late TextEditingController remarksController;
   late TextEditingController competitorNamesController;
   late TextEditingController integralsCodesController;
 
   @override
   void initState() {
     title = widget.agendaItem.title;
+    remarks = widget.agendaItem.remarks;
     competitorNames = widget.agendaItem.competitorNames.join(',');
     integralsCodes = widget.agendaItem.integralsCodes.join(',');
 
     titleController = TextEditingController(text: title);
+    remarksController = TextEditingController(text: remarks);
     competitorNamesController = TextEditingController(text: competitorNames);
     integralsCodesController = TextEditingController(text: integralsCodes);
 
@@ -51,10 +56,12 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
 
   void reset() {
     title = widget.agendaItem.title;
+    remarks = widget.agendaItem.remarks;
     competitorNames = widget.agendaItem.competitorNames.join(',');
     integralsCodes = widget.agendaItem.integralsCodes.join(',');
 
     titleController.text = title;
+    remarksController.text = remarks;
     competitorNamesController.text = competitorNames;
     integralsCodesController.text = integralsCodes;
 
@@ -68,19 +75,19 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
       children: [
         Row(
           children: [
-            const SizedBox(
+            SizedBox(
               width: 100,
               child: Text(
-                'Title:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                MyIntl.of(context).titleColon,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             Expanded(
               child: TextField(
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Title (optional)',
+                  hintText: MyIntl.of(context).titleOptional,
                 ),
                 controller: titleController,
                 onChanged: (v) => setState(() {
@@ -94,20 +101,48 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
         ),
         const Divider(),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(
+            SizedBox(
               width: 100,
               child: Text(
-                'Competitors:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                MyIntl.of(context).remarksColon,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             Expanded(
               child: TextField(
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Competitors',
+                  hintText: MyIntl.of(context).remarks,
+                ),
+                controller: remarksController,
+                onChanged: (v) => setState(() {
+                  remarks = v;
+                  hasChanged = true;
+                }),
+                maxLines: 5,
+              ),
+            ),
+          ],
+        ),
+        const Divider(),
+        Row(
+          children: [
+            SizedBox(
+              width: 100,
+              child: Text(
+                MyIntl.of(context).competitorsColon,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Expanded(
+              child: TextField(
+                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: MyIntl.of(context).competitors,
                 ),
                 controller: competitorNamesController,
                 onChanged: (v) => setState(() {
@@ -122,19 +157,19 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
         const Divider(),
         Row(
           children: [
-            const SizedBox(
+            SizedBox(
               width: 100,
               child: Text(
-                'Integrals:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                MyIntl.of(context).integralsColon,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             Expanded(
               child: TextField(
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Codes',
+                  hintText: MyIntl.of(context).codes,
                 ),
                 controller: integralsCodesController,
                 onChanged: (v) => setState(() {

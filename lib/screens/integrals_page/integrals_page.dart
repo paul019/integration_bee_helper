@@ -3,6 +3,7 @@ import 'package:integration_bee_helper/models/integral_model/integral_model.dart
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
 import 'package:integration_bee_helper/screens/integrals_page/integral_card.dart';
 import 'package:integration_bee_helper/screens/integrals_page/integrals_add_bulk_dialog.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
 import 'package:integration_bee_helper/widgets/loading_screen.dart';
 import 'package:integration_bee_helper/widgets/max_width_wrapper.dart';
@@ -10,30 +11,54 @@ import 'package:integration_bee_helper/widgets/vertical_separator.dart';
 import 'package:provider/provider.dart';
 
 enum IntegralTypeFilter {
-  all('All integral types'),
-  regular('Regular integrals'),
-  spare('Spare integrals');
+  all,
+  regular,
+  spare;
 
-  final String label;
-  const IntegralTypeFilter(this.label);
+  String label(BuildContext context) {
+    switch (this) {
+      case IntegralTypeFilter.all:
+        return MyIntl.of(context).allIntegralTypes;
+      case IntegralTypeFilter.regular:
+        return MyIntl.of(context).regularIntegrals;
+      case IntegralTypeFilter.spare:
+        return MyIntl.of(context).spareIntegrals;
+    }
+  }
 }
 
 enum IntegralAllocationFilter {
-  all('Allocated and unallocated'),
-  allocated('Allocated integrals'),
-  unallocated('Unallocated integrals');
+  all,
+  allocated,
+  unallocated;
 
-  final String label;
-  const IntegralAllocationFilter(this.label);
+  String label(BuildContext context) {
+    switch (this) {
+      case IntegralAllocationFilter.all:
+        return MyIntl.of(context).allIntegrals;
+      case IntegralAllocationFilter.allocated:
+        return MyIntl.of(context).allocatedIntegrals;
+      case IntegralAllocationFilter.unallocated:
+        return MyIntl.of(context).unallocatedIntegrals;
+    }
+  }
 }
 
 enum IntegralUsageFilter {
-  all('Used and unused'),
-  used('Used integrals'),
-  unused('Unused integrals');
+  all,
+  used,
+  unused;
 
-  final String label;
-  const IntegralUsageFilter(this.label);
+  String label(BuildContext context) {
+    switch (this) {
+      case IntegralUsageFilter.all:
+        return MyIntl.of(context).allIntegrals;
+      case IntegralUsageFilter.used:
+        return MyIntl.of(context).usedIntegrals;
+      case IntegralUsageFilter.unused:
+        return MyIntl.of(context).unusedIntegrals;
+    }
+  }
 }
 
 class IntegralsPage extends StatefulWidget {
@@ -116,7 +141,7 @@ class _IntegralsPageState extends State<IntegralsPage> {
                   )
                 : null,
             body: integrals.isEmpty
-                ? const Center(child: Text('No integrals yet.'))
+                ? Center(child: Text(MyIntl.of(context).noIntegralsYet))
                 : ListView.builder(
                     itemCount: filteredIntegrals.length + 2,
                     itemBuilder: (context, index) {
@@ -124,10 +149,10 @@ class _IntegralsPageState extends State<IntegralsPage> {
                         return _buildFilterRow();
                       } else if (index == filteredIntegrals.length + 1) {
                         if (filteredIntegrals.isEmpty) {
-                          return const Center(
+                          return Center(
                             child: Padding(
-                              padding: EdgeInsets.only(top: 50.0),
-                              child: Text('No integrals match the filters.'),
+                              padding: const EdgeInsets.only(top: 50.0),
+                              child: Text(MyIntl.of(context).noIntegralsMatchTheFilter),
                             ),
                           );
                         } else {
@@ -161,7 +186,7 @@ class _IntegralsPageState extends State<IntegralsPage> {
             items: IntegralTypeFilter.values
                 .map((e) => DropdownMenuItem(
                       value: e,
-                      child: Text(e.label),
+                      child: Text(e.label(context)),
                     ))
                 .toList(),
           ),
@@ -172,7 +197,7 @@ class _IntegralsPageState extends State<IntegralsPage> {
             items: IntegralAllocationFilter.values
                 .map((e) => DropdownMenuItem(
                       value: e,
-                      child: Text(e.label),
+                      child: Text(e.label(context)),
                     ))
                 .toList(),
           ),
@@ -183,7 +208,7 @@ class _IntegralsPageState extends State<IntegralsPage> {
             items: IntegralUsageFilter.values
                 .map((e) => DropdownMenuItem(
                       value: e,
-                      child: Text(e.label),
+                      child: Text(e.label(context)),
                     ))
                 .toList(),
           ),
@@ -194,7 +219,7 @@ class _IntegralsPageState extends State<IntegralsPage> {
               integralAllocationFilter = IntegralAllocationFilter.all;
               integralUsageFilter = IntegralUsageFilter.all;
             }),
-            child: const Text('Reset filters'),
+            child: Text(MyIntl.of(context).resetFilters),
           ),
         ],
       ),

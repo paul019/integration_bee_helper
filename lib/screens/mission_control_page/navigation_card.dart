@@ -3,6 +3,7 @@ import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 
 class NavigationCard extends StatelessWidget {
@@ -24,7 +25,7 @@ class NavigationCard extends StatelessWidget {
                         activeAgendaItem?.orderIndex != 0
                     ? () {
                         ConfirmationDialog(
-                          title: 'Do you really want to go back?',
+                          title: MyIntl.of(context).doYouReallyWantToGoBack,
                           payload: () async {
                             try {
                               await AgendaItemsService()
@@ -44,7 +45,7 @@ class NavigationCard extends StatelessWidget {
                     children: [
                       Text(
                         activeAgendaItem?.displayTitle ??
-                            'No active agenda item',
+                            MyIntl.of(context).noActiveAgendaItem,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
@@ -53,7 +54,8 @@ class NavigationCard extends StatelessWidget {
                       ),
                       Text(
                         activeAgendaItem?.displaySubtitle ??
-                            'Please choose an agenda item in competition planner.',
+                            MyIntl.of(context)
+                                .pleaseChooseAnAgendaItemInCompetitionPlanner,
                         maxLines: 1,
                       ),
                     ],
@@ -66,8 +68,8 @@ class NavigationCard extends StatelessWidget {
                         ConfirmationDialog(
                           bypassConfirmation: activeAgendaItem!.phase ==
                               AgendaItemPhase.activeButFinished,
-                          title:
-                              'The current agenda item is not finished yet. Do you want to go forward anyway?',
+                          title: MyIntl.of(context)
+                              .currentAgendaItemIsNotFinishedYet,
                           payload: () async {
                             try {
                               await AgendaItemsService()

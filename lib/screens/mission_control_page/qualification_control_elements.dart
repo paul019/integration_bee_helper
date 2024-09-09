@@ -6,6 +6,7 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phas
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/screens/mission_control_page/spare_integral_dialog.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 
 class QualificationControlElements extends StatefulWidget {
@@ -58,7 +59,7 @@ class _QualificationControlElementsState
               if (context.mounted) e.show(context);
             }
           },
-          child: const Text('Start!'),
+          child: Text(MyIntl.of(context).startExclamationMark),
         );
       case ProblemPhase.showProblem:
         final timerPaused = widget.activeAgendaItem.timer.paused;
@@ -77,19 +78,19 @@ class _QualificationControlElementsState
                       }
                     },
               child: timerPaused
-                  ? const Text('Resume timer')
-                  : const Text('Pause timer'),
+                  ? Text(MyIntl.of(context).resumeTimer)
+                  : Text(MyIntl.of(context).pauseTimer),
             ),
             separator(),
             TextButton(
               onPressed: () {
                 ConfirmationDialog(
                   bypassConfirmation: widget.activeAgendaItem.timer.timeUp,
-                  title: 'Do you really want to show the solution?',
+                  title: MyIntl.of(context).doYouReallyWantToShowTheSolution,
                   payload: () => widget.activeAgendaItem.showSolution(),
                 ).launch(context);
               },
-              child: const Text('Show solution'),
+              child: Text(MyIntl.of(context).showSolution),
             ),
           ],
         );
@@ -130,18 +131,18 @@ class _QualificationControlElementsState
                     if (context.mounted) e.show(context);
                   }
                 },
-                child: const Text('Additional integral'),
+                child: Text(MyIntl.of(context).additionalIntegral),
               ),
               separator(),
               TextButton(
                 onPressed: () {
                   ConfirmationDialog(
                     title:
-                        'Do you really want to finish this qualification round?',
+                        MyIntl.of(context).doYouReallyWantToFinishThisQualificationRound,
                     payload: () => widget.activeAgendaItem.setToFinished(),
                   ).launch(context);
                 },
-                child: const Text('Qualification round finished'),
+                child: Text(MyIntl.of(context).qualificationRoundFinished),
               ),
             ],
           );

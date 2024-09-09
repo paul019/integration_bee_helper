@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 
 class IntegralView extends StatelessWidget {
   final IntegralModel? currentIntegral;
@@ -45,8 +46,8 @@ class IntegralView extends StatelessWidget {
         children: [
           Text(
             problemName != null
-                ? 'Als nächstes: $problemName'
-                : 'Nächste Aufgabe...',
+                ? MyIntl.of(context).comingUpTitle(problemName!)
+                : MyIntl.of(context).nextIntegralComingUp,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 100 * p),
           ),
           if ((currentIntegral?.name ?? '') != '')

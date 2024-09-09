@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 
 class AgendaItemText extends StatefulWidget {
@@ -65,19 +66,19 @@ class _AgendaItemTextState extends State<AgendaItemText> {
       children: [
         Row(
           children: [
-            const SizedBox(
+            SizedBox(
               width: 100,
               child: Text(
-                'Title:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                MyIntl.of(context).titleColon,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             Expanded(
               child: TextField(
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Title',
+                  hintText: MyIntl.of(context).title,
                 ),
                 controller: titleController,
                 onChanged: (v) => setState(() {
@@ -91,19 +92,19 @@ class _AgendaItemTextState extends State<AgendaItemText> {
         ),
         Row(
           children: [
-            const SizedBox(
+            SizedBox(
               width: 100,
               child: Text(
-                'Subtitle:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                MyIntl.of(context).subtitleColon,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             Expanded(
               child: TextField(
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Subtitle',
+                  hintText: MyIntl.of(context).subtitle,
                 ),
                 controller: subtitleController,
                 onChanged: (v) => setState(() {
@@ -117,19 +118,19 @@ class _AgendaItemTextState extends State<AgendaItemText> {
         ),
         Row(
           children: [
-            const SizedBox(
+            SizedBox(
               width: 100,
               child: Text(
-                'Image URL:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                MyIntl.of(context).imageUrlColon,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             Expanded(
               child: TextField(
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Image URL',
+                  hintText: MyIntl.of(context).imageUrl,
                 ),
                 controller: imageUrlController,
                 onChanged: (v) => setState(() {

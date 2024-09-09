@@ -5,6 +5,7 @@ import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/models/basic_models/latex_expression.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_prototype.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
@@ -39,8 +40,8 @@ class IntegralsAddBulkDialog extends StatefulWidget {
       builder: (BuildContext dialogContext) {
         return PointerInterceptor(
           child: AlertDialog(
-            title: const Text('Integrals added'),
-            content: Text('Codes: ${codes.join(', ')}'),
+            title: Text(MyIntl.of(context).integralsAdded),
+            content: Text(MyIntl.of(context).codesList(codes.join(', '))),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -48,19 +49,19 @@ class IntegralsAddBulkDialog extends StatefulWidget {
                     ClipboardData(text: codes.join(',')),
                   ).then((_) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Codes copied to clipboard'),
+                      SnackBar(
+                        content: Text(MyIntl.of(context).codeCopiedToClipboard),
                       ),
                     );
                   });
                 },
-                child: const Text('Copy codes'),
+                child: Text(MyIntl.of(context).copyCodes),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text('Close'),
+                child: Text(MyIntl.of(context).close),
               ),
             ],
           ),
@@ -112,13 +113,12 @@ class _IntegralsAddBulkDialogState extends State<IntegralsAddBulkDialog> {
           ? parts[1].replaceAll('{', '').replaceAll('}', '').trim()
           : '';
 
-      if(name.isNotEmpty && name[0] == '(') {
+      if (name.isNotEmpty && name[0] == '(') {
         name = name.substring(1, name.length - 1);
       }
-      if(name.isNotEmpty && name[name.length-1] == ')') {
+      if (name.isNotEmpty && name[name.length - 1] == ')') {
         name = name.substring(0, name.length - 1);
       }
-
 
       final parts2 = parts[0].split(' = ');
       final problem = parts2[0];
@@ -140,7 +140,7 @@ class _IntegralsAddBulkDialogState extends State<IntegralsAddBulkDialog> {
   Widget build(BuildContext context) {
     return PointerInterceptor(
       child: AlertDialog(
-        title: const Text('Import integrals'),
+        title: Text(MyIntl.of(context).importIntegrals),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,15 +153,15 @@ class _IntegralsAddBulkDialogState extends State<IntegralsAddBulkDialog> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Import',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Text(
+                        MyIntl.of(context).import,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
                       TextField(
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Tournament tree',
+                          hintText: MyIntl.of(context).tournamentTree,
                         ),
                         controller: rawTextController,
                         onChanged: (v) => setState(() {
@@ -186,9 +186,9 @@ class _IntegralsAddBulkDialogState extends State<IntegralsAddBulkDialog> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Preview',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Text(
+                        MyIntl.of(context).preview,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
                       SizedBox(
@@ -216,9 +216,9 @@ class _IntegralsAddBulkDialogState extends State<IntegralsAddBulkDialog> {
                         : IntegralType.regular;
                   }),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 4.0),
-                  child: Text('Spare Integrals?'),
+                Padding(
+                  padding: const EdgeInsets.only(left: 4.0),
+                  child: Text(MyIntl.of(context).spareIntegralQuestionMark),
                 ),
               ],
             ),
@@ -229,7 +229,7 @@ class _IntegralsAddBulkDialogState extends State<IntegralsAddBulkDialog> {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text('Cancel'),
+            child: Text(MyIntl.of(context).cancel),
           ),
           TextButton(
             onPressed: () async {
@@ -243,7 +243,7 @@ class _IntegralsAddBulkDialogState extends State<IntegralsAddBulkDialog> {
                 if (context.mounted) e.show(context);
               }
             },
-            child: const Text('Add'),
+            child: Text(MyIntl.of(context).add),
           ),
         ],
       ),

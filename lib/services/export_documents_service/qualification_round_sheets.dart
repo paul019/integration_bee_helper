@@ -1,6 +1,6 @@
 part of 'export_documents_service.dart';
 
-extension GenerateQualificationRoundSheets on ExportDocumentsService{
+extension GenerateQualificationRoundSheets on ExportDocumentsService {
   Future<TextFile?> _generateQualificationRoundSheets(
     BuildContext context, {
     required List<AgendaItemModelQualification> qualificationRounds,
@@ -56,7 +56,13 @@ extension GenerateQualificationRoundSheets on ExportDocumentsService{
       assetFileName: 'latex/qualification_round_sheets.tex',
       displayFileName: 'DOPPELSEITIG_SW_qualifikation.tex',
     );
-    file = file.makeReplacement(newText: commands.join('\n'));
+    file = file
+        .makeReplacement(
+            oldText: '<instruction-text>',
+            newText: MyIntl.of(context).turnAroundWhenInstructed)
+        .makeReplacement(
+            oldText: '<integral-number>', newText: MyIntl.of(context).integralNumberPrint)
+        .makeReplacement(newText: commands.join('\n'));
 
     return file;
   }
