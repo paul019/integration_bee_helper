@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/settings_model/settings_model.dart';
 import 'package:integration_bee_helper/models/tournament_tree_model/tournament_tree_model.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/services/settings_service/settings_service.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 
@@ -47,20 +48,20 @@ class _TournamentTreeCardState extends State<TournamentTreeCard> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              const Center(
+              Center(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
-                    'Tournament tree',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    MyIntl.S.tournamentTree,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
               const Divider(),
               TextField(
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Tournament tree',
+                  hintText: MyIntl.S.tournamentTree,
                 ),
                 controller: tournamentTreeStringController,
                 onChanged: (v) => setState(() {

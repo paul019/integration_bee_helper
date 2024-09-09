@@ -16,6 +16,7 @@ import 'package:integration_bee_helper/screens/competition_planner_page/agenda_i
 import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_text.dart';
 import 'package:integration_bee_helper/screens/competition_planner_page/agenda_item_card/agenda_item_video.dart';
 import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 import 'package:integration_bee_helper/widgets/text_bubble.dart';
 import 'package:provider/provider.dart';
@@ -52,7 +53,7 @@ class AgendaItemCard extends StatelessWidget {
                           color: agendaItem.currentlyActive
                               ? Theme.of(context).colorScheme.inversePrimary
                               : null,
-                          text: 'Agenda item #${agendaItem.orderIndex + 1}',
+                          text: MyIntl.S.agendaItemNumber(agendaItem.orderIndex + 1),
                         ),
                         Text(
                           '(${agendaItem.type.title})',
@@ -72,7 +73,7 @@ class AgendaItemCard extends StatelessWidget {
                                     bypassConfirmation: agendaItem.type ==
                                         AgendaItemType.notSpecified,
                                     title:
-                                        'Do you really want to delete this agenda item?',
+                                        MyIntl.S.doYouReallyWantToDeleteThisAgendaItem,
                                     payload: () async {
                                       try {
                                         await AgendaItemsService()
@@ -93,7 +94,7 @@ class AgendaItemCard extends StatelessWidget {
                             onPressed: () {
                               ConfirmationDialog(
                                 title:
-                                    'Do you really want to force-start this agenda item?',
+                                    MyIntl.S.doYouReallyWantToForceStartThisAgendaItem,
                                 payload: () => AgendaItemsService()
                                     .forceStartAgendaItem(agendaItem),
                                 bypassConfirmation: activeAgendaItem == null,

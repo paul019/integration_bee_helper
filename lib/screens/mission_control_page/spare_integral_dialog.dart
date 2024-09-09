@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/latex_view.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
@@ -39,7 +40,7 @@ class _SpareIntegralDialogState extends State<SpareIntegralDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Choose a spare integral'),
+      title: Text(MyIntl.S.chooseASpareIntegral),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -78,7 +79,8 @@ class _SpareIntegralDialogState extends State<SpareIntegralDialog> {
             ],
           ),
           Text(
-            'Integral #${widget.potentialSpareIntegrals[selectedIndex].code}',
+            MyIntl.S.integralNumber(
+                widget.potentialSpareIntegrals[selectedIndex].code),
           ),
           Text(
             '${selectedIndex + 1} of ${widget.potentialSpareIntegrals.length}',
@@ -88,14 +90,14 @@ class _SpareIntegralDialogState extends State<SpareIntegralDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(MyIntl.S.cancel),
         ),
         TextButton(
           onPressed: () {
             widget.onChoose(widget.potentialSpareIntegrals[selectedIndex]);
             Navigator.of(context).pop();
           },
-          child: const Text('Choose'),
+          child:  Text(MyIntl.S.choose),
         ),
       ],
     );

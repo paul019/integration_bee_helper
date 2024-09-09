@@ -4,6 +4,7 @@ import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/extensions/list_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 
 class AgendaItemQualification extends StatefulWidget {
@@ -94,19 +95,19 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
       children: [
         Row(
           children: [
-            const SizedBox(
+            SizedBox(
               width: 100,
               child: Text(
-                'Title:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                MyIntl.S.titleColon,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             Expanded(
               child: TextField(
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Title (optional)',
+                  hintText: MyIntl.S.titleOptional,
                 ),
                 controller: titleController,
                 onChanged: (v) => setState(() {
@@ -121,19 +122,19 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
         const Divider(),
         Row(
           children: [
-            const SizedBox(
+            SizedBox(
               width: 100,
               child: Text(
-                'Competitors:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                MyIntl.S.competitorsColon,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             Expanded(
               child: TextField(
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Competitors',
+                  hintText: MyIntl.S.competitors,
                 ),
                 controller: competitorNamesController,
                 onChanged: (v) => setState(() {
@@ -154,19 +155,20 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                 children: [
                   Row(
                     children: [
-                      const SizedBox(
+                      SizedBox(
                         width: 100,
                         child: Text(
-                          'Integral:',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          MyIntl.S.integralColon,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                       Expanded(
                         child: TextField(
-                          enabled: widget.agendaItem.phase != AgendaItemPhase.over,
-                          decoration: const InputDecoration(
+                          enabled:
+                              widget.agendaItem.phase != AgendaItemPhase.over,
+                          decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'Codes',
+                            hintText: MyIntl.S.codes,
                           ),
                           controller: integralsCodesController,
                           onChanged: (v) => setState(() {
@@ -179,19 +181,20 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                   ),
                   Row(
                     children: [
-                      const SizedBox(
+                      SizedBox(
                         width: 100,
                         child: Text(
-                          'Time limit:',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          MyIntl.S.timeLimitColon,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                       Expanded(
                         child: TextField(
-                          enabled: widget.agendaItem.phase != AgendaItemPhase.over,
-                          decoration: const InputDecoration(
+                          enabled:
+                              widget.agendaItem.phase != AgendaItemPhase.over,
+                          decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'Duration in seconds',
+                            hintText: MyIntl.S.durationInSeconds,
                           ),
                           controller: timeLimitPerIntegralController,
                           onChanged: (v) => setState(() {
@@ -214,19 +217,20 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                 children: [
                   Row(
                     children: [
-                      const SizedBox(
+                      SizedBox(
                         width: 125,
                         child: Text(
-                          'Spare Integrals:',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          MyIntl.S.spareIntegralsColon,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                       Expanded(
                         child: TextField(
-                          enabled: widget.agendaItem.phase != AgendaItemPhase.over,
-                          decoration: const InputDecoration(
+                          enabled:
+                              widget.agendaItem.phase != AgendaItemPhase.over,
+                          decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'Codes (required)',
+                            hintText: MyIntl.S.codesRequired,
                           ),
                           controller: spareIntegralsCodesController,
                           onChanged: (v) => setState(() {
@@ -239,19 +243,20 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                   ),
                   Row(
                     children: [
-                      const SizedBox(
+                      SizedBox(
                         width: 125,
                         child: Text(
-                          'Time limit:',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          MyIntl.S.timeLimitColon,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                       Expanded(
                         child: TextField(
-                          enabled: widget.agendaItem.phase != AgendaItemPhase.over,
-                          decoration: const InputDecoration(
+                          enabled:
+                              widget.agendaItem.phase != AgendaItemPhase.over,
+                          decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'Duration in seconds',
+                            hintText: MyIntl.S.durationInSeconds,
                           ),
                           controller: timeLimitPerSpareIntegralController,
                           onChanged: (v) => setState(() {
@@ -281,9 +286,12 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
               try {
                 await widget.agendaItem.editStatic(
                   title: title,
-                  competitorNames: competitorNames.split(',').deleteEmptyEntries(),
-                  integralsCodes: integralsCodes.split(',').deleteEmptyEntries(),
-                  spareIntegralsCodes: spareIntegralsCodes.split(',').deleteEmptyEntries(),
+                  competitorNames:
+                      competitorNames.split(',').deleteEmptyEntries(),
+                  integralsCodes:
+                      integralsCodes.split(',').deleteEmptyEntries(),
+                  spareIntegralsCodes:
+                      spareIntegralsCodes.split(',').deleteEmptyEntries(),
                   timeLimitPerIntegral:
                       Duration(seconds: int.parse(timeLimitPerIntegral)),
                   timeLimitPerSpareIntegral:

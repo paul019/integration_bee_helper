@@ -11,6 +11,7 @@ import 'package:integration_bee_helper/screens/presentation_screen/integral_view
 import 'package:integration_bee_helper/screens/presentation_screen/score_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/timer_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/title_view.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/current_integral_stream.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -66,9 +67,14 @@ class _PresentationScreenKnockoutState
 
   String get problemName {
     if (widget.activeAgendaItem.currentIntegralType == IntegralType.regular) {
-      return 'Aufgabe ${widget.activeAgendaItem.integralsProgress! + 1}';
+      return MyIntl.S.exerciseNumber(
+        widget.activeAgendaItem.integralsProgress! + 1,
+      );
     } else {
-      return 'Aufgabe ${widget.activeAgendaItem.numOfIntegrals}+${widget.activeAgendaItem.spareIntegralsProgress! + 1}';
+      return MyIntl.S.extraExerciseNumber(
+        widget.activeAgendaItem.numOfIntegrals,
+        widget.activeAgendaItem.spareIntegralsProgress! + 1,
+      );
     }
   }
 

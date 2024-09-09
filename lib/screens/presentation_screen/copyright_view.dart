@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 
 class CopyrightView extends StatelessWidget {
   final Size size;
@@ -19,7 +20,7 @@ class CopyrightView extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(left: 8.0 * p, bottom: 8.0 * p),
         child: Text(
-          'Software developed in Heidelberg by Paul Obernolte (MIT license, 2024)',
+          MyIntl.S.copyrightNotice('2024'),
           style: TextStyle(fontSize: 20 * p),
         ),
       ),

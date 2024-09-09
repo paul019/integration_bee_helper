@@ -8,6 +8,7 @@ import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.da
 import 'package:integration_bee_helper/models/agenda_item_model/score.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
 import 'package:integration_bee_helper/screens/mission_control_page/spare_integral_dialog.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 import 'package:integration_bee_helper/widgets/vertical_separator.dart';
 
@@ -59,7 +60,7 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
               if (context.mounted) e.show(context);
             }
           },
-          child: const Text('Start'),
+          child: Text(MyIntl.S.start),
         );
       case ProblemPhase.showProblem:
       case ProblemPhase.showSolution:
@@ -79,8 +80,8 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
                       }
                     },
               child: timerPaused
-                  ? const Text('Resume timer')
-                  : const Text('Pause timer'),
+                  ? Text(MyIntl.S.resumeTimer)
+                  : Text(MyIntl.S.pauseTimer),
             ),
             const VerticalSeparator(),
             if (widget.activeAgendaItem.problemPhase ==
@@ -89,11 +90,11 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
                 onPressed: () {
                   ConfirmationDialog(
                     bypassConfirmation: widget.activeAgendaItem.timer.timeUp!,
-                    title: 'Do you really want to show the solution?',
+                    title: MyIntl.S.doYouReallyWantToShowTheSolution,
                     payload: () => widget.activeAgendaItem.showSolution(),
                   ).launch(context);
                 },
-                child: const Text('Show solution'),
+                child: Text(MyIntl.S.showSolution),
               ),
             if (widget.activeAgendaItem.problemPhase ==
                 ProblemPhase.showProblem)
@@ -101,18 +102,20 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
             TextButton(
               onPressed: () =>
                   widget.activeAgendaItem.setWinner(Score.competitor1),
-              child: Text('${widget.activeAgendaItem.competitor1Name} wins'),
+              child: Text(
+                  MyIntl.S.personWins(widget.activeAgendaItem.competitor1Name)),
             ),
             const VerticalSeparator(),
             TextButton(
               onPressed: () =>
                   widget.activeAgendaItem.setWinner(Score.competitor2),
-              child: Text('${widget.activeAgendaItem.competitor2Name} wins'),
+              child: Text(
+                  MyIntl.S.personWins(widget.activeAgendaItem.competitor2Name)),
             ),
             const VerticalSeparator(),
             TextButton(
               onPressed: () => widget.activeAgendaItem.setWinner(Score.tie),
-              child: const Text('Draw'),
+              child: Text(MyIntl.S.draw),
             ),
           ],
         );
@@ -157,7 +160,7 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
                 }
               }
             },
-            child: const Text('Next integral'),
+            child: Text(MyIntl.S.nextIntegral),
           );
         }
       default:

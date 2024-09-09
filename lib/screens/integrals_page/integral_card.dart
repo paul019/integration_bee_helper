@@ -4,6 +4,7 @@ import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/models/basic_models/latex_expression.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
@@ -91,14 +92,14 @@ class _IntegralCardState extends State<IntegralCard> {
                         textColor: widget.integral.alreadyUsed
                             ? Colors.white
                             : Colors.black,
-                        text: 'Integral #${widget.integral.code}',
+                        text: MyIntl.S.integralNumber(widget.integral.code),
                       ),
                       SizedBox(
                         width: 400,
                         child: TextField(
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'Name (optional)',
+                            hintText: MyIntl.S.nameOptional,
                           ),
                           textAlign: TextAlign.center,
                           controller: nameController,
@@ -119,8 +120,8 @@ class _IntegralCardState extends State<IntegralCard> {
                                 ConfirmationDialog(
                                   bypassConfirmation: latexProblem.raw == "" &&
                                       latexSolution.raw == "",
-                                  title:
-                                      'Do you really want to delete this integral?',
+                                  title: MyIntl
+                                      .S.doYouReallyWantToDeleteThisIntegral,
                                   payload: () async {
                                     try {
                                       await IntegralsService()
@@ -140,8 +141,8 @@ class _IntegralCardState extends State<IntegralCard> {
                             ClipboardData(text: widget.integral.code),
                           ).then((_) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Code copied to clipboard'),
+                              SnackBar(
+                                content: Text(MyIntl.S.codeCopiedToClipboard),
                               ),
                             );
                           });
@@ -149,9 +150,9 @@ class _IntegralCardState extends State<IntegralCard> {
                         icon: const Icon(Icons.copy),
                       ),
                       Flexible(child: Container()),
-                      const Padding(
-                        padding: EdgeInsets.only(right: 4.0),
-                        child: Text('Spare Integral?'),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 4.0),
+                        child: Text(MyIntl.S.spareIntegralQuestionMark),
                       ),
                       Checkbox(
                         value: type == IntegralType.spare,
@@ -174,9 +175,9 @@ class _IntegralCardState extends State<IntegralCard> {
                       children: [
                         LatexView(latex: latexProblem),
                         TextField(
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'Problem (LaTeX)',
+                            hintText: MyIntl.S.problemLatex,
                           ),
                           controller: problemController,
                           onChanged: (v) => setState(() {
@@ -194,9 +195,9 @@ class _IntegralCardState extends State<IntegralCard> {
                       children: [
                         LatexView(latex: latexSolution),
                         TextField(
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'Solution (LaTeX)',
+                            hintText: MyIntl.S.solutionLatex,
                           ),
                           controller: solutionController,
                           onChanged: (v) => setState(() {
@@ -213,18 +214,18 @@ class _IntegralCardState extends State<IntegralCard> {
               const Divider(),
               Row(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     width: 150,
                     child: Text(
-                      'YouTube video ID:',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      MyIntl.S.youtubeVideoID,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                   Expanded(
                     child: TextField(
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'YouTube video ID (optional)',
+                        hintText: MyIntl.S.youtubeVideoIDOptional,
                       ),
                       controller: youtubeVideoIdController,
                       onChanged: (v) => setState(() {

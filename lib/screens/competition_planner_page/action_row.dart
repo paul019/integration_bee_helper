@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/services/export_documents_service/export_documents_service.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 import 'package:integration_bee_helper/widgets/text_button_with_icon.dart';
@@ -14,7 +15,7 @@ class ActionRow extends StatelessWidget {
   void startFromBeginning(BuildContext context) {
     ConfirmationDialog(
       bypassConfirmation: agendaItems.every((item) => !item.currentlyActive),
-      title: 'Do you really want to start from the beginning?',
+      title: MyIntl.S.doYouReallyWantToStartFromTheBeginning,
       payload: () {
         AgendaItemsService()
             .startFromBeginning(currentAgendaItems: agendaItems);
@@ -25,7 +26,7 @@ class ActionRow extends StatelessWidget {
   void reset(BuildContext context) {
     ConfirmationDialog(
       bypassConfirmation: agendaItems.every((item) => !item.currentlyActive),
-      title: 'Do you really want to reset?',
+      title: MyIntl.S.doYouReallyWantToReset,
       payload: () {
         AgendaItemsService()
             .resetAllAgendaItems(currentAgendaItems: agendaItems);
@@ -43,13 +44,13 @@ class ActionRow extends StatelessWidget {
             TextButtonWithIcon(
               onPressed: () => startFromBeginning(context),
               icon: Icons.play_arrow,
-              child: const Text('Start from beginning'),
+              child: Text(MyIntl.S.startFromBeginning),
             ),
             const VerticalSeparator(),
             TextButtonWithIcon(
               onPressed: () => reset(context),
               icon: Icons.refresh,
-              child: const Text('Reset'),
+              child: Text(MyIntl.S.reset),
             ),
             const VerticalSeparator(),
             TextButtonWithIcon(
@@ -57,7 +58,7 @@ class ActionRow extends StatelessWidget {
                 ExportDocumentsService().exportDocuments(context);
               },
               icon: Icons.download,
-              child: const Text('Download Documents'),
+              child: Text(MyIntl.S.downloadDocuments),
             ),
           ],
         ));

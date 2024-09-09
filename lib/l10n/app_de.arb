@@ -1,3 +1,8 @@
 {
-    "helloWorld": "Hello World!"
+    "helloWorld": "Hallo Welt!",
+    "agendaItemNumber": "Agenda item #{number}",
+    "comingUpTitle": "Als nächstes: {title}",
+    "nextIntegralComingUp": "Nächste Aufgabe...",
+    "exerciseNumber": "Aufgabe {number}",
+    "extraExerciseNumber": "Aufgabe {number}+{extra}"
 }

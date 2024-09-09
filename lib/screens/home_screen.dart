@@ -6,6 +6,7 @@ import 'package:integration_bee_helper/screens/presentation_screen/presentation_
 import 'package:integration_bee_helper/screens/presentation_screen_two/presentation_screen_two_wrapper.dart';
 import 'package:integration_bee_helper/screens/settings_page/settings_page.dart';
 import 'package:integration_bee_helper/services/basic_services/auth_service.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class PageInfo {
@@ -26,22 +27,22 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   static List<PageInfo> pages = [
     PageInfo(
-      title: 'Mission control',
+      title: MyIntl.S.missionControl,
       icon: const Icon(Icons.keyboard),
       page: const MissionControlPage(),
     ),
     PageInfo(
-      title: 'Competition planner',
+      title: MyIntl.S.competitionPlanner,
       icon: const Icon(Icons.list),
       page: const CompetitionPlannerPage(),
     ),
     PageInfo(
-      title: 'Integrals',
+      title: MyIntl.S.integrals,
       icon: const Icon(Icons.edit),
       page: const IntegralsPage(),
     ),
     PageInfo(
-      title: 'Settings',
+      title: MyIntl.S.settings,
       icon: const Icon(Icons.settings),
       page: const SettingsPage(),
     ),
@@ -64,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   context: context,
                   builder: (context) => PointerInterceptor(
                     child: AlertDialog(
-                      title: const Text('Choose presentation'),
+                      title: Text(MyIntl.S.choosePresentation),
                       actions: [
                         TextButton(
                           onPressed: () {
@@ -76,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               (route) => false,
                             );
                           },
-                          child: const Text('Main presentation'),
+                          child: Text(MyIntl.S.mainPresentation),
                         ),
                         TextButton(
                           onPressed: () {
@@ -88,11 +89,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               (route) => false,
                             );
                           },
-                          child: const Text('Side presentation'),
+                          child: Text(MyIntl.S.sidePresentation),
                         ),
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(true),
-                          child: const Text('Cancel'),
+                          child: Text(MyIntl.S.cancel),
                         ),
                       ],
                     ),

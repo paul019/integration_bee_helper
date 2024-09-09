@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:integration_bee_helper/services/basic_services/auth_service.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/max_width_wrapper.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -42,16 +43,16 @@ class AuthScreenState extends State<AuthScreen> {
 
   String? emailAddressValidator(String? email) {
     if (email == null || !email.contains("@")) {
-      return "Please enter a valid email";
+      return MyIntl.S.pleaseEnterAValidEmail;
     }
     return null;
   }
 
   String? passwordValidator(String? password) {
     if (password == null || password.length < 5) {
-      return "Password must be at least 5 characters";
+      return MyIntl.S.passwordTooShort;
     } else if (password.length > 25) {
-      return "Password must be at most 25 characters";
+      return MyIntl.S.passwordTooLong;
     }
     return null;
   }
@@ -82,7 +83,7 @@ class AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Authentication"),
+        title: Text(MyIntl.S.authentication),
       ),
       body: MaxWidthWrapper(
         child: Form(
@@ -94,9 +95,9 @@ class AuthScreenState extends State<AuthScreen> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 4.0, horizontal: 32.0),
                 child: TextFormField(
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.email),
-                    labelText: "Email",
+                  decoration: InputDecoration(
+                    icon: const Icon(Icons.email),
+                    labelText: MyIntl.S.email,
                   ),
                   validator: emailAddressValidator,
                   onSaved: (value) {
@@ -111,9 +112,9 @@ class AuthScreenState extends State<AuthScreen> {
                 ),
                 child: TextFormField(
                   obscureText: true,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.lock),
-                    labelText: "Password",
+                  decoration: InputDecoration(
+                    icon: const Icon(Icons.lock),
+                    labelText: MyIntl.S.password,
                   ),
                   validator: passwordValidator,
                   onSaved: (value) {
@@ -145,11 +146,11 @@ class AuthScreenState extends State<AuthScreen> {
                   children: [
                     ElevatedButton(
                       onPressed: onRegisterFormSubmitted,
-                      child: const Text('Register'),
+                      child: Text(MyIntl.S.register),
                     ),
                     ElevatedButton(
                       onPressed: onLoginFormSubmitted,
-                      child: const Text('Login'),
+                      child: Text(MyIntl.S.login),
                     ),
                   ],
                 ),

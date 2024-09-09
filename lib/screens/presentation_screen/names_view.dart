@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/theme/theme_colors.dart';
 import 'package:integration_bee_helper/widgets/triangle_painter.dart';
 
@@ -32,7 +33,7 @@ class NamesView extends StatelessWidget {
               color: ThemeColors.greyTransparent,
               alignment: Alignment.center,
               child: Text(
-                competitorNames.join(' vs. '),
+                MyIntl.S.aVsB(competitorNames[0], competitorNames[1]),
                 style: TextStyle(
                   color: ThemeColors.black,
                   fontSize: 50 * p,

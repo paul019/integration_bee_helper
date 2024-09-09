@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_video.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 
 class AgendaItemVideo extends StatefulWidget {
@@ -50,19 +51,19 @@ class _AgendaItemVideoState extends State<AgendaItemVideo> {
       children: [
         Row(
           children: [
-            const SizedBox(
+            SizedBox(
               width: 150,
               child: Text(
-                'Youtube Video ID:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                MyIntl.S.youtubeVideoIdColon,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             Expanded(
               child: TextField(
                 enabled: widget.agendaItem.phase != AgendaItemPhase.over,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Title',
+                  hintText: MyIntl.S.title,
                 ),
                 controller: youtubeVideoIdController,
                 onChanged: (v) => setState(() {
