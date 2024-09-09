@@ -4,5 +4,13 @@
     "comingUpTitle": "Als nächstes: {title}",
     "nextIntegralComingUp": "Nächste Aufgabe...",
     "exerciseNumber": "Aufgabe {number}",
-    "extraExerciseNumber": "Aufgabe {number}+{extra}"
+    "extraExerciseNumber": "Aufgabe {number}+{extra}",
+    "latexBabelLanguage": "ngerman",
+    "integralListConfidential": "Integralliste (VERTRAULICH)",
+    "turnAroundWhenInstructed": "Bitte erst auf Anweisung umdrehen!",
+    "integralNumberPrint": "Integral Nr.",
+    "qualificationTestSolutions": "Lösungen zum Qualifikations-Test",
+    "exerciseNumberPrint": "Aufgabe",
+    "remarksOnTheTest": "Hinweise -- bitte gründlich durchlesen:",
+    "goodLuck": "Viel Erfolg!"
 }

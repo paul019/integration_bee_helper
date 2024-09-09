@@ -99,5 +99,18 @@
     "settings": "Settings",
     "choosePresentation": "Choose presentation",
     "mainPresentation": "Main presentation",
-    "sidePresentation": "Side presentation"
+    "sidePresentation": "Side presentation",
+    "latexBabelLanguage": "english",
+    "integralListConfidential": "Integral list (CONFIDENTIAL)",
+    "qualificationRound": "Qualification round",
+    "knockoutRound": "Knockout round",
+    "turnAroundWhenInstructed": "Please only turn around when instructed!",
+    "integralNumberPrint": "Integral No.",
+    "qualificationTestSolutions": "Qualification test solutions",
+    "exerciseNumberPrint": "Exercise",
+    "qualificationTest": "Qualification test",
+    "remarksOnTheTest": "Remarks on the test -- please read carefully",
+    "goodLuck": "Good luck!",
+    "remarksColon": "Remarks:",
+    "remarks": "Remarks"
 }

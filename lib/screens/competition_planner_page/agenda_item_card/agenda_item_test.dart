@@ -23,20 +23,24 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
   bool hasChanged = false;
 
   late String title;
+  late String remarks;
   late String competitorNames;
   late String integralsCodes;
 
   late TextEditingController titleController;
+  late TextEditingController remarksController;
   late TextEditingController competitorNamesController;
   late TextEditingController integralsCodesController;
 
   @override
   void initState() {
     title = widget.agendaItem.title;
+    remarks = widget.agendaItem.remarks;
     competitorNames = widget.agendaItem.competitorNames.join(',');
     integralsCodes = widget.agendaItem.integralsCodes.join(',');
 
     titleController = TextEditingController(text: title);
+    remarksController = TextEditingController(text: remarks);
     competitorNamesController = TextEditingController(text: competitorNames);
     integralsCodesController = TextEditingController(text: integralsCodes);
 
@@ -52,10 +56,12 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
 
   void reset() {
     title = widget.agendaItem.title;
+    remarks = widget.agendaItem.remarks;
     competitorNames = widget.agendaItem.competitorNames.join(',');
     integralsCodes = widget.agendaItem.integralsCodes.join(',');
 
     titleController.text = title;
+    remarksController.text = remarks;
     competitorNamesController.text = competitorNames;
     integralsCodesController.text = integralsCodes;
 
@@ -89,6 +95,34 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
                   hasChanged = true;
                 }),
                 maxLines: 1,
+              ),
+            ),
+          ],
+        ),
+        const Divider(),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 100,
+              child: Text(
+                MyIntl.S.remarksColon,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Expanded(
+              child: TextField(
+                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: MyIntl.S.remarks,
+                ),
+                controller: remarksController,
+                onChanged: (v) => setState(() {
+                  remarks = v;
+                  hasChanged = true;
+                }),
+                maxLines: 5,
               ),
             ),
           ],

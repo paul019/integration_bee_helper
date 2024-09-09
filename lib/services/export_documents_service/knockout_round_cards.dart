@@ -53,7 +53,7 @@ extension GenerateKnockoutRoundCards on ExportDocumentsService {
 
     // Add empty commands to make the number of commands a multiple of 4:
     while (partialCommands.length % 4 != 0) {
-      partialCommands.add('{Leer}{}');
+      partialCommands.add('{Empty}{}');
     }
 
     // Construct final commands:

@@ -11,6 +11,7 @@ import 'package:integration_bee_helper/models/integral_model/integral_model.dart
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
 import 'package:integration_bee_helper/services/agenda_items_service/agenda_items_service.dart';
 import 'package:integration_bee_helper/services/basic_services/download_service.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
 
 part 'knockout_round_cards.dart';
