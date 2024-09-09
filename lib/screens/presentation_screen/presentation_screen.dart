@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_knockout.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
+import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_test.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_video.dart';
@@ -10,6 +11,7 @@ import 'package:integration_bee_helper/screens/presentation_screen/copyright_vie
 import 'package:integration_bee_helper/screens/presentation_screen/logo_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_knockout.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_qualification.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_test.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_text.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_video.dart';
 
@@ -101,7 +103,10 @@ class _PresentationScreenState extends State<PresentationScreen> {
           isPreview: widget.isPreview,
         );
       case AgendaItemType.test:
-        return Container();
+        return PresentationScreenTest(
+          activeAgendaItem: activeAgendaItem as AgendaItemModelTest,
+          size: widget.size,
+        );
     }
   }
 
