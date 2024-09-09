@@ -15,8 +15,8 @@ class ConfirmationDialog {
     this.description,
     required this.payload,
     this.onCancel,
-    this.negativeText = 'Cancel',
-    this.positiveText = 'Yes',
+    required this.negativeText,
+    required this.positiveText,
     this.bypassConfirmation,
   });
 

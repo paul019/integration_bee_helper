@@ -25,6 +25,8 @@ class NavigationCard extends StatelessWidget {
                         activeAgendaItem?.orderIndex != 0
                     ? () {
                         ConfirmationDialog(
+                          positiveText: MyIntl.of(context).yes,
+                          negativeText: MyIntl.of(context).cancel,
                           title: MyIntl.of(context).doYouReallyWantToGoBack,
                           payload: () async {
                             try {
@@ -66,6 +68,8 @@ class NavigationCard extends StatelessWidget {
                 onPressed: activeAgendaItem?.orderIndex != null
                     ? () {
                         ConfirmationDialog(
+                          positiveText: MyIntl.of(context).yes,
+                          negativeText: MyIntl.of(context).cancel,
                           bypassConfirmation: activeAgendaItem!.phase ==
                               AgendaItemPhase.activeButFinished,
                           title: MyIntl.of(context)

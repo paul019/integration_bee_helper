@@ -89,6 +89,8 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
               TextButton(
                 onPressed: () {
                   ConfirmationDialog(
+                    positiveText: MyIntl.of(context).yes,
+                    negativeText: MyIntl.of(context).cancel,
                     bypassConfirmation: widget.activeAgendaItem.timer.timeUp!,
                     title: MyIntl.of(context).doYouReallyWantToShowTheSolution,
                     payload: () => widget.activeAgendaItem.showSolution(),
@@ -102,19 +104,20 @@ class _KnockoutControlElementsState extends State<KnockoutControlElements> {
             TextButton(
               onPressed: () =>
                   widget.activeAgendaItem.setWinner(Score.competitor1, context),
-              child: Text(
-                  MyIntl.of(context).personWins(widget.activeAgendaItem.competitor1Name)),
+              child: Text(MyIntl.of(context)
+                  .personWins(widget.activeAgendaItem.competitor1Name)),
             ),
             const VerticalSeparator(),
             TextButton(
               onPressed: () =>
                   widget.activeAgendaItem.setWinner(Score.competitor2, context),
-              child: Text(
-                  MyIntl.of(context).personWins(widget.activeAgendaItem.competitor2Name)),
+              child: Text(MyIntl.of(context)
+                  .personWins(widget.activeAgendaItem.competitor2Name)),
             ),
             const VerticalSeparator(),
             TextButton(
-              onPressed: () => widget.activeAgendaItem.setWinner(Score.tie, context),
+              onPressed: () =>
+                  widget.activeAgendaItem.setWinner(Score.tie, context),
               child: Text(MyIntl.of(context).draw),
             ),
           ],

@@ -53,7 +53,8 @@ class AgendaItemCard extends StatelessWidget {
                           color: agendaItem.currentlyActive
                               ? Theme.of(context).colorScheme.inversePrimary
                               : null,
-                          text: MyIntl.of(context).agendaItemNumber(agendaItem.orderIndex + 1),
+                          text: MyIntl.of(context)
+                              .agendaItemNumber(agendaItem.orderIndex + 1),
                         ),
                         Text(
                           '(${agendaItem.type.title})',
@@ -70,10 +71,12 @@ class AgendaItemCard extends StatelessWidget {
                           )
                               ? () {
                                   ConfirmationDialog(
+                                    positiveText: MyIntl.of(context).yes,
+                                    negativeText: MyIntl.of(context).cancel,
                                     bypassConfirmation: agendaItem.type ==
                                         AgendaItemType.notSpecified,
-                                    title:
-                                        MyIntl.of(context).doYouReallyWantToDeleteThisAgendaItem,
+                                    title: MyIntl.of(context)
+                                        .doYouReallyWantToDeleteThisAgendaItem,
                                     payload: () async {
                                       try {
                                         await AgendaItemsService()
@@ -93,8 +96,10 @@ class AgendaItemCard extends StatelessWidget {
                         IconButton(
                             onPressed: () {
                               ConfirmationDialog(
-                                title:
-                                    MyIntl.of(context).doYouReallyWantToForceStartThisAgendaItem,
+                                positiveText: MyIntl.of(context).yes,
+                                negativeText: MyIntl.of(context).cancel,
+                                title: MyIntl.of(context)
+                                    .doYouReallyWantToForceStartThisAgendaItem,
                                 payload: () => AgendaItemsService()
                                     .forceStartAgendaItem(agendaItem),
                                 bypassConfirmation: activeAgendaItem == null,

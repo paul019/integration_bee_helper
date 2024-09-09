@@ -85,6 +85,8 @@ class _QualificationControlElementsState
             TextButton(
               onPressed: () {
                 ConfirmationDialog(
+                  positiveText: MyIntl.of(context).yes,
+                  negativeText: MyIntl.of(context).cancel,
                   bypassConfirmation: widget.activeAgendaItem.timer.timeUp,
                   title: MyIntl.of(context).doYouReallyWantToShowTheSolution,
                   payload: () => widget.activeAgendaItem.showSolution(),
@@ -137,8 +139,10 @@ class _QualificationControlElementsState
               TextButton(
                 onPressed: () {
                   ConfirmationDialog(
-                    title:
-                        MyIntl.of(context).doYouReallyWantToFinishThisQualificationRound,
+                    positiveText: MyIntl.of(context).yes,
+                    negativeText: MyIntl.of(context).cancel,
+                    title: MyIntl.of(context)
+                        .doYouReallyWantToFinishThisQualificationRound,
                     payload: () => widget.activeAgendaItem.setToFinished(),
                   ).launch(context);
                 },
