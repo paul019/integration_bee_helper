@@ -14,6 +14,8 @@ class ActionRow extends StatelessWidget {
 
   void startFromBeginning(BuildContext context) {
     ConfirmationDialog(
+      positiveText: MyIntl.of(context).yes,
+      negativeText: MyIntl.of(context).cancel,
       bypassConfirmation: agendaItems.every((item) => !item.currentlyActive),
       title: MyIntl.of(context).doYouReallyWantToStartFromTheBeginning,
       payload: () {
@@ -25,6 +27,8 @@ class ActionRow extends StatelessWidget {
 
   void reset(BuildContext context) {
     ConfirmationDialog(
+      positiveText: MyIntl.of(context).yes,
+      negativeText: MyIntl.of(context).cancel,
       bypassConfirmation: agendaItems.every((item) => !item.currentlyActive),
       title: MyIntl.of(context).doYouReallyWantToReset,
       payload: () {

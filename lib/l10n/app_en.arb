@@ -113,5 +113,9 @@
     "goodLuck": "Good luck!",
     "remarksColon": "Remarks:",
     "remarks": "Remarks",
-    "language": "Language"
+    "language": "Language",
+    "notSpecifiedYet": "Not specified yet",
+    "text": "Text",
+    "video": "Video",
+    "yes": "Yes"
 }

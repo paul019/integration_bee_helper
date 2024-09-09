@@ -119,6 +119,8 @@ class _IntegralCardState extends State<IntegralCard> {
                         onPressed: widget.integral.agendaItemIds.isEmpty
                             ? () {
                                 ConfirmationDialog(
+                                  positiveText: MyIntl.of(context).yes,
+                                  negativeText: MyIntl.of(context).cancel,
                                   bypassConfirmation: latexProblem.raw == "" &&
                                       latexSolution.raw == "",
                                   title: MyIntl.of(context)

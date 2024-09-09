@@ -1,6 +1,6 @@
 {
     "helloWorld": "Hallo Welt!",
-    "agendaItemNumber": "Agenda item #{number}",
+    "agendaItemNumber": "Programmpunkt #{number}",
     "comingUpTitle": "Als nächstes: {title}",
     "nextIntegralComingUp": "Nächste Aufgabe...",
     "exerciseNumber": "Aufgabe {number}",
@@ -113,5 +113,9 @@
     "qualificationTest": "Qualifikationstest",
     "remarksColon": "Hinweise:",
     "remarks": "Hinweise",
-    "language": "Sprache"
+    "language": "Sprache",
+    "notSpecifiedYet": "Noch nicht festgelegt",
+    "text": "Text",
+    "video": "Video",
+    "yes": "Ja"
 }

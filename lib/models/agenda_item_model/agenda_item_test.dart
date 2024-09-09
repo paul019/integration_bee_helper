@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/extensions/map_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model_competition.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 
 class AgendaItemModelTest extends AgendaItemModelCompetition {
   // Static:
@@ -63,9 +65,20 @@ Der Test darf erst geöffnet werden, wenn die Jury den Test startet. Sobald die 
   AgendaItemType get type => AgendaItemType.test;
 
   @override
-  String get displayTitle => title;
+  String displayTitle(BuildContext context) => title;
   @override
-  String get displaySubtitle => 'Agenda item #${orderIndex + 1} – Test';
+  String displaySubtitle(BuildContext context) =>
+      '${MyIntl.of(context).agendaItemNumber(orderIndex + 1)} – ${MyIntl.of(context).qualificationTest}';
+
+  String get remarksFormatted {
+    var formatted = '';
+
+    for (var line in remarks.split('\n')) {
+      formatted += r'\item ' + line;
+    }
+
+    return formatted;
+  }
 
   String get remarksFormatted {
     var formatted = '';
