@@ -46,6 +46,9 @@ dependencies:
   archive: ^3.5.1
   pointer_interceptor: ^0.10.1+1
   confetti: ^0.7.0
+  flutter_localizations:
+    sdk: flutter
+  intl: any
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +66,8 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  generate: true
+
   assets:
     - assets/images/
     - assets/sound/
