@@ -3,7 +3,6 @@ import 'package:integration_bee_helper/screens/competition_planner_page/competit
 import 'package:integration_bee_helper/screens/integrals_page/integrals_page.dart';
 import 'package:integration_bee_helper/screens/mission_control_page/mission_control_page.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_wrapper.dart';
-import 'package:integration_bee_helper/screens/presentation_screen_two/presentation_screen_two_wrapper.dart';
 import 'package:integration_bee_helper/screens/settings_page/settings_page.dart';
 import 'package:integration_bee_helper/services/basic_services/auth_service.dart';
 import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
@@ -102,7 +101,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                      builder: (context) => const PresentationScreenWrapper(),
+                      builder: (context) => const PresentationScreenWrapper(
+                        type: PresentationScreenType.one,
+                      ),
                     ),
                     (route) => false,
                   );
@@ -114,7 +115,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                      builder: (context) => const PresentationScreenTwoWrapper(),
+                      builder: (context) => const PresentationScreenWrapper(
+                        type: PresentationScreenType.two,
+                      ),
                     ),
                     (route) => false,
                   );
