@@ -121,5 +121,6 @@
     "clickBoxToEdit": "(Box anklicken zum Bearbeiten)",
     "editTournamentTreeEntry": "Eintrag bearbeiten",
     "save": "Speichern",
-    "videoPlaceholder": "Video-Platzhalter"
+    "videoPlaceholder": "Video-Platzhalter",
+    "comingUp": "Als nächstes"
 }

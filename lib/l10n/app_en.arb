@@ -121,5 +121,6 @@
     "clickBoxToEdit": "(Click box to edit)",
     "editTournamentTreeEntry": "Edit entry",
     "save": "Save",
-    "videoPlaceholder": "Video placeholder"
+    "videoPlaceholder": "Video placeholder",
+    "comingUp": "Coming up"
 }
