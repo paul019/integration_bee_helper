@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/settings_model/settings_model.dart';
-import 'package:integration_bee_helper/screens/settings_page/language_selector_card.dart';
-import 'package:integration_bee_helper/screens/settings_page/tournament_tree_card.dart';
+import 'package:integration_bee_helper/screens/settings_page/cards/language_selector_card.dart';
+import 'package:integration_bee_helper/screens/settings_page/cards/tournament_tree_card.dart';
 import 'package:integration_bee_helper/widgets/max_width_wrapper.dart';
 import 'package:provider/provider.dart';
 
