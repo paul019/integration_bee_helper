@@ -32,7 +32,7 @@ class TournamentTreeView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            for (var stage in tournamentTreeModel.stages.reversed)
+            for (var stage in tournamentTreeModel.stages)
               Flexible(
                 flex: 1,
                 child: Row(
