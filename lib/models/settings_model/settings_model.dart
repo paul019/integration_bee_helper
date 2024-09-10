@@ -7,6 +7,7 @@ class SettingsModel {
   final TournamentTreeModel tournamentTree;
   final String languageCode;
   final bool screensSwitched;
+  final String competitionName;
 
   static const availableLanguages = ['en', 'de'];
 
@@ -15,6 +16,7 @@ class SettingsModel {
     required this.tournamentTree,
     required this.languageCode,
     required this.screensSwitched,
+    required this.competitionName,
   });
 
   factory SettingsModel.fromJson(
@@ -26,6 +28,7 @@ class SettingsModel {
       tournamentTree: TournamentTreeModel.decode(json['tournamentTree']),
       languageCode: json['languageCode'] ?? 'en',
       screensSwitched: json['screensSwitched'] ?? false,
+      competitionName: json['competitionName'] ?? '',
     );
   }
 
@@ -33,6 +36,7 @@ class SettingsModel {
         'tournamentTree': '',
         'languageCode': 'en',
         'screensSwitched': false,
+        'competitionName': '',
       };
 
   // Getters:

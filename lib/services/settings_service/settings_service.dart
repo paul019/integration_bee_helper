@@ -33,11 +33,13 @@ class SettingsService {
     TournamentTreeModel? tournamentTree,
     String? languageCode,
     bool? screensSwitched,
+    String? competitionName,
   }) async {
     await SettingsModel.collection.doc(_uid).update({
           "tournamentTree": tournamentTree?.encode(),
           "languageCode": languageCode,
           "screensSwitched": screensSwitched,
+          "competitionName": competitionName,
         }.deleteNullEntries());
   }
 }

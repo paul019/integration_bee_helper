@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
               final settings = Provider.of<SettingsModel?>(context);
 
               return MaterialApp(
-                title: 'Heidelberg Integration Bee',
+                title: 'Integration Bee Helper',
                 theme: ThemeData(
                   colorScheme: ColorScheme.fromSeed(
                     seedColor: const Color.fromARGB(255, 6, 81, 158),

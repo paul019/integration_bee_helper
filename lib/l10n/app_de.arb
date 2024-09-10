@@ -122,5 +122,9 @@
     "editTournamentTreeEntry": "Eintrag bearbeiten",
     "save": "Speichern",
     "videoPlaceholder": "Video-Platzhalter",
-    "comingUp": "Als nächstes"
+    "comingUp": "Als nächstes",
+    "appName": "Integration Bee Helper",
+    "customization": "Anpassung",
+    "competitionName": "Wettkampfname",
+    "competitionNameColon": "Wettkampfname:"
 }
