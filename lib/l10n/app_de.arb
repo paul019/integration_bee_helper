@@ -117,5 +117,8 @@
     "notSpecifiedYet": "Noch nicht festgelegt",
     "text": "Text",
     "video": "Video",
-    "yes": "Ja"
+    "yes": "Ja",
+    "clickBoxToEdit": "(Box anklicken zum Bearbeiten)",
+    "editTournamentTreeEntry": "Eintrag bearbeiten",
+    "save": "Speichern"
 }
