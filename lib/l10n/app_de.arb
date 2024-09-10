@@ -126,5 +126,8 @@
     "appName": "Integration Bee Helper",
     "customization": "Anpassung",
     "competitionName": "Wettkampfname",
-    "competitionNameColon": "Wettkampfname:"
+    "competitionNameColon": "Wettkampfname:",
+    "logoColon": "Logo:",
+    "backgroundColon": "Hintergrund:",
+    "uploadImage": "Hochladen"
 }
