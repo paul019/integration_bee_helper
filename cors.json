@@ -1,7 +1,8 @@
 [
     {
         "origin": [
-            "https://paul019.github.io"
+            "https://paul019.github.io",
+            "http://localhost"
         ],
         "method": [
             "GET"

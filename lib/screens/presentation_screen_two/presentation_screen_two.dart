@@ -10,6 +10,7 @@ import 'package:integration_bee_helper/screens/presentation_screen_two/widgets/t
 import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/current_integral_stream.dart';
 import 'package:integration_bee_helper/widgets/youtube_view.dart';
+import 'package:provider/provider.dart';
 
 class PresentationScreenTwo extends StatefulWidget {
   final AgendaItemModel? activeAgendaItem;
@@ -32,13 +33,16 @@ class PresentationScreenTwo extends StatefulWidget {
 class _PresentationScreenTwoState extends State<PresentationScreenTwo> {
   @override
   Widget build(BuildContext context) {
+    final settings = Provider.of<SettingsModel?>(context);
+
     return Stack(
       alignment: Alignment.center,
       children: [
-        BackgroundView(size: widget.size),
+        BackgroundView(size: widget.size, settings: settings),
         LogoView(
           size: widget.size,
           transitionMode: false,
+          settings: settings,
         ),
         CopyrightView(size: widget.size),
         _buildContent(),
@@ -72,7 +76,8 @@ class _PresentationScreenTwoState extends State<PresentationScreenTwo> {
             if (widget.isPreview) {
               return Text(
                 MyIntl.of(context).videoPlaceholder,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 100 * p),
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: 100 * p),
               );
             } else {
               return YoutubeView(

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:integration_bee_helper/models/settings_model/settings_model.dart';
 
 class LogoView extends StatelessWidget {
   final Size size;
-
   final bool transitionMode;
+  final SettingsModel? settings;
 
   const LogoView({
     super.key,
     required this.size,
     this.transitionMode = false,
+    required this.settings,
   });
 
   @override
@@ -32,10 +34,16 @@ class LogoView extends StatelessWidget {
                 left: (1920 - 150 - 25) * p,
                 right: 25 * p,
               ),
-        child: Image.asset(
-          'assets/images/logo.png',
-        ),
+        child: _buildImage(),
       ),
     );
+  }
+
+  Widget _buildImage() {
+    if (settings?.logoUrl != null) {
+      return Image.network(settings!.logoUrl!);
+    } else {
+      return Image.asset('assets/images/logo.png');
+    }
   }
 }

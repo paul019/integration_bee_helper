@@ -126,5 +126,8 @@
     "customization": "Customization",
     "competitionName": "Competition name",
     "competitionNameColon": "Competition name:",
-    "appName": "Integration Bee Helper"
+    "appName": "Integration Bee Helper",
+    "logoColon": "Logo:",
+    "backgroundColon": "Background:",
+    "uploadImage": "Upload"
 }
