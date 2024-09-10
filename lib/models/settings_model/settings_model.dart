@@ -6,6 +6,7 @@ class SettingsModel {
   final String uid;
   final TournamentTreeModel tournamentTree;
   final String languageCode;
+  final bool screensSwitched;
 
   static const availableLanguages = ['en', 'de'];
 
@@ -13,6 +14,7 @@ class SettingsModel {
     required this.uid,
     required this.tournamentTree,
     required this.languageCode,
+    required this.screensSwitched,
   });
 
   factory SettingsModel.fromJson(
@@ -23,12 +25,14 @@ class SettingsModel {
       uid: uid,
       tournamentTree: TournamentTreeModel.decode(json['tournamentTree']),
       languageCode: json['languageCode'] ?? 'en',
+      screensSwitched: json['screensSwitched'] ?? false,
     );
   }
 
   static Map<String, dynamic> get minimalJson => {
         'tournamentTree': '',
         'languageCode': 'en',
+        'screensSwitched': false,
       };
 
   // Getters:

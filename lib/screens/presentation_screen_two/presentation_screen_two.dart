@@ -3,10 +3,11 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_live
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/settings_model/settings_model.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/background_view.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/copyright_view.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/logo_view.dart';
-import 'package:integration_bee_helper/screens/presentation_screen_two/tournament_tree_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/widgets/background_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/widgets/copyright_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/widgets/logo_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen_two/widgets/tournament_tree_view.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/current_integral_stream.dart';
 import 'package:integration_bee_helper/widgets/youtube_view.dart';
 
@@ -14,12 +15,14 @@ class PresentationScreenTwo extends StatefulWidget {
   final AgendaItemModel? activeAgendaItem;
   final SettingsModel? settings;
   final Size size;
+  final bool isPreview;
 
   const PresentationScreenTwo({
     super.key,
     required this.activeAgendaItem,
     required this.settings,
     required this.size,
+    this.isPreview = false,
   });
 
   @override
@@ -53,6 +56,8 @@ class _PresentationScreenTwoState extends State<PresentationScreenTwo> {
   }
 
   Widget _buildContent() {
+    final p = widget.size.width / 1920.0;
+
     if (widget.activeAgendaItem is AgendaItemModelLiveCompetition) {
       final AgendaItemModelLiveCompetition agendaItem =
           widget.activeAgendaItem as AgendaItemModelLiveCompetition;
@@ -64,10 +69,17 @@ class _PresentationScreenTwoState extends State<PresentationScreenTwo> {
 
           if (youtubeVideoId != '' &&
               agendaItem.problemPhase == ProblemPhase.idle) {
-            return YoutubeView(
-              size: widget.size,
-              videoId: youtubeVideoId,
-            );
+            if (widget.isPreview) {
+              return Text(
+                MyIntl.of(context).videoPlaceholder,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 100 * p),
+              );
+            } else {
+              return YoutubeView(
+                size: widget.size,
+                videoId: youtubeVideoId,
+              );
+            }
           } else {
             return _buildTournamentTree();
           }

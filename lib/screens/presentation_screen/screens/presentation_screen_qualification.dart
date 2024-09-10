@@ -5,11 +5,11 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qual
 import 'package:integration_bee_helper/models/integral_model/current_integral_wrapper.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/integral_code_view.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/integral_view.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/names_view.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/timer_view.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/title_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/widgets/integral_code_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/widgets/integral_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/widgets/names_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/widgets/timer_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/widgets/title_view.dart';
 import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
 import 'package:just_audio/just_audio.dart';

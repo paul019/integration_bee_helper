@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/screens/mission_control_page/control_card.dart';
+import 'package:integration_bee_helper/screens/mission_control_page/go_forward_card.dart';
 import 'package:integration_bee_helper/screens/mission_control_page/navigation_card.dart';
 import 'package:integration_bee_helper/screens/mission_control_page/preview_card.dart';
 import 'package:integration_bee_helper/widgets/active_agenda_item_stream.dart';
@@ -31,6 +32,7 @@ class _MissionControlPageState extends State<MissionControlPage> {
                 NavigationCard(activeAgendaItem: activeAgendaItem),
                 PreviewCard(activeAgendaItem: activeAgendaItem),
                 ControlCard(activeAgendaItem: activeAgendaItem),
+                GoForwardCard(activeAgendaItem: activeAgendaItem),
               ],
             ),
           ),

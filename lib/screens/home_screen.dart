@@ -3,7 +3,6 @@ import 'package:integration_bee_helper/screens/competition_planner_page/competit
 import 'package:integration_bee_helper/screens/integrals_page/integrals_page.dart';
 import 'package:integration_bee_helper/screens/mission_control_page/mission_control_page.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_wrapper.dart';
-import 'package:integration_bee_helper/screens/presentation_screen_two/presentation_screen_two_wrapper.dart';
 import 'package:integration_bee_helper/screens/settings_page/settings_page.dart';
 import 'package:integration_bee_helper/services/basic_services/auth_service.dart';
 import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
@@ -62,46 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: IconButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => PointerInterceptor(
-                    child: AlertDialog(
-                      title: Text(MyIntl.of(context).choosePresentation),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const PresentationScreenWrapper(),
-                              ),
-                              (route) => false,
-                            );
-                          },
-                          child: Text(MyIntl.of(context).mainPresentation),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const PresentationScreenTwoWrapper(),
-                              ),
-                              (route) => false,
-                            );
-                          },
-                          child: Text(MyIntl.of(context).sidePresentation),
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(true),
-                          child: Text(MyIntl.of(context).cancel),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
+              onPressed: () => _showPresentationDialog(context),
               icon: const Icon(Icons.present_to_all),
             ),
           ),
@@ -124,6 +84,56 @@ class _HomeScreenState extends State<HomeScreen> {
             .toList(),
         currentIndex: selectedIndex,
         onTap: (index) => setState(() => selectedIndex = index),
+      ),
+    );
+  }
+
+  void _showPresentationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => PointerInterceptor(
+        child: AlertDialog(
+          title: Text(MyIntl.of(context).choosePresentation),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => const PresentationScreenWrapper(
+                        type: PresentationScreenType.one,
+                      ),
+                    ),
+                    (route) => false,
+                  );
+                },
+                icon: const Icon(Icons.looks_one_outlined),
+                iconSize: 60,
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => const PresentationScreenWrapper(
+                        type: PresentationScreenType.two,
+                      ),
+                    ),
+                    (route) => false,
+                  );
+                },
+                icon: const Icon(Icons.looks_two_outlined),
+                iconSize: 60,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text(MyIntl.of(context).cancel),
+            ),
+          ],
+        ),
       ),
     );
   }

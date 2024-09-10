@@ -64,7 +64,7 @@ abstract class AgendaItemModelCompetition extends AgendaItemModel {
   Future start(WriteBatch batch) async {
     batch.update(reference, {
       'currentlyActive': true,
-      'phase': AgendaItemPhase.activeButFinished.value,
+      'phase': AgendaItemPhase.active.value,
       'status': null,
     });
   }

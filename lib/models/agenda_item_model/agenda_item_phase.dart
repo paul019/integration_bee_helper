@@ -20,4 +20,5 @@ enum AgendaItemPhase {
   }
 
   bool get activeOrOver => this != idle;
+  bool get finished => this == over || this == activeButFinished;
 }

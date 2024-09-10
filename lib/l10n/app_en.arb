@@ -120,5 +120,7 @@
     "yes": "Yes",
     "clickBoxToEdit": "(Click box to edit)",
     "editTournamentTreeEntry": "Edit entry",
-    "save": "Save"
+    "save": "Save",
+    "videoPlaceholder": "Video placeholder",
+    "comingUp": "Coming up"
 }

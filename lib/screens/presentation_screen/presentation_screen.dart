@@ -6,14 +6,14 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_test
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_video.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/background_view.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/copyright_view.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/logo_view.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_knockout.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_qualification.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_test.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_text.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/presentation_screen_video.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/widgets/background_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/widgets/copyright_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/widgets/logo_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/screens/presentation_screen_knockout.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/screens/presentation_screen_qualification.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/screens/presentation_screen_test.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/screens/presentation_screen_text.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/screens/presentation_screen_video.dart';
 
 class PresentationScreen extends StatefulWidget {
   final AgendaItemModel? activeAgendaItem;
@@ -73,12 +73,12 @@ class _PresentationScreenState extends State<PresentationScreen> {
 
   Widget foreground() {
     if (activeAgendaItem == null) {
-      return Container();
+      return const SizedBox();
     }
 
     switch (activeAgendaItem!.type) {
       case AgendaItemType.notSpecified:
-        return Container();
+        return const SizedBox();
       case AgendaItemType.text:
         return PresentationScreenText(
           activeAgendaItem: activeAgendaItem as AgendaItemModelText,

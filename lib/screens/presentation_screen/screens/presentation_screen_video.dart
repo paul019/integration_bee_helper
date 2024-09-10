@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_video.dart';
+import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/youtube_view.dart';
 
 class PresentationScreenVideo extends StatelessWidget {
@@ -22,7 +23,7 @@ class PresentationScreenVideo extends StatelessWidget {
       return Container();
     } else if (isPreview) {
       return Text(
-        'Video Placeholder',
+        MyIntl.of(context).videoPlaceholder,
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 100 * p),
       );
     } else {
