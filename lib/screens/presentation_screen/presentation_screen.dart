@@ -6,6 +6,7 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_test
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_video.dart';
+import 'package:integration_bee_helper/models/settings_model/settings_model.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/widgets/background_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/widgets/copyright_view.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/widgets/logo_view.dart';
@@ -14,6 +15,7 @@ import 'package:integration_bee_helper/screens/presentation_screen/screens/prese
 import 'package:integration_bee_helper/screens/presentation_screen/screens/presentation_screen_test.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/screens/presentation_screen_text.dart';
 import 'package:integration_bee_helper/screens/presentation_screen/screens/presentation_screen_video.dart';
+import 'package:provider/provider.dart';
 
 class PresentationScreen extends StatefulWidget {
   final AgendaItemModel? activeAgendaItem;
@@ -50,10 +52,15 @@ class _PresentationScreenState extends State<PresentationScreen> {
       activeAgendaItemId = widget.activeAgendaItem?.id;
     }
 
+    final settings = Provider.of<SettingsModel?>(context);
+
     return Stack(
       alignment: Alignment.center,
       children: [
-        BackgroundView(size: widget.size),
+        BackgroundView(
+          size: widget.size,
+          settings: settings,
+        ),
         AnimatedOpacity(
           duration: const Duration(seconds: 2),
           curve: Curves.easeOut,
@@ -64,6 +71,7 @@ class _PresentationScreenState extends State<PresentationScreen> {
           LogoView(
             size: widget.size,
             transitionMode: transitionMode,
+            settings: settings,
           ),
         if (!(activeAgendaItem?.fullscreenPresentationView ?? false))
           CopyrightView(size: widget.size),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:integration_bee_helper/models/settings_model/settings_model.dart';
 import 'package:integration_bee_helper/screens/competition_planner_page/competition_planner_page.dart';
 import 'package:integration_bee_helper/screens/integrals_page/integrals_page.dart';
 import 'package:integration_bee_helper/screens/mission_control_page/mission_control_page.dart';
@@ -7,6 +8,7 @@ import 'package:integration_bee_helper/screens/settings_page/settings_page.dart'
 import 'package:integration_bee_helper/services/basic_services/auth_service.dart';
 import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
+import 'package:provider/provider.dart';
 
 class PageInfo {
   final String title;
@@ -30,6 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final settings = Provider.of<SettingsModel?>(context);
+
     pages = [
       PageInfo(
         title: MyIntl.of(context).missionControl,
@@ -55,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Heidelberg Integration Bee'),
+        title: Text(settings?.competitionName ?? MyIntl.of(context).appName),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
           Padding(

@@ -5,7 +5,7 @@ import 'package:integration_bee_helper/models/settings_model/settings_model.dart
 import 'package:integration_bee_helper/models/tournament_tree_model/tournament_tree_entry.dart';
 import 'package:integration_bee_helper/models/tournament_tree_model/tournament_tree_model.dart';
 import 'package:integration_bee_helper/models/tournament_tree_model/tournament_tree_stage.dart';
-import 'package:integration_bee_helper/screens/settings_page/tournament_tree_entry_editor.dart';
+import 'package:integration_bee_helper/screens/settings_page/widgets/tournament_tree_entry_editor.dart';
 import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/services/settings_service/settings_service.dart';
 

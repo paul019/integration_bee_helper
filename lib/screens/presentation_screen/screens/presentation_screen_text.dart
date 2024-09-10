@@ -25,7 +25,7 @@ class PresentationScreenText extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(right: 75 * p),
               child: Image(
-                image: NetworkImage(activeAgendaItem.imageUrl),
+                image: NetworkImage(activeAgendaItem.imageUrl!),
                 width: 500 * p,
                 height: (1080 - 2 * 75) * p,
                 fit: BoxFit.contain,
@@ -57,7 +57,7 @@ class PresentationScreenText extends StatelessWidget {
       return Padding(
         padding: EdgeInsets.all(75 * p),
         child: Image(
-          image: NetworkImage(activeAgendaItem.imageUrl),
+          image: NetworkImage(activeAgendaItem.imageUrl!),
           width: 1000 * p,
           height: 750 * p,
           fit: BoxFit.contain,

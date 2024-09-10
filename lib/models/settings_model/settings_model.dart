@@ -7,6 +7,11 @@ class SettingsModel {
   final TournamentTreeModel tournamentTree;
   final String languageCode;
   final bool screensSwitched;
+  final String competitionName;
+  final String? logoPath;
+  final String? logoUrl;
+  final String? backgroundPath;
+  final String? backgroundUrl;
 
   static const availableLanguages = ['en', 'de'];
 
@@ -15,6 +20,11 @@ class SettingsModel {
     required this.tournamentTree,
     required this.languageCode,
     required this.screensSwitched,
+    required this.competitionName,
+    required this.logoPath,
+    required this.logoUrl,
+    required this.backgroundPath,
+    required this.backgroundUrl,
   });
 
   factory SettingsModel.fromJson(
@@ -26,6 +36,11 @@ class SettingsModel {
       tournamentTree: TournamentTreeModel.decode(json['tournamentTree']),
       languageCode: json['languageCode'] ?? 'en',
       screensSwitched: json['screensSwitched'] ?? false,
+      competitionName: json['competitionName'] ?? '',
+      logoPath: json['logoPath'],
+      logoUrl: json['logoUrl'],
+      backgroundPath: json['backgroundPath'],
+      backgroundUrl: json['backgroundUrl'],
     );
   }
 
@@ -33,6 +48,11 @@ class SettingsModel {
         'tournamentTree': '',
         'languageCode': 'en',
         'screensSwitched': false,
+        'competitionName': '',
+        'logoPath': null,
+        'logoUrl': null,
+        'backgroundPath': null,
+        'backgroundUrl': null,
       };
 
   // Getters:

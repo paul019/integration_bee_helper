@@ -122,5 +122,12 @@
     "editTournamentTreeEntry": "Edit entry",
     "save": "Save",
     "videoPlaceholder": "Video placeholder",
-    "comingUp": "Coming up"
+    "comingUp": "Coming up",
+    "customization": "Customization",
+    "competitionName": "Competition name",
+    "competitionNameColon": "Competition name:",
+    "appName": "Integration Bee Helper",
+    "logoColon": "Logo:",
+    "backgroundColon": "Background:",
+    "uploadImage": "Upload"
 }
