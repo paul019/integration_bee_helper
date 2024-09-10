@@ -3,10 +3,10 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_live
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
 import 'package:integration_bee_helper/models/settings_model/settings_model.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/background_view.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/copyright_view.dart';
-import 'package:integration_bee_helper/screens/presentation_screen/logo_view.dart';
-import 'package:integration_bee_helper/screens/presentation_screen_two/tournament_tree_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/widgets/background_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/widgets/copyright_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen/widgets/logo_view.dart';
+import 'package:integration_bee_helper/screens/presentation_screen_two/widgets/tournament_tree_view.dart';
 import 'package:integration_bee_helper/widgets/current_integral_stream.dart';
 import 'package:integration_bee_helper/widgets/youtube_view.dart';
 
