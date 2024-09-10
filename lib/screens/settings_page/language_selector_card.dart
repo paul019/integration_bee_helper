@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/models/settings_model/settings_model.dart';
 import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
