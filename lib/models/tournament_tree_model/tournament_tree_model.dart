@@ -44,4 +44,30 @@ class TournamentTreeModel {
 
   bool get isEmpty => stages.isEmpty;
   int get numOfStages => stages.length;
+
+  TournamentTreeEntry? getEntryAtCoordinate(int i, int j) {
+    if (numOfStages > i) {
+      final stage = stages[i];
+      if (stage.entries.length > j) {
+        return stage.entries[j];
+      }
+    }
+
+    return null;
+  }
+
+  TournamentTreeModel replaceEntryAtCoordinate(int i, int j, TournamentTreeEntry entry) {
+    final List<TournamentTreeStage> newStages = List.of(stages);
+
+    if (i < numOfStages) {
+      final stage = stages[i];
+      if (j < stage.entries.length) {
+        final List<TournamentTreeEntry> newEntries = List.of(stage.entries);
+        newEntries[j] = entry;
+        newStages[i] = TournamentTreeStage(entries: newEntries);
+      }
+    }
+
+    return TournamentTreeModel(stages: newStages);
+  }
 }
