@@ -1,16 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:integration_bee_helper/extensions/map_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_model.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_type.dart';
 import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
+import 'package:integration_bee_helper/services/basic_services/storage_service.dart';
 
 class AgendaItemModelText extends AgendaItemModel {
   // Static:
   final String title;
   final String subtitle;
-  final String imageUrl;
+  final String? imagePath;
+  final String? imageUrl;
 
   AgendaItemModelText({
     required super.id,
@@ -21,6 +24,7 @@ class AgendaItemModelText extends AgendaItemModel {
     super.status = '',
     required this.title,
     required this.subtitle,
+    required this.imagePath,
     required this.imageUrl,
   });
 
@@ -37,21 +41,23 @@ class AgendaItemModelText extends AgendaItemModel {
         status: json['status'],
         title: json['title'],
         subtitle: json['subtitle'],
-        imageUrl: json['imageUrl'],
+        imagePath: json['imagePath'],
+        imageUrl: json['imageUrl'] == '' ? null : json['imageUrl'],
       );
 
   static Map<String, dynamic> minimalJson = {
     'type': AgendaItemType.text.id,
     'title': '',
     'subtitle': '',
-    'imageUrl': '',
+    'imagePath': null,
+    'imageUrl': null,
   };
 
   // Getters:
   @override
   AgendaItemType get type => AgendaItemType.text;
   bool get hasTitle => title != '' || subtitle != '';
-  bool get hasImage => imageUrl != '';
+  bool get hasImage => imageUrl != null;
 
   @override
   String displayTitle(BuildContext context) => title;
@@ -64,15 +70,39 @@ class AgendaItemModelText extends AgendaItemModel {
   Future<void> editStatic({
     String? title,
     String? subtitle,
-    String? imageUrl,
   }) async {
     await checkEdit();
 
     await reference.update({
       'title': title,
       'subtitle': subtitle,
-      'imageUrl': imageUrl,
     }.deleteNullEntries());
+  }
+
+  void uploadImage({
+    required XFile image,
+    required Function(Exception) onError,
+  }) {
+    StorageService().uploadImage(
+      image: image,
+      onError: onError,
+      onSuccess: (path, url) {
+        reference.update({"imagePath": path, "imageUrl": url});
+      },
+    );
+  }
+
+  void deleteImage({
+    required String path,
+    required Function(Exception) onError,
+  }) {
+    StorageService().deleteImage(
+      path: path,
+      onError: onError,
+      onSuccess: () {
+        reference.update({"imagePath": null, "imageUrl": null});
+      },
+    );
   }
 
   @override

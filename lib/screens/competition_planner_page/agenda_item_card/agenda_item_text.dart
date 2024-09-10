@@ -4,6 +4,7 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phas
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_text.dart';
 import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
+import 'package:integration_bee_helper/widgets/image_upload_widget.dart';
 
 class AgendaItemText extends StatefulWidget {
   final AgendaItemModelText agendaItem;
@@ -22,21 +23,17 @@ class _AgendaItemTextState extends State<AgendaItemText> {
 
   late String title;
   late String subtitle;
-  late String imageUrl;
 
   late TextEditingController titleController;
   late TextEditingController subtitleController;
-  late TextEditingController imageUrlController;
 
   @override
   void initState() {
     title = widget.agendaItem.title;
     subtitle = widget.agendaItem.subtitle;
-    imageUrl = widget.agendaItem.imageUrl;
 
     titleController = TextEditingController(text: title);
     subtitleController = TextEditingController(text: subtitle);
-    imageUrlController = TextEditingController(text: imageUrl);
 
     super.initState();
   }
@@ -51,11 +48,9 @@ class _AgendaItemTextState extends State<AgendaItemText> {
   void reset() {
     title = widget.agendaItem.title;
     subtitle = widget.agendaItem.subtitle;
-    imageUrl = widget.agendaItem.imageUrl;
 
     titleController.text = title;
     subtitleController.text = subtitle;
-    imageUrlController.text = imageUrl;
 
     hasChanged = false;
   }
@@ -116,29 +111,30 @@ class _AgendaItemTextState extends State<AgendaItemText> {
             ),
           ],
         ),
+        const Divider(),
         Row(
           children: [
             SizedBox(
-              width: 100,
+              width: 150,
               child: Text(
-                MyIntl.of(context).imageUrlColon,
+                MyIntl.of(context).backgroundColon,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            Expanded(
-              child: TextField(
-                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: MyIntl.of(context).imageUrl,
-                ),
-                controller: imageUrlController,
-                onChanged: (v) => setState(() {
-                  imageUrl = v;
-                  hasChanged = true;
-                }),
-                maxLines: 1,
-              ),
+            ImageUploadWidget(
+              imageUrl: widget.agendaItem.imageUrl,
+              onUpload: (image) {
+                widget.agendaItem.uploadImage(
+                  image: image,
+                  onError: (e) => e.show(context),
+                );
+              },
+              onDelete: () {
+                widget.agendaItem.deleteImage(
+                  path: widget.agendaItem.imageUrl!,
+                  onError: (e) => e.show(context),
+                );
+              },
             ),
           ],
         ),
@@ -154,7 +150,6 @@ class _AgendaItemTextState extends State<AgendaItemText> {
                 await widget.agendaItem.editStatic(
                   title: title,
                   subtitle: subtitle,
-                  imageUrl: imageUrl,
                 );
                 setState(() => hasChanged = false);
               } on Exception catch (e) {
