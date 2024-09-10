@@ -120,5 +120,6 @@
     "yes": "Ja",
     "clickBoxToEdit": "(Box anklicken zum Bearbeiten)",
     "editTournamentTreeEntry": "Eintrag bearbeiten",
-    "save": "Speichern"
+    "save": "Speichern",
+    "videoPlaceholder": "Video-Platzhalter"
 }

@@ -56,11 +56,11 @@ class TournamentTreeView extends StatelessWidget {
       child: entry.isEmpty
           ? const Row()
           : Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8 * p),
               child: Container(
                 color: ThemeColors.blue,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8 * p),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,

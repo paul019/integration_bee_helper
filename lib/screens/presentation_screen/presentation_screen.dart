@@ -73,12 +73,12 @@ class _PresentationScreenState extends State<PresentationScreen> {
 
   Widget foreground() {
     if (activeAgendaItem == null) {
-      return Container();
+      return const SizedBox();
     }
 
     switch (activeAgendaItem!.type) {
       case AgendaItemType.notSpecified:
-        return Container();
+        return const SizedBox();
       case AgendaItemType.text:
         return PresentationScreenText(
           activeAgendaItem: activeAgendaItem as AgendaItemModelText,
