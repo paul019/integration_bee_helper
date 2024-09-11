@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:integration_bee_helper/screens/integrals_page/integrals_add_bulk_dialog.dart';
+import 'package:integration_bee_helper/screens/integrals_page/integral_add_dialog.dart';
 import 'package:integration_bee_helper/screens/integrals_page/integrals_list.dart';
 
 class IntegralsPage extends StatefulWidget {
@@ -13,22 +13,11 @@ class _IntegralsPageState extends State<IntegralsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                FloatingActionButton(
-                  onPressed: () => IntegralsAddBulkDialog.launch(context),
-                  child: const Icon(Icons.list),
-                ),
-                const SizedBox(height: 16),
-                FloatingActionButton(
-                  onPressed:
-                      () {}, // () => IntegralsService().addIntegral(currentIntegrals: integrals),
-                  child: const Icon(Icons.add),
-                ),
-              ],
-            ),
-      body: IntegralsList(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => IntegralAddDialog.launch(context: context),
+        child: const Icon(Icons.add),
+      ),
+      body: const IntegralsList(),
     );
   }
 }

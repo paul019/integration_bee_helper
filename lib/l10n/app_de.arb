@@ -134,5 +134,7 @@
     "addCompetitor": "Teilnehmer hinzufügen",
     "spareQuestionMark": "Tiebreaker?",
     "allocatedQuestionMark": "Zugewiesen?",
-    "usedQuestionMark": "Verwendet?"
+    "usedQuestionMark": "Verwendet?",
+    "addIntegral": "Integral hinzufügen",
+    "editIntegral": "Integral bearbeiten"
 }

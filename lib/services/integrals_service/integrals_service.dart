@@ -79,7 +79,8 @@ class IntegralsService {
     return _integralFromFirebase(response.docs.first)!;
   }
 
-  Future<List<IntegralModel>> getIntegralsByCodes({required List<String> codes}) async {
+  Future<List<IntegralModel>> getIntegralsByCodes(
+      {required List<String> codes}) async {
     final response = await _firestore
         .collection('integrals')
         .where('uid', isEqualTo: _uid)
@@ -130,26 +131,35 @@ class IntegralsService {
     return _integralListFromFirebase(response);
   }
 
-  void addIntegral({required List<IntegralModel> currentIntegrals}) async {
+  Future<void> addIntegral({
+    required LatexExpression latexProblem,
+    required LatexExpression latexSolution,
+    required String name,
+    required IntegralType type,
+    required String youtubeVideoId,
+  }) async {
+    final currentIntegrals = await getAllIntegrals();
+
     // Create integral:
     final integral = IntegralModel(
       uid: _uid,
       code: _createIntegralCode(currentIntegrals: currentIntegrals),
       createdAt: DateTime.now(),
-      latexProblem: LatexExpression(""),
-      latexSolution: LatexExpression(""),
-      type: IntegralType.regular,
-      name: "",
+      latexProblem: latexProblem,
+      latexSolution: latexSolution,
+      type: type,
+      name: name,
       alreadyUsed: false,
       agendaItemIds: [],
-      youtubeVideoId: "",
+      youtubeVideoId: youtubeVideoId,
     );
 
     // Add integral:
     await IntegralModel.collection.add(integral.toJson());
   }
 
-  Future<List<String>> addBulk({required List<IntegralPrototype> integrals}) async {
+  Future<List<String>> addBulk(
+      {required List<IntegralPrototype> integrals}) async {
     final currentIntegrals = await getAllIntegrals();
     final batch = _firestore.batch();
 

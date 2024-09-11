@@ -134,5 +134,7 @@
     "addCompetitor": "Add competitor",
     "spareQuestionMark": "Tiebreaker?",
     "allocatedQuestionMark": "Allocated?",
-    "usedQuestionMark": "Used?"
+    "usedQuestionMark": "Used?",
+    "addIntegral": "Add integral",
+    "editIntegral": "Edit integral"
 }
