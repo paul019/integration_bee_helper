@@ -129,5 +129,7 @@
     "competitionNameColon": "Wettkampfname:",
     "logoColon": "Logo:",
     "backgroundColon": "Hintergrund:",
-    "uploadImage": "Hochladen"
+    "uploadImage": "Hochladen",
+    "confirm": "Bestätigen",
+    "addCompetitor": "Teilnehmer hinzufügen"
 }

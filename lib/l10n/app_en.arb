@@ -129,5 +129,7 @@
     "appName": "Integration Bee Helper",
     "logoColon": "Logo:",
     "backgroundColon": "Background:",
-    "uploadImage": "Upload"
+    "uploadImage": "Upload",
+    "confirm": "Confirm",
+    "addCompetitor": "Add competitor"
 }

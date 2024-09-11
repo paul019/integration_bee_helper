@@ -6,6 +6,8 @@ import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phas
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
 import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
+import 'package:integration_bee_helper/widgets/name_dialog.dart';
+import 'package:integration_bee_helper/widgets/wrap_list.dart';
 
 class AgendaItemQualification extends StatefulWidget {
   final AgendaItemModelQualification agendaItem;
@@ -24,14 +26,12 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
   bool hasChanged = false;
 
   late String title;
-  late String competitorNames;
   late String integralsCodes;
   late String spareIntegralsCodes;
   late String timeLimitPerIntegral;
   late String timeLimitPerSpareIntegral;
 
   late TextEditingController titleController;
-  late TextEditingController competitorNamesController;
   late TextEditingController integralsCodesController;
   late TextEditingController spareIntegralsCodesController;
   late TextEditingController timeLimitPerIntegralController;
@@ -40,7 +40,6 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
   @override
   void initState() {
     title = widget.agendaItem.title;
-    competitorNames = widget.agendaItem.competitorNames.join(',');
     integralsCodes = widget.agendaItem.integralsCodes.join(',');
     spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes.join(',');
     timeLimitPerIntegral =
@@ -49,7 +48,6 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
         widget.agendaItem.timeLimitPerSpareIntegral.inSeconds.toString();
 
     titleController = TextEditingController(text: title);
-    competitorNamesController = TextEditingController(text: competitorNames);
     integralsCodesController = TextEditingController(text: integralsCodes);
     spareIntegralsCodesController =
         TextEditingController(text: spareIntegralsCodes);
@@ -70,7 +68,6 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
 
   void reset() {
     title = widget.agendaItem.title;
-    competitorNames = widget.agendaItem.competitorNames.join(',');
     integralsCodes = widget.agendaItem.integralsCodes.join(',');
     spareIntegralsCodes = widget.agendaItem.spareIntegralsCodes.join(',');
     timeLimitPerIntegral =
@@ -79,7 +76,6 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
         widget.agendaItem.timeLimitPerSpareIntegral.inSeconds.toString();
 
     titleController.text = title;
-    competitorNamesController.text = competitorNames;
     integralsCodesController.text = integralsCodes;
     spareIntegralsCodesController.text = spareIntegralsCodes;
     timeLimitPerIntegralController.text = timeLimitPerIntegral;
@@ -130,18 +126,42 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
               ),
             ),
             Expanded(
-              child: TextField(
-                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: MyIntl.of(context).competitors,
+              child: WrapList<String>(
+                items: widget.agendaItem.competitorNames,
+                itemBuilder: (context, index, item) => BasicWrapListItem(
+                  item: Text(item),
+                  onRemove: () async {
+                    final competitorNames = widget.agendaItem.competitorNames;
+                    competitorNames.removeAt(index);
+
+                    try {
+                      await widget.agendaItem.editStatic(
+                        competitorNames: competitorNames,
+                      );
+                    } on Exception catch (e) {
+                      if (context.mounted) e.show(context);
+                    }
+                  },
                 ),
-                controller: competitorNamesController,
-                onChanged: (v) => setState(() {
-                  competitorNames = v;
-                  hasChanged = true;
-                }),
-                maxLines: 1,
+                onAdd: () {
+                  NameDialog.show(
+                    context: context,
+                    title: MyIntl.of(context).addCompetitor,
+                    hintText: MyIntl.of(context).competitionName,
+                    onConfirm: (name) async {
+                      final competitorNames = widget.agendaItem.competitorNames;
+                      competitorNames.add(name);
+
+                      try {
+                        await widget.agendaItem.editStatic(
+                          competitorNames: competitorNames,
+                        );
+                      } on Exception catch (e) {
+                        if (context.mounted) e.show(context);
+                      }
+                    },
+                  );
+                },
               ),
             ),
           ],
@@ -286,8 +306,6 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
               try {
                 await widget.agendaItem.editStatic(
                   title: title,
-                  competitorNames:
-                      competitorNames.split(',').deleteEmptyEntries(),
                   integralsCodes:
                       integralsCodes.split(',').deleteEmptyEntries(),
                   spareIntegralsCodes:
