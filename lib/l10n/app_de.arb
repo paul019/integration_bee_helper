@@ -23,7 +23,7 @@
     "codes": "Codes",
     "timeLimitColon": "Zeitlimit:",
     "durationInSeconds": "Dauer in Sekunden",
-    "spareIntegralsColon": "Ersatz-Integrale:",
+    "spareIntegralsColon": "Tiebreaker-Integrale:",
     "codesOptional": "Codes (optional)",
     "competitorsColon": "Teilnehmer:",
     "competitors": "Teilnehmer",
@@ -45,7 +45,7 @@
     "nameOptional": "Name (optional)",
     "doYouReallyWantToDeleteThisIntegral": "Möchtest du dieses Integral wirklich löschen?",
     "codeCopiedToClipboard": "Code in die Zwischenablage kopiert",
-    "spareIntegralQuestionMark": "Ersatz-Integral?",
+    "spareIntegralQuestionMark": "Tiebreaker-Integral?",
     "problemLatex": "Aufgabe (LaTeX)",
     "solutionLatex": "Lösung (LaTeX)",
     "youtubeVideoID": "YouTube-Video-ID",
@@ -63,7 +63,7 @@
     "add": "Hinzufügen",
     "allIntegralTypes": "Alle Integral-Typen",
     "regularIntegrals": "Reguläre Integrale",
-    "spareIntegrals": "Ersatz-Integrale",
+    "spareIntegrals": "Tiebreaker-Integrale",
     "allIntegrals": "Alle Integrale",
     "allocatedIntegrals": "Zugewiesene Integrale",
     "unallocatedIntegrals": "Nicht zugewiesene Integrale",
@@ -131,5 +131,8 @@
     "backgroundColon": "Hintergrund:",
     "uploadImage": "Hochladen",
     "confirm": "Bestätigen",
-    "addCompetitor": "Teilnehmer hinzufügen"
+    "addCompetitor": "Teilnehmer hinzufügen",
+    "spareQuestionMark": "Tiebreaker?",
+    "allocatedQuestionMark": "Zugewiesen?",
+    "usedQuestionMark": "Verwendet?"
 }

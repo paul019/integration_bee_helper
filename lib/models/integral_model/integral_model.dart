@@ -63,4 +63,7 @@ class IntegralModel extends IntegralPrototype {
 
   LatexExpression get latexProblemAndSolution =>
       LatexExpression('${latexProblem.raw}=\\boxed{${latexSolution.raw}}');
+
+  bool get isSpareIntegral => type == IntegralType.spare;
+  bool get isAllocated => agendaItemIds.isNotEmpty;
 }
