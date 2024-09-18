@@ -41,7 +41,7 @@ class PreviewCard extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Card(
-                      elevation: 100,
+                      elevation: 10,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: _buildPresentationScreenSmall(
