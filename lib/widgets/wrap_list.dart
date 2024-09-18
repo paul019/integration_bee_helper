@@ -17,7 +17,8 @@ class WrapList<T> extends StatelessWidget {
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        for (var (index, item) in items.indexed) _buildItem(context, index, item),
+        for (var (index, item) in items.indexed)
+          _buildItem(context, index, item),
         if (onAdd != null) _buildAdd(context),
       ],
     );
@@ -50,12 +51,20 @@ class WrapList<T> extends StatelessWidget {
 
 class BasicWrapListItem extends StatelessWidget {
   final Widget item;
+  final bool showRemove;
   final void Function()? onRemove;
+  final bool showControls;
+  final void Function()? onMoveUp;
+  final void Function()? onMoveDown;
 
   const BasicWrapListItem({
     super.key,
     required this.item,
+    this.showRemove = false,
     required this.onRemove,
+    this.showControls = false,
+    this.onMoveUp,
+    this.onMoveDown,
   });
 
   @override
@@ -63,12 +72,22 @@ class BasicWrapListItem extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
+        if (showControls)
+          IconButton(
+            onPressed: onMoveUp,
+            icon: const Icon(Icons.arrow_left),
+          ),
         item,
-        if (onRemove != null)
+        if (showRemove)
           IconButton(
             onPressed: onRemove,
             iconSize: 15,
             icon: const Icon(Icons.close),
+          ),
+        if (showControls)
+          IconButton(
+            onPressed: onMoveDown,
+            icon: const Icon(Icons.arrow_right),
           ),
       ],
     );

@@ -138,6 +138,7 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
                 items: widget.agendaItem.competitorNames,
                 itemBuilder: (context, index, item) => BasicWrapListItem(
                   item: Text(item),
+                  showRemove: true,
                   onRemove: () async {
                     final competitorNames = widget.agendaItem.competitorNames;
                     competitorNames.removeAt(index);

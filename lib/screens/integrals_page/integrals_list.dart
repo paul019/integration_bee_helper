@@ -11,7 +11,14 @@ import 'package:integration_bee_helper/widgets/vertical_separator.dart';
 import 'package:provider/provider.dart';
 
 class IntegralsList extends StatefulWidget {
-  const IntegralsList({super.key});
+  final void Function(String integralCode)? onSelect;
+  final List<String> excludeIntegralsCodes;
+
+  const IntegralsList({
+    super.key,
+    this.onSelect,
+    this.excludeIntegralsCodes = const [],
+  });
 
   @override
   State<IntegralsList> createState() => _IntegralsListState();
@@ -29,11 +36,15 @@ class _IntegralsListState extends State<IntegralsList> {
         initialData: null,
         value: IntegralsService().onIntegralsChanged,
         builder: (context, snapshot) {
-          final integrals = Provider.of<List<IntegralModel>?>(context);
+          var integrals = Provider.of<List<IntegralModel>?>(context);
 
           if (integrals == null) {
             return const LoadingScreen();
           }
+
+          integrals = integrals.where((integral) {
+            return !widget.excludeIntegralsCodes.contains(integral.code);
+          }).toList();
 
           final filteredIntegrals = integrals.where((integral) {
             return integralTypeFilter.match(integral) &&
@@ -78,7 +89,12 @@ class _IntegralsListState extends State<IntegralsList> {
                       final integral = filteredIntegrals[index];
 
                       return MaxWidthWrapper(
-                        child: IntegralRow(integral: integral),
+                        child: IntegralRow(
+                          integral: integral,
+                          onSelect: widget.onSelect != null
+                              ? () => widget.onSelect!(integral.code)
+                              : null,
+                        ),
                       );
                     },
                   ),

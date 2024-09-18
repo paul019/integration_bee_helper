@@ -137,5 +137,6 @@
     "usedQuestionMark": "Used?",
     "addIntegral": "Add integral",
     "editIntegral": "Edit integral",
-    "imageColon": "Image:"
+    "imageColon": "Image:",
+    "selectIntegral": "Select integral"
 }
