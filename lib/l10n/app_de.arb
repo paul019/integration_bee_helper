@@ -138,5 +138,8 @@
     "addIntegral": "Integral hinzufügen",
     "editIntegral": "Integral bearbeiten",
     "imageColon": "Bild:",
-    "selectIntegral": "Integral auswählen"
+    "selectIntegral": "Integral auswählen",
+    "tagsColon": "Tags:",
+    "addTag": "Tag hinzufügen",
+    "tag": "Tag"
 }

@@ -8,7 +8,9 @@ import 'package:integration_bee_helper/services/basic_services/intl_service.dart
 import 'package:integration_bee_helper/services/integrals_service/integrals_service.dart';
 import 'package:integration_bee_helper/widgets/confirmation_dialog.dart';
 import 'package:integration_bee_helper/widgets/latex_view.dart';
+import 'package:integration_bee_helper/widgets/name_dialog.dart';
 import 'package:integration_bee_helper/widgets/vertical_separator.dart';
+import 'package:integration_bee_helper/widgets/wrap_list.dart';
 
 enum IntegralRowType { edit, select }
 
@@ -99,6 +101,58 @@ class IntegralRow extends StatelessWidget {
                   ),
                 ],
               ),
+              if (type == IntegralRowType.edit || integral.tags.isNotEmpty)
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 50,
+                      child: Text(
+                        MyIntl.of(context).tagsColon,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Expanded(
+                      child: WrapList<String>(
+                        items: integral.tags,
+                        itemBuilder: (context, index, item) =>
+                            BasicWrapListItem(
+                          item: Text(item),
+                          showRemove: type == IntegralRowType.edit,
+                          onRemove: () async {
+                            final tags = [...integral.tags];
+                            tags.removeAt(index);
+
+                            try {
+                              await IntegralsService()
+                                  .editIntegral(integral, tags: tags);
+                            } on Exception catch (e) {
+                              if (context.mounted) e.show(context);
+                            }
+                          },
+                        ),
+                        showAdd: type == IntegralRowType.edit,
+                        onAdd: () {
+                          NameDialog.show(
+                            context: context,
+                            title: MyIntl.of(context).addTag,
+                            hintText: MyIntl.of(context).tag,
+                            onConfirm: (tag) async {
+                              final tags = [...integral.tags];
+                              tags.add(tag);
+
+                              try {
+                                await IntegralsService()
+                                    .editIntegral(integral, tags: tags);
+                              } on Exception catch (e) {
+                                if (context.mounted) e.show(context);
+                              }
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
             ],
           ),
         ),

@@ -138,5 +138,8 @@
     "addIntegral": "Add integral",
     "editIntegral": "Edit integral",
     "imageColon": "Image:",
-    "selectIntegral": "Select integral"
+    "selectIntegral": "Select integral",
+    "tagsColon": "Tags:",
+    "addTag": "Add tag",
+    "tag": "Tag"
 }

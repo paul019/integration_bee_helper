@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:integration_bee_helper/extensions/map_extension.dart';
 import 'package:integration_bee_helper/models/basic_models/latex_expression.dart';
 import 'package:integration_bee_helper/models/integral_model/current_integral_wrapper.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
@@ -151,6 +152,7 @@ class IntegralsService {
       name: name,
       alreadyUsed: false,
       agendaItemIds: [],
+      tags: [],
       youtubeVideoId: youtubeVideoId,
     );
 
@@ -180,6 +182,7 @@ class IntegralsService {
         name: integralPrototype.name,
         alreadyUsed: false,
         agendaItemIds: [],
+        tags: [],
         youtubeVideoId: integralPrototype.youtubeVideoId,
       );
 
@@ -235,19 +238,21 @@ class IntegralsService {
 
   Future editIntegral(
     IntegralModel integral, {
-    required LatexExpression latexProblem,
-    required LatexExpression latexSolution,
-    required String name,
-    required IntegralType type,
-    required String youtubeVideoId,
+    LatexExpression? latexProblem,
+    LatexExpression? latexSolution,
+    String? name,
+    IntegralType? type,
+    String? youtubeVideoId,
+    List<String>? tags,
   }) async {
     await integral.reference.update({
-      'latexProblem': latexProblem.raw,
-      'latexSolution': latexSolution.raw,
+      'latexProblem': latexProblem?.raw,
+      'latexSolution': latexSolution?.raw,
       'name': name,
-      'type': type.id,
+      'type': type?.id,
       'youtubeVideoId': youtubeVideoId,
-    });
+      'tags': tags,
+    }.deleteNullEntries());
   }
 
   Future setIntegralToUsed(String code) async {

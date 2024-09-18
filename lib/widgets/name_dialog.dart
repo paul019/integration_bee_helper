@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class NameDialog extends StatefulWidget {
   final String title;
@@ -49,27 +50,29 @@ class _NameDialogState extends State<NameDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(widget.title),
-      content: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          hintText: widget.hintText,
+    return PointerInterceptor(
+      child: AlertDialog(
+        title: Text(widget.title),
+        content: TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            hintText: widget.hintText,
+          ),
         ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(MyIntl.of(context).cancel),
+          ),
+          TextButton(
+            onPressed: () {
+              widget.onConfirm(controller.text);
+              Navigator.of(context).pop();
+            },
+            child: Text(MyIntl.of(context).confirm),
+          ),
+        ],
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(MyIntl.of(context).cancel),
-        ),
-        TextButton(
-          onPressed: () {
-            widget.onConfirm(controller.text);
-            Navigator.of(context).pop();
-          },
-          child: Text(MyIntl.of(context).confirm),
-        ),
-      ],
     );
   }
 }
