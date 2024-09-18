@@ -172,6 +172,10 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
           title: MyIntl.of(context).integralsColon,
           enabled: enabled,
           integralsCodes: widget.agendaItem.integralsCodes,
+          excludeIntegralsCodesForAddition: [
+            ...widget.agendaItem.integralsCodes,
+            ...widget.agendaItem.spareIntegralsCodes,
+          ],
           editIntegrals: (codes) =>
               widget.agendaItem.editStatic(integralsCodes: codes),
         ),
@@ -206,6 +210,10 @@ class _AgendaItemKnockoutState extends State<AgendaItemKnockout> {
           title: MyIntl.of(context).spareIntegralsColon,
           enabled: enabled,
           integralsCodes: widget.agendaItem.spareIntegralsCodes,
+          excludeIntegralsCodesForAddition: [
+            ...widget.agendaItem.integralsCodes,
+            ...widget.agendaItem.spareIntegralsCodes,
+          ],
           editIntegrals: (codes) =>
               widget.agendaItem.editStatic(spareIntegralsCodes: codes),
         ),

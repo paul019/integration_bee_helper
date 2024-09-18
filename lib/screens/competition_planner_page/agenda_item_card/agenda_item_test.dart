@@ -183,6 +183,7 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
           title: MyIntl.of(context).integralsColon,
           enabled: enabled,
           integralsCodes: widget.agendaItem.integralsCodes,
+          excludeIntegralsCodesForAddition: widget.agendaItem.integralsCodes,
           editIntegrals: (codes) =>
               widget.agendaItem.editStatic(integralsCodes: codes),
         ),

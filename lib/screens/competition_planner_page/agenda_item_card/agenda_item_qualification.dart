@@ -175,6 +175,10 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
           title: MyIntl.of(context).integralColon,
           enabled: enabled,
           integralsCodes: widget.agendaItem.integralsCodes,
+          excludeIntegralsCodesForAddition: [
+            ...widget.agendaItem.integralsCodes,
+            ...widget.agendaItem.spareIntegralsCodes,
+          ],
           editIntegrals: (codes) =>
               widget.agendaItem.editStatic(integralsCodes: codes),
           maxNumberOfIntegrals: 1,
@@ -210,6 +214,10 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
           title: MyIntl.of(context).spareIntegralsColon,
           enabled: enabled,
           integralsCodes: widget.agendaItem.spareIntegralsCodes,
+          excludeIntegralsCodesForAddition: [
+            ...widget.agendaItem.integralsCodes,
+            ...widget.agendaItem.spareIntegralsCodes,
+          ],
           editIntegrals: (codes) =>
               widget.agendaItem.editStatic(spareIntegralsCodes: codes),
         ),
