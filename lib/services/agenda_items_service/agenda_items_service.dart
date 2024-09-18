@@ -30,8 +30,6 @@ class AgendaItemsService {
   ) {
     List<AgendaItemModel> list = [];
 
-    print('onAgendaItemsChanged');
-
     for (var element in querySnapshot.docs) {
       final item = _agendaItemFromFirebase(element);
 
@@ -60,16 +58,12 @@ class AgendaItemsService {
         .limit(1)
         .snapshots()
         .map(
-      (res) {
-        print('onActiveAgendaItemChanged');
-
-        return res.docs.isEmpty
-            ? ActiveAgendaItemWrapper(null)
-            : ActiveAgendaItemWrapper(
-                _agendaItemFromFirebase(res.docs.first),
-              );
-      },
-    );
+          (res) => res.docs.isEmpty
+              ? ActiveAgendaItemWrapper(null)
+              : ActiveAgendaItemWrapper(
+                  _agendaItemFromFirebase(res.docs.first),
+                ),
+        );
   }
 
   Future<AgendaItemModel?> getActiveAgendaItem() async {
