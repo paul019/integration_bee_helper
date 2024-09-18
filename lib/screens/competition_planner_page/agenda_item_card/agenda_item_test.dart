@@ -4,8 +4,11 @@ import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/extensions/list_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_test.dart';
+import 'package:integration_bee_helper/screens/competition_planner_page/widgets/integrals_row.dart';
 import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
+import 'package:integration_bee_helper/widgets/name_dialog.dart';
+import 'package:integration_bee_helper/widgets/wrap_list.dart';
 
 class AgendaItemTest extends StatefulWidget {
   final AgendaItemModelTest agendaItem;
@@ -24,24 +27,20 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
 
   late String title;
   late String remarks;
-  late String competitorNames;
   late String integralsCodes;
 
   late TextEditingController titleController;
   late TextEditingController remarksController;
-  late TextEditingController competitorNamesController;
   late TextEditingController integralsCodesController;
 
   @override
   void initState() {
     title = widget.agendaItem.title;
     remarks = widget.agendaItem.remarks;
-    competitorNames = widget.agendaItem.competitorNames.join(',');
     integralsCodes = widget.agendaItem.integralsCodes.join(',');
 
     titleController = TextEditingController(text: title);
     remarksController = TextEditingController(text: remarks);
-    competitorNamesController = TextEditingController(text: competitorNames);
     integralsCodesController = TextEditingController(text: integralsCodes);
 
     super.initState();
@@ -57,16 +56,16 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
   void reset() {
     title = widget.agendaItem.title;
     remarks = widget.agendaItem.remarks;
-    competitorNames = widget.agendaItem.competitorNames.join(',');
     integralsCodes = widget.agendaItem.integralsCodes.join(',');
 
     titleController.text = title;
     remarksController.text = remarks;
-    competitorNamesController.text = competitorNames;
     integralsCodesController.text = integralsCodes;
 
     hasChanged = false;
   }
+
+  bool get enabled => widget.agendaItem.phase != AgendaItemPhase.over;
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +83,7 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
             ),
             Expanded(
               child: TextField(
-                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
+                enabled: enabled,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: MyIntl.of(context).titleOptional,
@@ -112,7 +111,7 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
             ),
             Expanded(
               child: TextField(
-                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
+                enabled: enabled,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: MyIntl.of(context).remarks,
@@ -138,47 +137,55 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
               ),
             ),
             Expanded(
-              child: TextField(
-                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: MyIntl.of(context).competitors,
+              child: WrapList<String>(
+                items: widget.agendaItem.competitorNames,
+                itemBuilder: (context, index, item) => BasicWrapListItem(
+                  item: Text(item),
+                  showRemove: true,
+                  onRemove: () async {
+                    final competitorNames = widget.agendaItem.competitorNames;
+                    competitorNames.removeAt(index);
+
+                    try {
+                      await widget.agendaItem.editStatic(
+                        competitorNames: competitorNames,
+                      );
+                    } on Exception catch (e) {
+                      if (context.mounted) e.show(context);
+                    }
+                  },
                 ),
-                controller: competitorNamesController,
-                onChanged: (v) => setState(() {
-                  competitorNames = v;
-                  hasChanged = true;
-                }),
-                maxLines: 1,
+                onAdd: () {
+                  NameDialog.show(
+                    context: context,
+                    title: MyIntl.of(context).addCompetitor,
+                    hintText: MyIntl.of(context).competitionName,
+                    onConfirm: (name) async {
+                      final competitorNames = widget.agendaItem.competitorNames;
+                      competitorNames.add(name);
+
+                      try {
+                        await widget.agendaItem.editStatic(
+                          competitorNames: competitorNames,
+                        );
+                      } on Exception catch (e) {
+                        if (context.mounted) e.show(context);
+                      }
+                    },
+                  );
+                },
               ),
             ),
           ],
         ),
         const Divider(),
-        Row(
-          children: [
-            SizedBox(
-              width: 100,
-              child: Text(
-                MyIntl.of(context).integralsColon,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-            Expanded(
-              child: TextField(
-                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: MyIntl.of(context).codes,
-                ),
-                controller: integralsCodesController,
-                onChanged: (v) => setState(() {
-                  integralsCodes = v;
-                  hasChanged = true;
-                }),
-              ),
-            ),
-          ],
+        IntegralsRow(
+          title: MyIntl.of(context).integralsColon,
+          enabled: enabled,
+          integralsCodes: widget.agendaItem.integralsCodes,
+          excludeIntegralsCodesForAddition: widget.agendaItem.integralsCodes,
+          editIntegrals: (codes) =>
+              widget.agendaItem.editStatic(integralsCodes: codes),
         ),
         if (hasChanged)
           CancelSaveButtons(
@@ -191,8 +198,6 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
               try {
                 await widget.agendaItem.editStatic(
                   title: title,
-                  competitorNames:
-                      competitorNames.split(',').deleteEmptyEntries(),
                   integralsCodes:
                       integralsCodes.split(',').deleteEmptyEntries(),
                 );

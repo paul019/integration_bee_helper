@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:integration_bee_helper/extensions/map_extension.dart';
 import 'package:integration_bee_helper/models/basic_models/latex_expression.dart';
 import 'package:integration_bee_helper/models/integral_model/current_integral_wrapper.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
@@ -79,7 +80,8 @@ class IntegralsService {
     return _integralFromFirebase(response.docs.first)!;
   }
 
-  Future<List<IntegralModel>> getIntegralsByCodes({required List<String> codes}) async {
+  Future<List<IntegralModel>> getIntegralsByCodes(
+      {required List<String> codes}) async {
     final response = await _firestore
         .collection('integrals')
         .where('uid', isEqualTo: _uid)
@@ -130,26 +132,36 @@ class IntegralsService {
     return _integralListFromFirebase(response);
   }
 
-  void addIntegral({required List<IntegralModel> currentIntegrals}) async {
+  Future<void> addIntegral({
+    required LatexExpression latexProblem,
+    required LatexExpression latexSolution,
+    required String name,
+    required IntegralType type,
+    required String youtubeVideoId,
+  }) async {
+    final currentIntegrals = await getAllIntegrals();
+
     // Create integral:
     final integral = IntegralModel(
       uid: _uid,
       code: _createIntegralCode(currentIntegrals: currentIntegrals),
       createdAt: DateTime.now(),
-      latexProblem: LatexExpression(""),
-      latexSolution: LatexExpression(""),
-      type: IntegralType.regular,
-      name: "",
+      latexProblem: latexProblem,
+      latexSolution: latexSolution,
+      type: type,
+      name: name,
       alreadyUsed: false,
       agendaItemIds: [],
-      youtubeVideoId: "",
+      tags: [],
+      youtubeVideoId: youtubeVideoId,
     );
 
     // Add integral:
     await IntegralModel.collection.add(integral.toJson());
   }
 
-  Future<List<String>> addBulk({required List<IntegralPrototype> integrals}) async {
+  Future<List<String>> addBulk(
+      {required List<IntegralPrototype> integrals}) async {
     final currentIntegrals = await getAllIntegrals();
     final batch = _firestore.batch();
 
@@ -170,6 +182,7 @@ class IntegralsService {
         name: integralPrototype.name,
         alreadyUsed: false,
         agendaItemIds: [],
+        tags: [],
         youtubeVideoId: integralPrototype.youtubeVideoId,
       );
 
@@ -225,19 +238,21 @@ class IntegralsService {
 
   Future editIntegral(
     IntegralModel integral, {
-    required LatexExpression latexProblem,
-    required LatexExpression latexSolution,
-    required String name,
-    required IntegralType type,
-    required String youtubeVideoId,
+    LatexExpression? latexProblem,
+    LatexExpression? latexSolution,
+    String? name,
+    IntegralType? type,
+    String? youtubeVideoId,
+    List<String>? tags,
   }) async {
     await integral.reference.update({
-      'latexProblem': latexProblem.raw,
-      'latexSolution': latexSolution.raw,
+      'latexProblem': latexProblem?.raw,
+      'latexSolution': latexSolution?.raw,
       'name': name,
-      'type': type.id,
+      'type': type?.id,
       'youtubeVideoId': youtubeVideoId,
-    });
+      'tags': tags,
+    }.deleteNullEntries());
   }
 
   Future setIntegralToUsed(String code) async {

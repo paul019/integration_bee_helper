@@ -10,6 +10,7 @@ class IntegralModel extends IntegralPrototype {
   final DateTime createdAt;
   final bool alreadyUsed;
   final List<String> agendaItemIds;
+  final List<String> tags;
 
   IntegralModel({
     this.id,
@@ -22,6 +23,7 @@ class IntegralModel extends IntegralPrototype {
     required super.name,
     required this.alreadyUsed,
     required this.agendaItemIds,
+    required this.tags,
     required super.youtubeVideoId,
   });
 
@@ -41,6 +43,9 @@ class IntegralModel extends IntegralPrototype {
         alreadyUsed: json['alreadyUsed'] ?? false,
         agendaItemIds:
             (json['agendaItemIds'] as List).map((e) => e as String).toList(),
+        tags: json['tags'] != null
+            ? (json['tags'] as List).map((e) => e as String).toList()
+            : [],
         youtubeVideoId: json['youtubeVideoId'],
       );
 
@@ -54,6 +59,7 @@ class IntegralModel extends IntegralPrototype {
         'name': name,
         'alreadyUsed': alreadyUsed,
         'agendaItemIds': agendaItemIds,
+        'tags': tags,
         'youtubeVideoId': youtubeVideoId,
       };
 
@@ -63,4 +69,7 @@ class IntegralModel extends IntegralPrototype {
 
   LatexExpression get latexProblemAndSolution =>
       LatexExpression('${latexProblem.raw}=\\boxed{${latexSolution.raw}}');
+
+  bool get isSpareIntegral => type == IntegralType.spare;
+  bool get isAllocated => agendaItemIds.isNotEmpty;
 }

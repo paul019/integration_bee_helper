@@ -115,9 +115,9 @@ class _AgendaItemTextState extends State<AgendaItemText> {
         Row(
           children: [
             SizedBox(
-              width: 150,
+              width: 100,
               child: Text(
-                MyIntl.of(context).backgroundColon,
+                MyIntl.of(context).imageColon,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
