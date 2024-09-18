@@ -31,6 +31,8 @@ class IntegralsService {
   ) {
     List<IntegralModel> list = [];
 
+    print('onIntegralsChanged');
+
     for (var element in querySnapshot.docs) {
       final place = _integralFromFirebase(element);
 
@@ -63,10 +65,14 @@ class IntegralsService {
         .limit(1)
         .snapshots()
         .map(
-          (res) =>
-              res.docs.isEmpty ? null : _integralFromFirebase(res.docs.first),
-        )
-        .map((item) => CurrentIntegralWrapper(item));
+      (res) {
+        print('onCurrentIntegralChanged');
+
+        print(res.docs[0].data());
+
+        return res.docs.isEmpty ? null : _integralFromFirebase(res.docs.first);
+      },
+    ).map((item) => CurrentIntegralWrapper(item));
   }
 
   Future<IntegralModel> getIntegral({required String code}) async {

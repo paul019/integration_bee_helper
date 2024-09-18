@@ -13,6 +13,8 @@ class SettingsService {
   SettingsModel? _settingsFromFirebase(
     DocumentSnapshot<Map<String, dynamic>> doc,
   ) {
+    print('onSettingsChanged');
+
     if (doc.data() != null) {
       return SettingsModel.fromJson(doc.data()!, uid: doc.id);
     } else {
