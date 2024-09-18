@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tex/flutter_tex.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/problem_phase.dart';
+import 'package:integration_bee_helper/models/basic_models/latex_expression.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
+import 'package:integration_bee_helper/widgets/latex_view.dart';
 
 class IntegralView extends StatelessWidget {
   final IntegralModel? currentIntegral;
@@ -23,11 +24,11 @@ class IntegralView extends StatelessWidget {
       case ProblemPhase.idle:
         return '';
       case ProblemPhase.showProblem:
-        return currentIntegral?.latexProblem.transformedWithDollarSigns ?? '';
+        return currentIntegral?.latexProblem.transformed ?? '';
       case ProblemPhase.showSolution:
       case ProblemPhase.showSolutionAndWinner:
         return currentIntegral
-                ?.latexProblemAndSolution.transformedWithDollarSigns ??
+                ?.latexProblemAndSolution.transformed ??
             '';
       default:
         return '';
@@ -63,13 +64,9 @@ class IntegralView extends StatelessWidget {
       width: size.width,
       height: size.height,
       alignment: Alignment.center,
-      child: TeXView(
-        child: TeXViewDocument(
-          latex,
-          style: TeXViewStyle.fromCSS(
-            'padding: 5px; font-size: ${(_integralSize * p).toInt()}px',
-          ),
-        ),
+      child: LatexView(
+        latex: LatexExpression(latex),
+        fontSize: _integralSize * p,
       ),
     );
   }

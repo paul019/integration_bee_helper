@@ -85,7 +85,7 @@ class _IntegralsRowState extends State<IntegralsRow> {
 
               return BasicWrapListItem(
                 item: integral != null
-                    ? LatexView(latex: integral.latexProblem, small: true)
+                    ? LatexView(latex: integral.latexProblem)
                     : Text(item),
                 showRemove: true,
                 onRemove: widget.enabled

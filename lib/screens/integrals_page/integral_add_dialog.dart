@@ -112,7 +112,14 @@ class _IntegralAddDialogState extends State<IntegralAddDialog> {
                   width: 400,
                   child: Column(
                     children: [
-                      Card(child: LatexView(latex: latexProblem)),
+                      Card(
+                        child: Container(
+                          width: 400,
+                          height: 150,
+                          alignment: Alignment.center,
+                          child: LatexView(latex: latexProblem),
+                        ),
+                      ),
                       TextField(
                         decoration: InputDecoration(
                           border: InputBorder.none,
@@ -133,7 +140,14 @@ class _IntegralAddDialogState extends State<IntegralAddDialog> {
                   width: 400,
                   child: Column(
                     children: [
-                      Card(child: LatexView(latex: latexSolution)),
+                      Card(
+                        child: Container(
+                          width: 400,
+                          height: 150,
+                          alignment: Alignment.center,
+                          child: LatexView(latex: latexSolution),
+                        ),
+                      ),
                       TextField(
                         decoration: InputDecoration(
                           border: InputBorder.none,

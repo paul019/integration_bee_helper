@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:integration_bee_helper/models/integral_model/integral_model.dart';
 import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/latex_view.dart';
@@ -59,8 +60,10 @@ class _SpareIntegralDialogState extends State<SpareIntegralDialog> {
                 },
                 icon: const Icon(Icons.arrow_back_ios),
               ),
-              SizedBox(
+              Container(
                 width: 500,
+                height: 150,
+                alignment: Alignment.center,
                 child: LatexView(
                   latex: widget
                       .potentialSpareIntegrals[selectedIndex].latexProblem,

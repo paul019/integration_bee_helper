@@ -86,7 +86,11 @@ class IntegralRow extends StatelessWidget {
                   Expanded(
                     flex: 3,
                     child: Card(
-                      child: LatexView(latex: integral.latexProblem),
+                      child: Container(
+                        height: 150,
+                        alignment: Alignment.center,
+                        child: LatexView(latex: integral.latexProblem),
+                      ),
                     ),
                   ),
 
@@ -96,7 +100,11 @@ class IntegralRow extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: Card(
-                      child: LatexView(latex: integral.latexSolution),
+                      child: Container(
+                        height: 150,
+                        alignment: Alignment.center,
+                        child: LatexView(latex: integral.latexSolution),
+                      ),
                     ),
                   ),
                 ],
