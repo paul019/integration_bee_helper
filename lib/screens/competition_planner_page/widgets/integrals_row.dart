@@ -8,6 +8,7 @@ class IntegralsRow extends StatelessWidget {
   final bool enabled;
   final List<String> integralsCodes;
   final Future Function(List<String> integralsCodes) editIntegrals;
+  final int? maxNumberOfIntegrals;
 
   const IntegralsRow({
     super.key,
@@ -15,7 +16,12 @@ class IntegralsRow extends StatelessWidget {
     required this.enabled,
     required this.integralsCodes,
     required this.editIntegrals,
+    this.maxNumberOfIntegrals,
   });
+
+  bool get maxNumberOfIntegralsReached =>
+      maxNumberOfIntegrals != null &&
+      integralsCodes.length >= maxNumberOfIntegrals!;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +36,7 @@ class IntegralsRow extends StatelessWidget {
         ),
         Expanded(
           child: WrapList<String>(
+            showAdd: !maxNumberOfIntegralsReached,
             items: integralsCodes,
             itemBuilder: (context, index, item) => BasicWrapListItem(
               item: Text(item),
@@ -48,7 +55,7 @@ class IntegralsRow extends StatelessWidget {
                       }
                     }
                   : null,
-              showControls: true,
+              showControls: integralsCodes.length > 1,
               onMoveUp: (enabled && index != 0)
                   ? () async {
                       final integralsCodes = this.integralsCodes;

@@ -4,6 +4,7 @@ import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/extensions/list_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_test.dart';
+import 'package:integration_bee_helper/screens/competition_planner_page/widgets/integrals_row.dart';
 import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 import 'package:integration_bee_helper/widgets/name_dialog.dart';
@@ -64,6 +65,8 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
     hasChanged = false;
   }
 
+  bool get enabled => widget.agendaItem.phase != AgendaItemPhase.over;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -80,7 +83,7 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
             ),
             Expanded(
               child: TextField(
-                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
+                enabled: enabled,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: MyIntl.of(context).titleOptional,
@@ -108,7 +111,7 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
             ),
             Expanded(
               child: TextField(
-                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
+                enabled: enabled,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: MyIntl.of(context).remarks,
@@ -176,30 +179,12 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
           ],
         ),
         const Divider(),
-        Row(
-          children: [
-            SizedBox(
-              width: 100,
-              child: Text(
-                MyIntl.of(context).integralsColon,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-            Expanded(
-              child: TextField(
-                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: MyIntl.of(context).codes,
-                ),
-                controller: integralsCodesController,
-                onChanged: (v) => setState(() {
-                  integralsCodes = v;
-                  hasChanged = true;
-                }),
-              ),
-            ),
-          ],
+        IntegralsRow(
+          title: MyIntl.of(context).integralsColon,
+          enabled: enabled,
+          integralsCodes: widget.agendaItem.integralsCodes,
+          editIntegrals: (codes) =>
+              widget.agendaItem.editStatic(integralsCodes: codes),
         ),
         if (hasChanged)
           CancelSaveButtons(

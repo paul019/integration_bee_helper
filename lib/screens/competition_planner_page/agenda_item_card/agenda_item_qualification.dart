@@ -4,6 +4,7 @@ import 'package:integration_bee_helper/extensions/exception_extension.dart';
 import 'package:integration_bee_helper/extensions/list_extension.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_phase.dart';
 import 'package:integration_bee_helper/models/agenda_item_model/agenda_item_qualification.dart';
+import 'package:integration_bee_helper/screens/competition_planner_page/widgets/integrals_row.dart';
 import 'package:integration_bee_helper/services/basic_services/intl_service.dart';
 import 'package:integration_bee_helper/widgets/cancel_save_buttons.dart';
 import 'package:integration_bee_helper/widgets/name_dialog.dart';
@@ -84,6 +85,8 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
     hasChanged = false;
   }
 
+  bool get enabled => widget.agendaItem.phase != AgendaItemPhase.over;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -100,7 +103,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
             ),
             Expanded(
               child: TextField(
-                enabled: widget.agendaItem.phase != AgendaItemPhase.over,
+                enabled: enabled,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: MyIntl.of(context).titleOptional,
@@ -168,130 +171,70 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
           ],
         ),
         const Divider(),
+        IntegralsRow(
+          title: MyIntl.of(context).integralColon,
+          enabled: enabled,
+          integralsCodes: widget.agendaItem.integralsCodes,
+          editIntegrals: (codes) =>
+              widget.agendaItem.editStatic(integralsCodes: codes),
+          maxNumberOfIntegrals: 1,
+        ),
         Row(
           children: [
-            // Column 1:
-            Expanded(
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 100,
-                        child: Text(
-                          MyIntl.of(context).integralColon,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Expanded(
-                        child: TextField(
-                          enabled:
-                              widget.agendaItem.phase != AgendaItemPhase.over,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: MyIntl.of(context).codes,
-                          ),
-                          controller: integralsCodesController,
-                          onChanged: (v) => setState(() {
-                            integralsCodes = v;
-                            hasChanged = true;
-                          }),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 100,
-                        child: Text(
-                          MyIntl.of(context).timeLimitColon,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Expanded(
-                        child: TextField(
-                          enabled:
-                              widget.agendaItem.phase != AgendaItemPhase.over,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: MyIntl.of(context).durationInSeconds,
-                          ),
-                          controller: timeLimitPerIntegralController,
-                          onChanged: (v) => setState(() {
-                            timeLimitPerIntegral = v;
-                            hasChanged = true;
-                          }),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+            SizedBox(
+              width: 100,
+              child: Text(
+                MyIntl.of(context).timeLimitColon,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            // Column 2:
             Expanded(
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 125,
-                        child: Text(
-                          MyIntl.of(context).spareIntegralsColon,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Expanded(
-                        child: TextField(
-                          enabled:
-                              widget.agendaItem.phase != AgendaItemPhase.over,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: MyIntl.of(context).codesRequired,
-                          ),
-                          controller: spareIntegralsCodesController,
-                          onChanged: (v) => setState(() {
-                            spareIntegralsCodes = v;
-                            hasChanged = true;
-                          }),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 125,
-                        child: Text(
-                          MyIntl.of(context).timeLimitColon,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Expanded(
-                        child: TextField(
-                          enabled:
-                              widget.agendaItem.phase != AgendaItemPhase.over,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: MyIntl.of(context).durationInSeconds,
-                          ),
-                          controller: timeLimitPerSpareIntegralController,
-                          onChanged: (v) => setState(() {
-                            timeLimitPerSpareIntegral = v;
-                            hasChanged = true;
-                          }),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+              child: TextField(
+                enabled: enabled,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: MyIntl.of(context).durationInSeconds,
+                ),
+                controller: timeLimitPerIntegralController,
+                onChanged: (v) => setState(() {
+                  timeLimitPerIntegral = v;
+                  hasChanged = true;
+                }),
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              ),
+            ),
+          ],
+        ),
+        const Divider(),
+        IntegralsRow(
+          title: MyIntl.of(context).spareIntegralsColon,
+          enabled: enabled,
+          integralsCodes: widget.agendaItem.spareIntegralsCodes,
+          editIntegrals: (codes) =>
+              widget.agendaItem.editStatic(spareIntegralsCodes: codes),
+        ),
+        Row(
+          children: [
+            SizedBox(
+              width: 100,
+              child: Text(
+                MyIntl.of(context).timeLimitColon,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Expanded(
+              child: TextField(
+                enabled: enabled,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: MyIntl.of(context).durationInSeconds,
+                ),
+                controller: timeLimitPerSpareIntegralController,
+                onChanged: (v) => setState(() {
+                  timeLimitPerSpareIntegral = v;
+                  hasChanged = true;
+                }),
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               ),
             ),
           ],

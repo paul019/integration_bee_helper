@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class WrapList<T> extends StatelessWidget {
   final List<T> items;
   final Widget Function(BuildContext context, int index, T item) itemBuilder;
+  final bool showAdd;
   final void Function()? onAdd;
 
   const WrapList({
     super.key,
     required this.items,
     required this.itemBuilder,
+    this.showAdd = true,
     this.onAdd,
   });
 
@@ -19,7 +21,7 @@ class WrapList<T> extends StatelessWidget {
       children: [
         for (var (index, item) in items.indexed)
           _buildItem(context, index, item),
-        if (onAdd != null) _buildAdd(context),
+        if (showAdd) _buildAdd(context),
       ],
     );
   }
