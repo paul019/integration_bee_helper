@@ -59,6 +59,7 @@ class IntegralsService {
     return _firestore
         .collection('integrals')
         .where('uid', isEqualTo: _uid)
+        .where('code', isEqualTo: integralCode)
         .orderBy('createdAt')
         .snapshots()
         .map(
