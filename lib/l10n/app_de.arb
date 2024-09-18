@@ -91,7 +91,7 @@
     "qualificationRoundFinished": "Qualifikationsrunde beendet",
     "chooseASpareIntegral": "Wähle ein Ersatz-Integral",
     "choose": "Wählen",
-    "copyrightNotice": "Software entwickelt in Heidelberg von Paul Obernolte (MIT license, {year})",
+    "copyrightNotice": "Software entwickelt in Heidelberg von Paul Obernolte (MIT-Lizenz, {year})",
     "aVsB": "{a} vs. {b}",
     "pleaseEnterAValidEmail": "Bitte gib eine gültige E-Mail-Adresse ein",
     "passwordTooShort": "Passwort muss mindestens 5 Zeichen lang sein",
@@ -136,5 +136,6 @@
     "allocatedQuestionMark": "Zugewiesen?",
     "usedQuestionMark": "Verwendet?",
     "addIntegral": "Integral hinzufügen",
-    "editIntegral": "Integral bearbeiten"
+    "editIntegral": "Integral bearbeiten",
+    "imageColon": "Bild:"
 }
