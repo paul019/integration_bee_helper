@@ -60,7 +60,7 @@ class IntegralsService {
         .collection('integrals')
         .where('uid', isEqualTo: _uid)
         .where('code', isEqualTo: integralCode)
-        .limit(1)
+        .orderBy('createdAt')
         .snapshots()
         .map(
           (res) =>

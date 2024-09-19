@@ -50,6 +50,10 @@ class _PresentationScreenState extends State<PresentationScreen> {
         });
       }
       activeAgendaItemId = widget.activeAgendaItem?.id;
+    } else {
+      setState(() {
+        activeAgendaItem = null;
+      });
     }
 
     final settings = Provider.of<SettingsModel?>(context);
