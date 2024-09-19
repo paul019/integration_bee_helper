@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
@@ -29,6 +31,11 @@ class SettingsService {
 
   Future createSettings({required String uid}) async {
     await SettingsModel.collection.doc(uid).set(SettingsModel.minimalJson);
+  }
+
+  Future<SettingsModel?> getSettings() async {
+    final doc = await SettingsModel.collection.doc(_uid).get();
+    return _settingsFromFirebase(doc);
   }
 
   Future edit({

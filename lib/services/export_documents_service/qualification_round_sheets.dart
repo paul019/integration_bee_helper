@@ -5,6 +5,7 @@ extension GenerateQualificationRoundSheets on ExportDocumentsService {
     BuildContext context, {
     required List<AgendaItemModelQualification> qualificationRounds,
     required List<IntegralModel> allIntegrals,
+    required String filename,
   }) async {
     final List<String> commands = [];
 
@@ -54,7 +55,7 @@ extension GenerateQualificationRoundSheets on ExportDocumentsService {
     var file = await TextFile.fromAsset(
       context,
       assetFileName: 'latex/qualification_round_sheets.tex',
-      displayFileName: 'DOPPELSEITIG_SW_qualifikation.tex',
+      displayFileName: filename,
     );
     file = file
         .makeReplacement(

@@ -3,9 +3,10 @@ part of 'export_documents_service.dart';
 extension GenerateIntegralsList on ExportDocumentsService {
   Future<TextFile> _generateIntegralsList(
     BuildContext context, {
-    String eventName = 'Heidelberg Integration Bee 2024', //TODO
+    required String eventName,
     required List<AgendaItemModelLiveCompetition> agendaItems,
     required List<IntegralModel> allIntegrals,
+    required String filename,
   }) async {
     final List<String> commands = [
       '\\mainTitle{$eventName}',

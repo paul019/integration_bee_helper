@@ -141,5 +141,11 @@
     "selectIntegral": "Select integral",
     "tagsColon": "Tags:",
     "addTag": "Add tag",
-    "tag": "Tag"
+    "tag": "Tag",
+    "exportFilenameZip": "integration_bee_documents.zip",
+    "exportFilenameKnockout": "ONE-SIDED_BW_knockout.tex",
+    "exportFilenameQualification": "DOUBLE-SIDED_BW_qualification.tex",
+    "exportFilenameTest": "DOUBLE-SIDED_BW_qualification_test.tex",
+    "exportFilenameSolution": "DOUBLE-SIDED_BW_qualification_test_solution.tex",
+    "exportFilenameList": "DOUBLE-SIDED_BW_integrals_list.tex"
 }

@@ -5,6 +5,7 @@ extension GenerateTests on ExportDocumentsService {
     BuildContext context, {
     required List<AgendaItemModelTest> tests,
     required List<IntegralModel> allIntegrals,
+    required String filename,
   }) async {
     final List<String> commands = [];
 
@@ -48,7 +49,7 @@ extension GenerateTests on ExportDocumentsService {
     var file = await TextFile.fromAsset(
       context,
       assetFileName: 'latex/qualification_test.tex',
-      displayFileName: 'DOPPELSEITIG_SW_qualifikations_test.tex',
+      displayFileName: filename,
     );
     file = file
         .makeReplacement(

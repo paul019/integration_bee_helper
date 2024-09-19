@@ -141,5 +141,11 @@
     "selectIntegral": "Integral auswählen",
     "tagsColon": "Tags:",
     "addTag": "Tag hinzufügen",
-    "tag": "Tag"
+    "tag": "Tag",
+    "exportFilenameZip": "integration_bee_documents.zip",
+    "exportFilenameKnockout": "EINSEITIG_SW_knockout.tex",
+    "exportFilenameQualification": "DOPPELSEITIG_SW_qualifikation.tex",
+    "exportFilenameTest": "DOPPELSEITIG_SW_qualifikations_test.tex",
+    "exportFilenameSolution": "DOPPELSEITIG_SW_qualifikations_test_loesung.tex",
+    "exportFilenameList": "DOPPELSEITIG_SW_integral_liste.tex"
 }

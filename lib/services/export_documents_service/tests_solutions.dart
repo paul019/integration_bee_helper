@@ -3,9 +3,10 @@ part of 'export_documents_service.dart';
 extension GenerateTestsSolutions on ExportDocumentsService {
   Future<TextFile?> _generateTestsSolutions(
     BuildContext context, {
-    String eventName = 'Heidelberg Integration Bee 2024', //TODO
+    required String eventName,
     required List<AgendaItemModelTest> tests,
     required List<IntegralModel> allIntegrals,
+    required String filename,
   }) async {
     if (tests.isEmpty) {
       return null;
@@ -36,7 +37,7 @@ extension GenerateTestsSolutions on ExportDocumentsService {
     var file = await TextFile.fromAsset(
       context,
       assetFileName: 'latex/qualification_test_solutions.tex',
-      displayFileName: 'DOPPELSEITIG_SW_qualifikations_test_loesung.tex',
+      displayFileName: filename,
     );
     file = file
         .makeReplacement(

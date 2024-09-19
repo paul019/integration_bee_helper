@@ -5,6 +5,7 @@ extension GenerateKnockoutRoundCards on ExportDocumentsService {
     BuildContext context, {
     required List<AgendaItemModelKnockout> knockoutRounds,
     required List<IntegralModel> allIntegrals,
+    required String filename,
   }) async {
     final List<String> partialCommands = [];
     final Set<String> usedIntegralCodes = {};
@@ -72,7 +73,7 @@ extension GenerateKnockoutRoundCards on ExportDocumentsService {
     var file = await TextFile.fromAsset(
       context,
       assetFileName: 'latex/knockout_round_cards.tex',
-      displayFileName: 'EINSEITIG_SW_knockout.tex',
+      displayFileName: filename,
     );
     file = file.makeReplacement(newText: commands.join('\n'));
 
