@@ -34,7 +34,53 @@ There are two ways to use this software:
 
 ## Features
 
-Placeholder
+<p align="center">
+    <img src="assets/screenshots/screenshot2.png" width="400px" />
+    <p align="center">Sign up.</p>
+</p>
+
+<p align="center">
+    <img src="assets/screenshots/screenshot3.png" width="400px" />
+    <p align="center">Add integrals.</p>
+</p>
+
+<p align="center">
+    <img src="assets/screenshots/screenshot4.png" width="400px" />
+    <p align="center">Manage your integrals.</p>
+</p>
+
+<p align="center">
+    <img src="assets/screenshots/screenshot5.png" width="400px" />
+    <p align="center">Plan your competition.</p>
+</p>
+
+<p align="center">
+    <img src="assets/screenshots/screenshot6.png" width="400px" />
+    <p align="center">Live control your competition in mission control.</p>
+</p>
+
+<p align="center">
+    <img src="assets/screenshots/heidelberg.jpeg" width="400px" />
+    <p align="center">Present your competition on multiple screens.</p>
+    <p align="center">© DPG / Klioba 2024</p>
+</p>
+
+<p align="center">
+    <img src="assets/screenshots/screenshot7.png" width="400px" />
+    <p align="center">Edit the tournament tree live.</p>
+</p>
+
+<p align="center">
+    <img src="assets/screenshots/screenshot8.png" width="400px" />
+    <p align="center">Customize the software for your needs. Currently, it is available in German and English. Please <a href="mailto:p-ob@web.de">contact me</a> if you are willing to translate it to another language.</p>
+</p>
+
+<p align="center">
+    <img src="assets/screenshots/screenshot9.png" width="400px" />
+    <p align="center">Automatically export hand cards and other important documents for your competition.</p>
+</p>
+
+These feature list list only shows a small fraction of what this software is really capable of. Please feel free to just [try it out](https://paul019.github.io/integration_bee_helper/). 
 
 ## Contact
 
