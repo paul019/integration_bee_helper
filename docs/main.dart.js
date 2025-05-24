@@ -54921,8 +54921,7 @@ geA(a){return this.G(a,A.O("_count","geA",1,[],[],0))},
 glj(){return this.G(this,A.O("_notificationCallStackDepth","glj",1,[],[],0))},
 gdA(){return this.G(this,A.O("_listeners","gdA",1,[],[],0))},
 gmc(){return this.G(this,A.O("_reentrantlyRemovedListeners","gmc",1,[],[],0))},
-ga2a(){return this.G(this,A.O("exportFilenameTests","ga2a",1,[],[],0))},
-ga2b(){return this.G(this,A.O("exportFilenameTestsSolution","ga2b",1,[],[],0))},
+ga2b(){return this.G(this,A.O("exportFilenameTestSolution","ga2b",1,[],[],0))},
 ga27(){return this.G(this,A.O("exportFilenameIntegralsList","ga27",1,[],[],0))},
 ga4l(){return this.G(this,A.O("notSpecified","ga4l",1,[],[],0))},
 slj(a){return this.G(this,A.O("_notificationCallStackDepth=","slj",2,[a],[],0))},
@@ -101570,7 +101569,8 @@ ga_u(){return"Tag hinzuf\xfcgen"},
 ga66(a){return"Tag"},
 ga2c(){return"integration_bee_documents.zip"},
 ga28(){return"EINSEITIG_SW_knockout.tex"},
-ga29(){return"DOPPELSEITIG_SW_qualifikation.tex"}}
+ga29(){return"DOPPELSEITIG_SW_qualifikation.tex"},
+ga2a(){return"DOPPELSEITIG_SW_qualifikations_test.tex"}}
 A.Rp.prototype={
 oQ(a){return"Agenda item #"+a},
 ga1A(){return"Do you really want to delete this agenda item?"},
@@ -101695,7 +101695,8 @@ ga_u(){return"Add tag"},
 ga66(a){return"Tag"},
 ga2c(){return"integration_bee_documents.zip"},
 ga28(){return"ONE-SIDED_BW_knockout.tex"},
-ga29(){return"DOUBLE-SIDED_BW_qualification.tex"}}
+ga29(){return"DOUBLE-SIDED_BW_qualification.tex"},
+ga2a(){return"DOUBLE-SIDED_BW_qualification_test.tex"}}
 A.Wo.prototype={$iav:1}
 A.a9d.prototype={
 rh(a){return $.b0E().p(0,a.ge3(0))},
