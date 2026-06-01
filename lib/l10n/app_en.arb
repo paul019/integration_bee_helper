@@ -79,7 +79,7 @@
     "qualificationRoundFinished": "Qualification round finished",
     "chooseASpareIntegral": "Choose a tiebreaker integral",
     "choose": "Choose",
-    "copyrightNotice": "Software developed in Heidelberg by Paul Obernolte (MIT license, {year})",
+    "copyrightNotice": "Software developed in Heidelberg (MIT license, {year})",
     "comingUpTitle": "Coming up: {title}",
     "nextIntegralComingUp": "Next integral coming up",
     "aVsB": "{a} vs. {b}",
