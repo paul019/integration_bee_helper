@@ -9,7 +9,7 @@ import 'package:integration_bee_helper/services/basic_services/auth_service.dart
 import 'package:integration_bee_helper/services/settings_service/settings_service.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:integration_bee_helper/l10n/app_localizations.dart';
 
 void main() async {
   await Firebase.initializeApp(
