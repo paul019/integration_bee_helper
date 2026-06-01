@@ -1,6 +1,6 @@
 class LatexTransformer {
   static String transform(String raw) {
-    final transformed = raw.replaceAll('\\dd{', '\\text{d}{');
+    final transformed = raw.replaceAll('\\dd', '\\text{d}');
 
     return transformed;
   }
