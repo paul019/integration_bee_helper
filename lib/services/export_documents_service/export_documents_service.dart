@@ -72,7 +72,7 @@ class ExportDocumentsService {
       tests: agendaItems.whereType<AgendaItemModelTest>().toList(),
       allIntegrals: allIntegrals,
       eventName: eventName,
-      filename: MyIntl.of(context).exportFilenameTestSolution,
+      filename: MyIntl.of(context).exportFilenameSolution,
     ));
 
     futures.add(_generateIntegralsList(
@@ -81,7 +81,7 @@ class ExportDocumentsService {
           agendaItems.whereType<AgendaItemModelLiveCompetition>().toList(),
       allIntegrals: allIntegrals,
       eventName: eventName,
-      filename: MyIntl.of(context).exportFilenameIntegralsList,
+      filename: MyIntl.of(context).exportFilenameList,
     ));
 
     final filename = MyIntl.of(context).exportFilenameZip;
