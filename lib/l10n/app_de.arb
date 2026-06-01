@@ -132,6 +132,7 @@
     "uploadImage": "Hochladen",
     "confirm": "Bestätigen",
     "addCompetitor": "Teilnehmer hinzufügen",
+    "competitorName": "Name",
     "spareQuestionMark": "Tiebreaker?",
     "allocatedQuestionMark": "Zugewiesen?",
     "usedQuestionMark": "Verwendet?",

@@ -435,6 +435,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addCompetitor => 'Add competitor';
 
   @override
+  String get competitorName => 'Name';
+
+  @override
   String get spareQuestionMark => 'Tiebreaker?';
 
   @override

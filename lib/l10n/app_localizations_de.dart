@@ -437,6 +437,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get addCompetitor => 'Teilnehmer hinzufügen';
 
   @override
+  String get competitorName => 'Name';
+
+  @override
   String get spareQuestionMark => 'Tiebreaker?';
 
   @override

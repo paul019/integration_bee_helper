@@ -159,10 +159,11 @@ class _AgendaItemTestState extends State<AgendaItemTest> {
                   NameDialog.show(
                     context: context,
                     title: MyIntl.of(context).addCompetitor,
-                    hintText: MyIntl.of(context).competitionName,
-                    onConfirm: (name) async {
+                    hintText: MyIntl.of(context).competitorName,
+                    onConfirm: (data) async {
+                      final newNames = data.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
                       final competitorNames = widget.agendaItem.competitorNames;
-                      competitorNames.add(name);
+                      competitorNames.addAll(newNames);
 
                       try {
                         await widget.agendaItem.editStatic(

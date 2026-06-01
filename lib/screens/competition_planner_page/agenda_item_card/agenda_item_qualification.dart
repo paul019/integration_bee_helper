@@ -151,7 +151,7 @@ class _AgendaItemQualificationState extends State<AgendaItemQualification> {
                   NameDialog.show(
                     context: context,
                     title: MyIntl.of(context).addCompetitor,
-                    hintText: MyIntl.of(context).competitionName,
+                    hintText: MyIntl.of(context).competitorName,
                     onConfirm: (name) async {
                       final competitorNames = widget.agendaItem.competitorNames;
                       competitorNames.add(name);

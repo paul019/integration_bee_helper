@@ -132,6 +132,7 @@
     "uploadImage": "Upload",
     "confirm": "Confirm",
     "addCompetitor": "Add competitor",
+    "competitorName": "Name",
     "spareQuestionMark": "Tiebreaker?",
     "allocatedQuestionMark": "Allocated?",
     "usedQuestionMark": "Used?",

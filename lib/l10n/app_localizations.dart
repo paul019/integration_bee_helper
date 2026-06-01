@@ -896,6 +896,12 @@ abstract class AppLocalizations {
   /// **'Add competitor'**
   String get addCompetitor;
 
+  /// No description provided for @competitorName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get competitorName;
+
   /// No description provided for @spareQuestionMark.
   ///
   /// In en, this message translates to:
