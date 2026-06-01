@@ -63,8 +63,8 @@ class _PresentationScreenKnockoutState
       );
     } else {
       return MyIntl.of(context).extraExerciseNumber(
-        widget.activeAgendaItem.numOfIntegrals,
         widget.activeAgendaItem.spareIntegralsProgress! + 1,
+        widget.activeAgendaItem.numOfIntegrals,
       );
     }
   }
