@@ -64,6 +64,7 @@ class ExportDocumentsService {
       context,
       tests: agendaItems.whereType<AgendaItemModelTest>().toList(),
       allIntegrals: allIntegrals,
+      eventName: eventName,
       filename: MyIntl.of(context).exportFilenameTest,
     ));
 

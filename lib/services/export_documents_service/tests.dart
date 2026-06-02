@@ -5,6 +5,7 @@ extension GenerateTests on ExportDocumentsService {
     BuildContext context, {
     required List<AgendaItemModelTest> tests,
     required List<IntegralModel> allIntegrals,
+    required String eventName,
     required String filename,
   }) async {
     final List<String> commands = [];
@@ -53,16 +54,16 @@ extension GenerateTests on ExportDocumentsService {
     );
     file = file
         .makeReplacement(
-            oldText: '<exercise>', newText: MyIntl.of(context).exerciseNumberPrint)
+            oldText: '<exercise>',
+            newText: MyIntl.of(context).exerciseNumberPrint)
         .makeReplacement(
             oldText: '<instruction-text>',
             newText: MyIntl.of(context).turnAroundWhenInstructed)
-        .makeReplacement(
-            oldText: '<competition-title>',
-            newText: 'Heidelberg Integration Bee 2024')
+        .makeReplacement(oldText: '<competition-title>', newText: eventName)
         .makeReplacement(
             oldText: '<remarks>', newText: MyIntl.of(context).remarksOnTheTest)
-        .makeReplacement(oldText: '<good-luck>', newText: MyIntl.of(context).goodLuck)
+        .makeReplacement(
+            oldText: '<good-luck>', newText: MyIntl.of(context).goodLuck)
         .makeReplacement(newText: commands.join('\n'));
 
     return file;
