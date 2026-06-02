@@ -27,15 +27,22 @@ class IntegralView extends StatelessWidget {
         return currentIntegral?.latexProblem.transformed ?? '';
       case ProblemPhase.showSolution:
       case ProblemPhase.showSolutionAndWinner:
-        return currentIntegral
-                ?.latexProblemAndSolution.transformed ??
-            '';
+        return currentIntegral?.latexProblemAndSolution.transformed ?? '';
       default:
         return '';
     }
   }
 
-  int get _integralSize => latex.length > 75 ? 50 : 75;
+  int get _integralSize {
+    // TODO: Implement this properly.
+    if (latex.length > 300) {
+      return 30;
+    } else if (latex.length > 75) {
+      return 50;
+    } else {
+      return 75;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
